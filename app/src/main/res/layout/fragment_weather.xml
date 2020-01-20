@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.WeatherFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/imggrad" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp"
+        android:background="@drawable/main_design"
+        android:layout_centerHorizontal="true">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:fontFamily="@font/eagle_lake"
+            android:visibility="gone"
+            android:textColor="#FFFF"
+            android:id="@+id/Forbes_quotes"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+           >
+            <ImageView
+                android:id="@+id/swipUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_up_arow" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swipUp"
+                android:text="SWIPE  UP"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:padding="4dp"
+        android:textColor="#C4FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/city"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="32dp"
+        android:padding="4dp"
+        android:textColor="#C4FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/desc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:textColor="@color/text1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="4dp"
+        android:textColor="#C4FFFFFF"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+
+  <!--  <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/eagle_lake"
+        android:shadowColor="#632EB9"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="10"
+        android:textAllCaps="true"
+        android:text="Welcome to"
+        android:textStyle="bold"
+        android:textColor="#F8F8F8"
+        android:textSize="32sp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="#632EB9"
+        android:layout_centerInParent="true"
+        android:text="Weather Wall"
+        android:textSize="32sp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/welcomeText1"
+        android:layout_below="@+id/welcomeText"
+        android:textAllCaps="true"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="10"
+        android:textStyle="bold"
+        android:textColor="#F8F3F3"
+        android:fontFamily="@font/eagle_lake"/>-->
+
+
+
+</RelativeLayout>

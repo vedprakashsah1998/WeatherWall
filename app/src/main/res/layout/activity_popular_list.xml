@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#FFFFFF"
+    tools:context=".Activity.PopularList">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:id="@+id/appBar"
+        android:layout_height="300dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            android:id="@+id/collapsing_toolbar"
+            android:background="#FFF"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="UnusedAttribute"
+                android:background="@drawable/nature"
+                android:id="@+id/roundImage"
+                app:layout_collapseMode="parallax"
+                android:transitionName="img1"
+                android:scaleType="centerCrop"
+                />
+
+
+            <RelativeLayout
+                android:id="@+id/headerContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="pin">
+
+
+
+                <ImageView
+                    android:id="@+id/back10"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="start"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_arrow_back_black_24dp" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv009"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="10dp"
+                    android:transitionName="text"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/cagliostro"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="32sp"
+                    android:textStyle="normal" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/toolBar"
+                android:contentInsetStart="0dp"
+                android:contentInsetLeft="0dp"
+                android:elevation="5dp"
+                android:minHeight="?attr/actionBarSize"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin"
+                android:background="#FFFFFF">
+
+                <RelativeLayout
+                    android:id="@+id/title_appbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="pin">
+
+
+                    <ImageView
+                        android:id="@+id/back9"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_arrow_back" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/cagliostro"
+                        android:layout_toRightOf="@+id/back9"
+                        android:textColor="#050505"
+                        android:textSize="30sp"
+                        android:textStyle="normal" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/button_design"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="-70dp"
+        android:layout_marginTop="-80dp"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/button_design_white"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-150dp"/>-->
+<!--
+    <com.client.vpman.weatherwall.CustomeUsefullClass.GradientTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Categories"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="16dp"
+        android:textSize="36sp"
+        android:id="@+id/popText"
+        android:fontFamily="@font/cagliostro"/>-->
+
+ <!--   <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="500dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="-100dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/half_circle">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nature"
+            android:transitionName="img"
+            android:id="@+id/imageFull"/>
+
+    </RelativeLayout>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView991"
+        android:scrollbars="vertical"
+        android:layout_marginTop="-50dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+
+
+<!--    <FrameLayout
+        android:id="@+id/date_behavior"
+        app:layout_anchor="@+id/appbar"
+        app:behavior_autoHide="true"
+
+        android:adjustViewBounds="true"
+        app:layout_anchorGravity="center_horizontal|center"
+        android:clickable="false"
+        android:background="@drawable/round_white"
+        android:layout_width="370dp"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:layout_gravity="center_horizontal"/>
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+    </FrameLayout>-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

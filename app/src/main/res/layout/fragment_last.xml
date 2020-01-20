@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.LastFragment"
+    android:background="#FFF">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:transitionName="img"
+        android:id="@+id/lastImage"/>
+<!--
+    <com.client.vpman.weatherwall.CustomeUsefullClass.GradientTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4k Wallpaper"
+        android:fontFamily="@font/cagliostro"
+        android:textSize="32sp"
+        android:layout_alignParentTop="true"
+        android:padding="32dp"/>-->
+<!--    <net.robinx.lib.blurview.BlurBehindView
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/four_K_layout">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4k Wallpaper"
+                android:fontFamily="@font/cagliostro"
+                android:textSize="32sp"
+                android:textColor="#FFFFFF"
+                />
+        </RelativeLayout>
+
+    </net.robinx.lib.blurview.BlurBehindView>-->
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@drawable/basic_design1"
+        android:layout_alignParentTop="true"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4k Wallpaper"
+        android:fontFamily="@font/cagliostro"
+        android:textSize="32sp"
+        android:layout_alignParentTop="true"
+        android:padding="24dp"
+        android:textColor="#FFFFFF"
+        />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView"
+        android:layout_alignParentBottom="true"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:layoutDirection="rtl"
+        android:paddingStart="24dp"
+        android:paddingEnd="4dp"
+        android:scrollbars="horizontal"/>
+
+</RelativeLayout>

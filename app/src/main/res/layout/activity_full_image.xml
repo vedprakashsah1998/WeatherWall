@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.FullImage">
+<!--<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="centerCrop"
+    android:id="@+id/imageFull"/>-->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nature"
+            android:transitionName="img"
+            android:id="@+id/imageFull"/>
+    </RelativeLayout>
+
+
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="5dp"
+        app:popupTheme="@style/ToolbarThemeWhite"
+        android:id="@+id/tool1bar"
+        android:visibility="visible"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+        android:layout_alignParentTop="true"
+        />
+
+    <net.robinx.lib.blurview.BlurBehindView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/mainWork">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/download"
+                android:src="@drawable/ic_file_download"/>
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/setWall"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:background="@drawable/ic_wallpaper"/>
+
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/share"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_share"/>
+        </RelativeLayout>
+
+
+
+
+
+
+
+
+    </net.robinx.lib.blurview.BlurBehindView>
+
+</RelativeLayout>

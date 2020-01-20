@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".Fragment.Popular">
+
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/popPhoto"
+        android:scrollbars="none"
+        android:layout_marginTop="4dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/Landscape"
+                        android:layout_width="120dp"
+                        android:transitionName="img1"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/nature" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/eagle_lake"
+                        android:text="Landscape"
+                        android:transitionName="text"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:id="@+id/landScape"
+                        app:fontFamily="@font/eagle_lake" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/Cityscape"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"
+                        android:transitionName="img1"
+
+                        android:src="@drawable/nature" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/eagle_lake"
+                        android:text="Cityscape"
+                        android:transitionName="text"
+
+                        android:id="@+id/cityScape"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/Seascape"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:transitionName="img1"
+
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/nature" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/eagle_lake"
+                        android:text="Seascape"
+                        android:transitionName="text"
+
+                        android:id="@+id/seaScape"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/Twilight"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:transitionName="img1"
+
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/nature" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/eagle_lake"
+                        android:text="Twilight"
+                        android:id="@+id/twiLight"
+                        android:transitionName="text"
+
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/Food"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:transitionName="img1"
+
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/nature" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/eagle_lake"
+                        android:text="Food"
+                        android:transitionName="text"
+
+                        android:id="@+id/fOOD"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/DronView"
+                        android:layout_width="120dp"
+                        android:transitionName="img1"
+
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/nature" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/eagle_lake"
+                        android:text="Drone View"
+                        android:transitionName="text"
+
+                        android:id="@+id/DroneView991"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </HorizontalScrollView>
+
+    <RelativeLayout
+        android:id="@+id/popLayer"
+        android:layout_width="match_parent"
+        android:layout_height="520dp"
+        android:layout_below="@+id/more"
+        android:layout_marginTop="12dp"
+        android:elevation="50dp"
+        android:padding="12dp">
+
+
+        <!--
+                <androidx.cardview.widget.CardView
+                    android:layout_width="100dp"
+                    android:padding="32dp"
+                    android:layout_below="@+id/popPhoto"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/imgdesign1"
+                        android:src="@drawable/nature"
+                        android:id="@+id/droneView"
+                        />
+                </androidx.cardview.widget.CardView>-->
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/droneView"
+            android:layout_width="180dp"
+            android:layout_height="450dp"
+            android:elevation="20dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius_bottom_left="50dp"
+            app:riv_corner_radius_top_left="50dp"
+            android:background="@drawable/nature"
+            app:riv_mutate_background="true" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/nature"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/droneView"
+            android:elevation="20dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius_top_right="50dp"
+            app:riv_mutate_background="true" />
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/food"
+            android:layout_width="200dp"
+            android:layout_height="220dp"
+            android:layout_below="@+id/nature"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/droneView"
+            android:elevation="20dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius_bottom_right="50dp"
+            app:riv_mutate_background="true" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/SwipUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
+
+
+        <!--
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="SWIPE  UP"
+                    android:layout_below="@+id/swipUp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />-->
+
+    </RelativeLayout>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/popPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/cagliostro"
+        android:padding="12dp"
+        android:text="Popular Photos"
+        android:textColor="#000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/horizontal"
+        android:layout_centerHorizontal="true"
+        android:padding="8dp"
+        android:visibility="gone"
+        android:text="Click here for more Photos"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

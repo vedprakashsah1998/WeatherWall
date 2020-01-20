@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Religion">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:elevation="25dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="match_parent"
+            android:layout_height="800dp"
+            android:layout_alignParentTop="true"
+            app:riv_corner_radius="50dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/Religion"
+            app:riv_mutate_background="true" />
+
+
+        <net.robinx.lib.blurview.BlurBehindView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bottom_layout7"
+            >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:padding="16dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Religion"
+                    android:textColor="#F3EFEF"
+                    android:textStyle="bold"
+                    android:textSize="32sp"
+                    android:id="@+id/religionText"
+                    android:fontFamily="@font/cagliostro"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Click here to explore religion photos"
+                    android:textColor="#F3EFEF"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/religionText"
+                    android:id="@+id/desc"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/cagliostro"
+                    />
+            </RelativeLayout>
+
+
+        </net.robinx.lib.blurview.BlurBehindView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
