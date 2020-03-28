@@ -4,23 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-
 import com.client.vpman.weatherwall.Fragment.Amoled;
 import com.client.vpman.weatherwall.Fragment.Buildings;
 import com.client.vpman.weatherwall.Fragment.Car;
 import com.client.vpman.weatherwall.Fragment.Dark;
-import com.client.vpman.weatherwall.Fragment.Explore;
 import com.client.vpman.weatherwall.Fragment.Image;
 import com.client.vpman.weatherwall.Fragment.Image1;
 import com.client.vpman.weatherwall.Fragment.Minimal;
 import com.client.vpman.weatherwall.Fragment.Mountain;
-import com.client.vpman.weatherwall.Fragment.Popular;
 import com.client.vpman.weatherwall.Fragment.Religion;
 import com.client.vpman.weatherwall.Fragment.Sparkles;
 import com.client.vpman.weatherwall.Fragment.Star;
 import com.client.vpman.weatherwall.Fragment.Technology;
-import com.client.vpman.weatherwall.Fragment.WeatherFragment;
+
 
 public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter
 {

@@ -1,28 +1,22 @@
 package com.client.vpman.weatherwall.Activity;
 
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.LruCache;
-import android.view.Display;
-import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -44,39 +38,36 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.PopAdapter;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData1;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-import com.flaviofaria.kenburnsview.KenBurnsView;
+
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.kc.unsplash.Unsplash;
-import com.kc.unsplash.models.Photo;
-import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+
 
 public class PopularList extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener
 {
 
-    ImageView imageView,back,back1;
+    ImageView back,back1;
     RecyclerView recyclerView;
     MaterialTextView textView,textView1;
     PopAdapter popAdapter;
     List<String> slides = new ArrayList<>();
     private long mRequestStartTime;
+    RoundedImageView imageView;
 
 
     private boolean isHideToolbarView = false;
@@ -117,6 +108,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
 
         Intent intent = getIntent();
         String mImg=intent.getStringExtra("img1");
+        String sImg=intent.getStringExtra("img2");
         query=intent.getStringExtra("query");
         String Landscape=intent.getStringExtra("text");
         textView.setText(Landscape);
@@ -170,13 +162,14 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
 
 
         RequestOptions requestOptions = new RequestOptions();
-        // requestOptions.error(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
         requestOptions.priority(Priority.IMMEDIATE);
         requestOptions.skipMemoryCache(false);
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.onlyRetrieveFromCache(true);
         requestOptions.priority(Priority.HIGH);
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.isMemoryCacheable();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
@@ -199,7 +192,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                 Glide.with(PopularList.this)
                         .load(mImg)
                         .thumbnail(
-                                Glide.with(PopularList.this).load(mImg)
+                                Glide.with(PopularList.this).load(sImg)
                         )
                         .apply(requestOptions)
                         .listener(new RequestListener<Drawable>() {
@@ -223,12 +216,12 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
 
                         .into(imageView);
             }
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+           /* recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                 }
-            });
+            });*/
 
 LoadImage();
 
@@ -266,7 +259,7 @@ public void LoadImage()
         Log.d("iueho",query);*/
     if (query!=null)
     {
-        String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=150&page=1";
+        String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=100&page=1";
         StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("response", response);
 
@@ -291,7 +284,7 @@ public void LoadImage()
                     JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
                     JSONObject jsonObject=wallobj.getJSONObject("src");
                     JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                    ModelData1 modelData1=new ModelData1(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"));
+                    ModelData1 modelData1=new ModelData1(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"));
                     list.add(modelData1);
 
 
@@ -299,16 +292,17 @@ public void LoadImage()
 
                 popAdapter=new PopAdapter(PopularList.this,list);
 
-                StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                //staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-                recyclerView.setLayoutManager(staggeredGridLayoutManager);
+                LinearLayoutManager  linearLayoutManager=new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
+
+                recyclerView.setLayoutManager(linearLayoutManager);
+
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setNestedScrollingEnabled(true);
                 int itemViewType = 0;
                 recyclerView.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
                 recyclerView.setAdapter(popAdapter);
-                // Glide.with(MainActivity.this).load(slides.get(n)).preload(500,500);
+
 
 
 
@@ -340,7 +334,7 @@ public void LoadImage()
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization","563492ad6f91700001000001572b44febff5465797575bcba703c98c");
+                params.put("Authorization","563492ad6f917000010000010175b010e54243678613ef0d7fd3c497");
                 return params;
             }
         };

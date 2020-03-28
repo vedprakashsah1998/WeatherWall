@@ -36,11 +36,33 @@
 
 
 
-
-
     <com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/pager"/>
+
+
+
+    <com.github.rongi.rotate_layout.layout.RotateLayout
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_centerVertical="true"
+        app:angle="90">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:rotation="180"
+            android:background="@android:color/transparent"
+            app:tabIndicatorColor="@android:color/transparent"
+            app:tabSelectedTextColor="#FFFFFF"
+            app:tabBackground="@drawable/tab_background"
+            app:tabTextAppearance="@style/MineCustomTabText"
+            app:tabTextColor="#999999" />
+
+    </com.github.rongi.rotate_layout.layout.RotateLayout>
+
+
 
 </RelativeLayout>

@@ -12,12 +12,13 @@
         android:id="@+id/horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/popPhoto"
+        android:layout_below="@+id/popPhoto1"
         android:scrollbars="none"
+        android:paddingStart="54dp"
         android:layout_marginTop="4dp">
 
         <FrameLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -28,16 +29,22 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Landscape"
-                        android:layout_width="120dp"
+                        android:layout_width="140dp"
                         android:transitionName="img1"
-                        android:layout_height="120dp"
+                        android:layout_height="140dp"
+                        app:civ_border_width="2dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="20"
+                        app:civ_shadow_color="#9E9E9E"
+
                         android:scaleType="centerCrop"
-                        android:src="@drawable/nature" />
+
+                       />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -56,17 +63,20 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Cityscape"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:scaleType="centerCrop"
-                        android:transitionName="img1"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        app:civ_border_width="2dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="20"
+                        app:civ_shadow_color="#9E9E9E"
 
-                        android:src="@drawable/nature" />
+                        android:transitionName="img1"
+                        android:scaleType="centerCrop"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -85,17 +95,20 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Seascape"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
                         android:transitionName="img1"
+                        app:civ_border_width="2dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="20"
+                        app:civ_shadow_color="#9E9E9E"
 
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/nature" />
+                        android:scaleType="centerCrop" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -114,17 +127,20 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Twilight"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
                         android:transitionName="img1"
 
                         android:scaleType="centerCrop"
-                        android:src="@drawable/nature" />
+                        app:civ_border_width="2dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="20"
+                        app:civ_shadow_color="#9E9E9E" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -142,17 +158,20 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Food"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
                         android:transitionName="img1"
 
                         android:scaleType="centerCrop"
-                        android:src="@drawable/nature" />
+                        app:civ_border_width="2dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="20"
+                        app:civ_shadow_color="#9E9E9E" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -170,17 +189,21 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/DronView"
-                        android:layout_width="120dp"
+                        android:layout_width="140dp"
                         android:transitionName="img1"
 
-                        android:layout_height="120dp"
+                        android:layout_height="140dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/nature" />
+                        app:civ_border_width="2dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="20"
+                        app:civ_shadow_color="#9E9E9E"
+/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -208,42 +231,26 @@
         android:layout_height="520dp"
         android:layout_below="@+id/more"
         android:layout_marginTop="12dp"
-        android:elevation="50dp"
-        android:padding="12dp">
+        android:padding="54dp"
+        >
 
 
-        <!--
-                <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:padding="32dp"
-                    android:layout_below="@+id/popPhoto"
-                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/imgdesign1"
-                        android:src="@drawable/nature"
-                        android:id="@+id/droneView"
-                        />
-                </androidx.cardview.widget.CardView>-->
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/droneView"
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="450dp"
             android:elevation="20dp"
             android:scaleType="centerCrop"
             app:riv_corner_radius_bottom_left="50dp"
             app:riv_corner_radius_top_left="50dp"
-            android:background="@drawable/nature"
             app:riv_mutate_background="true" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/nature"
             android:layout_width="200dp"
-            android:layout_height="220dp"
+            android:layout_height="200dp"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/droneView"
             android:elevation="20dp"
@@ -255,7 +262,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/food"
             android:layout_width="200dp"
-            android:layout_height="220dp"
+            android:layout_height="200dp"
             android:layout_below="@+id/nature"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
@@ -283,21 +290,11 @@
             android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
 
-        <!--
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="SWIPE  UP"
-                    android:layout_below="@+id/swipUp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp" />-->
-
     </RelativeLayout>
 
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/popPhoto"
+        android:id="@+id/popPhoto1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

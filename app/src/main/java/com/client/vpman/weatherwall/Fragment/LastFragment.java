@@ -45,6 +45,7 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.FullImage;
 import com.client.vpman.weatherwall.Adapter.RescAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 
 import net.robinx.lib.blurview.BlurBehindView;
@@ -95,18 +96,7 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadImage();
-
-                    }
-                });
-            }
-        }).start();
+        new Thread(() -> getActivity().runOnUiThread(() -> loadImage())).start();
         layoutManager=new LinearLayoutManager(this.getActivity(),LinearLayoutManager.HORIZONTAL,true);
         recyclerView.setLayoutManager(layoutManager);
       /*  recyclerView.setLayoutManager((new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true)));*/
@@ -115,11 +105,6 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
         recyclerView.setAdapter(rescAdapter);
 
 
-      /*loadImage();*/
-
-       /* imageView.setTranslationZ(40);
-        four_K_layout.setTranslationZ(40);
-        four_K_layout.updateMode(BlurBehindView.UPDATE_CONTINOUSLY).blurRadius(14).sizeDivider(3).cornerRadius(80).processor(NdkStackBlurProcessor.INSTANCE);*/
 
 
 
@@ -191,6 +176,7 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
                 requestOptions.skipMemoryCache(false);
                 requestOptions.onlyRetrieveFromCache(true);
                 requestOptions.priority(Priority.HIGH);
+                requestOptions.placeholder(Utils.getRandomDrawbleColor());
                 requestOptions.isMemoryCacheable();
                 requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
@@ -218,7 +204,7 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
                     Glide.with(getActivity())
                             .load(modelData.get(0).getLarge2x())
                             .thumbnail(
-                                    Glide.with(getActivity()).load(modelData.get(0).getLarge2x())
+                                    Glide.with(getActivity()).load(modelData.get(0).getLarge())
                             )
                             .apply(requestOptions)
                             .listener(new RequestListener<Drawable>() {
@@ -247,6 +233,7 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
                     Intent intent=new Intent(getActivity(), FullImage.class);
                     ModelData modelData2=modelData.get(position);
                     intent.putExtra("img",modelData2.getLarge2x());
+                    intent.putExtra("imgSmall",modelData2.getLarge());
                     Pair<View, String> pair = Pair.create((View)imageView, ViewCompat.getTransitionName(imageView));
                     ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             getActivity(),pair
@@ -372,7 +359,7 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization","563492ad6f91700001000001572b44febff5465797575bcba703c98c");
+                params.put("Authorization","563492ad6f91700001000001fd351942a4524d62bb9a68308855b667");
                 return params;
             }
         };

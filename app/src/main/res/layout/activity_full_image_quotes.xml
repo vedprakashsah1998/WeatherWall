@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.FullImageQuotes">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:id="@+id/imageFullLast"/>
+
+
+
+
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="5dp"
+        app:popupTheme="@style/ToolbarThemeWhite"
+        android:id="@+id/tool1barMain"
+        android:visibility="visible"
+        android:background="@drawable/basic_design1"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+        android:layout_alignParentTop="true"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:layout_toLeftOf="@+id/browser"
+                android:layout_marginEnd="12dp"
+                android:id="@+id/downloadImg"
+                android:src="@drawable/ic_file_download"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/browser"
+                android:src="@drawable/ic_global"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <net.robinx.lib.blurview.BlurBehindView
+        android:layout_width="320dp"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+
+        android:layout_centerHorizontal="true"
+        android:padding="8dp"
+        android:id="@+id/mainWorkQuotes">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+           >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_format_align_justify"
+                android:padding="12dp"
+                android:id="@+id/delivery"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/setWallQuotes"
+                android:clickable="true"
+                android:padding="12dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_wallpaper"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/shareQuotes"
+                android:padding="12dp"
+                android:src="@drawable/ic_share"/>
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delivery"
+                android:layout_centerHorizontal="true"
+                >
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:textColor="#FFFFFF"
+
+                    android:id="@+id/quotesTextMain"/>
+            </ScrollView>
+
+
+
+        </RelativeLayout>
+    </net.robinx.lib.blurview.BlurBehindView>
+
+</RelativeLayout>

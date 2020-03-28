@@ -13,6 +13,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
@@ -32,6 +33,8 @@ import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +49,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Activity.FullImage;
+import com.client.vpman.weatherwall.Activity.MainActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ForbesQuotesModel;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
@@ -60,6 +64,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -101,10 +106,12 @@ public class WeatherFragment extends Fragment
     MaterialTextView welcomeText,welcomeText1;
 
     int i=0;
+    ImageView image;
     List<Address> addresses;
 
     private FusedLocationProviderClient fusedLocationClient;
 
+    RotateAnimation rotate;
 
 
     public WeatherFragment() {
@@ -129,42 +136,10 @@ list=new ArrayList<>();
         welcomeText1=view.findViewById(R.id.welcomeText1);*/
         forbesQuotes=view.findViewById(R.id.Forbes_quotes);
 
-      /*  AlphaAnimation fadeIn1 = new AlphaAnimation(1.0f , 0.0f ) ;
-        AlphaAnimation fadeOut1 = new AlphaAnimation( 0.0f , 1.0f ) ;
-        welcomeText.startAnimation(fadeIn1);
-        welcomeText.startAnimation(fadeOut1);
-        fadeIn1.setDuration(4000);
-        fadeIn1.setFillAfter(true);
-        fadeOut1.setDuration(4000);
-        fadeOut1.setFillAfter(true);
-        fadeOut1.setStartOffset(5000+fadeIn1.getStartOffset());
 
-
-        AlphaAnimation fadeIn2 = new AlphaAnimation(1.0f , 0.0f ) ;
-        AlphaAnimation fadeOut2 = new AlphaAnimation( 0.0f , 1.0f ) ;
-        welcomeText1.startAnimation(fadeIn2);
-        welcomeText1.startAnimation(fadeOut2);
-        fadeIn2.setDuration(4000);
-        fadeIn2.setFillAfter(true);
-        fadeOut2.setDuration(4000);
-        fadeOut2.setFillAfter(true);
-        fadeOut2.setStartOffset(5000+fadeIn1.getStartOffset());*/
-       /* ImageView imageView = (ImageView)getActivity().findViewById(R.id.imageView);
-*//*
-        imageView.setVisibility(View.GONE);
-*//*
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), FullImage.class);
-                startActivity(intent);
-            }
-        });*/
 
         Log.d("hgfkj","request");
-       // findWeather();
-        //CurrentLocation();
-       // bounce.setRepeatCount(Animation.INFINITE);
+
         bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
 
         bounce.setRepeatCount(Animation.INFINITE);
@@ -191,6 +166,40 @@ list=new ArrayList<>();
         });
         swipeUp.startAnimation(bounce);
 
+        image= view. findViewById(R.id.settingImg);
+        rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(5000);
+        rotate.setInterpolator(new LinearInterpolator());
+
+        rotate.setRepeatCount(Animation.INFINITE);
+        rotate.setRepeatMode(Animation.INFINITE);
+        rotate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(5000);
+                rotate.setInterpolator(new LinearInterpolator());
+                rotate.setRepeatCount(Animation.INFINITE);
+                rotate.setRepeatMode(Animation.INFINITE);
+                image.startAnimation(rotate);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        image.startAnimation(rotate);
+        image.setOnClickListener(v -> settingDialog(getActivity()));
+
+
+
+
         if (Connectivity.isConnected(getActivity())&& Connectivity.isConnectedMobile(getActivity())&&Connectivity.isConnectedFast(getActivity())||
                 Connectivity.isConnected(getActivity())&&Connectivity.isConnectedWifi(getActivity())&&Connectivity.isConnectedFast(getActivity()))
         {
@@ -214,39 +223,6 @@ list=new ArrayList<>();
     @SuppressLint("MissingPermission")
     public void findWeather() {
 
-       /* Criteria criteria = new Criteria();
-        //location manager will take the best location from the criteria
-        locationManager.getBestProvider(criteria, true);
-        bestProvider=locationManager.getBestProvider(criteria,true);
-
-
-        @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
-
-        Geocoder gcd = new Geocoder(getActivity().getBaseContext(), Locale.getDefault());*/
-             /* latTextView.setText(String.valueOf(location.getLatitude()));
-              longTextView.setText(String.valueOf(location.getLongitude()));*/
-
-           /*  if (location!=null)
-             {
-                 lat= String.valueOf(location.getLatitude());
-                 lon= String.valueOf(location.getLongitude());
-             }
-             else
-             {
-
-             }*/
-
-
-        Log.d("Tag", "1");
-
-
-           /* if (location!=null)
-            {*/
-
-
-/*
-            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-*/
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
             fusedLocationClient.getLastLocation()
@@ -298,9 +274,7 @@ list=new ArrayList<>();
                                             t3_description.setText(description);
 
                                             dataPasser.onDataPass(description);
-/*
-                    Intent intent=new Intent(getActivity(),MainActivity.class);
-                    intent.putExtra("desc",description);*/
+
 
                                             Calendar calendar = Calendar.getInstance();
 
@@ -504,7 +478,7 @@ list=new ArrayList<>();
 
 
 
-        Toast.makeText(getActivity(), "Resume", Toast.LENGTH_SHORT).show();
+        /*Toast.makeText(getActivity(), "Resume", Toast.LENGTH_SHORT).show();*/
 
     }
 
@@ -539,54 +513,85 @@ connectInternet.setOnClickListener(view -> {
     }
 }
 
-    public void setMobileDataState(boolean mobileDataEnabled)
-    {
-        try
-        {
-            TelephonyManager telephonyService = (TelephonyManager)getActivity(). getSystemService(Context.TELEPHONY_SERVICE);
-
-            Method setMobileDataEnabledMethod = telephonyService.getClass().getDeclaredMethod("setDataEnabled", boolean.class);
-
-            if (null != setMobileDataEnabledMethod)
-            {
-                setMobileDataEnabledMethod.invoke(telephonyService, mobileDataEnabled);
+    public void settingDialog(Activity activity) {
+        final Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.show();
+        dialog.setContentView(R.layout.setting_dialog);
+        MaterialTextView clearCache=dialog.findViewById(R.id.deleteTextMain);
+        clearCache.setOnClickListener(v -> deleteCache(activity));
+        MaterialTextView shareApp=dialog.findViewById(R.id.shareAppText);
+        shareApp.setOnClickListener(v -> {
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
+                String shareMessage= "\nDownload this application from PlayStore\n\n";
+                shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall"+shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "choose one"));
+            } catch(Exception e) {
+                e.printStackTrace();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.e("wljgfj", "Error setting mobile data state", ex);
-        }
-    }
+        });
+        MaterialTextView reportText=dialog.findViewById(R.id.reportText);
+        reportText.setOnClickListener(v -> {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto","vp.mannu.kr@gmail.com", null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall");
+            startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        });
+        MaterialTextView rateUsText=dialog.findViewById(R.id.rateUsText);
+        rateUsText.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
+            startActivity(browserIntent);
 
-    public boolean getMobileDataState()
-    {
-        try
-        {
-            TelephonyManager telephonyService = (TelephonyManager)getActivity(). getSystemService(Context.TELEPHONY_SERVICE);
-
-            Method getMobileDataEnabledMethod = telephonyService.getClass().getDeclaredMethod("getDataEnabled");
-
-            if (null != getMobileDataEnabledMethod)
-            {
-                boolean mobileDataEnabled = (Boolean) getMobileDataEnabledMethod.invoke(telephonyService);
-
-                return mobileDataEnabled;
-            }
-        }
-        catch (Exception ex)
-        {
-          //  Log.e(TAG, "Error getting mobile data state", ex);
-        }
-
-        return false;
-    }
-
-    public void Wifi()
-    {
-        WifiManager wifiManager ;
-        wifiManager  = (WifiManager)getActivity().getApplicationContext().getSystemService(getActivity().WIFI_SERVICE);
-        wifiManager.setWifiEnabled(true);
-
+        });
+        MaterialTextView instagramText=dialog.findViewById(R.id.instagramText);
+        instagramText.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/vedprakash.sah.378/"));
+            startActivity(browserIntent);
+        });
+        MaterialTextView faceBookText=dialog.findViewById(R.id.faceBookText);
+        faceBookText.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/vedprakash.sah.378"));
+            startActivity(browserIntent);
+        });
+        MaterialTextView LinkedIn=dialog.findViewById(R.id.LinkedIn);
+        LinkedIn.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
+            startActivity(browserIntent);
+        });
+        MaterialTextView github=dialog.findViewById(R.id.github);
+        github.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12"));
+            startActivity(browserIntent);
+        });
+        ImageView pexels=dialog.findViewById(R.id.pexels);
+        pexels.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com/"));
+            startActivity(browserIntent);
+        });
+        ImageView flatIcon=dialog.findViewById(R.id.flatIcon);
+        flatIcon.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/"));
+            startActivity(browserIntent);
+        });
+        ImageView Unsplash=dialog.findViewById(R.id.Unsplash);
+        Unsplash.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://unsplash.com/"));
+            startActivity(browserIntent);
+        });
+        MaterialTextView privacyPolicy=dialog.findViewById(R.id.privacyPolicy);
+        privacyPolicy.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
+            startActivity(browserIntent);
+        });
+        ImageView backtoMain=dialog.findViewById(R.id.backtoMain);
+        backtoMain.setOnClickListener(v -> dialog.dismiss());
+        dialog.setOnCancelListener(DialogInterface::dismiss);
     }
 
 
@@ -631,18 +636,7 @@ connectInternet.setOnClickListener(view -> {
 
         }, error -> {
 
-        }); /*{
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-          *//*      params.put("enrich","true");
-                params.put("query","1");
-                params.put("relatedlimit","10");*//*
-
-                Log.e("12345","12345" );
-                return  params;
-            }
-        };*/
+        });
 
         stringRequest.setShouldCache(false);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -651,6 +645,31 @@ connectInternet.setOnClickListener(view -> {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
+    }
+
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+            Toast.makeText(context, "Cache Memory is deleted", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) { e.printStackTrace();}
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
     }
 
 }

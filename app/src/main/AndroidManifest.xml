@@ -6,15 +6,19 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/color_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/color_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.PopularList"></activity>
+        <activity android:name=".Activity.IntroActivity"></activity>
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.FullImageQuotes" />
+        <activity android:name=".Activity.ExploreQuotesAndPhoto" />
+        <activity android:name=".Activity.PopularList" />
         <activity android:name=".Activity.FullImage" />
-        <activity android:name=".Activity.MainActivity">
+        <activity android:name=".Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

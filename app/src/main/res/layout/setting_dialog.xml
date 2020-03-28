@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
+
+<androidx.appcompat.widget.Toolbar
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:elevation="5dp"
+    app:popupTheme="@style/ToolbarThemeWhite"
+    android:id="@+id/tool1barSetting"
+    android:visibility="visible"
+    android:background="#FFFFFF"
+    android:layout_alignParentTop="true">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/backtoMain"
+            android:src="@drawable/ic_arrow_back"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weather Wall"
+            android:layout_toRightOf="@+id/backtoMain"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="-10dp"
+            android:textColor="#000000"
+            android:gravity="left"
+            android:fontFamily="@font/eagle_lake"
+            />
+    </RelativeLayout>
+
+</androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:scrollbars="none"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/tool1barSetting"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Setting"
+                android:id="@+id/settingText"
+                android:textSize="26sp"
+                android:padding="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                android:textColor="#000000"
+                />
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:id="@+id/cardSetting"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_below="@+id/settingText">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/deleteImg"
+                        android:src="@drawable/ic_delete_black_24dp"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Clear Cache"
+                        android:id="@+id/deleteTextMain"
+                        android:layout_toEndOf="@+id/deleteImg"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line"
+                        android:layout_below="@+id/deleteTextMain"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/shareApp"
+                        android:layout_below="@+id/line"
+                        android:src="@drawable/ic_share_black"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Share App"
+                        android:id="@+id/shareAppText"
+                        android:layout_toEndOf="@+id/shareApp"
+                        android:layout_below="@+id/line"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line1"
+                        android:layout_below="@+id/shareAppText"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/reportUs"
+                        android:layout_below="@+id/line1"
+                        android:src="@drawable/ic_report_problem"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Report Us"
+                        android:id="@+id/reportText"
+                        android:layout_toEndOf="@+id/reportUs"
+                        android:layout_below="@+id/line1"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line2"
+                        android:layout_below="@+id/reportText"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/rateUsImg"
+                        android:layout_below="@+id/line2"
+                        android:src="@drawable/ic_rate_review"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rate Us"
+                        android:id="@+id/rateUsText"
+                        android:layout_toEndOf="@+id/rateUsImg"
+                        android:layout_below="@+id/line2"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardSetting"
+                android:layout_marginTop="20dp"
+                android:text="Contact Us"
+                android:id="@+id/ContactUsText"
+                android:textSize="26sp"
+                android:padding="8dp"
+                android:layout_marginStart="12dp"
+                android:textColor="#000000"
+                />
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:id="@+id/cardContact"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_below="@+id/ContactUsText">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/instagram"
+                        android:src="@drawable/ic_instagram"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Instagram"
+                        android:id="@+id/instagramText"
+                        android:layout_toEndOf="@+id/instagram"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line3"
+                        android:layout_below="@+id/instagramText"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/facebook"
+                        android:layout_below="@+id/line3"
+                        android:src="@drawable/ic_facebook"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Facebook"
+                        android:id="@+id/faceBookText"
+                        android:layout_toEndOf="@+id/facebook"
+                        android:layout_below="@+id/line3"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line4"
+                        android:layout_below="@+id/faceBookText"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/linkedIn"
+                        android:layout_below="@+id/line4"
+                        android:src="@drawable/ic_linkedin"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Linkedin"
+                        android:id="@+id/LinkedIn"
+                        android:layout_toEndOf="@+id/linkedIn"
+                        android:layout_below="@+id/line4"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line5"
+                        android:layout_below="@+id/LinkedIn"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:id="@+id/Github"
+                        android:layout_below="@+id/line5"
+                        android:src="@drawable/ic_logo"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Github"
+                        android:id="@+id/github"
+                        android:layout_toEndOf="@+id/Github"
+                        android:layout_below="@+id/line5"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardContact"
+                android:layout_marginTop="20dp"
+                android:text="Credit"
+                android:id="@+id/credit"
+                android:textSize="26sp"
+                android:padding="8dp"
+                android:layout_marginStart="12dp"
+                android:textColor="#000000"
+                />
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:id="@+id/cardCredit"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_below="@+id/credit">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="60dp"
+                        android:padding="12dp"
+                        android:id="@+id/pexels"
+                        android:src="@drawable/pexels"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line6"
+                        android:layout_below="@+id/pexels"/>
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="80dp"
+                        android:padding="12dp"
+                        android:id="@+id/flatIcon"
+                        android:layout_below="@+id/line6"
+                        android:src="@drawable/ic_flaticon"/>
+
+
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line7"
+                        android:layout_below="@+id/flatIcon"/>
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="70dp"
+                        android:id="@+id/Unsplash"
+                        android:src="@drawable/unsplash"
+                        android:layout_below="@+id/line7"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Privacy Policy"
+                android:padding="12dp"
+                android:id="@+id/privacyPolicy"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="22dp"
+                android:layout_below="@id/cardCredit"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                />
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+</RelativeLayout>

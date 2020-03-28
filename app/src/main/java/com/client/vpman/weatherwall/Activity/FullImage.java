@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.WallpaperManager;
 import android.content.ContentValues;
@@ -14,9 +13,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
+import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,15 +23,9 @@ import android.util.Log;
 import android.util.LruCache;
 import android.view.Display;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -44,20 +36,22 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-import com.flaviofaria.kenburnsview.KenBurnsView;
-import com.flaviofaria.kenburnsview.Transition;
+
 
 import net.robinx.lib.blurview.BlurBehindView;
 import net.robinx.lib.blurview.processor.NdkStackBlurProcessor;
+import net.steamcrafted.loadtoast.LoadToast;
 
 import java.io.OutputStream;
 
 public class FullImage extends AppCompatActivity
 {
 
-    String mImg;
-    KenBurnsView imageView;
+    String mImg,sImg,large;
+    ImageView imageView,browser;
     BlurBehindView mainWork;
 
     ImageView download,share,setWall;
@@ -72,6 +66,7 @@ public class FullImage extends AppCompatActivity
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 
         toolbar=findViewById(R.id.tool1bar);
+        browser=findViewById(R.id.browserFull);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
@@ -87,6 +82,8 @@ public class FullImage extends AppCompatActivity
         setWall=findViewById(R.id.setWall);
         Intent intent=getIntent();
         mImg=intent.getStringExtra("img");
+        sImg=intent.getStringExtra("imgSmall");
+        large=intent.getStringExtra("large");
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         RequestOptions requestOptions = new RequestOptions();
         // requestOptions.error(Utils.getRandomDrawbleColor());
@@ -96,6 +93,7 @@ public class FullImage extends AppCompatActivity
         requestOptions.skipMemoryCache(false);
         requestOptions.onlyRetrieveFromCache(true);
         requestOptions.priority(Priority.HIGH);
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.isMemoryCacheable();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
@@ -120,40 +118,66 @@ public class FullImage extends AppCompatActivity
             imageView.setImageBitmap(image);
         } else
         {
-            Glide.with(FullImage.this)
-                    .load(mImg)
-                    .thumbnail(
-                            Glide.with(FullImage.this).load(mImg)
-                    )
-                    .apply(requestOptions)
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            //  spinKitView.setVisibility(View.GONE);
+            if (Connectivity.isConnected(FullImage.this)||Connectivity.isConnectedFast(FullImage.this))
+            {
+                Glide.with(FullImage.this)
+                        .load(large)
+                        .thumbnail(
+                                Glide.with(FullImage.this).load(mImg)
+                        )
+                        .apply(requestOptions)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                //  spinKitView.setVisibility(View.GONE);
 
 
-                            return false;
-                        }
+                                return false;
+                            }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                        {
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
+                            {
 
-                            // spinKitView.setVisibility(View.GONE);
+                                // spinKitView.setVisibility(View.GONE);
 
-                            return false;
-                        }
-                    })
+                                return false;
+                            }
+                        })
 
-                    .into(imageView);
-/*
-            zoomOut= AnimationUtils.loadAnimation(FullImage.this,R.anim.zoom_out);
-            imageView.startAnimation(zoomOut);*/
-            /*moveDownwards = new TranslateAnimation(0, 0, -100, 1000);
-            moveDownwards.setDuration(3000);
-            moveDownwards.setFillAfter(true);
-            moveDownwards.setRepeatCount(-1);
-            imageView.startAnimation(moveDownwards);*/
+                        .into(imageView);
+            }
+            else
+            {
+                Glide.with(FullImage.this)
+                        .load(mImg)
+                        .thumbnail(
+                                Glide.with(FullImage.this).load(mImg)
+                        )
+                        .apply(requestOptions)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                //  spinKitView.setVisibility(View.GONE);
+
+
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
+                            {
+
+                                // spinKitView.setVisibility(View.GONE);
+
+                                return false;
+                            }
+                        })
+
+                        .into(imageView);
+            }
+
+
 
             setWall.setOnClickListener(view -> {
 
@@ -161,31 +185,63 @@ public class FullImage extends AppCompatActivity
                 boolean granted=checkWriteExternalPermission();
                 if (granted==true)
                 {
-                    Glide.with(FullImage.this).asBitmap().load(mImg).into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                            Intent share = new Intent(Intent.ACTION_SEND);
-                            share.setType("image/jpeg");
+                    if (Connectivity.isConnected(FullImage.this) || Connectivity.isConnectedFast(FullImage.this)) {
+                        Glide.with(FullImage.this).asBitmap().load(large).into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
+                                Intent share = new Intent(Intent.ACTION_SEND);
+                                share.setType("image/jpeg");
 
-                            ContentValues values = new ContentValues();
-                            values.put(MediaStore.Images.Media.TITLE, "title");
-                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                            Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                    values);
-                            OutputStream outstream;
-                            try {
-                                outstream = FullImage.this.getContentResolver().openOutputStream(uri);
-                                resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                outstream.close();
-                            } catch (Exception e) {
-                                System.err.println(e.toString());
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "title");
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                        values);
+                                OutputStream outstream;
+                                try {
+                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                    outstream.close();
+                                } catch (Exception e) {
+                                    System.err.println(e.toString());
+                                }
+                                WallpaperManager wallpaperManager = WallpaperManager.getInstance(FullImage.this);
+                                startActivity(wallpaperManager.getCropAndSetWallpaperIntent(uri));
+
+
                             }
-                            WallpaperManager wallpaperManager = WallpaperManager.getInstance(FullImage.this);
-                            startActivity(wallpaperManager.getCropAndSetWallpaperIntent(uri));
+                        });
+                    }
+                    else
+                    {
+                        Glide.with(FullImage.this).asBitmap().load(mImg).into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
+                                Intent share = new Intent(Intent.ACTION_SEND);
+                                share.setType("image/jpeg");
+
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "title");
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                        values);
+                                OutputStream outstream;
+                                try {
+                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                    outstream.close();
+                                } catch (Exception e) {
+                                    System.err.println(e.toString());
+                                }
+                                WallpaperManager wallpaperManager = WallpaperManager.getInstance(FullImage.this);
+                                startActivity(wallpaperManager.getCropAndSetWallpaperIntent(uri));
 
 
-                        }
-                    });
+                            }
+                        });
+                    }
+
+
                 }
                 else
                 {
@@ -198,30 +254,71 @@ public class FullImage extends AppCompatActivity
                 boolean granted=checkWriteExternalPermission();
                 if (granted==true)
                 {
-                    Glide.with(FullImage.this).asBitmap().load(mImg).into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                            Intent share = new Intent(Intent.ACTION_SEND);
-                            share.setType("image/jpeg");
+                    if (Connectivity.isConnected(FullImage.this) || Connectivity.isConnectedFast(FullImage.this))
+                    {
+                        final LoadToast lt = new LoadToast(FullImage.this);
+                        lt.setText("Setting...");
+                        lt.setTranslationY(1000);
+                        lt.setBorderColor(Color.BLACK);
+                        lt.setBackgroundColor(Color.BLUE);
+                        lt.setBorderWidthDp(4);
 
-                            ContentValues values = new ContentValues();
-                            values.put(MediaStore.Images.Media.TITLE, "title");
-                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                            Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                    values);
-                            OutputStream outstream;
-                            try {
-                                outstream = FullImage.this.getContentResolver().openOutputStream(uri);
-                                resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                outstream.close();
-                            } catch (Exception e) {
-                                System.err.println(e.toString());
+                        lt.show();
+
+                        Glide.with(FullImage.this).asBitmap().load(large).into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
+                                Intent share = new Intent(Intent.ACTION_SEND);
+                                share.setType("image/jpeg");
+
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "title");
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                        values);
+                                OutputStream outstream;
+                                try {
+                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                    outstream.close();
+                                } catch (Exception e) {
+                                    System.err.println(e.toString());
+                                }
+                                Toast.makeText(FullImage.this, "Downloaded", Toast.LENGTH_SHORT).show();
+                            lt.hide();
+
                             }
-                            Toast.makeText(FullImage.this, "Downloaded", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Low1", Toast.LENGTH_SHORT).show();
+                        Glide.with(FullImage.this).asBitmap().load(mImg).into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
+                                Intent share = new Intent(Intent.ACTION_SEND);
+                                share.setType("image/jpeg");
+
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "title");
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                        values);
+                                OutputStream outstream;
+                                try {
+                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                    outstream.close();
+                                } catch (Exception e) {
+                                    System.err.println(e.toString());
+                                }
+                                Toast.makeText(FullImage.this, "Downloaded", Toast.LENGTH_SHORT).show();
 
 
-                        }
-                    });
+                            }
+                        });
+                    }
+
                 }
                 else
                 {
@@ -235,42 +332,86 @@ public class FullImage extends AppCompatActivity
               /*  ProgressBar progressBar=view.findViewById(R.id.progress6);
                 progressBar.setVisibility(View.VISIBLE);*/
 
-                    Glide.with(FullImage.this).asBitmap()
-                            .load(mImg)
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition)
-                                {
-                                    // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+                    if (Connectivity.isConnected(FullImage.this) || Connectivity.isConnectedFast(FullImage.this)){
+                        Glide.with(FullImage.this).asBitmap()
+                                .load(large)
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition)
+                                    {
+                                        // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
 
-                                    Intent share = new Intent(Intent.ACTION_SEND);
-                                    share.setType("image/jpeg");
+                                        Intent share = new Intent(Intent.ACTION_SEND);
+                                        share.setType("image/jpeg");
 
-                                    ContentValues values = new ContentValues();
-                                    values.put(MediaStore.Images.Media.TITLE, "title");
-                                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                    Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                            values);
-                                    OutputStream outstream;
-                                    try {
-                                        outstream = FullImage.this.getContentResolver().openOutputStream(uri);
-                                        resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                        outstream.close();
-                                    } catch (Exception e) {
-                                        System.err.println(e.toString());
+                                        ContentValues values = new ContentValues();
+                                        values.put(MediaStore.Images.Media.TITLE, "title");
+                                        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                        Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                                values);
+                                        OutputStream outstream;
+                                        try {
+                                            outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                            resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                            outstream.close();
+                                        } catch (Exception e) {
+                                            System.err.println(e.toString());
+                                        }
+
+                                        share.putExtra(Intent.EXTRA_STREAM, uri);
+                                        share.setType("text/plain");
+                                        share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
+                                        String shareMessage= "\nDownload this application from PlayStore\n\n";
+                                        shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
+                                        share.putExtra(Intent.EXTRA_TEXT, "Weather Wall"+shareMessage);
+                                        startActivity(Intent.createChooser(share, "Share Image"));
+                                        // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                        /* progressBar.setVisibility(View.GONE);*/
                                     }
+                                });
+                    }
+                    else
+                    {
+                        Glide.with(FullImage.this).asBitmap()
+                                .load(mImg)
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition)
+                                    {
+                                        // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
 
-                                    share.putExtra(Intent.EXTRA_STREAM, uri);
-                                    share.setType("text/plain");
-                                    share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                                    String shareMessage= "\nDownload this application from PlayStore\n\n";
-                                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
-                                    share.putExtra(Intent.EXTRA_TEXT, "Cam Walls"+shareMessage);
-                                    startActivity(Intent.createChooser(share, "Share Image"));
-                                    // ProgressBar progressBar=view.findViewById(R.id.progress6);
-                                    /* progressBar.setVisibility(View.GONE);*/
-                                }
-                            });
+                                        Intent share = new Intent(Intent.ACTION_SEND);
+                                        share.setType("image/jpeg");
+
+                                        ContentValues values = new ContentValues();
+                                        values.put(MediaStore.Images.Media.TITLE, "title");
+                                        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                        Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                                values);
+                                        OutputStream outstream;
+                                        try {
+                                            outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                            resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                            outstream.close();
+                                        } catch (Exception e) {
+                                            System.err.println(e.toString());
+                                        }
+
+                                        share.putExtra(Intent.EXTRA_STREAM, uri);
+                                        share.setType("text/plain");
+                                        share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
+                                        String shareMessage= "\nDownload this application from PlayStore\n\n";
+                                        shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
+                                        share.putExtra(Intent.EXTRA_TEXT, "Weather Wall"+shareMessage);
+                                        startActivity(Intent.createChooser(share, "Share Image"));
+                                        // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                        /* progressBar.setVisibility(View.GONE);*/
+                                    }
+                                });
+                    }
+
+
+
                 }
                 else
                 {
@@ -282,27 +423,17 @@ public class FullImage extends AppCompatActivity
 
 
             });
-
-            imageView.setTransitionListener(new KenBurnsView.TransitionListener() {
-                @Override
-                public void onTransitionStart(Transition transition) {
-
-
-                }
-
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                imageView.resume();
-                }
-            });
-
         }
-        imageView.setTranslationZ(40);
 
         mainWork.setTranslationZ(40);
         mainWork.updateMode(BlurBehindView.UPDATE_CONTINOUSLY).blurRadius(18).sizeDivider(6).cornerRadius(60).processor(NdkStackBlurProcessor.INSTANCE);
 
         requestStoragePermission();
+
+        browser.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com"));
+            startActivity(browserIntent);
+        });
 
 
 
@@ -346,7 +477,7 @@ public class FullImage extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();*/
             } else {
                 Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
             }

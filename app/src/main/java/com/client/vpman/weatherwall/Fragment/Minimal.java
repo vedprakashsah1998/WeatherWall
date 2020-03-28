@@ -1,12 +1,16 @@
 package com.client.vpman.weatherwall.Fragment;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -25,6 +29,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
+import com.client.vpman.weatherwall.Activity.ExploreQuotesAndPhoto;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
@@ -76,6 +82,7 @@ public class Minimal extends Fragment {
         requestOptions.onlyRetrieveFromCache(true);
         requestOptions.priority(Priority.HIGH);
         requestOptions.isMemoryCacheable();
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -140,6 +147,27 @@ public class Minimal extends Fragment {
                                 })
 
                                 .into(imageView);
+                        imageView.setOnClickListener(v -> {
+                            Intent intent=new Intent(getActivity(), ExploreQuotesAndPhoto.class);
+                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query",query);
+                            intent.putExtra("text","Minimal");
+
+                            Pair[] pairs=new Pair[1];
+                            pairs[0]=new Pair<View,String>(imageView,"imgData");
+
+
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(),pairs
+                            );
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                startActivity(intent, optionsCompat.toBundle());
+                            }else {
+                                startActivity(intent);
+                            }
+                        });
 
                     }
 

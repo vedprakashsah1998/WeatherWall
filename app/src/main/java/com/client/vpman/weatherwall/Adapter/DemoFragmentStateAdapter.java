@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-
 import com.client.vpman.weatherwall.Fragment.Explore;
 import com.client.vpman.weatherwall.Fragment.LastFragment;
 import com.client.vpman.weatherwall.Fragment.Popular;

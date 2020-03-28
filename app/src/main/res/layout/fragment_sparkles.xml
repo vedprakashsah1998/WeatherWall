@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="54dp"
         android:clipToPadding="false"
         android:elevation="25dp">
         <com.makeramen.roundedimageview.RoundedImageView
@@ -17,6 +17,8 @@
             android:layout_alignParentTop="true"
             app:riv_corner_radius="50dp"
             android:scaleType="centerCrop"
+            android:transitionName="imgData"
+
             android:id="@+id/Sparks"
             app:riv_mutate_background="true" />
 

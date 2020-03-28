@@ -2,18 +2,17 @@ package com.client.vpman.weatherwall.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Point;
+
 import android.graphics.drawable.Drawable;
 import android.util.LruCache;
-import android.view.Display;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +25,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.textview.MaterialTextView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -75,6 +75,7 @@ private Context context;
             requestOptions.onlyRetrieveFromCache(true);
             requestOptions.priority(Priority.HIGH);
             requestOptions.isMemoryCacheable();
+            requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
             requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

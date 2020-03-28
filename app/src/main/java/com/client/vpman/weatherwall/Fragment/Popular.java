@@ -36,12 +36,14 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.PopularList;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.textview.MaterialTextView;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +64,7 @@ View view;
 
 RoundedImageView imageView,imageView1,imageView2;
     String query,query1,query2,query3,query4,query5,query6,query7,query8;
-    CircleImageView Landscape,Cityscape,Seascape,Twilight,Food,DroneView;
+    CircularImageView Landscape,Cityscape,Seascape,Twilight,Food,DroneView;
 
     ImageView SwipeUp;
     Animation bounce;
@@ -128,6 +130,7 @@ RoundedImageView imageView,imageView1,imageView2;
         requestOptions.priority(Priority.IMMEDIATE);
         requestOptions.skipMemoryCache(false);
         requestOptions.onlyRetrieveFromCache(true);
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.priority(Priority.HIGH);
         requestOptions.isMemoryCacheable();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
@@ -200,6 +203,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             imageView.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query);
                                 intent.putExtra("text","Drone View");
 
@@ -292,6 +296,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             imageView1.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query1);
                                 intent.putExtra("text","Nature");
 
@@ -385,6 +390,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             imageView2.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query2);
                                 intent.putExtra("text","Food");
 
@@ -479,6 +485,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             Landscape.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query3);
                                 intent.putExtra("text","Landscape");
 
@@ -572,6 +579,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             Cityscape.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query4);
                                 intent.putExtra("text","Cityscape");
 
@@ -666,6 +674,7 @@ RoundedImageView imageView,imageView1,imageView2;
                         Seascape.setOnClickListener(view -> {
                             Intent intent=new Intent(getActivity(), PopularList.class);
                             intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                            intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                             intent.putExtra("query",query5);
                             intent.putExtra("text","Seascape");
 
@@ -759,6 +768,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             Twilight.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query6);
                                 intent.putExtra("text","Twilight");
 
@@ -848,6 +858,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             Food.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query7);
                                 intent.putExtra("text","Food");
 
@@ -937,6 +948,7 @@ RoundedImageView imageView,imageView1,imageView2;
                             DroneView.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query8);
                                 intent.putExtra("text","Drone View");
 
@@ -976,7 +988,6 @@ RoundedImageView imageView,imageView1,imageView2;
 
 
         Log.d("Popular", "onCreateView:");
-
 
         return view;
     }

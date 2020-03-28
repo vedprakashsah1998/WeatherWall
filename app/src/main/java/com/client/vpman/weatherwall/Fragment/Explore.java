@@ -1,26 +1,16 @@
 package com.client.vpman.weatherwall.Fragment;
-
-
-import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
-import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter;
 import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter1;
-import com.client.vpman.weatherwall.CustomeDesignViewPager.CircularViewPagerHandler;
 import com.client.vpman.weatherwall.CustomeDesignViewPager.DepthTransformation;
 import com.client.vpman.weatherwall.R;
-
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,8 +68,6 @@ public class Explore extends Fragment {
         DepthTransformation depthTransformation = new DepthTransformation();
 
         adapter = new DemoFragmentStateAdapter1(getChildFragmentManager());
-     //   new setAdapterTask().execute();
-        /*mViewPager.setOnPageChangeListener(new CircularViewPagerHandler(mViewPager));*/
         mViewPager.setPageTransformer(true,depthTransformation);
         mViewPager.setAdapter(adapter);
 
@@ -126,15 +114,6 @@ public class Explore extends Fragment {
         return f;
     }
 
-   /* private class setAdapterTask extends AsyncTask<Void,Void,Void> {
-        protected Void doInBackground(Void... params) {
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void result) {
-            mViewPager.setAdapter(adapter);
-        }
-    }*/
 
 }

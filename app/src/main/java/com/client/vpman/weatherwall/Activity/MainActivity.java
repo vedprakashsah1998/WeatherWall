@@ -1,11 +1,9 @@
 package com.client.vpman.weatherwall.Activity;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -24,14 +22,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.widget.ImageView;
+import android.view.animation.RotateAnimation;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -52,20 +46,20 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter;
 import com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
+import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData3;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.Transition;
 import com.github.ybq.android.spinkit.style.Wave;
-import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.tabs.TabLayout;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,7 +68,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements OnDataPass
+public class MainActivity extends AppCompatActivity implements OnDataPass,TabLayout.OnTabSelectedListener
 {
 
 
@@ -83,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
     List<String> slides = new ArrayList<>();
 
     private String JsonUrl;
+    List<ModelData3> listModelData;
 
 
     private String Url;
@@ -91,10 +86,12 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
     ProgressBar progressBar;
     String query;
 
+
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
+    private TabLayout tabLayout;
 
-
+    RotateAnimation rotate;
     ProgressBar spinKitView;
     Wave wanderingCubes;
     @Override
@@ -102,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewPager = findViewById(R.id.pager);
-        adapter = new DemoFragmentStateAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(adapter);/*
+
+        /*
         progressBar = findViewById(R.id.progress);
          wanderingCubes = new WanderingCubes();
         progressBar.setIndeterminateDrawable(wanderingCubes);*/
@@ -112,18 +109,17 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
         spinKitView.setIndeterminateDrawable(wanderingCubes);
 
 
+
         imageView=findViewById(R.id.imageView);
+        tabLayout=findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("WEATHER"));
+        tabLayout.addTab(tabLayout.newTab().setText("POPULAR"));
+        tabLayout.addTab(tabLayout.newTab().setText("EXPLORE"));
+        tabLayout.addTab(tabLayout.newTab().setText("4K WALLPAPER"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        imageView.setOnClickListener(view -> {
 
-                Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(MainActivity.this,FullImage.class);
-                startActivity(intent);
 
-            Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
-            Log.d("HelloBro","skjdjgi");
-
-        });
         Notification notification = new Notification(R.mipmap.ic_launcher,
                 "Weather Wall",
                 System.currentTimeMillis());
@@ -135,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
 
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();
             String packageName = getPackageName();
@@ -148,12 +145,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
 
 
 
-        //Log.d("query",query);
-/*
-        Bundle bundle = getIntent().getExtras();
-        query=bundle.getString("description");*/
 
-      //  loadImage();
+
+
+
+
 
         imageView.setTransitionListener(new KenBurnsView.TransitionListener() {
             @Override
@@ -181,9 +177,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
                 {
                     mViewPager.setCurrentItem(0);
                     imageView.setVisibility(View.VISIBLE);
+
                 }
                 else {
                     imageView.setVisibility(View.GONE);
+
                 }
 
             }
@@ -193,6 +191,12 @@ public class MainActivity extends AppCompatActivity implements OnDataPass
 
             }
         });
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        adapter = new DemoFragmentStateAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(adapter);
+        tabLayout.setOnTabSelectedListener(this);
+        listModelData=new ArrayList<>();
 
 
 
@@ -228,14 +232,16 @@ public void loadImage()
                           JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
                         JSONObject jsonObject=wallobj.getJSONObject("src");
                            JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                         slides.add(object.getString("large2x"));
+                           ModelData3 modelData3=new ModelData3(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"));
+                        listModelData.add(modelData3);
+                         /*slides.add(object.getString("large2x"));*/
 
                  }
-            Collections.shuffle(slides);
+            Collections.shuffle(listModelData);
 
             Random random=new Random();
-            int n = random.nextInt(slides.size());
-            Log.d("regr", String.valueOf(slides.get(n)));
+            int n = random.nextInt(listModelData.size());
+            Log.d("regr", String.valueOf(listModelData.get(n)));
             RequestOptions requestOptions = new RequestOptions();
            // requestOptions.error(Utils.getRandomDrawbleColor());
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -244,6 +250,7 @@ public void loadImage()
             requestOptions.skipMemoryCache(false);
             requestOptions.onlyRetrieveFromCache(true);
             requestOptions.priority(Priority.HIGH);
+            requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.isMemoryCacheable();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
@@ -269,9 +276,9 @@ public void loadImage()
             } else
             {
                 Glide.with(MainActivity.this)
-                        .load(slides.get(n))
+                        .load(listModelData.get(n).getLarge2x())
                         .thumbnail(
-                                Glide.with(MainActivity.this).load(slides.get(n))
+                                Glide.with(MainActivity.this).load(listModelData.get(n).getLarge())
                         )
                         .apply(requestOptions)
                         .listener(new RequestListener<Drawable>() {
@@ -283,7 +290,6 @@ public void loadImage()
 
                                 return false;
                             }
-
                             @Override
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
                             {
@@ -295,7 +301,7 @@ public void loadImage()
 
                                 return false;
                             }
-                        })
+                        }).centerInside()
 
                         .into(imageView);
             }
@@ -524,7 +530,7 @@ public void loadImage()
                     JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
                     JSONObject jsonObject=wallobj.getJSONObject("src");
                     JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                    slides.add(object.getString("portrait"));
+                    slides.add(object.getString("large2x"));
 
                 }
                 Collections.shuffle(slides);
@@ -900,6 +906,25 @@ public void loadImage()
             }
         });
     }
+
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        mViewPager.setCurrentItem(tab.getPosition());
+
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+
 
 
 }
