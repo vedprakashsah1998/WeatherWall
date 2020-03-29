@@ -21,4 +21,14 @@ public class SharedPref1 {
         Boolean state = mySharedPref.getBoolean("FIRST", true);
         return state;
     }
+
+    public void setImageQuality(String state) {
+        SharedPreferences.Editor editor = mySharedPref.edit();
+        editor.putString("image_quality", state);
+        editor.commit();
+    }
+
+    public String getImageQuality() {
+        return mySharedPref.getString("image_quality", "");
+    }
 }

@@ -83,16 +83,14 @@ public class Explore extends Fragment {
                 if (position==0)
                 {
                     mViewPager.setCurrentItem(0);
-                    left.setVisibility(View.GONE);
+                    /*left.setVisibility(View.GONE);*/
                 }
                 else if(position==11)
                 {
                     right.setVisibility(View.GONE);
                     mViewPager.setCurrentItem(11);
                 }
-                else {
-                    left.setVisibility(View.VISIBLE);
-                }
+
 
             }
 

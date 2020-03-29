@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -36,14 +36,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 
 
 import net.robinx.lib.blurview.BlurBehindView;
 import net.robinx.lib.blurview.processor.NdkStackBlurProcessor;
-import net.steamcrafted.loadtoast.LoadToast;
 
 import java.io.OutputStream;
 
@@ -57,6 +56,7 @@ public class FullImage extends AppCompatActivity
     ImageView download,share,setWall;
     private int STORAGE_PERMISSION_CODE = 1;
     Toolbar toolbar;
+    ProgressDialog mProgressDialog;
 
 
     @Override
@@ -64,6 +64,7 @@ public class FullImage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_image);
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         toolbar=findViewById(R.id.tool1bar);
         browser=findViewById(R.id.browserFull);
@@ -84,7 +85,14 @@ public class FullImage extends AppCompatActivity
         mImg=intent.getStringExtra("img");
         sImg=intent.getStringExtra("imgSmall");
         large=intent.getStringExtra("large");
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+
+
+
+       SharedPref1 pref=new SharedPref1(this);
+        Log.d("FullImage8085",pref.getImageQuality());
+
         RequestOptions requestOptions = new RequestOptions();
         // requestOptions.error(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -118,7 +126,38 @@ public class FullImage extends AppCompatActivity
             imageView.setImageBitmap(image);
         } else
         {
-            if (Connectivity.isConnected(FullImage.this)||Connectivity.isConnectedFast(FullImage.this))
+
+            if (pref.getImageQuality().equals("Default"))
+            {
+                Glide.with(FullImage.this)
+                        .load(mImg)
+                        .thumbnail(
+                                Glide.with(FullImage.this).load(mImg)
+                        )
+                        .apply(requestOptions)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                //  spinKitView.setVisibility(View.GONE);
+
+
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
+                            {
+
+                                // spinKitView.setVisibility(View.GONE);
+
+                                return false;
+                            }
+                        })
+
+                        .into(imageView);
+
+            }
+            else if(pref.getImageQuality().equals("High Quality"))
             {
                 Glide.with(FullImage.this)
                         .load(large)
@@ -147,35 +186,8 @@ public class FullImage extends AppCompatActivity
 
                         .into(imageView);
             }
-            else
-            {
-                Glide.with(FullImage.this)
-                        .load(mImg)
-                        .thumbnail(
-                                Glide.with(FullImage.this).load(mImg)
-                        )
-                        .apply(requestOptions)
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                //  spinKitView.setVisibility(View.GONE);
 
 
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
-
-                                // spinKitView.setVisibility(View.GONE);
-
-                                return false;
-                            }
-                        })
-
-                        .into(imageView);
-            }
 
 
 
@@ -185,35 +197,23 @@ public class FullImage extends AppCompatActivity
                 boolean granted=checkWriteExternalPermission();
                 if (granted==true)
                 {
-                    if (Connectivity.isConnected(FullImage.this) || Connectivity.isConnectedFast(FullImage.this)) {
-                        Glide.with(FullImage.this).asBitmap().load(large).into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                                Intent share = new Intent(Intent.ACTION_SEND);
-                                share.setType("image/jpeg");
-
-                                ContentValues values = new ContentValues();
-                                values.put(MediaStore.Images.Media.TITLE, "title");
-                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                        values);
-                                OutputStream outstream;
-                                try {
-                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
-                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                    outstream.close();
-                                } catch (Exception e) {
-                                    System.err.println(e.toString());
-                                }
-                                WallpaperManager wallpaperManager = WallpaperManager.getInstance(FullImage.this);
-                                startActivity(wallpaperManager.getCropAndSetWallpaperIntent(uri));
-
-
-                            }
-                        });
-                    }
-                    else
+                    if (pref.getImageQuality().equals("Default"))
                     {
+                        mProgressDialog = new ProgressDialog(FullImage.this);
+                        mProgressDialog.setMessage("Setting...");
+                        mProgressDialog.setCancelable(false);
+                        mProgressDialog.setIndeterminate(true);
+                        mProgressDialog.setProgressNumberFormat(null);
+                        mProgressDialog.setProgressPercentFormat(null);
+
+                        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+
+                        mProgressDialog.onStart();
+
+                        mProgressDialog.show();
+
+
                         Glide.with(FullImage.this).asBitmap().load(mImg).into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
@@ -236,10 +236,60 @@ public class FullImage extends AppCompatActivity
                                 WallpaperManager wallpaperManager = WallpaperManager.getInstance(FullImage.this);
                                 startActivity(wallpaperManager.getCropAndSetWallpaperIntent(uri));
 
+                                mProgressDialog.hide();
+
+                            }
+                        });
+
+                    }
+                    else if (pref.getImageQuality().equals("High Quality"))
+                    {
+
+                        mProgressDialog = new ProgressDialog(FullImage.this);
+                        mProgressDialog.setMessage("Setting...");
+                        mProgressDialog.setCancelable(false);
+                        mProgressDialog.setIndeterminate(true);
+                        mProgressDialog.setProgressNumberFormat(null);
+                        mProgressDialog.setProgressPercentFormat(null);
+
+                        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+
+                        mProgressDialog.onStart();
+
+                        mProgressDialog.show();
+
+
+                        Glide.with(FullImage.this).asBitmap().load(large).into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
+                                Intent share = new Intent(Intent.ACTION_SEND);
+                                share.setType("image/jpeg");
+
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "title");
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                        values);
+                                OutputStream outstream;
+                                try {
+                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                    outstream.close();
+                                } catch (Exception e) {
+                                    System.err.println(e.toString());
+                                }
+                                WallpaperManager wallpaperManager = WallpaperManager.getInstance(FullImage.this);
+                                startActivity(wallpaperManager.getCropAndSetWallpaperIntent(uri));
+                        mProgressDialog.hide();
 
                             }
                         });
                     }
+
+
+
+
 
 
                 }
@@ -252,47 +302,26 @@ public class FullImage extends AppCompatActivity
 
             download.setOnClickListener(view -> {
                 boolean granted=checkWriteExternalPermission();
-                if (granted==true)
-                {
-                    if (Connectivity.isConnected(FullImage.this) || Connectivity.isConnectedFast(FullImage.this))
+                if (granted==true) {
+
+
+
+                    if (pref.getImageQuality().equals("Default"))
                     {
-                        final LoadToast lt = new LoadToast(FullImage.this);
-                        lt.setText("Setting...");
-                        lt.setTranslationY(1000);
-                        lt.setBorderColor(Color.BLACK);
-                        lt.setBackgroundColor(Color.BLUE);
-                        lt.setBorderWidthDp(4);
+                        mProgressDialog = new ProgressDialog(FullImage.this);
+                        mProgressDialog.setMessage("Downloading...");
+                        mProgressDialog.setCancelable(false);
+                        mProgressDialog.setIndeterminate(true);
+                        mProgressDialog.setProgressNumberFormat(null);
+                        mProgressDialog.setProgressPercentFormat(null);
 
-                        lt.show();
+                        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
-                        Glide.with(FullImage.this).asBitmap().load(large).into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                                Intent share = new Intent(Intent.ACTION_SEND);
-                                share.setType("image/jpeg");
 
-                                ContentValues values = new ContentValues();
-                                values.put(MediaStore.Images.Media.TITLE, "title");
-                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                        values);
-                                OutputStream outstream;
-                                try {
-                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
-                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                    outstream.close();
-                                } catch (Exception e) {
-                                    System.err.println(e.toString());
-                                }
-                                Toast.makeText(FullImage.this, "Downloaded", Toast.LENGTH_SHORT).show();
-                            lt.hide();
+                        mProgressDialog.onStart();
 
-                            }
-                        });
-                    }
-                    else
-                    {
-                        Toast.makeText(this, "Low1", Toast.LENGTH_SHORT).show();
+                        mProgressDialog.show();
+
                         Glide.with(FullImage.this).asBitmap().load(mImg).into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
@@ -314,10 +343,55 @@ public class FullImage extends AppCompatActivity
                                 }
                                 Toast.makeText(FullImage.this, "Downloaded", Toast.LENGTH_SHORT).show();
 
+                                mProgressDialog.hide();
 
                             }
                         });
                     }
+                    else if (pref.getImageQuality().equals("High Quality"))
+                    {
+                        mProgressDialog = new ProgressDialog(FullImage.this);
+                        mProgressDialog.setMessage("Downloading...");
+                        mProgressDialog.setCancelable(false);
+                        mProgressDialog.setIndeterminate(true);
+                        mProgressDialog.setProgressNumberFormat(null);
+                        mProgressDialog.setProgressPercentFormat(null);
+
+                        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+
+                        mProgressDialog.onStart();
+
+                        mProgressDialog.show();
+
+
+                        Glide.with(FullImage.this).asBitmap().load(large).into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
+                                Intent share = new Intent(Intent.ACTION_SEND);
+                                share.setType("image/jpeg");
+
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "title");
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                        values);
+                                OutputStream outstream;
+                                try {
+                                    outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                    outstream.close();
+                                } catch (Exception e) {
+                                    System.err.println(e.toString());
+                                }
+                                Toast.makeText(FullImage.this, "Downloaded", Toast.LENGTH_SHORT).show();
+
+                                mProgressDialog.hide();
+
+                            }
+                        });
+                    }
+
 
                 }
                 else
@@ -332,83 +406,118 @@ public class FullImage extends AppCompatActivity
               /*  ProgressBar progressBar=view.findViewById(R.id.progress6);
                 progressBar.setVisibility(View.VISIBLE);*/
 
-                    if (Connectivity.isConnected(FullImage.this) || Connectivity.isConnectedFast(FullImage.this)){
-                        Glide.with(FullImage.this).asBitmap()
-                                .load(large)
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition)
-                                    {
-                                        // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+              if (pref.getImageQuality().equals("Default"))
+              {
 
-                                        Intent share = new Intent(Intent.ACTION_SEND);
-                                        share.setType("image/jpeg");
+                  mProgressDialog = new ProgressDialog(FullImage.this);
+                  mProgressDialog.setMessage("Setting...");
+                  mProgressDialog.setCancelable(false);
+                  mProgressDialog.setIndeterminate(true);
+                  mProgressDialog.setProgressNumberFormat(null);
+                  mProgressDialog.setProgressPercentFormat(null);
 
-                                        ContentValues values = new ContentValues();
-                                        values.put(MediaStore.Images.Media.TITLE, "title");
-                                        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                        Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                                values);
-                                        OutputStream outstream;
-                                        try {
-                                            outstream = FullImage.this.getContentResolver().openOutputStream(uri);
-                                            resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                            outstream.close();
-                                        } catch (Exception e) {
-                                            System.err.println(e.toString());
-                                        }
+                  mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
-                                        share.putExtra(Intent.EXTRA_STREAM, uri);
-                                        share.setType("text/plain");
-                                        share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                                        String shareMessage= "\nDownload this application from PlayStore\n\n";
-                                        shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
-                                        share.putExtra(Intent.EXTRA_TEXT, "Weather Wall"+shareMessage);
-                                        startActivity(Intent.createChooser(share, "Share Image"));
-                                        // ProgressBar progressBar=view.findViewById(R.id.progress6);
-                                        /* progressBar.setVisibility(View.GONE);*/
-                                    }
-                                });
-                    }
-                    else
-                    {
-                        Glide.with(FullImage.this).asBitmap()
-                                .load(mImg)
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition)
-                                    {
-                                        // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
 
-                                        Intent share = new Intent(Intent.ACTION_SEND);
-                                        share.setType("image/jpeg");
+                  mProgressDialog.onStart();
 
-                                        ContentValues values = new ContentValues();
-                                        values.put(MediaStore.Images.Media.TITLE, "title");
-                                        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                        Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                                values);
-                                        OutputStream outstream;
-                                        try {
-                                            outstream = FullImage.this.getContentResolver().openOutputStream(uri);
-                                            resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                            outstream.close();
-                                        } catch (Exception e) {
-                                            System.err.println(e.toString());
-                                        }
+                  mProgressDialog.show();
 
-                                        share.putExtra(Intent.EXTRA_STREAM, uri);
-                                        share.setType("text/plain");
-                                        share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                                        String shareMessage= "\nDownload this application from PlayStore\n\n";
-                                        shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
-                                        share.putExtra(Intent.EXTRA_TEXT, "Weather Wall"+shareMessage);
-                                        startActivity(Intent.createChooser(share, "Share Image"));
-                                        // ProgressBar progressBar=view.findViewById(R.id.progress6);
-                                        /* progressBar.setVisibility(View.GONE);*/
-                                    }
-                                });
-                    }
+
+                  Glide.with(FullImage.this).asBitmap()
+                          .load(mImg)
+                          .into(new SimpleTarget<Bitmap>() {
+                              @Override
+                              public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition)
+                              {
+                                  // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+
+                                  Intent share = new Intent(Intent.ACTION_SEND);
+                                  share.setType("image/jpeg");
+
+                                  ContentValues values = new ContentValues();
+                                  values.put(MediaStore.Images.Media.TITLE, "title");
+                                  values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                  Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                          values);
+                                  OutputStream outstream;
+                                  try {
+                                      outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                      resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                      outstream.close();
+                                  } catch (Exception e) {
+                                      System.err.println(e.toString());
+                                  }
+
+                                  share.putExtra(Intent.EXTRA_STREAM, uri);
+                                  share.setType("text/plain");
+                                  share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
+                                  String shareMessage= "\nDownload this application from PlayStore\n\n";
+                                  shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
+                                  share.putExtra(Intent.EXTRA_TEXT, "Weather Wall"+shareMessage);
+                                  startActivity(Intent.createChooser(share, "Share Image"));
+                                  // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                  /* progressBar.setVisibility(View.GONE);*/
+                              }
+                          });
+                  mProgressDialog.hide();
+
+              }
+              else if (pref.getImageQuality().equals("High quality"))
+              {
+                  mProgressDialog = new ProgressDialog(FullImage.this);
+                  mProgressDialog.setMessage("Setting...");
+                  mProgressDialog.setCancelable(false);
+                  mProgressDialog.setIndeterminate(true);
+                  mProgressDialog.setProgressNumberFormat(null);
+                  mProgressDialog.setProgressPercentFormat(null);
+
+                  mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+
+                  mProgressDialog.onStart();
+
+                  mProgressDialog.show();
+
+                  Glide.with(FullImage.this).asBitmap()
+                          .load(large)
+                          .into(new SimpleTarget<Bitmap>() {
+                              @Override
+                              public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition)
+                              {
+                                  // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+
+                                  Intent share = new Intent(Intent.ACTION_SEND);
+                                  share.setType("image/jpeg");
+
+                                  ContentValues values = new ContentValues();
+                                  values.put(MediaStore.Images.Media.TITLE, "title");
+                                  values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                                  Uri uri = FullImage.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                          values);
+                                  OutputStream outstream;
+                                  try {
+                                      outstream = FullImage.this.getContentResolver().openOutputStream(uri);
+                                      resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                                      outstream.close();
+                                  } catch (Exception e) {
+                                      System.err.println(e.toString());
+                                  }
+
+                                  share.putExtra(Intent.EXTRA_STREAM, uri);
+                                  share.setType("text/plain");
+                                  share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
+                                  String shareMessage= "\nDownload this application from PlayStore\n\n";
+                                  shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
+                                  share.putExtra(Intent.EXTRA_TEXT, "Weather Wall"+shareMessage);
+                                  startActivity(Intent.createChooser(share, "Share Image"));
+                                  // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                  /* progressBar.setVisibility(View.GONE);*/
+                              }
+                          });
+mProgressDialog.hide();
+              }
+
 
 
 
