@@ -48,8 +48,7 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 
-import net.robinx.lib.blurview.BlurBehindView;
-import net.robinx.lib.blurview.processor.NdkStackBlurProcessor;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,7 +78,6 @@ ImageView imageView;
 List<String> slides=new ArrayList<>();
 LinearLayoutManager layoutManager;
 int position;
-BlurBehindView four_K_layout;
 int req_code=101;
 String query="4k wallpaper";
 private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=150&page=1";

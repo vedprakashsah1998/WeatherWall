@@ -7,15 +7,13 @@ android {
         applicationId "com.client.vpman.weatherwall"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "1.4"
 
-        viewBinding {
-            enabled = true
-        }
 
         renderscriptTargetApi 28
         renderscriptSupportModeEnabled true
+        ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64','mips'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -31,12 +29,25 @@ android {
     }
     packagingOptions {
         pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+        pickFirst 'lib/armeabi-v7a/librsjni_androidx.so'
+        pickFirst 'lib/armeabi-v7a/librsjni.so'
+        pickFirst 'lib/armeabi-v7a/libblasV8.so'
+
+        pickFirst 'lib/arm64-v8a/librsjni.so'
+        pickFirst 'lib/arm64-v8a/librsjni_androidx.so'
         pickFirst 'lib/arm64-v8a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/libblasV8.so'
+
         pickFirst 'lib/x86_64/libRSSupport.so'
+        pickFirst 'lib/x86_64/librsjni.so'
+        pickFirst 'lib/x86_64/librsjni_androidx.so'
+        pickFirst 'lib/x86_64/libblasV8.so'
+
         pickFirst 'lib/x86/libRSSupport.so'
-        pickFirst 'lib/mips/libRSSupport.so'
-        exclude "lib/mips/libRSSupport.so"
-        exclude "lib/mips/librsjni.so"
+        pickFirst 'lib/x86/librsjni.so'
+        pickFirst 'lib/x86/librsjni_androidx.so'
+        pickFirst 'lib/x86/libblasV8.so'
+
 
     }
 }
@@ -58,31 +69,29 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'com.android.volley:volley:1.1.1'
     //CircularImageView With shadow
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.mikhaellopez:circularimageview:4.1.1'
 
 
-    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.4.1'
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.kc.androidunsplash:androidunsplash:1.0.5'
 
 
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'com.github.florent37:glidepalette:2.1.2'
 
 
-    //Important library for blurr image
-    implementation 'net.robinx:lib.blurview:1.0.2'
 
     implementation 'com.yinglan.shadowimageview:shadowimageview:1.0.4'
     implementation 'com.tompee:circular-viewpager:1.0.0'
@@ -96,7 +105,7 @@ dependencies {
 
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 //Lottie Animation
-    implementation 'com.airbnb.android:lottie:3.3.1'
+    implementation 'com.airbnb.android:lottie:3.4.0'
 
 
 }

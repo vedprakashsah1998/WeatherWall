@@ -38,8 +38,6 @@ import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import net.robinx.lib.blurview.BlurBehindView;
-import net.robinx.lib.blurview.processor.NdkStackBlurProcessor;
 
 import java.util.List;
 import java.util.Random;
@@ -57,7 +55,6 @@ public class Technology extends Fragment {
 
     View view;
 
-    BlurBehindView relativeLayout;
 
     RoundedImageView imageView;
     String query;
@@ -74,7 +71,7 @@ public class Technology extends Fragment {
 
         imageView=view.findViewById(R.id.Technology);
         unsplash=new Unsplash(CLIENT_ID);
-        relativeLayout=view.findViewById(R.id.bottom_layout8);
+
 Tech();
 
         return view;
@@ -191,166 +188,11 @@ Tech();
         });
 
 
-        relativeLayout.updateMode(BlurBehindView.UPDATE_CONTINOUSLY).blurRadius(14).sizeDivider(3).cornerRadius(80).processor(NdkStackBlurProcessor.INSTANCE);
 
-    }
-    public void Tech1()
-    {
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.isMemoryCacheable();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.centerCrop();
-
-        query="technology";
-
-
-
-        unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
-            @Override
-            public void onComplete(SearchResults results) {
-                Log.d("Photos", "Total Results Found " + results.getTotal());
-
-                List<Photo> photos = results.getResults();
-
-
-                Random random=new Random();
-                int n = random.nextInt(photos.size());
-
-                if (isAdded())
-                {
-
-                    Glide.with(getContext())
-                            .load(photos.get(n).getUrls().getRegular())
-                            .thumbnail(
-                                    Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular())
-                            )
-                            .apply(requestOptions)
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    //  spinKitView.setVisibility(View.GONE);
-
-
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                {
-
-                                    return false;
-                                }
-                            })
-
-                            .into(imageView);
-
-                }
-
-
-
-
-
-
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.d("Unsplash", error);
-            }
-        });
-
-
-        relativeLayout.updateMode(BlurBehindView.UPDATE_CONTINOUSLY).blurRadius(15).sizeDivider(5).cornerRadius(80).processor(NdkStackBlurProcessor.INSTANCE);
 
     }
 
-    public void Tech2()
-    {
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.isMemoryCacheable();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.centerCrop();
-
-        query="technology";
-
-
-
-        unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
-            @Override
-            public void onComplete(SearchResults results) {
-                Log.d("Photos", "Total Results Found " + results.getTotal());
-
-                List<Photo> photos = results.getResults();
-
-
-                Random random=new Random();
-                int n = random.nextInt(photos.size());
-
-                if (isAdded())
-                {
-
-                    Glide.with(getContext())
-                            .load(photos.get(n).getUrls().getSmall())
-                            .thumbnail(
-                                    Glide.with(getActivity()).load(photos.get(n).getUrls().getSmall())
-                            )
-                            .apply(requestOptions)
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    //  spinKitView.setVisibility(View.GONE);
-
-
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                {
-
-                                    return false;
-                                }
-                            })
-
-                            .into(imageView);
-
-                }
-
-
-
-
-
-
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.d("Unsplash", error);
-            }
-        });
-
-
-        relativeLayout.updateMode(BlurBehindView.UPDATE_CONTINOUSLY).blurRadius(15).sizeDivider(5).cornerRadius(80).processor(NdkStackBlurProcessor.INSTANCE);
-
-    }
 
 
     public static Technology newInstance(String text) {

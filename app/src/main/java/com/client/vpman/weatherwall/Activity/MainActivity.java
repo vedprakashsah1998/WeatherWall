@@ -924,7 +924,13 @@ public void loadImage()
 
     }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        if (mViewPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        }
+        else {
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+        }
+    }
 }

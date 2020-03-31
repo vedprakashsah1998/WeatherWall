@@ -37,8 +37,6 @@ import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import net.robinx.lib.blurview.BlurBehindView;
-import net.robinx.lib.blurview.processor.NdkStackBlurProcessor;
 
 import java.util.List;
 import java.util.Random;
@@ -55,7 +53,6 @@ public class Car extends Fragment {
         // Required empty public constructor
     }
 
-    BlurBehindView relativeLayout;
 
     RoundedImageView imageView;
     String query;
@@ -71,7 +68,6 @@ public class Car extends Fragment {
         view= inflater.inflate(R.layout.fragment_car, container, false);
         imageView=view.findViewById(R.id.Car);
         unsplash=new Unsplash(CLIENT_ID);
-        relativeLayout=view.findViewById(R.id.bottom_layout3);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -188,8 +184,6 @@ public class Car extends Fragment {
 
 
         imageView.setTranslationZ(40);
-        relativeLayout.setTranslationZ(40);
-        relativeLayout.updateMode(BlurBehindView.UPDATE_CONTINOUSLY).blurRadius(14).sizeDivider(3).cornerRadius(80).processor(NdkStackBlurProcessor.INSTANCE);
 
 
         return view;

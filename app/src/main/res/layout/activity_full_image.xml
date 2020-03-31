@@ -43,54 +43,43 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <net.robinx.lib.blurview.BlurBehindView
+    <RelativeLayout
         android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:id="@+id/mainWork">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-
-            android:layout_alignParentBottom="true">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/download"
-                android:src="@drawable/ic_file_download"/>
+        android:layout_centerHorizontal="true"
+        android:padding="12dp"
+        android:background="@drawable/minibackground"
+        android:layout_marginBottom="22dp"
+        android:layout_height="60dp">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/download"
+            android:src="@drawable/ic_file_download"/>
 
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/setWall"
-                android:layout_centerInParent="true"
-                android:clickable="true"
-                android:src="@drawable/ic_wallpaper"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/setWall"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:src="@drawable/ic_wallpaper"/>
 
 
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/share"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_share"/>
-        </RelativeLayout>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/share"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_share"/>
+    </RelativeLayout>
 
 
 
-
-
-
-
-
-    </net.robinx.lib.blurview.BlurBehindView>
 
 </RelativeLayout>

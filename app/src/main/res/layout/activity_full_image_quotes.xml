@@ -52,60 +52,52 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <net.robinx.lib.blurview.BlurBehindView
+    <RelativeLayout
         android:layout_width="320dp"
-        android:layout_height="250dp"
-        android:layout_alignParentBottom="true"
-
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="22dp"
+        android:background="@drawable/design_full"
         android:layout_centerHorizontal="true"
-        android:padding="8dp"
-        android:id="@+id/mainWorkQuotes">
-        <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="6dp"
-           >
-
-            <ImageView
+            android:src="@drawable/ic_format_align_justify"
+            android:padding="12dp"
+            android:id="@+id/delivery"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/setWallQuotes"
+            android:clickable="true"
+            android:padding="12dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_wallpaper"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/shareQuotes"
+            android:padding="12dp"
+            android:src="@drawable/ic_share"/>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/delivery"
+            android:layout_centerHorizontal="true"
+            >
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_format_align_justify"
-                android:padding="12dp"
-                android:id="@+id/delivery"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/setWallQuotes"
-                android:clickable="true"
-                android:padding="12dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_wallpaper"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/shareQuotes"
-                android:padding="12dp"
-                android:src="@drawable/ic_share"/>
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/delivery"
-                android:layout_centerHorizontal="true"
-                >
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:padding="8dp"
-                    android:textColor="#FFFFFF"
-
-                    android:id="@+id/quotesTextMain"/>
-            </ScrollView>
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:id="@+id/quotesTextMain"/>
+        </ScrollView>
 
 
 
-        </RelativeLayout>
-    </net.robinx.lib.blurview.BlurBehindView>
+    </RelativeLayout>
+
 
 </RelativeLayout>

@@ -1,66 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="54dp"
     android:layout_height="match_parent"
     tools:context=".Fragment.Technology">
 
+
     <RelativeLayout
+        android:id="@+id/relative11"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/design_assets"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/Technology"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/technologyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="54dp"
-        android:clipToPadding="false"
-        android:elevation="25dp">
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="match_parent"
-            android:layout_height="800dp"
-            android:layout_alignParentTop="true"
-            app:riv_corner_radius="50dp"
-            android:scaleType="centerCrop"
-            android:transitionName="imgData"
+        android:layout_centerHorizontal="true"
+        android:elevation="16dp"
+        android:fontFamily="@font/averia_sans_libre"
+        android:text="T E C H N O L O G Y"
+        android:textSize="32sp"
+        android:layout_marginTop="20dp"
+        android:textColor="#FFFFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/relative11"
+        app:textAllCaps="true" />
 
-            android:id="@+id/Technology"
-            app:riv_mutate_background="true" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/technologyText"
+        android:elevation="16dp"
+        android:fontFamily="@font/cagliostro"
+        android:text="Click here to explore technology photos"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/technologyText" />
 
-
-        <net.robinx.lib.blurview.BlurBehindView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/bottom_layout8"
-            >
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:padding="16dp"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Technology"
-                    android:textColor="#F3EFEF"
-                    android:textStyle="bold"
-                    android:textSize="32sp"
-                    android:id="@+id/technologyText"
-                    android:fontFamily="@font/cagliostro"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Click here to explore technology photos"
-                    android:textColor="#F3EFEF"
-                    android:textStyle="bold"
-                    android:layout_below="@+id/technologyText"
-                    android:id="@+id/desc"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/cagliostro"
-                    />
-            </RelativeLayout>
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/Technology"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:transitionName="imgData"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="50dp"
+        app:riv_mutate_background="true" />
 
 
-        </net.robinx.lib.blurview.BlurBehindView>
 
-    </RelativeLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

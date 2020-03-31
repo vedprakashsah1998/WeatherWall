@@ -11,6 +11,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
+
 import android.util.Log;
 import android.util.LruCache;
 import android.view.Display;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -30,18 +32,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreQuotesAndPhoto;
-import com.client.vpman.weatherwall.Activity.PopularList;
 import com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
-import com.makeramen.roundedimageview.RoundedImageView;
 
-
-import net.robinx.lib.blurview.BlurBehindView;
-import net.robinx.lib.blurview.processor.NdkStackBlurProcessor;
 
 import java.util.List;
 
@@ -59,9 +56,9 @@ View view;
         // Required empty public constructor
     }
 
-    BlurBehindView relativeLayout;
 
-    RoundedImageView imageView;
+
+    ImageView imageView;
     String query;
 
     VerticalViewPageAdapter verticalViewPageAdapter;
@@ -77,10 +74,8 @@ View view;
 
         imageView=view.findViewById(R.id.NatureUn);
         unsplash=new Unsplash(CLIENT_ID);
-        relativeLayout=view.findViewById(R.id.bottom_layout);
 
          verticalViewPageAdapter=getActivity().findViewById(R.id.pager);
-
 
 
 
@@ -206,8 +201,7 @@ View view;
 
 
         imageView.setTranslationZ(40);
-        relativeLayout.setTranslationZ(40);
-relativeLayout.updateMode(BlurBehindView.UPDATE_CONTINOUSLY).blurRadius(14).sizeDivider(3).cornerRadius(80).processor(NdkStackBlurProcessor.INSTANCE);
+
 
 
 
