@@ -81,6 +81,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.4.1'
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    //Round Image
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.kc.androidunsplash:androidunsplash:1.0.5'
 

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@mipmap/spashmain"
+    android:background="@drawable/splash"
     android:id="@+id/container"
     android:layout_height="match_parent"
     tools:context=".Activity.SplashScreen">
@@ -16,20 +16,36 @@
         android:id="@+id/logoImg"
         android:layout_centerHorizontal="true"
         android:src="@drawable/styleimg"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Weather Wall"
-        android:textColor="#FFFFFF"
-        android:textSize="44sp"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:fontFamily="@font/just_me_again_down_here"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        />
+        android:background="@drawable/splash_design"
+        android:layout_alignParentBottom="true">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weather \n   Wall"
+            android:textSize="54sp"
+            android:padding="8dp"
+            android:id="@+id/Text_Title"
+            android:fontFamily="@font/gabriela"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/Text_Title"
+            android:text="A Wallpaper app with lots more!"
+            android:layout_centerHorizontal="true"
+            android:textSize="22sp"
+            android:layout_marginBottom="40dp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
 
 
 

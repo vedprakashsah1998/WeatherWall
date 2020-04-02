@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -47,6 +48,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.kc.unsplash.Unsplash;
 import com.makeramen.roundedimageview.RoundedImageView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,12 +60,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class PopularList extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener
-{
+public class PopularList extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
-    ImageView back,back1;
+    ImageView back, back1;
     RecyclerView recyclerView;
-    MaterialTextView textView,textView1;
+    MaterialTextView textView, textView1;
     PopAdapter popAdapter;
     List<String> slides = new ArrayList<>();
     private long mRequestStartTime;
@@ -74,18 +75,18 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
     private RelativeLayout titleAppbar;
     private Toolbar toolbar;
     private AppBarLayout appBarLayout;
-    List<ModelData1> list=new ArrayList<>();
+    List<ModelData1> list = new ArrayList<>();
     private Unsplash unsplash;
-    private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
-    private final String CLIENT_ID1="d3a92adcee2ef1d4cee1b52e80ae2c7f8ca95494ece74c74ae9c396fe8ba941a";
+    private final String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
+    private final String CLIENT_ID1 = "d3a92adcee2ef1d4cee1b52e80ae2c7f8ca95494ece74c74ae9c396fe8ba941a";
     String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular_list);
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         toolbar = findViewById(R.id.toolBar);
 
@@ -94,38 +95,38 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         appBarLayout = findViewById(R.id.appBar);
         appBarLayout.addOnOffsetChangedListener(this);
-        back=findViewById(R.id.back9);
-        back1=findViewById(R.id.back10);
-        titleAppbar=findViewById(R.id.title_appbar);
-        textView=findViewById(R.id.tv009);
-        textView1=findViewById(R.id.tv);
-        imageView=findViewById(R.id.roundImage);
-        recyclerView=findViewById(R.id.recyclerView991);
+        back = findViewById(R.id.back9);
+        back1 = findViewById(R.id.back10);
+        titleAppbar = findViewById(R.id.title_appbar);
+        textView = findViewById(R.id.tv009);
+        textView1 = findViewById(R.id.tv);
+        imageView = findViewById(R.id.roundImage);
+        recyclerView = findViewById(R.id.recyclerView991);
         unsplash = new Unsplash(CLIENT_ID);
 
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("");
 
         Intent intent = getIntent();
-        String mImg=intent.getStringExtra("img1");
-        String sImg=intent.getStringExtra("img2");
-        query=intent.getStringExtra("query");
-        String Landscape=intent.getStringExtra("text");
+        String mImg = intent.getStringExtra("img1");
+        String sImg = intent.getStringExtra("img2");
+        query = intent.getStringExtra("query");
+        String Landscape = intent.getStringExtra("text");
         textView.setText(Landscape);
         textView1.setText(Landscape);
 /*        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PopularList.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);*/
 
-    //    loadImage();
+        //    loadImage();
         back.setOnClickListener(view -> {
 
             finish();
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
         back1.setOnClickListener(view -> {
 
             finish();
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
 
 
@@ -157,8 +158,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         });*/
 
 
-
-     //   recyclerView.setAdapter(popAdapter);
+        //   recyclerView.setAdapter(popAdapter);
 
 
         RequestOptions requestOptions = new RequestOptions();
@@ -177,58 +177,49 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.centerCrop();
 
-            LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
-                @Override
-                protected int sizeOf(String key, Bitmap image) {
-                    return image.getByteCount()/1024;
-                }
-            };
-            Bitmap image = memCache.get("imagefile");
-            if (image != null) {
-                //Bitmap exists in cache.
-                imageView.setImageBitmap(image);
-            } else
-            {
-                Glide.with(PopularList.this)
-                        .load(mImg)
-                        .thumbnail(
-                                Glide.with(PopularList.this).load(sImg)
-                        )
-                        .apply(requestOptions)
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                //  spinKitView.setVisibility(View.GONE);
-
-
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
-
-                                // spinKitView.setVisibility(View.GONE);
-
-                                return false;
-                            }
-                        })
-
-                        .into(imageView);
+        LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
+            @Override
+            protected int sizeOf(String key, Bitmap image) {
+                return image.getByteCount() / 1024;
             }
-           /* recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                }
-            });*/
+        };
+        Bitmap image = memCache.get("imagefile");
+        if (image != null) {
+            //Bitmap exists in cache.
+            imageView.setImageBitmap(image);
+        } else {
+            Glide.with(PopularList.this)
+                    .load(mImg)
+                    .thumbnail(
+                            Glide.with(PopularList.this).load(sImg)
+                    )
+                    .apply(requestOptions)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            //  spinKitView.setVisibility(View.GONE);
 
-LoadImage();
+
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+                            // spinKitView.setVisibility(View.GONE);
+
+                            return false;
+                        }
+                    })
+
+                    .into(imageView);
+        }
 
 
+        LoadImage();
 
 
-}
+    }
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
@@ -252,107 +243,89 @@ LoadImage();
         }
     }
 
-public void LoadImage()
-{
-    mRequestStartTime = System.currentTimeMillis();
+    public void LoadImage() {
+        mRequestStartTime = System.currentTimeMillis();
  /*       assert query != null;
         Log.d("iueho",query);*/
-    if (query!=null)
-    {
-        String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=100&page=1";
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, response -> {
-            Log.d("response", response);
+        if (query != null) {
+            String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=100&page=1";
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+                Log.d("response", response);
 
 
-
-
-            try {
-                JSONObject obj = new JSONObject(response);
-                Log.d("mil gaya",String.valueOf(obj));
-                int totalRes=obj.getInt("total_results");
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    Log.d("mil gaya", String.valueOf(obj));
+                    int totalRes = obj.getInt("total_results");
                 /*if (totalRes<=2)
                 {
                     UnSplash();
                 }*/
-                Log.d("werg", String.valueOf(totalRes));
+                    Log.d("werg", String.valueOf(totalRes));
 
-                JSONArray wallArray = obj.getJSONArray("photos");
-                for (int i = 0; i < wallArray.length(); i++)
-                {
-                    JSONObject wallobj=wallArray.getJSONObject(i);
-                    JSONObject photographer=new JSONObject(String.valueOf(wallobj));
-                    JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
-                    JSONObject jsonObject=wallobj.getJSONObject("src");
-                    JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                    ModelData1 modelData1=new ModelData1(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"));
-                    list.add(modelData1);
+                    JSONArray wallArray = obj.getJSONArray("photos");
+                    for (int i = 0; i < wallArray.length(); i++) {
+                        JSONObject wallobj = wallArray.getJSONObject(i);
+                        JSONObject photographer = new JSONObject(String.valueOf(wallobj));
+                        JSONObject ProfileUrl = new JSONObject(String.valueOf(wallobj));
+                        JSONObject jsonObject = wallobj.getJSONObject("src");
+                        JSONObject object = new JSONObject(String.valueOf(jsonObject));
+                        ModelData1 modelData1 = new ModelData1(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"));
+                        list.add(modelData1);
+                    }
+                    popAdapter = new PopAdapter(PopularList.this, list);
+                    LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+                    recyclerView.setLayoutManager(linearLayoutManager);
+
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setNestedScrollingEnabled(true);
+                    int itemViewType = 0;
+                    recyclerView.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
+                    recyclerView.setAdapter(popAdapter);
 
 
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                popAdapter=new PopAdapter(PopularList.this,list);
+            }, error -> {
 
-                LinearLayoutManager  linearLayoutManager=new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
-
-                recyclerView.setLayoutManager(linearLayoutManager);
-
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setNestedScrollingEnabled(true);
-                int itemViewType = 0;
-                recyclerView.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
-                recyclerView.setAdapter(popAdapter);
-
-
-
-
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-        }, error -> {
-
-            NetworkResponse response = error.networkResponse;
-            if (error instanceof ServerError && response != null) {
-                try {
-                    String res = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                    // Now you can use any deserializer to make sense of data
-                    JSONObject obj = new JSONObject(res);
-                } catch (UnsupportedEncodingException e1) {
-                    // Couldn't properly decode data to string
-                    e1.printStackTrace();
-                } catch (JSONException e2) {
-                    // returned data is not JSONObject?
-                    e2.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                if (error instanceof ServerError && response != null) {
+                    try {
+                        String res = new String(response.data,
+                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                        // Now you can use any deserializer to make sense of data
+                        JSONObject obj = new JSONObject(res);
+                    } catch (UnsupportedEncodingException e1) {
+                        // Couldn't properly decode data to string
+                        e1.printStackTrace();
+                    } catch (JSONException e2) {
+                        // returned data is not JSONObject?
+                        e2.printStackTrace();
+                    }
                 }
-            }
 
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization","563492ad6f917000010000010175b010e54243678613ef0d7fd3c497");
-                return params;
-            }
-        };
+            }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", "563492ad6f917000010000010175b010e54243678613ef0d7fd3c497");
+                    return params;
+                }
+            };
 
-        stringRequest.setShouldCache(false);
+            stringRequest.setShouldCache(false);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(PopularList.this);
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
+            RequestQueue requestQueue = Volley.newRequestQueue(PopularList.this);
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(stringRequest);
+        } else {
+            Toast.makeText(this, "Network Failure", Toast.LENGTH_SHORT).show();
+        }
     }
-    else
-    {
-        Toast.makeText(this, "Network Failure", Toast.LENGTH_SHORT).show();
-    }
-}
-
-
 
 
 }

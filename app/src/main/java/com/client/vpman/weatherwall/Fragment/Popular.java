@@ -68,6 +68,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
     ImageView SwipeUp;
     Animation bounce;
+    Animation fromtop;
 
     MaterialTextView Landscape1,Cityscape1,Seascape1,Twilight1,Food1,DroneView1;
 
@@ -95,6 +96,9 @@ RoundedImageView imageView,imageView1,imageView2;
         Food1=view.findViewById(R.id.fOOD);
         DroneView1=view.findViewById(R.id.DroneView991);
         unsplash=new Unsplash(CLIENT_ID);
+
+        fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
+
 
 
         bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
@@ -200,6 +204,8 @@ RoundedImageView imageView,imageView1,imageView2;
                                     })
 
                                     .into(imageView);
+
+
                             imageView.setOnClickListener(view -> {
                                 Intent intent=new Intent(getActivity(), PopularList.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
@@ -998,5 +1004,6 @@ RoundedImageView imageView,imageView1,imageView2;
         f.setArguments(b);
         return f;
     }
+
 
 }

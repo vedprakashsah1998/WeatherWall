@@ -21,7 +21,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/pt_serif_caption</item>
     </style>
-    <style name="AppTheme.CenterAnimation">
+<!--    <style name="AppTheme.CenterAnimation">
         <item name="android:windowBackground">@drawable/img_logo</item>
-    </style>
+    </style>-->
 </resources>

@@ -43,7 +43,7 @@
         android:layout_below="@+id/SparklesText"
         android:elevation="16dp"
         android:fontFamily="@font/cagliostro"
-        android:text="Click here to explore religion photos"
+        android:text="Click here to explore sparkles photos"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

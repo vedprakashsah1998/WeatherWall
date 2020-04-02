@@ -16,12 +16,13 @@ import android.widget.ImageView;
 
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
+import com.google.android.material.textview.MaterialTextView;
 
 public class SplashScreen extends AppCompatActivity {
 
-    public static final int STARTUP_DELAY = 300;
+    public static final int STARTUP_DELAY = 500;
     public static final int ANIM_ITEM_DURATION = 1000;
-    public static final int ITEM_DELAY = 300;
+    public static final int ITEM_DELAY = 500;
     private boolean animationStarted = false;
     SharedPref1 pref1;
 
@@ -62,7 +63,14 @@ public class SplashScreen extends AppCompatActivity {
 
     private void animate() {
         ImageView logoImageView =  findViewById(R.id.logoImg);
+        MaterialTextView Text_Title=findViewById(R.id.Text_Title);
         ViewGroup container =  findViewById(R.id.container);
+
+/*        ViewCompat.animate(Text_Title)
+                .translationY(-150)
+                .setStartDelay(STARTUP_DELAY)
+                .setDuration(ANIM_ITEM_DURATION).setInterpolator(
+                new DecelerateInterpolator(1.2f)).start();*/
 
         ViewCompat.animate(logoImageView)
                 .translationY(-250)
