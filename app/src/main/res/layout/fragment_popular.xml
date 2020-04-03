@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/popPhoto1"
-        android:scrollbars="none"
+        android:layout_marginTop="4dp"
         android:paddingStart="54dp"
-        android:layout_marginTop="4dp">
+        android:scrollbars="none">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -32,31 +32,32 @@
                     android:padding="2dp">
 
 
+
+
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Landscape"
                         android:layout_width="140dp"
-                        android:transitionName="img1"
                         android:layout_height="140dp"
+                        android:scaleType="centerCrop"
+                        android:transitionName="img1"
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
-                        app:civ_shadow_radius="20"
                         app:civ_shadow_color="#9E9E9E"
 
-                        android:scaleType="centerCrop"
+                        app:civ_shadow_radius="20"
 
-                       />
-
+                        />
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/landScape"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/eagle_lake"
                         android:text="Landscape"
-                        android:transitionName="text"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
-                        android:id="@+id/landScape"
-                        app:fontFamily="@font/eagle_lake" />
+                        android:transitionName="text"
+                        app:fontFamily="@font/eagle_lake"/>
                 </RelativeLayout>
 
 
@@ -64,31 +65,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp">
+
+
 
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Cityscape"
                         android:layout_width="140dp"
                         android:layout_height="140dp"
+                        android:scaleType="centerCrop"
+                        android:transitionName="img1"
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
-                        app:civ_shadow_radius="20"
+
                         app:civ_shadow_color="#9E9E9E"
-
-                        android:transitionName="img1"
-                        android:scaleType="centerCrop"/>
-
+                        app:civ_shadow_radius="20" />
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/cityScape"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/eagle_lake"
                         android:text="Cityscape"
-                        android:transitionName="text"
 
-                        android:id="@+id/cityScape"
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:transitionName="text" />
                 </RelativeLayout>
 
 
@@ -96,31 +98,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp">
+
 
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Seascape"
                         android:layout_width="140dp"
                         android:layout_height="140dp"
+                        android:scaleType="centerCrop"
                         android:transitionName="img1"
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
-                        app:civ_shadow_radius="20"
                         app:civ_shadow_color="#9E9E9E"
 
-                        android:scaleType="centerCrop" />
+                        app:civ_shadow_radius="20" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/seaScape"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/eagle_lake"
                         android:text="Seascape"
-                        android:transitionName="text"
 
-                        android:id="@+id/seaScape"
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:transitionName="text" />
                 </RelativeLayout>
 
 
@@ -128,62 +131,64 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp">
+
 
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Twilight"
                         android:layout_width="140dp"
                         android:layout_height="140dp"
-                        android:transitionName="img1"
-
                         android:scaleType="centerCrop"
+
+                        android:transitionName="img1"
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
-                        app:civ_shadow_radius="20"
-                        app:civ_shadow_color="#9E9E9E" />
+                        app:civ_shadow_color="#9E9E9E"
+                        app:civ_shadow_radius="20" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/twiLight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/eagle_lake"
                         android:text="Twilight"
-                        android:id="@+id/twiLight"
-                        android:transitionName="text"
-
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp" />
+
+                        android:textSize="16sp"
+                        android:transitionName="text" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp">
+
 
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Food"
                         android:layout_width="140dp"
                         android:layout_height="140dp"
-                        android:transitionName="img1"
-
                         android:scaleType="centerCrop"
+
+                        android:transitionName="img1"
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
-                        app:civ_shadow_radius="20"
-                        app:civ_shadow_color="#9E9E9E" />
+                        app:civ_shadow_color="#9E9E9E"
+                        app:civ_shadow_radius="20" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fOOD"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/eagle_lake"
                         android:text="Food"
-                        android:transitionName="text"
 
-                        android:id="@+id/fOOD"
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:transitionName="text" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -192,30 +197,30 @@
                     android:padding="2dp">
 
 
+
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/DronView"
                         android:layout_width="140dp"
-                        android:transitionName="img1"
-
                         android:layout_height="140dp"
+
                         android:scaleType="centerCrop"
+                        android:transitionName="img1"
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
-                        app:civ_shadow_radius="20"
                         app:civ_shadow_color="#9E9E9E"
-/>
+                        app:civ_shadow_radius="20" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/DroneView991"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/eagle_lake"
                         android:text="Drone View"
-                        android:transitionName="text"
 
-                        android:id="@+id/DroneView991"
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:transitionName="text" />
                 </RelativeLayout>
 
 
@@ -231,10 +236,7 @@
         android:layout_height="520dp"
         android:layout_below="@+id/more"
         android:layout_marginTop="12dp"
-        android:padding="54dp"
-        >
-
-
+        android:padding="54dp">
 
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -314,9 +316,9 @@
         android:layout_below="@+id/horizontal"
         android:layout_centerHorizontal="true"
         android:padding="8dp"
-        android:visibility="gone"
         android:text="Click here for more Photos"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </RelativeLayout>
