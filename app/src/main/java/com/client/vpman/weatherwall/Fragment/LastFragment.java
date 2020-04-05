@@ -80,7 +80,7 @@ LinearLayoutManager layoutManager;
 int position;
 int req_code=101;
 String query="4k wallpaper";
-private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=150&page=1";
+private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -150,7 +150,7 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
                     String userImg1=object.getString("tiny");
 
 
-                    ModelData modelData1=new ModelData(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"));
+                    ModelData modelData1=new ModelData(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"));
                     modelData.add(modelData1);
                     Log.d("userImage", phUrl);
                     Log.d("userImage1", userImg1);
@@ -200,9 +200,9 @@ private String Url="https://api.pexels.com/v1/search?query="+query+"&per_page=15
                 } else
                 {
                     Glide.with(getActivity())
-                            .load(modelData.get(0).getLarge2x())
+                            .load(modelData.get(0).getOriginal())
                             .thumbnail(
-                                    Glide.with(getActivity()).load(modelData.get(0).getLarge())
+                                    Glide.with(getActivity()).load(modelData.get(0).getLarge2x())
                             )
                             .apply(requestOptions)
                             .listener(new RequestListener<Drawable>() {
