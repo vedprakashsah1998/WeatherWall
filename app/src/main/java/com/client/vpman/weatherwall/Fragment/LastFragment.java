@@ -123,7 +123,7 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
 
         Log.d("iuedqwljgdho",Url);
         StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, response -> {
-            Log.d("weojfg", response);
+            Log.d("resPonseData", response);
 
 
 
@@ -131,18 +131,14 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
 
             try {
                 JSONObject obj = new JSONObject(response);
-                Log.d("mil gaya",String.valueOf(obj));
-                int totalRes=obj.getInt("total_results");
-                if (totalRes<=2)
 
-                Log.d("werg", String.valueOf(totalRes));
 
                 JSONArray wallArray = obj.getJSONArray("photos");
                 for (int i = 0; i < wallArray.length(); i++)
                 {
                     JSONObject wallobj=wallArray.getJSONObject(i);
                     JSONObject photographer=new JSONObject(String.valueOf(wallobj));
-                    String phUrl=photographer.getString("url");
+                    String phUrl=wallobj.getString("url");
                     JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
                     JSONObject jsonObject=wallobj.getJSONObject("src");
                     JSONObject object=new JSONObject(String.valueOf(jsonObject));
@@ -150,8 +146,9 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                     String userImg1=object.getString("tiny");
 
 
-                    ModelData modelData1=new ModelData(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"));
+                    ModelData modelData1=new ModelData(jsonObject.getString("large2x"),photographer.getString("photographer"),jsonObject.getString("large"),jsonObject.getString("original"));
                     modelData.add(modelData1);
+                    Log.d("imgLoad",modelData1.getLarge2x());
                     Log.d("userImage", phUrl);
                     Log.d("userImage1", userImg1);
                     Log.d("ewf", String.valueOf(modelData));
@@ -232,6 +229,7 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                     ModelData modelData2=modelData.get(position);
                     intent.putExtra("img",modelData2.getLarge2x());
                     intent.putExtra("imgSmall",modelData2.getLarge());
+                    intent.putExtra("large",modelData2.getOriginal());
                     Pair<View, String> pair = Pair.create((View)imageView, ViewCompat.getTransitionName(imageView));
                     ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             getActivity(),pair
@@ -333,6 +331,7 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
             catch (Exception e)
             {
                 e.printStackTrace();
+                Log.d("catchError","Got the error"+e);
             }
 
         }, error -> {

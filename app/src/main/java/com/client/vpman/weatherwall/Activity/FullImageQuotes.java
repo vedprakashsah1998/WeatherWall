@@ -77,7 +77,7 @@ public class FullImageQuotes extends AppCompatActivity {
         setContentView(R.layout.activity_full_image_quotes);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        SharedPref1 pref=new SharedPref1(this);
+        SharedPref1 pref=new SharedPref1(FullImageQuotes.this);
 
         toolbar = findViewById(R.id.tool1barMain);
         imageView = findViewById(R.id.imageFullLast);

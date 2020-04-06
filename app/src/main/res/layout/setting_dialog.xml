@@ -130,13 +130,40 @@
                         android:id="@+id/line0"
                         android:layout_below="@+id/chooseImgQuality"/>
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/loadQuality"
+                        android:layout_below="@+id/line0"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:text="Load image Quality :\n "
+                        />
+
+                    <Spinner
+                        android:layout_width="150dp"
+                        android:id="@+id/spinner2"
+                        android:spinnerMode="dialog"
+                        android:layout_height="45dp"
+                        android:layout_below="@+id/line0"
+                        android:entries="@array/list"
+                        android:background="#FFF"
+                        android:layout_toEndOf="@+id/loadQuality"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line90"
+                        android:layout_below="@+id/loadQuality"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:id="@+id/shareApp"
-                        android:layout_below="@+id/line0"
+                        android:layout_below="@+id/line90"
                         android:src="@drawable/ic_share_black"/>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -145,7 +172,7 @@
                         android:text="Share App"
                         android:id="@+id/shareAppText"
                         android:layout_toEndOf="@+id/shareApp"
-                        android:layout_below="@+id/line0"
+                        android:layout_below="@+id/line90"
                         android:padding="12dp"
                         android:textStyle="bold"
                         android:textSize="16sp"/>

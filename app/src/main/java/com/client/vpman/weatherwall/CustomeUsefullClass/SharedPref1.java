@@ -31,4 +31,14 @@ public class SharedPref1 {
     public String getImageQuality() {
         return mySharedPref.getString("image_quality", "");
     }
+
+    public void setImageLoadQuality(String state) {
+        SharedPreferences.Editor editor = mySharedPref.edit();
+        editor.putString("load_quality", state);
+        editor.commit();
+    }
+
+    public String getImageLoadQuality() {
+        return mySharedPref.getString("load_quality", "");
+    }
 }

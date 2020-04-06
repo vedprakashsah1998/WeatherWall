@@ -112,18 +112,20 @@ public class Sparkles extends Fragment {
                             return image.getByteCount()/1024;
                         }
                     };
-                    Display display = getActivity().getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x; //width of screen in pixels
-                    int height = size.y;
-                    Bitmap image = memCache.get("imagefile");
-                    if (image != null) {
-                        //Bitmap exists in cache.
-                        imageView.setImageBitmap(image);
-                    } else
+                    if (getActivity()!=null)
+                    {
+                        Display display = getActivity().getWindowManager().getDefaultDisplay();
+                        Point size = new Point();
+                        display.getSize(size);
+                        int width = size.x; //width of screen in pixels
+                        int height = size.y;
+                        Bitmap image = memCache.get("imagefile");
+                        if (image != null) {
+                            //Bitmap exists in cache.
+                            imageView.setImageBitmap(image);
+                        } else
                         {
-                            Glide.with(getContext())
+                            Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
                                             Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular())
@@ -147,6 +149,8 @@ public class Sparkles extends Fragment {
                                     })
 
                                     .into(imageView);
+                    }
+
                             imageView.setOnClickListener(v -> {
                                 Intent intent=new Intent(getActivity(), ExploreQuotesAndPhoto.class);
                                 intent.putExtra("imgData",photos.get(n).getUrls().getFull());

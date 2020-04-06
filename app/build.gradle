@@ -7,12 +7,8 @@ android {
         applicationId "com.client.vpman.weatherwall"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 5
-        versionName "1.4"
-
-
-        renderscriptTargetApi 28
-        renderscriptSupportModeEnabled true
+        versionCode 10
+        versionName "1.9"
         ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64','mips'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -107,6 +103,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 //Lottie Animation
     implementation 'com.airbnb.android:lottie:3.4.0'
-
+    implementation "com.google.android.gms:play-services-location:17.0.0"
+    implementation "com.google.android.gms:play-services-places:17.0.0"
 
 }

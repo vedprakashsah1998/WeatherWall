@@ -9,13 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,16 +20,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -41,28 +35,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.client.vpman.weatherwall.Activity.FullImage;
-import com.client.vpman.weatherwall.Activity.MainActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ForbesQuotesModel;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -72,17 +61,12 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -101,6 +85,7 @@ public class WeatherFragment extends Fragment {
     private StringBuilder msg = new StringBuilder(2048);
     Animation bounce;
     boolean gps_enabled = false;
+    private GoogleMap mMap;
     boolean network_enabled = false;
     OnDataPass dataPasser;
     ImageView swipeUp;
@@ -218,8 +203,11 @@ public class WeatherFragment extends Fragment {
     @SuppressLint("MissingPermission")
     public void findWeather() {
 
+if (getActivity()!=null)
+{
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+}
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), location -> {
                     // Got last known location. In some rare situations this can be null.
@@ -376,64 +364,83 @@ public class WeatherFragment extends Fragment {
     }
 
     public void checkGpsStatus() {
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        try {
-            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (Exception ex) {
-        }
+        if (getActivity()!=null)
+        {
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
-        try {
-            network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch (Exception ex) {
-        }
+            try {
+                if (locationManager!=null)
+                {
+                    gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                }
 
-        if (!gps_enabled && !network_enabled) {
-            // notify user
-            new AlertDialog.Builder(getActivity())
-                    .setMessage("GPS is not enabled")
-                    .setPositiveButton("Open Location Setting", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                            getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            } catch (Exception ex) {
+            }
 
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
+            try {
+                if (locationManager!=null)
+                {
+                    network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                }
 
-        }
+            } catch (Exception ex) {
+            }
 
-        if (checkLocationON()) {
-            findWeather();
+            if (!gps_enabled && !network_enabled) {
+                // notify user
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("GPS is not enabled")
+                        .setPositiveButton("Open Location Setting", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                                if (getActivity()!=null)
+                                {
+                                    getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+                                }
+
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
+            }
+
+            if (checkLocationON()) {
+                findWeather();
+            }
+
         }
 
 
     }
 
     public boolean checkLocationON() {
-        LocationManager locationManager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(LOCATION_SERVICE);
-
-
-        try {
-            if (locationManager != null) {
-                gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (getActivity() != null) {
+            LocationManager locationManager = (LocationManager)getActivity().getSystemService(LOCATION_SERVICE);
+            try {
+                if (locationManager != null) {
+                    gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                }
+            } catch (Exception ex) {
             }
-        } catch (Exception ex) {
-        }
 
-        try {
-            if (locationManager != null) {
-                network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            try {
+                if (locationManager != null) {
+                    network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                }
+            } catch (Exception ex) {
             }
-        } catch (Exception ex) {
-        }
 
-        if (!gps_enabled && !network_enabled) {
-            // notify user
-            return false;
-        } else {
-            return true;
+            if (!gps_enabled && !network_enabled) {
+                // notify user
+                return false;
+            } else {
+                return true;
+            }
         }
+        return false;
+
 
     }
 
@@ -563,14 +570,10 @@ public class WeatherFragment extends Fragment {
         Spinner spinner = dialog.findViewById(R.id.spinner);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(activity, R.layout.custome_spinner, getResources().getStringArray(R.array.list));
-        /*spinner.getBackground().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);*/
-        // Drop down layout style - list view with radio button
+
         dataAdapter.setDropDownViewResource(R.layout.custome_spinner_dropdown);
         SharedPref1 pref = new SharedPref1(activity);
-        /*switch (pref.getImageQuality()){
-            case "Default": spinner.setSelection(spinner.getAdapter().toString().indexOf("Default"));
-            case "High Quality": spinner.setSelection(spinner.getAdapter().toString().indexOf("High Quality"));
-        }*/
+
 
         Log.d("edho", pref.getImageQuality());
 
@@ -589,14 +592,9 @@ public class WeatherFragment extends Fragment {
 
                 if (position != 0) {
                     pref.setImageQuality(item);
-                    chooseImgQuality.setText("Current Quality :\n"+item);
+                    chooseImgQuality.setText("Current Quality :\n" + item);
                 }
 
-                /*Intent intent = new Intent("custom-message");
-                intent.putExtra("quality",item);
-                LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
-                // Showing selected spinner item
-                Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();*/
 
             }
 
@@ -606,6 +604,35 @@ public class WeatherFragment extends Fragment {
             }
         });
 
+        Spinner spinner1=dialog.findViewById(R.id.spinner2);
+        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(activity, R.layout.custome_spinner_list, getResources().getStringArray(R.array.list));
+
+        dataAdapter1.setDropDownViewResource(R.layout.custome_spinner_load);
+
+        MaterialTextView loadQuality = dialog.findViewById(R.id.loadQuality);
+        loadQuality.append(pref.getImageLoadQuality());
+
+        spinner1.setAdapter(dataAdapter1);
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+
+
+                if (position != 0) {
+                    pref.setImageLoadQuality(item);
+                    loadQuality.setText("Load image Quality :\n" + item);
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         ImageView backtoMain = dialog.findViewById(R.id.backtoMain);
         backtoMain.setOnClickListener(v -> dialog.dismiss());
@@ -654,12 +681,16 @@ public class WeatherFragment extends Fragment {
         });
 
         stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
+        if (getActivity()!=null)
+        {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    3000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(stringRequest);
+        }
+
     }
 
     public static void deleteCache(Context context) {
@@ -675,12 +706,16 @@ public class WeatherFragment extends Fragment {
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
+            if (children!=null)
+            {
+                for (int i = 0; i < children.length; i++) {
+                    boolean success = deleteDir(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
                 }
             }
+
             return dir.delete();
         } else if (dir != null && dir.isFile()) {
             return dir.delete();

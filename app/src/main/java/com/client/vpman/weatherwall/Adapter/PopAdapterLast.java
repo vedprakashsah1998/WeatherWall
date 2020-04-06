@@ -24,6 +24,7 @@ import com.client.vpman.weatherwall.Activity.FullImage;
 import com.client.vpman.weatherwall.Activity.FullImageQuotes;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData2;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -79,6 +80,8 @@ public class PopAdapterLast extends RecyclerView.Adapter<PopAdapterLast.MyPopHan
         };
 
 
+        SharedPref1 pref1=new SharedPref1(context);
+
         ModelData2 modelData1=list.get(position);
 
 
@@ -103,30 +106,89 @@ public class PopAdapterLast extends RecyclerView.Adapter<PopAdapterLast.MyPopHan
             //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.centerCrop();
 
-            Glide.with(context)
-                    .load(modelData1.getLarge2x())
-                    .thumbnail(
-                            Glide.with(context).load(modelData1.getLarge())
-                    ).centerCrop()
-                    .apply(requestOptions)
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            //  spinKitView.setVisibility(View.GONE);
+            if (pref1.getImageLoadQuality().equals("Default"))
+            {
+                Glide.with(context)
+                        .load(modelData1.getLarge2x())
+                        .thumbnail(
+                                Glide.with(context).load(modelData1.getLarge())
+                        ).centerCrop()
+                        .apply(requestOptions)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                //  spinKitView.setVisibility(View.GONE);
 
 
-                            return false;
-                        }
+                                return false;
+                            }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                        {
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
+                            {
 
-                            return false;
-                        }
-                    })
+                                return false;
+                            }
+                        })
 
-                    .into(holder.imageView);
+                        .into(holder.imageView);
+            }
+            else if (pref1.getImageLoadQuality().equals("High Quality"))
+            {
+                Glide.with(context)
+                        .load(modelData1.getOriginal())
+                        .thumbnail(
+                                Glide.with(context).load(modelData1.getLarge2x())
+                        ).centerCrop()
+                        .apply(requestOptions)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                //  spinKitView.setVisibility(View.GONE);
+
+
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
+                            {
+
+                                return false;
+                            }
+                        })
+
+                        .into(holder.imageView);
+            }
+            else
+            {
+                Glide.with(context)
+                        .load(modelData1.getLarge2x())
+                        .thumbnail(
+                                Glide.with(context).load(modelData1.getLarge())
+                        ).centerCrop()
+                        .apply(requestOptions)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                //  spinKitView.setVisibility(View.GONE);
+
+
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
+                            {
+
+                                return false;
+                            }
+                        })
+
+                        .into(holder.imageView);
+            }
+
+
           //  Log.d("lwjdfh",list.get(position).getUrls().getFull());
             holder.imageView.requestLayout();
             holder.imageView.setOnClickListener(view -> {

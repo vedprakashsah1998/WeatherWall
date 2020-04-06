@@ -111,41 +111,45 @@ public class Dark extends Fragment {
                             return image.getByteCount()/1024;
                         }
                     };
-                    Display display = getActivity().getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x; //width of screen in pixels
-                    int height = size.y;
-                    Bitmap image = memCache.get("imagefile");
-                    if (image != null) {
-                        //Bitmap exists in cache.
-                        imageView.setImageBitmap(image);
-                    } else
+                    if (getActivity()!=null)
                     {
-                        Glide.with(getContext())
-                                .load(photos.get(n).getUrls().getFull())
-                                .thumbnail(
-                                        Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular())
-                                )
-                                .apply(requestOptions)
-                                .listener(new RequestListener<Drawable>() {
-                                    @Override
-                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                        //  spinKitView.setVisibility(View.GONE);
+                        Display display = getActivity().getWindowManager().getDefaultDisplay();
+                        Point size = new Point();
+                        display.getSize(size);
+                        int width = size.x; //width of screen in pixels
+                        int height = size.y;
+                        Bitmap image = memCache.get("imagefile");
+                        if (image != null) {
+                            //Bitmap exists in cache.
+                            imageView.setImageBitmap(image);
+                        } else
+                        {
+                            Glide.with(getContext())
+                                    .load(photos.get(n).getUrls().getFull())
+                                    .thumbnail(
+                                            Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular())
+                                    )
+                                    .apply(requestOptions)
+                                    .listener(new RequestListener<Drawable>() {
+                                        @Override
+                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                            //  spinKitView.setVisibility(View.GONE);
 
 
-                                        return false;
-                                    }
+                                            return false;
+                                        }
 
-                                    @Override
-                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                    {
+                                        @Override
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
+                                        {
 
-                                        return false;
-                                    }
-                                })
+                                            return false;
+                                        }
+                                    })
 
-                                .into(imageView);
+                                    .into(imageView);
+                    }
+
                         imageView.setOnClickListener(v -> {
                             Intent intent=new Intent(getActivity(), ExploreQuotesAndPhoto.class);
                             intent.putExtra("imgData",photos.get(n).getUrls().getFull());

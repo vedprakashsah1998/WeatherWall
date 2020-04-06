@@ -86,7 +86,7 @@ public class FullImage extends AppCompatActivity
 
 
 
-       SharedPref1 pref=new SharedPref1(this);
+       SharedPref1 pref=new SharedPref1(FullImage.this);
         Log.d("FullImage8085",pref.getImageQuality());
 
         RequestOptions requestOptions = new RequestOptions();
