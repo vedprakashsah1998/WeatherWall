@@ -13,7 +13,9 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -49,7 +51,7 @@ public class FullImage extends AppCompatActivity
 
     String mImg,sImg,large;
     ImageView imageView,browser;
-
+    SharedPref1 pref;
     ImageView download,share,setWall;
     private int STORAGE_PERMISSION_CODE = 1;
     Toolbar toolbar;
@@ -86,8 +88,38 @@ public class FullImage extends AppCompatActivity
 
 
 
-       SharedPref1 pref=new SharedPref1(FullImage.this);
+        pref=new SharedPref1(FullImage.this);
         Log.d("FullImage8085",pref.getImageQuality());
+
+        if (pref.getTheme().equals("Light")) {
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
+
+            toolbar.setBackground(drawable);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+
+            browser.setImageResource(R.drawable.ic_global_black);
+
+        } else if (pref.getTheme().equals("Dark")) {
+
+            toolbar.setBackgroundColor(Color.parseColor("#000000"));
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+            browser.setImageResource(R.drawable.ic_global);
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.basic_design1);
+            toolbar.setBackground(drawable);
+
+
+        } else {
+
+
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
+
+            toolbar.setBackground(drawable);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+            browser.setImageResource(R.drawable.ic_global_black);
+        }
 
         RequestOptions requestOptions = new RequestOptions();
         // requestOptions.error(Utils.getRandomDrawbleColor());

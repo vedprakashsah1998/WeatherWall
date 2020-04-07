@@ -14,7 +14,9 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -44,6 +46,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
+import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes;
+import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
@@ -68,16 +72,17 @@ public class FullImageQuotes extends AppCompatActivity {
     Toolbar toolbar;
     List<String> list;
     MaterialTextView Quotestext;
+    List<RandomQuotes1> randomQuotes;
     ProgressDialog mProgressDialog;
     private int STORAGE_PERMISSION_CODE = 1;
-
+    SharedPref1 pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_image_quotes);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        SharedPref1 pref=new SharedPref1(FullImageQuotes.this);
+         pref=new SharedPref1(FullImageQuotes.this);
 
         toolbar = findViewById(R.id.tool1barMain);
         imageView = findViewById(R.id.imageFullLast);
@@ -87,6 +92,38 @@ public class FullImageQuotes extends AppCompatActivity {
         Quotestext = findViewById(R.id.quotesTextMain);
         downloadImg = findViewById(R.id.downloadImg);
 
+
+        if (pref.getTheme().equals("Light")) {
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
+
+            toolbar.setBackground(drawable);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+            downloadImg.setImageResource(R.drawable.ic_file_download_black);
+            browser.setImageResource(R.drawable.ic_global_black);
+
+        } else if (pref.getTheme().equals("Dark")) {
+
+            toolbar.setBackgroundColor(Color.parseColor("#000000"));
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+            browser.setImageResource(R.drawable.ic_global);
+            downloadImg.setImageResource(R.drawable.ic_file_download);
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.basic_design1);
+            toolbar.setBackground(drawable);
+
+
+        } else {
+
+
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
+
+            toolbar.setBackground(drawable);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+            browser.setImageResource(R.drawable.ic_global_black);
+            downloadImg.setImageResource(R.drawable.ic_file_download_black);
+        }
 
         Intent intent = getIntent();
         mImg = intent.getStringExtra("imgDataAdapter");
@@ -99,6 +136,7 @@ public class FullImageQuotes extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
 
         RequestOptions requestOptions = new RequestOptions();
         // requestOptions.error(Utils.getRandomDrawbleColor());
@@ -685,43 +723,45 @@ public class FullImageQuotes extends AppCompatActivity {
         Quotes();
     }
 
-    public void Quotes() {
+    public void Quotes()
+    {
 
-        String QuotesUrl = "https://www.forbes.com/forbesapi/thought/uri.json?enrich=true&query=1&relatedlimit=100";
-        Log.d("sdfljh", "khwqgdi");
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, QuotesUrl, response -> {
+        randomQuotes=new ArrayList<>();
+        String QuotesUrl="https://type.fit/api/quotes";
+        Log.d("sdfljh","khwqgdi");
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, QuotesUrl, response -> {
 
-            Log.d("qoefg", response);
+            Log.d("qoefg",response);
 
-            JSONObject jsonObject = null;
             try {
-                jsonObject = new JSONObject(response);
 
-                JSONObject jsonObject1 = jsonObject.getJSONObject("thought");
-                Log.d("qeljg", String.valueOf(jsonObject1));
+                JSONArray jsonArray=new JSONArray(response);
+                for (int i=0;i<jsonArray.length();i++)
+                {
+                    JSONObject jsonObject=jsonArray.getJSONObject(i);
+                    Log.d("eouf", String.valueOf(jsonObject));
+                    JSONObject jsonObject1=new JSONObject(String.valueOf(jsonObject));
+                    /*Log.d("TextQuotes", jsonObject1.getString("author"));*/
 
-                JSONArray jsonArray = jsonObject1.getJSONArray("relatedThemeThoughts");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-
-
-                    list.add(jsonObject2.getString("quote"));
-
+                    RandomQuotes1 randomQuotes1=new RandomQuotes1(jsonObject1.getString("text"),jsonObject1.getString("author"));
+                    randomQuotes.add(randomQuotes1);
                 }
-                Collections.shuffle(list);
+
+                Collections.shuffle(randomQuotes);
                 Random random = new Random();
-                int n = random.nextInt(list.size());
-                Quotestext.setText(list.get(n));
+                int n = random.nextInt(randomQuotes.size());
+
+                Quotestext.setText(randomQuotes.get(n).getQuotes());
                 /*Log.d("asljf",quote);*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
+
         }, error -> {
 
         });
-
         stringRequest.setShouldCache(false);
         RequestQueue requestQueue = Volley.newRequestQueue(FullImageQuotes.this);
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(

@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/basic_design1" />
+        android:id="@+id/design_layout" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:padding="8dp"
-        android:background="@drawable/main_design"
+        android:id="@+id/relLayout"
         android:layout_centerHorizontal="true">
 
         <com.google.android.material.textview.MaterialTextView
@@ -39,8 +39,7 @@
                 android:id="@+id/swipUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_up_arow" />
+                android:layout_centerHorizontal="true" />
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -48,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/swipUp"
                 android:text="SWIPE  UP"
-                android:textColor="#FFFFFF"
+                android:id="@+id/swipUp2"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -64,7 +63,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:padding="4dp"
-        android:textColor="#C4FFFFFF"
         android:textSize="16sp"
         android:textStyle="normal" />
 
@@ -79,7 +77,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="32dp"
         android:padding="4dp"
-        android:textColor="#C4FFFFFF"
         android:textSize="20sp"
         android:textStyle="normal" />
 
@@ -104,17 +101,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:padding="4dp"
-        android:textColor="#FFFFFF"
-        android:layout_toRightOf="@+id/sunImg"
+        android:layout_toEndOf="@+id/sunImg"
         android:textSize="50sp"
         android:textStyle="bold" />
     <ImageView
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:padding="4dp"
-
         android:id="@+id/sunImg"
-        android:src="@drawable/ic_sun"/>
+        android:src="@drawable/ic_sun_cloud"/>
 
     <ImageView
         android:layout_width="44dp"

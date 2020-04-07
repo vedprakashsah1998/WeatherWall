@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -18,8 +21,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import io.ghyeok.stickyswitch.widget.StickySwitch;
 
 import android.provider.Settings;
 import android.util.Log;
@@ -34,6 +40,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -55,6 +62,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,7 +101,7 @@ public class WeatherFragment extends Fragment {
     String countryCode = null;
 
     public String bestProvider;
-    MaterialTextView welcomeText, welcomeText1;
+    MaterialTextView swipeUp2;
 
     int i = 0;
     ImageView image;
@@ -103,10 +111,12 @@ public class WeatherFragment extends Fragment {
 
     RotateAnimation rotate;
 
+    RelativeLayout relLayout;
 
     public WeatherFragment() {
         // Required empty public constructor
     }
+    ImageView designLayout;
 
 
     @Override
@@ -120,14 +130,61 @@ public class WeatherFragment extends Fragment {
         t3_description = view.findViewById(R.id.desc);
         t4_date = view.findViewById(R.id.date);
         swipeUp = view.findViewById(R.id.swipUp);
+        relLayout=view.findViewById(R.id.relLayout);
+        swipeUp2=view.findViewById(R.id.swipUp2);
         list = new ArrayList<>();
 /*
         welcomeText=view.findViewById(R.id.welcomeText);
         welcomeText1=view.findViewById(R.id.welcomeText1);*/
         forbesQuotes = view.findViewById(R.id.Forbes_quotes);
 
+        designLayout=view.findViewById(R.id.design_layout);
 
         Log.d("hgfkj", "request");
+        if (getActivity()!=null)
+        {
+            SharedPref1 sharedPref1=new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light"))
+            {
+                designLayout.setImageResource(R.drawable.basic_design1_white);
+                t1_temp.setTextColor(Color.parseColor("#000000"));
+                t2_city.setTextColor(Color.parseColor("#000000"));
+                t3_description.setTextColor(Color.parseColor("#000000"));
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.main_design_white);
+                relLayout.setBackground(drawable);
+                swipeUp2.setTextColor(Color.parseColor("#000000"));
+                swipeUp.setImageResource(R.drawable.ic_up_arow_black);
+
+            }
+            else if (sharedPref1.getTheme().equals("Dark"))
+            {
+                designLayout.setImageResource(R.drawable.basic_design1);
+                t1_temp.setTextColor(Color.parseColor("#FFFFFF"));
+                t2_city.setTextColor(Color.parseColor("#FFFFFF"));
+                t3_description.setTextColor(Color.parseColor("#FFFFFF"));
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.main_design);
+                relLayout.setBackground(drawable);
+                swipeUp2.setTextColor(Color.parseColor("#FFFFFF"));
+                swipeUp.setImageResource(R.drawable.ic_up_arow);
+            }
+            else
+            {
+                designLayout.setImageResource(R.drawable.basic_design1_white);
+                t1_temp.setTextColor(Color.parseColor("#000000"));
+                t2_city.setTextColor(Color.parseColor("#000000"));
+                t3_description.setTextColor(Color.parseColor("#000000"));
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.main_design_white);
+                relLayout.setBackground(drawable);
+                swipeUp2.setTextColor(Color.parseColor("#000000"));
+                swipeUp.setImageResource(R.drawable.ic_up_arow_black);
+            }
+        }
+
+
+
 
         bounce = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
 
@@ -222,13 +279,13 @@ if (getActivity()!=null)
                                 lat = addresses.get(0).getLatitude();
                                 lon = addresses.get(0).getLongitude();
                                 countryCode = addresses.get(0).getCountryCode();
-                                Log.d("wkegfiewgj", String.valueOf(lat));
+
                                 LocationRequest request = new LocationRequest();
                                 request.setInterval(10 * 60 * 1000);
                                 request.setMaxWaitTime(60 * 60 * 1000);
 
+
                                 JsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&q=" + cityname + "," + countryCode + "&appid=ec55ea59368f44782fb4dcb6ab028f5a";
-                                Log.d("findWeather", cityname);
 
 
                                 JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, JsonUrl, null, response -> {
@@ -575,7 +632,6 @@ if (getActivity()!=null)
         SharedPref1 pref = new SharedPref1(activity);
 
 
-        Log.d("edho", pref.getImageQuality());
 
 
         MaterialTextView chooseImgQuality = dialog.findViewById(R.id.chooseImgQuality);
@@ -634,9 +690,206 @@ if (getActivity()!=null)
             }
         });
 
+        StickySwitch stickySwitch=dialog.findViewById(R.id.sticky_switch);
+
+        if (pref.getTheme().equals("Light"))
+        {
+            stickySwitch.setDirection(StickySwitch.Direction.LEFT,false);
+        }
+        else if (pref.getTheme().equals("Dark"))
+        {
+            stickySwitch.setDirection(StickySwitch.Direction.RIGHT,false);
+
+        }
+        else {
+            stickySwitch.setDirection(StickySwitch.Direction.LEFT,false);
+
+        }
+
+        RelativeLayout relativeLayout=dialog.findViewById(R.id.themeColor);
+        Toolbar toolbar=dialog.findViewById(R.id.tool1barSetting);
+        MaterialTextView toolBarText=dialog.findViewById(R.id.toolBartext);
         ImageView backtoMain = dialog.findViewById(R.id.backtoMain);
-        backtoMain.setOnClickListener(v -> dialog.dismiss());
-        dialog.setOnCancelListener(DialogInterface::dismiss);
+        MaterialTextView settingText=dialog.findViewById(R.id.settingText);
+        ImageView deleteImg=dialog.findViewById(R.id.deleteImg);
+        CardView settingCardView=dialog.findViewById(R.id.cardSetting);
+        ImageView share=dialog.findViewById(R.id.shareApp);
+        ImageView reportUs=dialog.findViewById(R.id.reportUs);
+        ImageView rateUsImg=dialog.findViewById(R.id.rateUsImg);
+        MaterialTextView ContactUsText=dialog.findViewById(R.id.ContactUsText);
+        CardView cardContact=dialog.findViewById(R.id.cardContact);
+        ImageView instagram=dialog.findViewById(R.id.instagram);
+        ImageView facebook=dialog.findViewById(R.id.facebook);
+        ImageView linkedIn=dialog.findViewById(R.id.linkedIn);
+        ImageView Github=dialog.findViewById(R.id.Github);
+        MaterialTextView credit=dialog.findViewById(R.id.credit);
+        CardView cardCredit=dialog.findViewById(R.id.cardCredit);
+        stickySwitch.setOnSelectedChangeListener((direction, s) -> {
+            if (s.equals("Light"))
+            {
+                pref.setTheme(s);
+                relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                toolBarText.setTextColor(Color.parseColor("#000000"));
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
+                backtoMain.setBackground(drawable);
+                settingText.setTextColor(Color.parseColor("#000000"));
+                deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
+                settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                share.setImageResource(R.drawable.ic_share_black_24dp);
+                reportUs.setImageResource(R.drawable.ic_report_problem);
+                rateUsImg.setImageResource(R.drawable.ic_rate_review);
+                ContactUsText.setTextColor(Color.parseColor("#000000"));
+                cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                instagram.setImageResource(R.drawable.ic_instagram);
+                facebook.setImageResource(R.drawable.ic_facebook);
+                linkedIn.setImageResource(R.drawable.ic_linkedin);
+                Github.setImageResource(R.drawable.ic_logo);
+                credit.setTextColor(Color.parseColor("#000000"));
+                cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                flatIcon.setImageResource(R.drawable.ic_flaticon);
+                Unsplash.setImageResource(R.drawable.ic_unsplash);
+                pexels.setImageResource(R.drawable.pexels);
+                privacyPolicy.setTextColor(Color.parseColor("#000000"));
+
+            }
+            else
+            {
+                pref.setTheme(s);
+                relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
+                toolbar.setBackgroundColor(Color.parseColor("#000000"));
+                toolBarText.setTextColor(Color.parseColor("#FFFFFF"));
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
+                backtoMain.setBackground(drawable);
+                settingText.setTextColor(Color.parseColor("#FFFFFF"));
+                ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
+                deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
+                settingCardView.setCardBackgroundColor(Color.parseColor("#000000"));
+                rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
+                share.setImageResource(R.drawable.ic_share_white_24dp);
+                reportUs.setImageResource(R.drawable.ic_report_problem_white);
+                cardContact.setCardBackgroundColor(Color.parseColor("#000000"));
+                instagram.setImageResource(R.drawable.ic_instagram_white);
+                facebook.setImageResource(R.drawable.ic_facebook_white);
+                linkedIn.setImageResource(R.drawable.ic_linkedin_white);
+                Github.setImageResource(R.drawable.ic_logo_white);
+                cardCredit.setCardBackgroundColor(Color.parseColor("#000000"));
+                credit.setTextColor(Color.parseColor("#FFFFFF"));
+                flatIcon.setImageResource(R.drawable.ic_flaticon_white);
+                Unsplash.setImageResource(R.drawable.ic_unsplash_white);
+                pexels.setImageResource(R.drawable.ic_pexels);
+                privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
+
+            }
+
+
+        });
+
+
+
+        if (pref.getTheme().equals("Light"))
+        {
+            relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolBarText.setTextColor(Color.parseColor("#000000"));
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
+            backtoMain.setBackground(drawable);
+            settingText.setTextColor(Color.parseColor("#000000"));
+            settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
+            reportUs.setImageResource(R.drawable.ic_report_problem);
+            share.setImageResource(R.drawable.ic_share_black_24dp);
+            rateUsImg.setImageResource(R.drawable.ic_rate_review);
+            ContactUsText.setTextColor(Color.parseColor("#000000"));
+            cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            instagram.setImageResource(R.drawable.ic_instagram);
+            facebook.setImageResource(R.drawable.ic_facebook);
+            linkedIn.setImageResource(R.drawable.ic_linkedin);
+            Github.setImageResource(R.drawable.ic_logo);
+            credit.setTextColor(Color.parseColor("#000000"));
+            cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            flatIcon.setImageResource(R.drawable.ic_flaticon);
+            Unsplash.setImageResource(R.drawable.ic_unsplash);
+            pexels.setImageResource(R.drawable.pexels);
+            privacyPolicy.setTextColor(Color.parseColor("#000000"));
+
+        }
+        else if (pref.getTheme().equals("Dark"))
+        {
+            relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
+            toolbar.setBackgroundColor(Color.parseColor("#000000"));
+            toolBarText.setTextColor(Color.parseColor("#FFFFFF"));
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
+            backtoMain.setBackground(drawable);
+            settingText.setTextColor(Color.parseColor("#FFFFFF"));
+            reportUs.setImageResource(R.drawable.ic_report_problem_white);
+            deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
+            settingCardView.setCardBackgroundColor(Color.parseColor("#000000"));
+            share.setImageResource(R.drawable.ic_share_white_24dp);
+            rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
+            ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
+            cardContact.setCardBackgroundColor(Color.parseColor("#000000"));
+            instagram.setImageResource(R.drawable.ic_instagram_white);
+            facebook.setImageResource(R.drawable.ic_facebook_white);
+            linkedIn.setImageResource(R.drawable.ic_linkedin_white);
+            Github.setImageResource(R.drawable.ic_logo_white);
+            credit.setTextColor(Color.parseColor("#FFFFFF"));
+            cardCredit.setCardBackgroundColor(Color.parseColor("#000000"));
+            flatIcon.setImageResource(R.drawable.ic_flaticon_white);
+            Unsplash.setImageResource(R.drawable.ic_unsplash_white);
+            pexels.setImageResource(R.drawable.ic_pexels);
+            privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
+
+        }
+        else {
+            relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolBarText.setTextColor(Color.parseColor("#000000"));
+            Resources res = getResources(); //resource handle
+            Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
+            backtoMain.setBackground(drawable);
+            settingText.setTextColor(Color.parseColor("#000000"));
+            rateUsImg.setImageResource(R.drawable.ic_rate_review);
+            deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
+            share.setImageResource(R.drawable.ic_share_black_24dp);
+            ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
+            cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            instagram.setImageResource(R.drawable.ic_instagram);
+            facebook.setImageResource(R.drawable.ic_facebook);
+            Github.setImageResource(R.drawable.ic_logo);
+            linkedIn.setImageResource(R.drawable.ic_linkedin);
+            credit.setTextColor(Color.parseColor("#000000"));
+            cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            flatIcon.setImageResource(R.drawable.ic_flaticon);
+            Unsplash.setImageResource(R.drawable.ic_unsplash);
+            pexels.setImageResource(R.drawable.pexels);
+            privacyPolicy.setTextColor(Color.parseColor("#000000"));
+
+
+        }
+
+
+
+
+        backtoMain.setOnClickListener(v -> {
+
+            if (getFragmentManager() != null) {
+                getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
+            }
+            activity.recreate();
+        });
+        dialog.setOnCancelListener(dialog1 -> {
+            if (getFragmentManager() != null) {
+                getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
+            }
+            activity.recreate();
+
+        });
     }
 
 

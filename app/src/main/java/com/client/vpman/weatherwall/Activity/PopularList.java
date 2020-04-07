@@ -4,13 +4,16 @@ package com.client.vpman.weatherwall.Activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +43,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.PopAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData1;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 
@@ -70,7 +74,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
     private long mRequestStartTime;
     RoundedImageView imageView;
 
-
+    CoordinatorLayout coordinatorLayout;
     private boolean isHideToolbarView = false;
     private RelativeLayout titleAppbar;
     private Toolbar toolbar;
@@ -80,6 +84,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
     private final String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private final String CLIENT_ID1 = "d3a92adcee2ef1d4cee1b52e80ae2c7f8ca95494ece74c74ae9c396fe8ba941a";
     String query;
+    SharedPref1 sharedPref1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
 
         toolbar = findViewById(R.id.toolBar);
 
+        sharedPref1=new SharedPref1(PopularList.this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -98,6 +104,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         back = findViewById(R.id.back9);
         back1 = findViewById(R.id.back10);
         titleAppbar = findViewById(R.id.title_appbar);
+        coordinatorLayout=findViewById(R.id.cordinatorData);
         textView = findViewById(R.id.tv009);
         textView1 = findViewById(R.id.tv);
         imageView = findViewById(R.id.roundImage);
@@ -129,36 +136,33 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         });
 
+        if (sharedPref1.getTheme().equals("Light")) {
+
+            coordinatorLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            back.setImageResource(R.drawable.ic_arrow_back);
+            textView1.setTextColor(Color.parseColor("#000000"));
+
+        } else if (sharedPref1.getTheme().equals("Dark")) {
+            coordinatorLayout.setBackgroundColor(Color.parseColor("#000000"));
+            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#000000"));
+            toolbar.setBackgroundColor(Color.parseColor("#000000"));
+            back.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+            textView1.setTextColor(Color.parseColor("#FFFFFF"));
 
 
-    /*    unsplash.searchPhotos(query,1,100,"landscape", new Unsplash.OnSearchCompleteListener() {
 
-            @Override
-            public void onComplete(SearchResults results) {
-                Log.d("Photos", "TotalRes " + results.getTotal());
-                list = results.getResults();
-                Log.d("owejhrof", String.valueOf(list));
-                popAdapter=new PopAdapter(PopularList.this,list);
-                popAdapter.setPhotos(list);
-                Collections.shuffle(list);
+        } else {
 
-*//*                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PopularList.this);
-                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);*//*
-                StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(staggeredGridLayoutManager);
-               // recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.setAdapter(popAdapter);
-
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.d("Unsplash", error);
-            }
-        });*/
+            coordinatorLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            back.setImageResource(R.drawable.ic_arrow_back);
+            textView1.setTextColor(Color.parseColor("#000000"));
+        }
 
 
-        //   recyclerView.setAdapter(popAdapter);
 
 
         RequestOptions requestOptions = new RequestOptions();

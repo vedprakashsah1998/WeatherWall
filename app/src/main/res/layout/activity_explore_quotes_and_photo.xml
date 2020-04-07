@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#FFFFFF"
+    android:id="@+id/cordinatorData2"
     tools:context=".Activity.ExploreQuotesAndPhoto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:fitsSystemWindows="true"
-        android:background="#FFFFFF"
         android:id="@+id/appBarQuotes"
         android:layout_height="320dp">
 
@@ -21,7 +20,6 @@
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
             android:id="@+id/collapsing_toolbarQuotes"
-            android:background="#FFF"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false"
@@ -53,7 +51,6 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="start"
                     android:layout_margin="8dp"
@@ -96,8 +93,7 @@
                 android:minHeight="?attr/actionBarSize"
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
-                app:layout_collapseMode="pin"
-                android:background="#FFFFFF">
+                app:layout_collapseMode="pin">
 
                 <RelativeLayout
                     android:id="@+id/title_appbarQuotes"
@@ -112,8 +108,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/ic_arrow_back" />
+                        android:layout_marginTop="20dp" />
 
 
                     <com.google.android.material.textview.MaterialTextView
@@ -123,8 +118,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/cagliostro"
-                        android:layout_toRightOf="@+id/back9QuotesData"
-                        android:textColor="#050505"
+                        android:layout_toEndOf="@+id/back9QuotesData"
                         android:textSize="30sp"
                         android:textStyle="normal" />
                 </RelativeLayout>
@@ -157,7 +151,6 @@
                     android:layout_height="wrap_content"
                     android:text="Quotes Of the Day"
                     android:padding="12dp"
-                    android:textColor="#000000"
                     android:textStyle="bold"
                     android:id="@+id/quotesHeading"
                     android:fontFamily="@font/just_me_again_down_here"
@@ -170,9 +163,21 @@
                     android:textStyle="normal"
                     android:textSize="18sp"
                     android:padding="12dp"
-                    android:textColor="#000000"
                     android:fontFamily="@font/cagliostro"
                     android:layout_below="@+id/quotesHeading"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/authorName"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/just_me_again_down_here"
+                    android:layout_below="@+id/QuotesTextData"
+                    android:layout_alignParentEnd="true"
+                    android:padding="12dp"
+                    android:textStyle="normal"
+                    android:textColor="#132459"
+
                     />
 
 

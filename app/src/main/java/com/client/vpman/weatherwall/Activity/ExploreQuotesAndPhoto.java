@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +43,8 @@ import com.bumptech.glide.signature.ObjectKey;
 
 import com.client.vpman.weatherwall.Adapter.PopAdapterLast;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData2;
+import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -64,6 +68,7 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
 {
 
     List<String> list,list1;
+    List<RandomQuotes> randomQuotes;
 
     private boolean isHideToolbarView = false;
     private RelativeLayout titleAppbar;
@@ -76,8 +81,10 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
     RecyclerView recyclerView;
     String query;
     ImageView back,back1;
+    CoordinatorLayout coordinatorLayout;
+    SharedPref1 sharedPref1;
     RoundedImageView imageView;
-    MaterialTextView textView,textView1,QuotesTextData;
+    MaterialTextView textView,textView1,QuotesTextData,authorName,quotesDay;
     CardView cardView;
 
     @Override
@@ -86,22 +93,26 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
         setContentView(R.layout.activity_explore_quotes_and_photo);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         toolbar=findViewById(R.id.toolBarQuotes);
+        quotesDay=findViewById(R.id.quotesHeading);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         appBarLayout = findViewById(R.id.appBarQuotes);
         cardView=findViewById(R.id.cardViewQuotes);
+        authorName=findViewById(R.id.authorName);
         appBarLayout.addOnOffsetChangedListener(this);
         back=findViewById(R.id.back9QuotesData);
         recyclerView=findViewById(R.id.Imgrecylerview);
         QuotesTextData=findViewById(R.id.QuotesTextData);
         back1=findViewById(R.id.backQuotes);
+        coordinatorLayout=findViewById(R.id.cordinatorData2);
         titleAppbar=findViewById(R.id.title_appbarQuotes);
         textView=findViewById(R.id.ImgName);
         textView1=findViewById(R.id.tvQuotesMain);
         imageView=findViewById(R.id.roundQuotesImg);
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbarQuotes);
         collapsingToolbarLayout.setTitle("");
+        sharedPref1=new SharedPref1(ExploreQuotesAndPhoto.this);
         Intent intent = getIntent();
         String mImg=intent.getStringExtra("imgData");
         String sImg=intent.getStringExtra("imgDataSmall");
@@ -174,6 +185,40 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
                     .into(imageView);
         }
 
+
+        if (sharedPref1.getTheme().equals("Light")) {
+
+            coordinatorLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            back.setImageResource(R.drawable.ic_arrow_back);
+            textView1.setTextColor(Color.parseColor("#000000"));
+            cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            quotesDay.setTextColor(Color.parseColor("#000000"));
+            QuotesTextData.setTextColor(Color.parseColor("#000000"));
+
+        } else if (sharedPref1.getTheme().equals("Dark")) {
+            coordinatorLayout.setBackgroundColor(Color.parseColor("#000000"));
+            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#000000"));
+            toolbar.setBackgroundColor(Color.parseColor("#000000"));
+            back.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+            textView1.setTextColor(Color.parseColor("#FFFFFF"));
+            cardView.setCardBackgroundColor(Color.parseColor("#000000"));
+            quotesDay.setTextColor(Color.parseColor("#FFFFFF"));
+            QuotesTextData.setTextColor(Color.parseColor("#FFFFFF"));
+
+        } else {
+
+            coordinatorLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            back.setImageResource(R.drawable.ic_arrow_back);
+            textView1.setTextColor(Color.parseColor("#000000"));
+            cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            quotesDay.setTextColor(Color.parseColor("#000000"));
+            QuotesTextData.setTextColor(Color.parseColor("#000000"));
+        }
+
         list2=new ArrayList<>();
         list=new ArrayList<>();
         list1=new ArrayList<>();
@@ -185,32 +230,33 @@ Quotes();
     public void Quotes()
     {
 
-        String QuotesUrl="https://www.forbes.com/forbesapi/thought/uri.json?enrich=true&query=1&relatedlimit=100";
+        randomQuotes=new ArrayList<>();
+        String QuotesUrl="https://type.fit/api/quotes";
         Log.d("sdfljh","khwqgdi");
         StringRequest stringRequest=new StringRequest(Request.Method.GET, QuotesUrl, response -> {
 
             Log.d("qoefg",response);
 
-            JSONObject jsonObject= null;
             try {
-                jsonObject = new JSONObject(response);
 
-                JSONObject jsonObject1=jsonObject.getJSONObject("thought");
-                Log.d("qeljg", String.valueOf(jsonObject1));
-
-                JSONArray jsonArray=jsonObject1.getJSONArray("relatedThemeThoughts");
+                JSONArray jsonArray=new JSONArray(response);
                 for (int i=0;i<jsonArray.length();i++)
                 {
-                    JSONObject jsonObject2=jsonArray.getJSONObject(i);
+                    JSONObject jsonObject=jsonArray.getJSONObject(i);
+                    Log.d("eouf", String.valueOf(jsonObject));
+                    JSONObject jsonObject1=new JSONObject(String.valueOf(jsonObject));
+                    /*Log.d("TextQuotes", jsonObject1.getString("author"));*/
 
-
-                    list.add(jsonObject2.getString("quote"));
-
+                    RandomQuotes randomQuotes1=new RandomQuotes(jsonObject1.getString("text"),jsonObject1.getString("author"));
+                    randomQuotes.add(randomQuotes1);
                 }
-                Collections.shuffle(list);
-                Random random=new Random();
-                int n = random.nextInt(list.size());
-                QuotesTextData.setText(list.get(n));
+
+                Collections.shuffle(randomQuotes);
+                Random random = new Random();
+                int n = random.nextInt(randomQuotes.size());
+
+                QuotesTextData.setText(randomQuotes.get(n).getQuotes());
+                authorName.setText("~"+randomQuotes.get(n).getAuthor());
                 /*Log.d("asljf",quote);*/
             } catch (JSONException e) {
                 e.printStackTrace();

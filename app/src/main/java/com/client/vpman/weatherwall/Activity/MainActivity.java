@@ -8,7 +8,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -48,10 +50,12 @@ import com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapt
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData3;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.Transition;
+import com.github.rongi.rotate_layout.layout.RotateLayout;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.material.tabs.TabLayout;
 import com.kc.unsplash.Unsplash;
@@ -85,13 +89,14 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
     private long mRequestStartTime;
     ProgressBar progressBar;
     String query;
+    RotateLayout blackrotate,whiteRotate;
 
 
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
-    private TabLayout tabLayout;
+    private TabLayout tabLayout,tabLayout1;
 
-    RotateAnimation rotate;
+    SharedPref1 sharedPref1;
     ProgressBar spinKitView;
     Wave wanderingCubes;
     @Override
@@ -107,17 +112,47 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
         spinKitView=findViewById(R.id.spin_kit);
         wanderingCubes=new Wave();
         spinKitView.setIndeterminateDrawable(wanderingCubes);
-
+        blackrotate=findViewById(R.id.rotateLayout);
+        whiteRotate=findViewById(R.id.rotateLayout2);
 
 
         imageView=findViewById(R.id.imageView);
         tabLayout=findViewById(R.id.tabLayout);
+        tabLayout1=findViewById(R.id.tabLayout2);
         tabLayout.addTab(tabLayout.newTab().setText("WEATHER"));
         tabLayout.addTab(tabLayout.newTab().setText("POPULAR"));
         tabLayout.addTab(tabLayout.newTab().setText("EXPLORE"));
         tabLayout.addTab(tabLayout.newTab().setText("4K WALLPAPER"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        tabLayout1.addTab(tabLayout1.newTab().setText("WEATHER"));
+        tabLayout1.addTab(tabLayout1.newTab().setText("POPULAR"));
+        tabLayout1.addTab(tabLayout1.newTab().setText("EXPLORE"));
+        tabLayout1.addTab(tabLayout1.newTab().setText("4K WALLPAPER"));
+        tabLayout1.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        sharedPref1=new SharedPref1(MainActivity.this);
+        if (sharedPref1.getTheme().equals("Light"))
+        {
+            blackrotate.setVisibility(View.VISIBLE);
+            whiteRotate.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.VISIBLE);
+            tabLayout1.setVisibility(View.GONE);
+        }
+        else if (sharedPref1.getTheme().equals("Dark"))
+        {
+            blackrotate.setVisibility(View.GONE);
+            whiteRotate.setVisibility(View.VISIBLE);
+            tabLayout1.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.GONE);
+        }
+        else
+        {
+            blackrotate.setVisibility(View.VISIBLE);
+            whiteRotate.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.VISIBLE);
+            tabLayout1.setVisibility(View.GONE);
+        }
 
 
         Notification notification = new Notification(R.mipmap.ic_launcher,
@@ -193,9 +228,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
         });
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout1));
         adapter = new DemoFragmentStateAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
         tabLayout.setOnTabSelectedListener(this);
+        tabLayout1.setOnTabSelectedListener(MainActivity.this);
         listModelData=new ArrayList<>();
 
 

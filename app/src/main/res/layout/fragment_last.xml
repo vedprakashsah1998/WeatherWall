@@ -18,6 +18,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="85dp"
+        android:id="@+id/viewcurated"
         android:background="@drawable/basic_design1"
         android:layout_alignParentTop="true"/>
 
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         android:text="4k Wallpaper"
         android:fontFamily="@font/cagliostro"
+        android:id="@+id/curatedText"
         android:textSize="32sp"
         android:layout_alignParentTop="true"
         android:padding="24dp"

@@ -1,4 +1,5 @@
 package com.client.vpman.weatherwall.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -8,9 +9,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
 import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter1;
 import com.client.vpman.weatherwall.CustomeDesignViewPager.DepthTransformation;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
+import com.google.android.material.textview.MaterialTextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +29,9 @@ public class Explore extends Fragment {
 
     ImageView SwipeUp,left,right;
     Animation bounce;
+    RelativeLayout relexp;
+    SharedPref1 sharedPref1;
+    MaterialTextView exploreId;
 
     public Explore() {
         // Required empty public constructor
@@ -40,6 +48,8 @@ public class Explore extends Fragment {
         SwipeUp=view.findViewById(R.id.SwipUp009);
         left=view.findViewById(R.id.left);
         right=view.findViewById(R.id.right);
+        relexp=view.findViewById(R.id.relexp);
+        exploreId=view.findViewById(R.id.exploreId);
         bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
 
         bounce.setRepeatCount(Animation.INFINITE);
@@ -64,6 +74,32 @@ public class Explore extends Fragment {
             }
         });
         SwipeUp.startAnimation(bounce);
+
+        if (getActivity()!=null)
+        {
+            sharedPref1=new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light"))
+            {
+                relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                exploreId.setTextColor(Color.parseColor("#000000"));
+                SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
+                right.setImageResource(R.drawable.ic_right);
+            }
+            else if (sharedPref1.getTheme().equals("Dark"))
+            {
+                relexp.setBackgroundColor(Color.parseColor("#000000"));
+                exploreId.setTextColor(Color.parseColor("#FFFFFF"));
+                SwipeUp.setImageResource(R.drawable.ic_up_arow);
+                right.setImageResource(R.drawable.ic_right_white);
+            }
+            else
+            {
+                relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                exploreId.setTextColor(Color.parseColor("#000000"));
+                SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
+                right.setImageResource(R.drawable.ic_right);
+            }
+        }
 
         DepthTransformation depthTransformation = new DepthTransformation();
 

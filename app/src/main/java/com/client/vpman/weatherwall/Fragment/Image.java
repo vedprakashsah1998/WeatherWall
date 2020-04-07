@@ -1,6 +1,9 @@
 package com.client.vpman.weatherwall.Fragment;
+
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -21,6 +24,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -33,8 +37,10 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreQuotesAndPhoto;
 import com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.google.android.material.textview.MaterialTextView;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
@@ -48,37 +54,66 @@ import java.util.Random;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Image extends Fragment implements GestureDetector.OnGestureListener
-{
+public class Image extends Fragment {
 
-View view;
+    View view;
+
     public Image() {
         // Required empty public constructor
     }
 
 
-
     ImageView imageView;
     String query;
 
-    VerticalViewPageAdapter verticalViewPageAdapter;
+    RelativeLayout relativeLayout;
+    SharedPref1 sharedPref1;
 
-    private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
+    private final String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
+    MaterialTextView desc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_image, container, false);
+        view = inflater.inflate(R.layout.fragment_image, container, false);
 
-        imageView=view.findViewById(R.id.NatureUn);
-        unsplash=new Unsplash(CLIENT_ID);
+        imageView = view.findViewById(R.id.NatureUn);
+        unsplash = new Unsplash(CLIENT_ID);
 
-         verticalViewPageAdapter=getActivity().findViewById(R.id.pager);
+        desc=view.findViewById(R.id.desc);
 
+        relativeLayout=view.findViewById(R.id.relative);
 
+       /* if (getActivity()!=null)
+        {
+            sharedPref1=new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light"))
+            {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.design_assets_black);
+                relativeLayout.setBackground(drawable);
+                desc.setTextColor(Color.parseColor("#FFFFFF"));
 
+            }
+            else if (sharedPref1.getTheme().equals("Dark"))
+            {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.design_assets);
+                relativeLayout.setBackground(drawable);
+                desc.setTextColor(Color.parseColor("#3C3C3C"));
+
+            }
+            else
+            {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.design_assets_black);
+                relativeLayout.setBackground(drawable);
+                desc.setTextColor(Color.parseColor("#FFFFFF"));
+
+            }
+        }*/
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -95,8 +130,9 @@ View view;
         //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.centerCrop();
 
-        query="Nature";
 
+
+        query = "Nature";
 
 
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
@@ -107,20 +143,18 @@ View view;
                 List<Photo> photos = results.getResults();
 
 
-                Random random=new Random();
+                Random random = new Random();
                 int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
+                if (isAdded()) {
 
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
                         protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
+                            return image.getByteCount() / 1024;
                         }
                     };
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
                         Display display = getActivity().getWindowManager().getDefaultDisplay();
                         Point size = new Point();
                         display.getSize(size);
@@ -130,8 +164,7 @@ View view;
                         if (image != null) {
                             //Bitmap exists in cache.
                             imageView.setImageBitmap(image);
-                        } else
-                        {
+                        } else {
                             Glide.with(getContext())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
@@ -148,12 +181,7 @@ View view;
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
-
-
-
-
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
 
                                             return false;
@@ -161,26 +189,26 @@ View view;
                                     })
 
                                     .into(imageView);
-                    }
+                        }
 
                         imageView.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreQuotesAndPhoto.class);
-                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query",query);
-                            intent.putExtra("text","Nature");
+                            Intent intent = new Intent(getActivity(), ExploreQuotesAndPhoto.class);
+                            intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", "Nature");
 
-                            Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(imageView,"imgData");
+                            Pair[] pairs = new Pair[1];
+                            pairs[0] = new Pair<View, String>(imageView, "imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),pairs
+                                    getActivity(), pairs
                             );
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 startActivity(intent, optionsCompat.toBundle());
-                            }else {
+                            } else {
                                 startActivity(intent);
                             }
                         });
@@ -188,10 +216,6 @@ View view;
                     }
 
                 }
-
-
-
-
 
 
             }
@@ -203,15 +227,11 @@ View view;
         });
 
 
-
         imageView.setTranslationZ(40);
-
-
 
 
         return view;
     }
-
 
 
     public static Image newInstance(String text) {
@@ -223,67 +243,4 @@ View view;
     }
 
 
-    @Override
-    public boolean onDown(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent motionEvent) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent motionEvent) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        switch (getSlope(e1.getX(), e1.getY(), e2.getX(), e2.getY())) {
-            case 1:
-                Log.d("Top", "top");
-                verticalViewPageAdapter.setCurrentItem(3);
-                return true;
-            case 2:
-                Log.d("Left", "left");
-                return true;
-            case 3:
-                Log.d("Down", "down");
-                verticalViewPageAdapter.setCurrentItem(1);
-                return true;
-            case 4:
-                Log.d("Right", "right");
-                return true;
-        }
-        return false;
-    }
-
-    private int getSlope(float x1, float y1, float x2, float y2) {
-        Double angle = Math.toDegrees(Math.atan2(y1 - y2, x2 - x1));
-        if (angle > 45 && angle <= 135)
-            // top
-            return 1;
-        if (angle >= 135 && angle < 180 || angle < -135 && angle > -180)
-            // left
-            return 2;
-        if (angle < -45 && angle>= -135)
-            // down
-            return 3;
-        if (angle > -45 && angle <= 45)
-            // right
-            return 4;
-        return 0;
-
-    }
 }

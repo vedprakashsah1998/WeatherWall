@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/themeColor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFFFFF">
+    >
 
 <androidx.appcompat.widget.Toolbar
     android:layout_width="match_parent"
@@ -12,7 +13,6 @@
     app:popupTheme="@style/ToolbarThemeWhite"
     android:id="@+id/tool1barSetting"
     android:visibility="visible"
-    android:background="#FFFFFF"
     android:layout_alignParentTop="true">
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -20,18 +20,17 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/backtoMain"
-            android:src="@drawable/ic_arrow_back"/>
+            android:id="@+id/backtoMain" />
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Weather Wall"
             android:layout_toRightOf="@+id/backtoMain"
             android:textStyle="bold"
+            android:id="@+id/toolBartext"
             android:textSize="22sp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="-10dp"
-            android:textColor="#000000"
             android:gravity="left"
             android:fontFamily="@font/eagle_lake"
             />
@@ -55,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:text="Setting"
                 android:id="@+id/settingText"
-                android:textSize="26sp"
+                android:textSize="22sp"
+                app:textAllCaps="true"
                 android:padding="8dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="12dp"
@@ -73,7 +73,6 @@
                 android:id="@+id/cardSetting"
                 android:padding="12dp"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="#FFFFFF"
                 android:layout_below="@+id/settingText">
 
                 <RelativeLayout
@@ -83,8 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
-                        android:id="@+id/deleteImg"
-                        android:src="@drawable/ic_delete_black_24dp"/>
+                        android:id="@+id/deleteImg" />
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -158,13 +156,52 @@
                         android:id="@+id/line90"
                         android:layout_below="@+id/loadQuality"/>
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/line90"
+                        android:id="@+id/setTheme"
+                        android:text="Set Theme"
+                        android:padding="12dp"
+
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        />
+
+                    <io.ghyeok.stickyswitch.widget.StickySwitch
+                        android:layout_width="wrap_content"
+                        android:layout_height="70dp"
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/sticky_switch"
+                        android:layout_below="@+id/line90"
+                        app:ss_animationDuration="600"
+                        app:ss_iconPadding="18dp"
+                        app:ss_iconSize="22dp"
+                        app:ss_leftIcon="@drawable/ic_sun_cloud"
+                        app:ss_leftText="Light"
+                        app:ss_rightIcon="@drawable/ic_moon_one"
+                        app:ss_rightText="Dark"
+                        app:ss_selectedTextSize="14sp"
+                        app:ss_sliderBackgroundColor="@android:color/white"
+                        app:ss_switchColor="#494949"
+                        app:ss_textColor="#575656"
+                        app:ss_textSize="12sp"
+                        app:ss_animationType="line"
+                        />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="#F6F5F5"
+                        android:id="@+id/line91"
+                        android:layout_below="@+id/sticky_switch"/>
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:id="@+id/shareApp"
-                        android:layout_below="@+id/line90"
-                        android:src="@drawable/ic_share_black"/>
+                        android:layout_below="@+id/line91" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -172,7 +209,7 @@
                         android:text="Share App"
                         android:id="@+id/shareAppText"
                         android:layout_toEndOf="@+id/shareApp"
-                        android:layout_below="@+id/line90"
+                        android:layout_below="@+id/line91"
                         android:padding="12dp"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
@@ -188,8 +225,7 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:id="@+id/reportUs"
-                        android:layout_below="@+id/line1"
-                        android:src="@drawable/ic_report_problem"/>
+                        android:layout_below="@+id/line1" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -213,8 +249,7 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:id="@+id/rateUsImg"
-                        android:layout_below="@+id/line2"
-                        android:src="@drawable/ic_rate_review"/>
+                        android:layout_below="@+id/line2"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -237,11 +272,11 @@
                 android:layout_below="@+id/cardSetting"
                 android:layout_marginTop="20dp"
                 android:text="Contact Us"
+                android:textSize="22sp"
+                app:textAllCaps="true"
                 android:id="@+id/ContactUsText"
-                android:textSize="26sp"
                 android:padding="8dp"
                 android:layout_marginStart="12dp"
-                android:textColor="#000000"
                 />
 
 
@@ -254,7 +289,6 @@
                 android:id="@+id/cardContact"
                 android:padding="12dp"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="#FFFFFF"
                 android:layout_below="@+id/ContactUsText">
 
                 <RelativeLayout
@@ -264,8 +298,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
-                        android:id="@+id/instagram"
-                        android:src="@drawable/ic_instagram"/>
+                        android:id="@+id/instagram"/>
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -288,8 +321,7 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:id="@+id/facebook"
-                        android:layout_below="@+id/line3"
-                        android:src="@drawable/ic_facebook"/>
+                        android:layout_below="@+id/line3"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -313,8 +345,7 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:id="@+id/linkedIn"
-                        android:layout_below="@+id/line4"
-                        android:src="@drawable/ic_linkedin"/>
+                        android:layout_below="@+id/line4"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -363,10 +394,10 @@
                 android:layout_marginTop="20dp"
                 android:text="Credit"
                 android:id="@+id/credit"
-                android:textSize="26sp"
+                android:textSize="22sp"
+                app:textAllCaps="true"
                 android:padding="8dp"
                 android:layout_marginStart="12dp"
-                android:textColor="#000000"
                 />
 
 
@@ -389,8 +420,7 @@
                         android:layout_width="200dp"
                         android:layout_height="60dp"
                         android:padding="12dp"
-                        android:id="@+id/pexels"
-                        android:src="@drawable/pexels"/>
+                        android:id="@+id/pexels"/>
 
                     <View
                         android:layout_width="wrap_content"
@@ -404,8 +434,7 @@
                         android:layout_height="80dp"
                         android:padding="12dp"
                         android:id="@+id/flatIcon"
-                        android:layout_below="@+id/line6"
-                        android:src="@drawable/ic_flaticon"/>
+                        android:layout_below="@+id/line6" />
 
 
 
@@ -420,7 +449,6 @@
                         android:layout_width="200dp"
                         android:layout_height="70dp"
                         android:id="@+id/Unsplash"
-                        android:src="@drawable/unsplash"
                         android:layout_below="@+id/line7"/>
 
                 </RelativeLayout>
@@ -440,7 +468,6 @@
                 android:layout_marginTop="22dp"
                 android:layout_below="@id/cardCredit"
                 android:textSize="18sp"
-                android:textColor="#000000"
                 />
         </RelativeLayout>
 

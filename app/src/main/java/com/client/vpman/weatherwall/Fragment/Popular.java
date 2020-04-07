@@ -2,7 +2,9 @@ package com.client.vpman.weatherwall.Fragment;
 
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -23,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -36,6 +39,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.PopularList;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.textview.MaterialTextView;
@@ -68,7 +72,10 @@ RoundedImageView imageView,imageView1,imageView2;
 
     ImageView SwipeUp;
     Animation bounce;
+    SharedPref1 sharedPref1;
     Animation fromtop;
+    RelativeLayout relpop;
+    MaterialTextView popPhoto1;
 
     MaterialTextView Landscape1,Cityscape1,Seascape1,Twilight1,Food1,DroneView1;
 
@@ -94,14 +101,44 @@ RoundedImageView imageView,imageView1,imageView2;
         Seascape1=view.findViewById(R.id.seaScape);
         Twilight1=view.findViewById(R.id.twiLight);
         Food1=view.findViewById(R.id.fOOD);
+        relpop=view.findViewById(R.id.relpop);
+        popPhoto1=view.findViewById(R.id.popPhoto1);
         DroneView1=view.findViewById(R.id.DroneView991);
         unsplash=new Unsplash(CLIENT_ID);
 
         fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
 
 
+/*        Resources res = getResources(); //resource handle
+        Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
+        backtoMain.setBackground(drawable);*/
+        if (getActivity()!=null)
+        {
+            sharedPref1=new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light"))
+            {
+                relpop.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                popPhoto1.setTextColor(Color.parseColor("#000000"));
+                SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
+            }
+            else if (sharedPref1.getTheme().equals("Dark"))
+            {
+                relpop.setBackgroundColor(Color.parseColor("#000000"));
+                popPhoto1.setTextColor(Color.parseColor("#FFFFFF"));
+                SwipeUp.setImageResource(R.drawable.ic_up_arow);
+            }
+            else
+            {
+                relpop.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                popPhoto1.setTextColor(Color.parseColor("#000000"));
+                SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
+            }
+        }
 
-        bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
+
+
+
+            bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
 
         bounce.setRepeatCount(Animation.INFINITE);
         bounce.setRepeatMode(Animation.INFINITE);

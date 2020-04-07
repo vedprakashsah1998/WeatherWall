@@ -41,4 +41,15 @@ public class SharedPref1 {
     public String getImageLoadQuality() {
         return mySharedPref.getString("load_quality", "");
     }
+
+    public void setTheme(String state) {
+        SharedPreferences.Editor editor = mySharedPref.edit();
+        editor.putString("Theme", state);
+        editor.commit();
+    }
+
+    public String getTheme() {
+        return mySharedPref.getString("Theme", "");
+    }
+
 }

@@ -2,7 +2,9 @@ package com.client.vpman.weatherwall.Fragment;
 
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -45,9 +47,10 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.FullImage;
 import com.client.vpman.weatherwall.Adapter.RescAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-
+import com.google.android.material.textview.MaterialTextView;
 
 
 import org.json.JSONArray;
@@ -70,44 +73,71 @@ public class LastFragment extends Fragment {
     public LastFragment() {
         // Required empty public constructor
     }
-View view;
-RecyclerView recyclerView;
-RescAdapter rescAdapter;
-List<ModelData> modelData=new ArrayList<>();
-ImageView imageView;
-List<String> slides=new ArrayList<>();
-LinearLayoutManager layoutManager;
-int position;
-int req_code=101;
-String query="4k wallpaper";
-private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
+
+    View view;
+    RecyclerView recyclerView;
+    RescAdapter rescAdapter;
+    List<ModelData> modelData = new ArrayList<>();
+    ImageView imageView;
+    List<String> slides = new ArrayList<>();
+    LinearLayoutManager layoutManager;
+    int position;
+    int req_code = 101;
+    View view1;
+    MaterialTextView curatedText;
+    SharedPref1 sharedPref1;
+    String query = "4k wallpaper";
+    private String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_last, container, false);
-        imageView=view.findViewById(R.id.lastImage);
-
-        recyclerView=view.findViewById(R.id.recyclerView);
-        imageView=view.findViewById(R.id.lastImage);
+        view = inflater.inflate(R.layout.fragment_last, container, false);
+        imageView = view.findViewById(R.id.lastImage);
+        view1 = view.findViewById(R.id.viewcurated);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        imageView = view.findViewById(R.id.lastImage);
         /*four_K_layout=view.findViewById(R.id.four_K_layout);*/
         recyclerView.setHasFixedSize(true);
+        curatedText=view.findViewById(R.id.curatedText);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(true);
         new Thread(() -> getActivity().runOnUiThread(() -> loadImage())).start();
-        layoutManager=new LinearLayoutManager(this.getActivity(),LinearLayoutManager.HORIZONTAL,true);
+        layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true);
         recyclerView.setLayoutManager(layoutManager);
-      /*  recyclerView.setLayoutManager((new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true)));*/
-        rescAdapter=new RescAdapter(modelData,getActivity());
+        /*  recyclerView.setLayoutManager((new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true)));*/
+        rescAdapter = new RescAdapter(modelData, getActivity());
 
         recyclerView.setAdapter(rescAdapter);
 
+        if (getActivity() != null) {
+            sharedPref1 = new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light")) {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
+                view1.setBackground(drawable);
+                curatedText.setTextColor(Color.parseColor("#000000"));
+
+            } else if (sharedPref1.getTheme().equals("Dark")) {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.basic_design1);
+                view1.setBackground(drawable);
+                curatedText.setTextColor(Color.parseColor("#FFFFFF"));
+
+            } else {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
+                view1.setBackground(drawable);
+                curatedText.setTextColor(Color.parseColor("#000000"));
+
+            }
 
 
-
-
-    return view;
+        }
+        return view;
     }
+
 
     public static LastFragment newInstance(String text) {
         LastFragment f = new LastFragment();
@@ -116,17 +146,14 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
         f.setArguments(b);
         return f;
     }
-    public void loadImage()
-    {
+
+    public void loadImage() {
         modelData = new ArrayList<>();
         /*slides=new ArrayList<>();*/
 
-        Log.d("iuedqwljgdho",Url);
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, response -> {
+        Log.d("iuedqwljgdho", Url);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("resPonseData", response);
-
-
-
 
 
             try {
@@ -134,25 +161,24 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
 
 
                 JSONArray wallArray = obj.getJSONArray("photos");
-                for (int i = 0; i < wallArray.length(); i++)
-                {
-                    JSONObject wallobj=wallArray.getJSONObject(i);
-                    JSONObject photographer=new JSONObject(String.valueOf(wallobj));
-                    String phUrl=wallobj.getString("url");
-                    JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
-                    JSONObject jsonObject=wallobj.getJSONObject("src");
-                    JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                    String userImg=object.getString("small");
-                    String userImg1=object.getString("tiny");
+                for (int i = 0; i < wallArray.length(); i++) {
+                    JSONObject wallobj = wallArray.getJSONObject(i);
+                    JSONObject photographer = new JSONObject(String.valueOf(wallobj));
+                    String phUrl = wallobj.getString("url");
+                    JSONObject ProfileUrl = new JSONObject(String.valueOf(wallobj));
+                    JSONObject jsonObject = wallobj.getJSONObject("src");
+                    JSONObject object = new JSONObject(String.valueOf(jsonObject));
+                    String userImg = object.getString("small");
+                    String userImg1 = object.getString("tiny");
 
 
-                    ModelData modelData1=new ModelData(jsonObject.getString("large2x"),photographer.getString("photographer"),jsonObject.getString("large"),jsonObject.getString("original"));
+                    ModelData modelData1 = new ModelData(jsonObject.getString("large2x"), photographer.getString("photographer"), jsonObject.getString("large"), jsonObject.getString("original"));
                     modelData.add(modelData1);
-                    Log.d("imgLoad",modelData1.getLarge2x());
+                    Log.d("imgLoad", modelData1.getLarge2x());
                     Log.d("userImage", phUrl);
                     Log.d("userImage1", userImg1);
                     Log.d("ewf", String.valueOf(modelData));
-                  /*slides.add(object.getString("large2x"));*/
+                    /*slides.add(object.getString("large2x"));*/
 
                 }
                 Collections.shuffle(modelData);
@@ -182,10 +208,10 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                 LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                     @Override
                     protected int sizeOf(String key, Bitmap image) {
-                        return image.getByteCount()/1024;
+                        return image.getByteCount() / 1024;
                     }
                 };
-                Display display =getActivity(). getWindowManager().getDefaultDisplay();
+                Display display = getActivity().getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
                 int width = size.x; //width of screen in pixels
@@ -194,8 +220,7 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                 if (image != null) {
                     //Bitmap exists in cache.
                     imageView.setImageBitmap(image);
-                } else
-                {
+                } else {
                     Glide.with(getActivity())
                             .load(modelData.get(0).getOriginal())
                             .thumbnail(
@@ -205,17 +230,16 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                  //  spinKitView.setVisibility(View.GONE);
+                                    //  spinKitView.setVisibility(View.GONE);
 
 
                                     return false;
                                 }
 
                                 @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                {
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
-                                   // spinKitView.setVisibility(View.GONE);
+                                    // spinKitView.setVisibility(View.GONE);
 
                                     return false;
                                 }
@@ -225,14 +249,14 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
 
                 }
                 imageView.setOnClickListener(view -> {
-                    Intent intent=new Intent(getActivity(), FullImage.class);
-                    ModelData modelData2=modelData.get(position);
-                    intent.putExtra("img",modelData2.getLarge2x());
-                    intent.putExtra("imgSmall",modelData2.getLarge());
-                    intent.putExtra("large",modelData2.getOriginal());
-                    Pair<View, String> pair = Pair.create((View)imageView, ViewCompat.getTransitionName(imageView));
+                    Intent intent = new Intent(getActivity(), FullImage.class);
+                    ModelData modelData2 = modelData.get(position);
+                    intent.putExtra("img", modelData2.getLarge2x());
+                    intent.putExtra("imgSmall", modelData2.getLarge());
+                    intent.putExtra("large", modelData2.getOriginal());
+                    Pair<View, String> pair = Pair.create((View) imageView, ViewCompat.getTransitionName(imageView));
                     ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            getActivity(),pair
+                            getActivity(), pair
                     );
 
                     startActivity(intent);
@@ -240,9 +264,8 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                 });
 
 
-
-                rescAdapter=new RescAdapter(modelData,getActivity());
-                position=0;
+                rescAdapter = new RescAdapter(modelData, getActivity());
+                position = 0;
                 recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -257,9 +280,9 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                             imageView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent=new Intent(getActivity(), FullImage.class);
-                                    ModelData modelData2=modelData.get(position);
-                                    intent.putExtra("img",modelData2.getLarge2x());
+                                    Intent intent = new Intent(getActivity(), FullImage.class);
+                                    ModelData modelData2 = modelData.get(position);
+                                    intent.putExtra("img", modelData2.getLarge2x());
                                     startActivity(intent);
                                 }
                             });
@@ -267,10 +290,10 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                             LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                                 @Override
                                 protected int sizeOf(String key, Bitmap image) {
-                                    return image.getByteCount()/1024;
+                                    return image.getByteCount() / 1024;
                                 }
                             };
-                            Display display =getActivity(). getWindowManager().getDefaultDisplay();
+                            Display display = getActivity().getWindowManager().getDefaultDisplay();
                             Point size = new Point();
                             display.getSize(size);
                             int width = size.x; //width of screen in pixels
@@ -279,7 +302,7 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                             if (image != null) {
                                 //Bitmap exists in cache.
                                 imageView.setImageBitmap(image);
-                            } else{
+                            } else {
 
                                 Glide.with(getActivity())
                                         .load(modelData.get(position).getLarge2x())
@@ -297,8 +320,7 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                                             }
 
                                             @Override
-                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                            {
+                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                                 // spinKitView.setVisibility(View.GONE);
 
@@ -309,10 +331,10 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                                         .into(imageView);
                             }
 
-                          //  Glide.with(getActivity()).load(modelData.get(position).getLarge2x()).into(imageView);
+                            //  Glide.with(getActivity()).load(modelData.get(position).getLarge2x()).into(imageView);
 
                         }
-                        }
+                    }
 
                     @Override
                     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -326,12 +348,9 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
                 // Glide.with(MainActivity.this).load(slides.get(n)).preload(500,500);
 
 
-
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("catchError","Got the error"+e);
+                Log.d("catchError", "Got the error" + e);
             }
 
         }, error -> {
@@ -356,7 +375,7 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization","563492ad6f91700001000001fd351942a4524d62bb9a68308855b667");
+                params.put("Authorization", "563492ad6f91700001000001fd351942a4524d62bb9a68308855b667");
                 return params;
             }
         };
@@ -365,10 +384,9 @@ private String Url="https://api.pexels.com/v1/curated?per_page=80&page=1";
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
     }
-
 
 
 }

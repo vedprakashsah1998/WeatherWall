@@ -2,7 +2,9 @@ package com.client.vpman.weatherwall.Fragment;
 
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -19,6 +21,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -30,8 +33,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreQuotesAndPhoto;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.google.android.material.textview.MaterialTextView;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
@@ -55,10 +60,12 @@ public class Amoled extends Fragment {
 
     RoundedImageView imageView;
     String query;
-
+    RelativeLayout relativeLayout;
+    SharedPref1 sharedPref1;
 
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
+    MaterialTextView desc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +75,37 @@ public class Amoled extends Fragment {
 
         imageView=view.findViewById(R.id.Amoled);
         unsplash=new Unsplash(CLIENT_ID);
+        relativeLayout=view.findViewById(R.id.relative3);
+        desc=view.findViewById(R.id.desc);
+
+/*        if (getActivity()!=null)
+        {
+            sharedPref1=new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light"))
+            {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.design_assets);
+                relativeLayout.setBackground(drawable);
+                desc.setTextColor(Color.parseColor("#3C3C3C"));
+
+            }
+            else if (sharedPref1.getTheme().equals("Dark"))
+            {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.design_assets_black);
+                relativeLayout.setBackground(drawable);
+                desc.setTextColor(Color.parseColor("#FFFFFF"));
+
+            }
+            else
+            {
+                Resources res = getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.design_assets);
+                relativeLayout.setBackground(drawable);
+                desc.setTextColor(Color.parseColor("#3C3C3C"));
+
+            }
+        }*/
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -84,10 +122,8 @@ public class Amoled extends Fragment {
         //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.centerCrop();
 
+
         query="Amoled";
-
-
-
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {

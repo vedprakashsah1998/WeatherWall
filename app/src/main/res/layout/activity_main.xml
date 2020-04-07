@@ -47,17 +47,43 @@
         android:layout_width="wrap_content"
         android:layout_height="450dp"
         android:layout_centerVertical="true"
+        android:id="@+id/rotateLayout"
+        android:visibility="gone"
         app:angle="90">
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-
+            android:visibility="gone"
             android:rotation="180"
             android:background="@android:color/transparent"
             app:tabIndicatorColor="@android:color/transparent"
             app:tabSelectedTextColor="#FFFFFF"
             app:tabBackground="@drawable/tab_background"
+            app:tabTextAppearance="@style/MineCustomTabText"
+            app:tabTextColor="#999999" />
+
+    </com.github.rongi.rotate_layout.layout.RotateLayout>
+
+    <com.github.rongi.rotate_layout.layout.RotateLayout
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:id="@+id/rotateLayout2"
+
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        app:angle="90">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+
+            android:rotation="180"
+            android:background="@android:color/transparent"
+            app:tabIndicatorColor="@android:color/transparent"
+            app:tabSelectedTextColor="#000000"
+            app:tabBackground="@drawable/tab_background_white"
             app:tabTextAppearance="@style/MineCustomTabText"
             app:tabTextColor="#999999" />
 
