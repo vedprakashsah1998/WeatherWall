@@ -7,8 +7,8 @@ android {
         applicationId "com.client.vpman.weatherwall"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 12
-        versionName "1.9.2"
+        versionCode 13
+        versionName "1.9.3"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
