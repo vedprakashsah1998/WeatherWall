@@ -8,13 +8,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,7 +23,6 @@ import android.util.LruCache;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.RotateAnimation;
 import android.widget.ProgressBar;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -104,18 +100,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewPager = findViewById(R.id.pager);
-
-        /*
-        progressBar = findViewById(R.id.progress);
-         wanderingCubes = new WanderingCubes();
-        progressBar.setIndeterminateDrawable(wanderingCubes);*/
         spinKitView=findViewById(R.id.spin_kit);
         wanderingCubes=new Wave();
         spinKitView.setIndeterminateDrawable(wanderingCubes);
         blackrotate=findViewById(R.id.rotateLayout);
         whiteRotate=findViewById(R.id.rotateLayout2);
-
-
         imageView=findViewById(R.id.imageView);
         tabLayout=findViewById(R.id.tabLayout);
         tabLayout1=findViewById(R.id.tabLayout2);
@@ -699,7 +688,6 @@ public void loadImage()
         Log.d("djbvkj", data);
 
         query=data.replace(" ","%20");
-      //  data="abcd";
        Url="https://api.pexels.com/v1/search?query="+query+"&per_page=150&page=1";
         if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectionFast(ConnectivityManager.TYPE_MOBILE, TelephonyManager.NETWORK_TYPE_EDGE))
         {
@@ -726,15 +714,8 @@ public void loadImage()
             loadImage2();
         }
 
-       // loadPixabayImg();
     }
-    private boolean deviceOnWifi() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.this
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        return networkInfo.isConnected();
-    }
 
     public void loadPixabayImg()
     {
@@ -775,13 +756,12 @@ public void loadImage()
                 requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
                 requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-                //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
+                  requestOptions.placeholder(Utils.getRandomDrawbleColor());
                 requestOptions.centerCrop();
 
 
 
 
-                // Glide.with(MainActivity.this).load(slides.get(n)).preload(500,500);
                 Glide.with(MainActivity.this)
                         .load(slides.get(n))
                         .thumbnail(
@@ -863,7 +843,7 @@ public void loadImage()
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
+          requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.centerCrop();
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
@@ -924,15 +904,6 @@ public void loadImage()
 
                             .into(imageView);
                 }
-
-
-
-
-
-
-
-
-
 
 
             }

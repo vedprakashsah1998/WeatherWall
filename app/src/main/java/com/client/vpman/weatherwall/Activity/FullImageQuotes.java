@@ -17,7 +17,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.LruCache;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -46,7 +44,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes;
 import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
@@ -160,11 +157,7 @@ public class FullImageQuotes extends AppCompatActivity {
                 return image.getByteCount() / 1024;
             }
         };
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x; //width of screen in pixels
-        int height = size.y;
+
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.

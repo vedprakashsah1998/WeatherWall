@@ -70,6 +70,7 @@ RoundedImageView imageView,imageView1,imageView2;
     String query,query1,query2,query3,query4,query5,query6,query7,query8;
     CircularImageView Landscape,Cityscape,Seascape,Twilight,Food,DroneView;
 
+
     ImageView SwipeUp;
     Animation bounce;
     SharedPref1 sharedPref1;
@@ -78,6 +79,7 @@ RoundedImageView imageView,imageView1,imageView2;
     MaterialTextView popPhoto1;
 
     MaterialTextView Landscape1,Cityscape1,Seascape1,Twilight1,Food1,DroneView1;
+    RelativeLayout relLandscape;
 
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
@@ -88,6 +90,7 @@ RoundedImageView imageView,imageView1,imageView2;
         view= inflater.inflate(R.layout.fragment_popular, container, false);
         imageView=view.findViewById(R.id.droneView);
         imageView1=view.findViewById(R.id.nature);
+        relLandscape=view.findViewById(R.id.relLandscanpe);
         imageView2=view.findViewById(R.id.food);
         Landscape=view.findViewById(R.id.Landscape);
         Cityscape=view.findViewById(R.id.Cityscape);
@@ -120,18 +123,21 @@ RoundedImageView imageView,imageView1,imageView2;
                 relpop.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 popPhoto1.setTextColor(Color.parseColor("#000000"));
                 SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
+                relLandscape.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
             else if (sharedPref1.getTheme().equals("Dark"))
             {
                 relpop.setBackgroundColor(Color.parseColor("#000000"));
                 popPhoto1.setTextColor(Color.parseColor("#FFFFFF"));
                 SwipeUp.setImageResource(R.drawable.ic_up_arow);
+                relLandscape.setBackgroundColor(Color.parseColor("#000000"));
             }
             else
             {
                 relpop.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 popPhoto1.setTextColor(Color.parseColor("#000000"));
                 SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
+                relLandscape.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
         }
 

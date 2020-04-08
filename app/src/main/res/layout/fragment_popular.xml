@@ -19,16 +19,19 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:orientation="horizontal">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/relLandscanpe"
                     android:padding="2dp">
 
 
@@ -43,9 +46,7 @@
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
                         app:civ_shadow_color="#9E9E9E"
-
                         app:civ_shadow_radius="20"
-
                         />
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/landScape"
@@ -64,6 +65,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:padding="2dp">
 
 
@@ -97,6 +99,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:padding="2dp">
 
 
@@ -130,6 +133,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:padding="2dp">
 
 
@@ -162,6 +166,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:padding="2dp">
 
 
@@ -194,6 +199,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:padding="2dp">
 
 

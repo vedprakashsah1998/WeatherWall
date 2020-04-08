@@ -58,14 +58,7 @@ public class PopAdapterLast extends RecyclerView.Adapter<PopAdapterLast.MyPopHan
     @NonNull
     @Override
     public PopAdapterLast.MyPopHandlerMain onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        /*if (viewType==list.size()-1)
-        {
-            View row = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.item_loading, parent, false);
-        }
-        else {
 
-        }*/
         View view= LayoutInflater.from(context).inflate(R.layout.pop_adapter_last,parent,false);
         return new MyPopHandlerMain(view);
     }

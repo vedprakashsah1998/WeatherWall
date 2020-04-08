@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -121,10 +120,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         String Landscape = intent.getStringExtra("text");
         textView.setText(Landscape);
         textView1.setText(Landscape);
-/*        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PopularList.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);*/
 
-        //    loadImage();
         back.setOnClickListener(view -> {
 
             finish();
@@ -178,7 +174,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
+         requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.centerCrop();
 
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
@@ -201,7 +197,6 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            //  spinKitView.setVisibility(View.GONE);
 
 
                             return false;
@@ -210,7 +205,6 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
-                            // spinKitView.setVisibility(View.GONE);
 
                             return false;
                         }
@@ -249,8 +243,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
 
     public void LoadImage() {
         mRequestStartTime = System.currentTimeMillis();
- /*       assert query != null;
-        Log.d("iueho",query);*/
+
         if (query != null) {
             String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=100&page=1";
             StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
@@ -261,10 +254,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                     JSONObject obj = new JSONObject(response);
                     Log.d("mil gaya", String.valueOf(obj));
                     int totalRes = obj.getInt("total_results");
-                /*if (totalRes<=2)
-                {
-                    UnSplash();
-                }*/
+
                     Log.d("werg", String.valueOf(totalRes));
 
                     JSONArray wallArray = obj.getJSONArray("photos");

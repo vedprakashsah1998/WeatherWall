@@ -7,9 +7,9 @@ android {
         applicationId "com.client.vpman.weatherwall"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
-        versionName "1.9.1"
-        ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64','mips'
+        versionCode 12
+        versionName "1.9.2"
+        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -85,15 +85,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'androidx.palette:palette:1.0.0'
-    implementation 'com.github.florent37:glidepalette:2.1.2'
 
 
 
-    implementation 'com.yinglan.shadowimageview:shadowimageview:1.0.4'
     implementation 'com.tompee:circular-viewpager:1.0.0'
 
-    implementation 'com.qhutch.elevationimageview:elevationimageview:2.4'
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
     //Rotate Layout

@@ -16,14 +16,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.LruCache;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -143,11 +141,7 @@ public class FullImage extends AppCompatActivity
                 return image.getByteCount()/1024;
             }
         };
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x; //width of screen in pixels
-        int height = size.y;
+
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.

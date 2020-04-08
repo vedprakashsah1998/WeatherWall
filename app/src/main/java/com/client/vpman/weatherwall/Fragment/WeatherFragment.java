@@ -62,7 +62,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,11 +70,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -84,7 +86,16 @@ import static android.content.Context.LOCATION_SERVICE;
  */
 public class WeatherFragment extends Fragment {
     MaterialTextView t1_temp, t2_city, t3_description, t4_date, forbesQuotes;
-    String JsonUrl = "https://api.openweathermap.org/data/2.5/weather?q=,in&appid=ec55ea59368f44782fb4dcb6ab028f5a";
+    String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
+    String apiKey1 = "ec55ea59368f44782fb4dcb6ab028f5a";
+    String apiKey2 = "4256b9145e7841dad1aa07b8b3ca5be3";
+    String apiKey3 = "667dcb63169e18e220f8ade175d2b016";
+
+    String APIKEY[]={"1f01ced93d6608528a3bc65ad580f9e4","ec55ea59368f44782fb4dcb6ab028f5a","4256b9145e7841dad1aa07b8b3ca5be3","667dcb63169e18e220f8ade175d2b016"};
+    List<String>apiList;
+    private Timer timer = new Timer();
+
+    String JsonUrl = "https://api.openweathermap.org/data/2.5/weather?q=,in&appid=" + apiKey;
 
     List<String> list;
     String cityname;
@@ -116,6 +127,7 @@ public class WeatherFragment extends Fragment {
     public WeatherFragment() {
         // Required empty public constructor
     }
+
     ImageView designLayout;
 
 
@@ -124,28 +136,25 @@ public class WeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_weather, container, false);
-
         t1_temp = view.findViewById(R.id.temp);
         t2_city = view.findViewById(R.id.city);
         t3_description = view.findViewById(R.id.desc);
         t4_date = view.findViewById(R.id.date);
         swipeUp = view.findViewById(R.id.swipUp);
-        relLayout=view.findViewById(R.id.relLayout);
-        swipeUp2=view.findViewById(R.id.swipUp2);
+        relLayout = view.findViewById(R.id.relLayout);
+        swipeUp2 = view.findViewById(R.id.swipUp2);
         list = new ArrayList<>();
 /*
         welcomeText=view.findViewById(R.id.welcomeText);
         welcomeText1=view.findViewById(R.id.welcomeText1);*/
         forbesQuotes = view.findViewById(R.id.Forbes_quotes);
 
-        designLayout=view.findViewById(R.id.design_layout);
+        designLayout = view.findViewById(R.id.design_layout);
 
         Log.d("hgfkj", "request");
-        if (getActivity()!=null)
-        {
-            SharedPref1 sharedPref1=new SharedPref1(getActivity());
-            if (sharedPref1.getTheme().equals("Light"))
-            {
+        if (getActivity() != null) {
+            SharedPref1 sharedPref1 = new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light")) {
                 designLayout.setImageResource(R.drawable.basic_design1_white);
                 t1_temp.setTextColor(Color.parseColor("#000000"));
                 t2_city.setTextColor(Color.parseColor("#000000"));
@@ -156,9 +165,7 @@ public class WeatherFragment extends Fragment {
                 swipeUp2.setTextColor(Color.parseColor("#000000"));
                 swipeUp.setImageResource(R.drawable.ic_up_arow_black);
 
-            }
-            else if (sharedPref1.getTheme().equals("Dark"))
-            {
+            } else if (sharedPref1.getTheme().equals("Dark")) {
                 designLayout.setImageResource(R.drawable.basic_design1);
                 t1_temp.setTextColor(Color.parseColor("#FFFFFF"));
                 t2_city.setTextColor(Color.parseColor("#FFFFFF"));
@@ -168,9 +175,7 @@ public class WeatherFragment extends Fragment {
                 relLayout.setBackground(drawable);
                 swipeUp2.setTextColor(Color.parseColor("#FFFFFF"));
                 swipeUp.setImageResource(R.drawable.ic_up_arow);
-            }
-            else
-            {
+            } else {
                 designLayout.setImageResource(R.drawable.basic_design1_white);
                 t1_temp.setTextColor(Color.parseColor("#000000"));
                 t2_city.setTextColor(Color.parseColor("#000000"));
@@ -182,8 +187,6 @@ public class WeatherFragment extends Fragment {
                 swipeUp.setImageResource(R.drawable.ic_up_arow_black);
             }
         }
-
-
 
 
         bounce = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
@@ -216,7 +219,6 @@ public class WeatherFragment extends Fragment {
         rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(5000);
         rotate.setInterpolator(new LinearInterpolator());
-
         rotate.setRepeatCount(Animation.INFINITE);
         rotate.setRepeatMode(Animation.INFINITE);
         rotate.setAnimationListener(new Animation.AnimationListener() {
@@ -260,10 +262,14 @@ public class WeatherFragment extends Fragment {
     @SuppressLint("MissingPermission")
     public void findWeather() {
 
-if (getActivity()!=null)
-{
-    fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-}
+        if (getActivity() != null) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        }
+        apiList=new ArrayList<>();
+        apiList.add("1f01ced93d6608528a3bc65ad580f9e4");
+        apiList.add("ec55ea59368f44782fb4dcb6ab028f5a");
+        apiList.add("4256b9145e7841dad1aa07b8b3ca5be3");
+        apiList.add("667dcb63169e18e220f8ade175d2b016");
 
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), location -> {
@@ -284,8 +290,10 @@ if (getActivity()!=null)
                                 request.setInterval(10 * 60 * 1000);
                                 request.setMaxWaitTime(60 * 60 * 1000);
 
+                                Random random = new Random();
+                                int n = random.nextInt(apiList.size());
 
-                                JsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&q=" + cityname + "," + countryCode + "&appid=ec55ea59368f44782fb4dcb6ab028f5a";
+                                JsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&q=" + cityname + "," + countryCode + "&appid=" + apiList.get(n);
 
 
                                 JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, JsonUrl, null, response -> {
@@ -368,7 +376,13 @@ if (getActivity()!=null)
             // Permission has already been granted
             Log.d("hgfkj", "requestStoragePermission: 009");
             if (checkLocationON()) {
-                findWeather();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        findWeather();
+                    }
+                }, 0, 5 * 60 * 1000);
+
             } else {
                 checkGpsStatus();
             }
@@ -387,7 +401,12 @@ if (getActivity()!=null)
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (checkLocationON()) {
-                        findWeather();
+                        timer.scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                findWeather();
+                            }
+                        }, 0, 5 * 60 * 1000);
                     } else {
                         checkGpsStatus();
                     }
@@ -421,13 +440,11 @@ if (getActivity()!=null)
     }
 
     public void checkGpsStatus() {
-        if (getActivity()!=null)
-        {
+        if (getActivity() != null) {
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
             try {
-                if (locationManager!=null)
-                {
+                if (locationManager != null) {
                     gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 }
 
@@ -435,8 +452,7 @@ if (getActivity()!=null)
             }
 
             try {
-                if (locationManager!=null)
-                {
+                if (locationManager != null) {
                     network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                 }
 
@@ -450,8 +466,7 @@ if (getActivity()!=null)
                         .setPositiveButton("Open Location Setting", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                                if (getActivity()!=null)
-                                {
+                                if (getActivity() != null) {
                                     getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 
                                 }
@@ -464,7 +479,12 @@ if (getActivity()!=null)
             }
 
             if (checkLocationON()) {
-                findWeather();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        findWeather();
+                    }
+                }, 0, 5 * 60 * 1000);
             }
 
         }
@@ -474,7 +494,7 @@ if (getActivity()!=null)
 
     public boolean checkLocationON() {
         if (getActivity() != null) {
-            LocationManager locationManager = (LocationManager)getActivity().getSystemService(LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
             try {
                 if (locationManager != null) {
                     gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -507,7 +527,13 @@ if (getActivity()!=null)
 
         if (Connectivity.isConnected(getActivity())) {
             if (checkLocationON()) {
-                findWeather();
+
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        findWeather();
+                    }
+                }, 0, 5 * 60 * 1000);
             }
         } else {
             showDialg(getActivity());
@@ -524,7 +550,12 @@ if (getActivity()!=null)
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            findWeather();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    findWeather();
+                }
+            }, 0, 5 * 60 * 1000);
         }
     }
 
@@ -632,8 +663,6 @@ if (getActivity()!=null)
         SharedPref1 pref = new SharedPref1(activity);
 
 
-
-
         MaterialTextView chooseImgQuality = dialog.findViewById(R.id.chooseImgQuality);
         chooseImgQuality.append(pref.getImageQuality());
 
@@ -660,7 +689,7 @@ if (getActivity()!=null)
             }
         });
 
-        Spinner spinner1=dialog.findViewById(R.id.spinner2);
+        Spinner spinner1 = dialog.findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(activity, R.layout.custome_spinner_list, getResources().getStringArray(R.array.list));
 
         dataAdapter1.setDropDownViewResource(R.layout.custome_spinner_load);
@@ -690,52 +719,52 @@ if (getActivity()!=null)
             }
         });
 
-        StickySwitch stickySwitch=dialog.findViewById(R.id.sticky_switch);
+        StickySwitch stickySwitch = dialog.findViewById(R.id.sticky_switch);
 
-        if (pref.getTheme().equals("Light"))
-        {
-            stickySwitch.setDirection(StickySwitch.Direction.LEFT,false);
-        }
-        else if (pref.getTheme().equals("Dark"))
-        {
-            stickySwitch.setDirection(StickySwitch.Direction.RIGHT,false);
+        if (pref.getTheme().equals("Light")) {
+            stickySwitch.setDirection(StickySwitch.Direction.LEFT, false);
+        } else if (pref.getTheme().equals("Dark")) {
+            stickySwitch.setDirection(StickySwitch.Direction.RIGHT, false);
 
-        }
-        else {
-            stickySwitch.setDirection(StickySwitch.Direction.LEFT,false);
+        } else {
+            stickySwitch.setDirection(StickySwitch.Direction.LEFT, false);
 
         }
 
-        RelativeLayout relativeLayout=dialog.findViewById(R.id.themeColor);
-        Toolbar toolbar=dialog.findViewById(R.id.tool1barSetting);
-        MaterialTextView toolBarText=dialog.findViewById(R.id.toolBartext);
+        RelativeLayout relativeLayout = dialog.findViewById(R.id.themeColor);
+        Toolbar toolbar = dialog.findViewById(R.id.tool1barSetting);
+        MaterialTextView toolBarText = dialog.findViewById(R.id.toolBartext);
         ImageView backtoMain = dialog.findViewById(R.id.backtoMain);
-        MaterialTextView settingText=dialog.findViewById(R.id.settingText);
-        ImageView deleteImg=dialog.findViewById(R.id.deleteImg);
-        CardView settingCardView=dialog.findViewById(R.id.cardSetting);
-        ImageView share=dialog.findViewById(R.id.shareApp);
-        ImageView reportUs=dialog.findViewById(R.id.reportUs);
-        ImageView rateUsImg=dialog.findViewById(R.id.rateUsImg);
-        MaterialTextView ContactUsText=dialog.findViewById(R.id.ContactUsText);
-        CardView cardContact=dialog.findViewById(R.id.cardContact);
-        ImageView instagram=dialog.findViewById(R.id.instagram);
-        ImageView facebook=dialog.findViewById(R.id.facebook);
-        ImageView linkedIn=dialog.findViewById(R.id.linkedIn);
-        ImageView Github=dialog.findViewById(R.id.Github);
-        MaterialTextView credit=dialog.findViewById(R.id.credit);
-        CardView cardCredit=dialog.findViewById(R.id.cardCredit);
+        MaterialTextView settingText = dialog.findViewById(R.id.settingText);
+        ImageView deleteImg = dialog.findViewById(R.id.deleteImg);
+        CardView settingCardView = dialog.findViewById(R.id.cardSetting);
+        ImageView share = dialog.findViewById(R.id.shareApp);
+        ImageView reportUs = dialog.findViewById(R.id.reportUs);
+        ImageView rateUsImg = dialog.findViewById(R.id.rateUsImg);
+        MaterialTextView ContactUsText = dialog.findViewById(R.id.ContactUsText);
+        CardView cardContact = dialog.findViewById(R.id.cardContact);
+        ImageView instagram = dialog.findViewById(R.id.instagram);
+        ImageView facebook = dialog.findViewById(R.id.facebook);
+        ImageView linkedIn = dialog.findViewById(R.id.linkedIn);
+        ImageView Github = dialog.findViewById(R.id.Github);
+        MaterialTextView credit = dialog.findViewById(R.id.credit);
+        CardView cardCredit = dialog.findViewById(R.id.cardCredit);
+        MaterialTextView setThemeText = dialog.findViewById(R.id.setTheme);
         stickySwitch.setOnSelectedChangeListener((direction, s) -> {
-            if (s.equals("Light"))
-            {
+            if (s.equals("Light")) {
                 pref.setTheme(s);
                 relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                clearCache.setTextColor(Color.parseColor("#000000"));
+                setThemeText.setTextColor(Color.parseColor("#000000"));
                 toolBarText.setTextColor(Color.parseColor("#000000"));
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
                 backtoMain.setBackground(drawable);
+                loadQuality.setTextColor(Color.parseColor("#000000"));
                 settingText.setTextColor(Color.parseColor("#000000"));
                 deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
+                chooseImgQuality.setTextColor(Color.parseColor("#000000"));
                 settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                 share.setImageResource(R.drawable.ic_share_black_24dp);
                 reportUs.setImageResource(R.drawable.ic_report_problem);
@@ -744,22 +773,36 @@ if (getActivity()!=null)
                 cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                 instagram.setImageResource(R.drawable.ic_instagram);
                 facebook.setImageResource(R.drawable.ic_facebook);
+                instagramText.setTextColor(Color.parseColor("#000000"));
+                faceBookText.setTextColor(Color.parseColor("#000000"));
                 linkedIn.setImageResource(R.drawable.ic_linkedin);
+                rateUsText.setTextColor(Color.parseColor("#000000"));
                 Github.setImageResource(R.drawable.ic_logo);
                 credit.setTextColor(Color.parseColor("#000000"));
                 cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                 flatIcon.setImageResource(R.drawable.ic_flaticon);
                 Unsplash.setImageResource(R.drawable.ic_unsplash);
                 pexels.setImageResource(R.drawable.pexels);
+                shareApp.setTextColor(Color.parseColor("#000000"));
                 privacyPolicy.setTextColor(Color.parseColor("#000000"));
-
-            }
-            else
-            {
+                reportText.setTextColor(Color.parseColor("#000000"));
+                github.setTextColor(Color.parseColor("#000000"));
+                LinkedIn.setTextColor(Color.parseColor("#000000"));
+            } else {
                 pref.setTheme(s);
+                LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
+                github.setTextColor(Color.parseColor("#FFFFFF"));
+                faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
+                instagramText.setTextColor(Color.parseColor("#FFFFFF"));
+                rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
+                reportText.setTextColor(Color.parseColor("#FFFFFF"));
                 relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
+                chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
                 toolbar.setBackgroundColor(Color.parseColor("#000000"));
+                loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
+                setThemeText.setTextColor(Color.parseColor("#FFFFFF"));
                 toolBarText.setTextColor(Color.parseColor("#FFFFFF"));
+                clearCache.setTextColor(Color.parseColor("#FFFFFF"));
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
                 backtoMain.setBackground(drawable);
@@ -781,6 +824,7 @@ if (getActivity()!=null)
                 Unsplash.setImageResource(R.drawable.ic_unsplash_white);
                 pexels.setImageResource(R.drawable.ic_pexels);
                 privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
+                shareApp.setTextColor(Color.parseColor("#FFFFFF"));
 
             }
 
@@ -788,12 +832,18 @@ if (getActivity()!=null)
         });
 
 
-
-        if (pref.getTheme().equals("Light"))
-        {
+        if (pref.getTheme().equals("Light")) {
+            LinkedIn.setTextColor(Color.parseColor("#000000"));
+            github.setTextColor(Color.parseColor("#000000"));
+            rateUsText.setTextColor(Color.parseColor("#000000"));
             relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            setThemeText.setTextColor(Color.parseColor("#000000"));
+            loadQuality.setTextColor(Color.parseColor("#000000"));
+            chooseImgQuality.setTextColor(Color.parseColor("#000000"));
+            shareApp.setTextColor(Color.parseColor("#000000"));
             toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
             toolBarText.setTextColor(Color.parseColor("#000000"));
+            clearCache.setTextColor(Color.parseColor("#000000"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
@@ -815,10 +865,16 @@ if (getActivity()!=null)
             Unsplash.setImageResource(R.drawable.ic_unsplash);
             pexels.setImageResource(R.drawable.pexels);
             privacyPolicy.setTextColor(Color.parseColor("#000000"));
+            reportText.setTextColor(Color.parseColor("#000000"));
+            instagramText.setTextColor(Color.parseColor("#000000"));
+            faceBookText.setTextColor(Color.parseColor("#000000"));
 
-        }
-        else if (pref.getTheme().equals("Dark"))
-        {
+        } else if (pref.getTheme().equals("Dark")) {
+            LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
+            faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
+            instagramText.setTextColor(Color.parseColor("#FFFFFF"));
+            rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
+            reportText.setTextColor(Color.parseColor("#FFFFFF"));
             relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
             toolbar.setBackgroundColor(Color.parseColor("#000000"));
             toolBarText.setTextColor(Color.parseColor("#FFFFFF"));
@@ -826,6 +882,8 @@ if (getActivity()!=null)
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
             settingText.setTextColor(Color.parseColor("#FFFFFF"));
+            shareApp.setTextColor(Color.parseColor("#FFFFFF"));
+
             reportUs.setImageResource(R.drawable.ic_report_problem_white);
             deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
             settingCardView.setCardBackgroundColor(Color.parseColor("#000000"));
@@ -840,14 +898,30 @@ if (getActivity()!=null)
             credit.setTextColor(Color.parseColor("#FFFFFF"));
             cardCredit.setCardBackgroundColor(Color.parseColor("#000000"));
             flatIcon.setImageResource(R.drawable.ic_flaticon_white);
+            clearCache.setTextColor(Color.parseColor("#FFFFFF"));
+
             Unsplash.setImageResource(R.drawable.ic_unsplash_white);
             pexels.setImageResource(R.drawable.ic_pexels);
             privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
+            chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
+            loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
+            setThemeText.setTextColor(Color.parseColor("#FFFFFF"));
+            github.setTextColor(Color.parseColor("#FFFFFF"));
 
-        }
-        else {
+        } else {
+            LinkedIn.setTextColor(Color.parseColor("#000000"));
+            github.setTextColor(Color.parseColor("#000000"));
+            faceBookText.setTextColor(Color.parseColor("#000000"));
+            instagramText.setTextColor(Color.parseColor("#000000"));
+            setThemeText.setTextColor(Color.parseColor("#000000"));
+            rateUsText.setTextColor(Color.parseColor("#000000"));
             relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            loadQuality.setTextColor(Color.parseColor("#000000"));
+            chooseImgQuality.setTextColor(Color.parseColor("#000000"));
+            reportText.setTextColor(Color.parseColor("#000000"));
             toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            clearCache.setTextColor(Color.parseColor("#000000"));
+            shareApp.setTextColor(Color.parseColor("#000000"));
             toolBarText.setTextColor(Color.parseColor("#000000"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
@@ -872,8 +946,6 @@ if (getActivity()!=null)
 
 
         }
-
-
 
 
         backtoMain.setOnClickListener(v -> {
@@ -934,8 +1006,7 @@ if (getActivity()!=null)
         });
 
         stringRequest.setShouldCache(false);
-        if (getActivity()!=null)
-        {
+        if (getActivity() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                     3000,
@@ -959,8 +1030,7 @@ if (getActivity()!=null)
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            if (children!=null)
-            {
+            if (children != null) {
                 for (int i = 0; i < children.length; i++) {
                     boolean success = deleteDir(new File(dir, children[i]));
                     if (!success) {

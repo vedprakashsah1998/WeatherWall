@@ -45,6 +45,7 @@ import com.client.vpman.weatherwall.Adapter.PopAdapterLast;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData2;
 import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -131,7 +132,7 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
             overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
         RequestOptions requestOptions = new RequestOptions();
-        // requestOptions.error(Utils.getRandomDrawbleColor());
+         requestOptions.error(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
         requestOptions.priority(Priority.IMMEDIATE);
@@ -245,7 +246,6 @@ Quotes();
                     JSONObject jsonObject=jsonArray.getJSONObject(i);
                     Log.d("eouf", String.valueOf(jsonObject));
                     JSONObject jsonObject1=new JSONObject(String.valueOf(jsonObject));
-                    /*Log.d("TextQuotes", jsonObject1.getString("author"));*/
 
                     RandomQuotes randomQuotes1=new RandomQuotes(jsonObject1.getString("text"),jsonObject1.getString("author"));
                     randomQuotes.add(randomQuotes1);
@@ -257,7 +257,6 @@ Quotes();
 
                 QuotesTextData.setText(randomQuotes.get(n).getQuotes());
                 authorName.setText("~"+randomQuotes.get(n).getAuthor());
-                /*Log.d("asljf",quote);*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }

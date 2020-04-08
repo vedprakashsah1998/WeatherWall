@@ -3,22 +3,17 @@ package com.client.vpman.weatherwall.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.client.vpman.weatherwall.Adapter.CustomePagerAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnBoardingModel;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.button.MaterialButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,18 +50,15 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-        onBoardingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (viewPager2.getCurrentItem()+1<customePagerAdapter.getItemCount())
-                {
-                    viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1);
-                }
-                else
-                {
-                    startActivity(new Intent(IntroActivity.this,MainActivity.class));
-                    finish();
-                }
+        onBoardingButton.setOnClickListener(v -> {
+            if (viewPager2.getCurrentItem()+1<customePagerAdapter.getItemCount())
+            {
+                viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1);
+            }
+            else
+            {
+                startActivity(new Intent(IntroActivity.this,MainActivity.class));
+                finish();
             }
         });
     }
