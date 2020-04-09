@@ -64,7 +64,7 @@ import java.util.Random;
 
 public class FullImageQuotes extends AppCompatActivity {
 
-    String mImg, sImg, largeImg;
+    String mImg, sImg, largeImg,photoUrl;
     ImageView imageView, downloadImg, browser, share, setWall;
     Toolbar toolbar;
     List<String> list;
@@ -126,7 +126,7 @@ public class FullImageQuotes extends AppCompatActivity {
         mImg = intent.getStringExtra("imgDataAdapter");
         sImg = intent.getStringExtra("imgDataAdapterSmall");
         largeImg = intent.getStringExtra("largeImg");
-
+        photoUrl=intent.getStringExtra("photoUrl");
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -708,7 +708,7 @@ public class FullImageQuotes extends AppCompatActivity {
             }
         });
         browser.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(photoUrl));
             startActivity(browserIntent);
         });
         requestStoragePermission();
@@ -767,6 +767,7 @@ public class FullImageQuotes extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         supportFinishAfterTransition();
     }
 

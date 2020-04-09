@@ -111,7 +111,6 @@ public class WeatherFragment extends Fragment {
     Double lat, lon;
     String countryCode = null;
 
-    public String bestProvider;
     MaterialTextView swipeUp2;
 
     int i = 0;
@@ -144,9 +143,7 @@ public class WeatherFragment extends Fragment {
         relLayout = view.findViewById(R.id.relLayout);
         swipeUp2 = view.findViewById(R.id.swipUp2);
         list = new ArrayList<>();
-/*
-        welcomeText=view.findViewById(R.id.welcomeText);
-        welcomeText1=view.findViewById(R.id.welcomeText1);*/
+
         forbesQuotes = view.findViewById(R.id.Forbes_quotes);
 
         designLayout = view.findViewById(R.id.design_layout);
@@ -302,10 +299,7 @@ public class WeatherFragment extends Fragment {
                                     Log.d("fjgj", String.valueOf(response));
 
                                     try {
-                  /*  JSONObject coord=response.getJSONObject("coord");
-                    Log.d("latLong", String.valueOf(coord));
-                    JSONObject longitude=coord.getJSONObject("lon");
-                    JSONObject latitude=coord.getJSONObject("lat");*/
+
                                         JSONObject main_Object = response.getJSONObject("main");
                                         JSONArray array = response.getJSONArray("weather");
                                         JSONObject object = array.getJSONObject(0);
@@ -538,12 +532,6 @@ public class WeatherFragment extends Fragment {
         } else {
             showDialg(getActivity());
         }
-
-
-
-
-        /*Toast.makeText(getActivity(), "Resume", Toast.LENGTH_SHORT).show();*/
-
     }
 
     @Override
@@ -617,7 +605,7 @@ public class WeatherFragment extends Fragment {
         });
         MaterialTextView instagramText = dialog.findViewById(R.id.instagramText);
         instagramText.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/vedprakash.sah.378/"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/weather_wall/"));
             startActivity(browserIntent);
         });
         MaterialTextView faceBookText = dialog.findViewById(R.id.faceBookText);
@@ -822,7 +810,7 @@ public class WeatherFragment extends Fragment {
                 credit.setTextColor(Color.parseColor("#FFFFFF"));
                 flatIcon.setImageResource(R.drawable.ic_flaticon_white);
                 Unsplash.setImageResource(R.drawable.ic_unsplash_white);
-                pexels.setImageResource(R.drawable.ic_pexels);
+                pexels.setImageResource(R.drawable.pexels_white);
                 privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
                 shareApp.setTextColor(Color.parseColor("#FFFFFF"));
 
@@ -901,7 +889,7 @@ public class WeatherFragment extends Fragment {
             clearCache.setTextColor(Color.parseColor("#FFFFFF"));
 
             Unsplash.setImageResource(R.drawable.ic_unsplash_white);
-            pexels.setImageResource(R.drawable.ic_pexels);
+            pexels.setImageResource(R.drawable.pexels_white);
             privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
             chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
             loadQuality.setTextColor(Color.parseColor("#FFFFFF"));

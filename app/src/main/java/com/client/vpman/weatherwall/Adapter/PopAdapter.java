@@ -173,7 +173,7 @@ public class PopAdapter extends RecyclerView.Adapter<PopAdapter.MyPopHandler>
                 intent.putExtra("large",modelData1.getOriginal());
                 intent.putExtra("img",modelData1.getLarge2x());
                 intent.putExtra("imgSmall",modelData1.getLarge());
-
+                intent.putExtra("PhotoUrl",modelData1.getPhotoUrl());
 
                 context.startActivity(intent);
 

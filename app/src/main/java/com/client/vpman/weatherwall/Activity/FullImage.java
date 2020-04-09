@@ -25,6 +25,7 @@ import android.util.LruCache;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -47,8 +48,9 @@ import java.io.OutputStream;
 public class FullImage extends AppCompatActivity
 {
 
-    String mImg,sImg,large;
+    String mImg,sImg,large,PhotoUrl;
     ImageView imageView,browser;
+    RelativeLayout relativeLayout;
     SharedPref1 pref;
     ImageView download,share,setWall;
     private int STORAGE_PERMISSION_CODE = 1;
@@ -62,7 +64,7 @@ public class FullImage extends AppCompatActivity
         setContentView(R.layout.activity_full_image);
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        relativeLayout=findViewById(R.id.action_bar_layout);
         toolbar=findViewById(R.id.tool1bar);
         browser=findViewById(R.id.browserFull);
         toolbar.setTitle("");
@@ -81,7 +83,7 @@ public class FullImage extends AppCompatActivity
         mImg=intent.getStringExtra("img");
         sImg=intent.getStringExtra("imgSmall");
         large=intent.getStringExtra("large");
-
+        PhotoUrl=intent.getStringExtra("PhotoUrl");
 
 
 
@@ -92,14 +94,29 @@ public class FullImage extends AppCompatActivity
         if (pref.getTheme().equals("Light")) {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-
             toolbar.setBackground(drawable);
             toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
 
+
+            toolbar.setBackground(drawable);
             browser.setImageResource(R.drawable.ic_global_black);
+
+            Resources res1 = getResources(); //resource handle
+            Drawable drawable1 = res1.getDrawable(R.drawable.white_design_layout);
+            relativeLayout.setBackground(drawable1);
+            setWall.setImageResource(R.drawable.ic_wallpaper_black);
+            download.setImageResource(R.drawable.ic_file_download_black);
+            share.setImageResource(R.drawable.ic_share_black_24dp);
 
         } else if (pref.getTheme().equals("Dark")) {
 
+            setWall.setImageResource(R.drawable.ic_wallpaper);
+            share.setImageResource(R.drawable.ic_share);
+            download.setImageResource(R.drawable.ic_file_download);
+
+            Resources res1 = getResources(); //resource handle
+            Drawable drawable1 = res1.getDrawable(R.drawable.black_design_layout);
+            relativeLayout.setBackground(drawable1);
             toolbar.setBackgroundColor(Color.parseColor("#000000"));
             toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
             browser.setImageResource(R.drawable.ic_global);
@@ -107,9 +124,13 @@ public class FullImage extends AppCompatActivity
             Drawable drawable = res.getDrawable(R.drawable.basic_design1);
             toolbar.setBackground(drawable);
 
-
         } else {
-
+            Resources res1 = getResources(); //resource handle
+            Drawable drawable1 = res1.getDrawable(R.drawable.white_design_layout);
+            relativeLayout.setBackground(drawable1);
+            setWall.setImageResource(R.drawable.ic_wallpaper_black);
+            download.setImageResource(R.drawable.ic_file_download_black);
+            share.setImageResource(R.drawable.ic_share_black_24dp);
 
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
@@ -731,7 +752,7 @@ public class FullImage extends AppCompatActivity
         requestStoragePermission();
 
         browser.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PhotoUrl));
             startActivity(browserIntent);
         });
 

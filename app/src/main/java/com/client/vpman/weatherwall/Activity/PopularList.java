@@ -61,6 +61,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class PopularList extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
@@ -69,9 +71,9 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
     RecyclerView recyclerView;
     MaterialTextView textView, textView1;
     PopAdapter popAdapter;
-    List<String> slides = new ArrayList<>();
     private long mRequestStartTime;
     RoundedImageView imageView;
+    Timer timer=new Timer();
 
     CoordinatorLayout coordinatorLayout;
     private boolean isHideToolbarView = false;
@@ -213,8 +215,14 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                     .into(imageView);
         }
 
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                LoadImage();
+            }
+        }, 0, 5 * 60 * 1000);
 
-        LoadImage();
+
 
 
     }
@@ -261,10 +269,11 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                     for (int i = 0; i < wallArray.length(); i++) {
                         JSONObject wallobj = wallArray.getJSONObject(i);
                         JSONObject photographer = new JSONObject(String.valueOf(wallobj));
-                        JSONObject ProfileUrl = new JSONObject(String.valueOf(wallobj));
+                        JSONObject PhotoUrl = new JSONObject(String.valueOf(wallobj));
+                        Log.d("PhotoURL", wallobj.getString("url"));
                         JSONObject jsonObject = wallobj.getJSONObject("src");
                         JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                        ModelData1 modelData1 = new ModelData1(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"));
+                        ModelData1 modelData1 = new ModelData1(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"),wallobj.getString("url"));
                         list.add(modelData1);
                     }
                     popAdapter = new PopAdapter(PopularList.this, list);

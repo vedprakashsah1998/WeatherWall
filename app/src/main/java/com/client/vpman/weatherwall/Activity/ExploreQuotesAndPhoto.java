@@ -4,12 +4,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -21,8 +19,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -40,7 +36,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-
 import com.client.vpman.weatherwall.Adapter.PopAdapterLast;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData2;
 import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes;
@@ -51,11 +46,9 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.makeramen.roundedimageview.RoundedImageView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,6 +56,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener
@@ -70,11 +65,10 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
 
     List<String> list,list1;
     List<RandomQuotes> randomQuotes;
-
+    Timer timer=new Timer();
     private boolean isHideToolbarView = false;
     private RelativeLayout titleAppbar;
     private long mRequestStartTime;
-
     private Toolbar toolbar;
     List<ModelData2> list2;
     private AppBarLayout appBarLayout;
@@ -223,8 +217,14 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
         list2=new ArrayList<>();
         list=new ArrayList<>();
         list1=new ArrayList<>();
-        LoadImage();
-Quotes();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                LoadImage();
+                Quotes();
+            }
+        }, 0, 5 * 60 * 1000);
+
     }
 
 
@@ -330,7 +330,7 @@ Quotes();
                         JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
                         JSONObject jsonObject=wallobj.getJSONObject("src");
                         JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                        ModelData2 modelData1=new ModelData2(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"));
+                        ModelData2 modelData1=new ModelData2(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"),wallobj.getString("url"));
                         list2.add(modelData1);
 
 
@@ -417,7 +417,7 @@ Quotes();
                         JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
                         JSONObject jsonObject=wallobj.getJSONObject("src");
                         JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                        ModelData2 modelData1=new ModelData2(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"));
+                        ModelData2 modelData1=new ModelData2(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"),object.getString("original"),wallobj.getString("url"));
                         list2.add(modelData1);
 
 

@@ -1,8 +1,10 @@
 package com.client.vpman.weatherwall.Adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.LruCache;
 
@@ -83,8 +85,31 @@ private Context context;
             //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.centerCrop();
 
+            if (pref1.getTheme().equals("Light"))
+            {
+                Resources res = context.getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.main_design_white);
+                holder.viewLayout.setBackground(drawable);
+                holder.PhotoGrapherName.setTextColor(Color.parseColor("#000000"));
+            }
+            else if (pref1.getTheme().equals("Dark"))
+            {
+                Resources res = context.getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.basic_design);
+                holder.viewLayout.setBackground(drawable);
+                holder.PhotoGrapherName.setTextColor(Color.parseColor("#FFFFFF"));
+            }
+            else
+            {
+                holder.PhotoGrapherName.setTextColor(Color.parseColor("#000000"));
+                Resources res = context.getResources(); //resource handle
+                Drawable drawable = res.getDrawable(R.drawable.main_design_white);
+                holder.viewLayout.setBackground(drawable);
+            }
+
             if (pref1.getImageLoadQuality().equals("Default"))
             {
+
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
                         .thumbnail(
@@ -180,10 +205,12 @@ private Context context;
     {
         RoundedImageView imageView;
         MaterialTextView PhotoGrapherName;
+        View viewLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.imageData);
             PhotoGrapherName=itemView.findViewById(R.id.photoGrapherName);
+            viewLayout=itemView.findViewById(R.id.viewLayout);
 
         }
     }

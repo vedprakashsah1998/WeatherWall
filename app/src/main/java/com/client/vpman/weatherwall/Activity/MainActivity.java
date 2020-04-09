@@ -67,6 +67,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements OnDataPass,TabLayout.OnTabSelectedListener
 {
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
     private String Url;
     KenBurnsView imageView;
     private long mRequestStartTime;
-    ProgressBar progressBar;
+    Timer timer=new Timer();
     String query;
     RotateLayout blackrotate,whiteRotate;
 
@@ -689,30 +691,36 @@ public void loadImage()
 
         query=data.replace(" ","%20");
        Url="https://api.pexels.com/v1/search?query="+query+"&per_page=150&page=1";
-        if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectionFast(ConnectivityManager.TYPE_MOBILE, TelephonyManager.NETWORK_TYPE_EDGE))
-        {
-            UnSplash();
-        }
-        else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectionFast(ConnectivityManager.TYPE_MOBILE, TelephonyManager.NETWORK_TYPE_CDMA))
-        {
-            UnSplash();
-        }
-        else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectionFast(ConnectivityManager.TYPE_MOBILE, TelephonyManager.NETWORK_TYPE_1xRTT))
-        {
-            UnSplash();
-        }
-        else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectedWifi(MainActivity.this)&&Connectivity.isConnectedFast(MainActivity.this))
-        {
-            loadImage();
-        }
-        else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectedMobile(MainActivity.this)&&Connectivity.isConnectedFast(MainActivity.this))
-        {
-            loadImage1();
-        }
-        else
-        {
-            loadImage2();
-        }
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectionFast(ConnectivityManager.TYPE_MOBILE, TelephonyManager.NETWORK_TYPE_EDGE))
+                {
+                    UnSplash();
+                }
+                else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectionFast(ConnectivityManager.TYPE_MOBILE, TelephonyManager.NETWORK_TYPE_CDMA))
+                {
+                    UnSplash();
+                }
+                else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectionFast(ConnectivityManager.TYPE_MOBILE, TelephonyManager.NETWORK_TYPE_1xRTT))
+                {
+                    UnSplash();
+                }
+                else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectedWifi(MainActivity.this)&&Connectivity.isConnectedFast(MainActivity.this))
+                {
+                    loadImage();
+                }
+                else if (Connectivity.isConnected(MainActivity.this)&&Connectivity.isConnectedMobile(MainActivity.this)&&Connectivity.isConnectedFast(MainActivity.this))
+                {
+                    loadImage1();
+                }
+                else
+                {
+                    loadImage2();
+                }
+            }
+        }, 0, 5 * 60 * 1000);
+
 
     }
 

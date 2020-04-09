@@ -11,9 +11,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,13 +60,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LastFragment extends Fragment {
 
-
+    private Timer timer = new Timer();
     public LastFragment() {
         // Required empty public constructor
     }
@@ -98,12 +97,21 @@ public class LastFragment extends Fragment {
         view1 = view.findViewById(R.id.viewcurated);
         recyclerView = view.findViewById(R.id.recyclerView);
         imageView = view.findViewById(R.id.lastImage);
-        /*four_K_layout=view.findViewById(R.id.four_K_layout);*/
         recyclerView.setHasFixedSize(true);
         curatedText=view.findViewById(R.id.curatedText);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(true);
-        new Thread(() -> getActivity().runOnUiThread(() -> loadImage())).start();
+        if (getActivity()!=null)
+        {
+            new Thread(() -> getActivity().runOnUiThread(() ->
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            loadImage();
+                        }
+                    }, 0, 5 * 60 * 1000))).start();
+        }
+
         layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true);
         recyclerView.setLayoutManager(layoutManager);
         /*  recyclerView.setLayoutManager((new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true)));*/
@@ -172,13 +180,9 @@ public class LastFragment extends Fragment {
                     String userImg1 = object.getString("tiny");
 
 
-                    ModelData modelData1 = new ModelData(jsonObject.getString("large2x"), photographer.getString("photographer"), jsonObject.getString("large"), jsonObject.getString("original"));
+                    ModelData modelData1 = new ModelData(jsonObject.getString("large2x"), photographer.getString("photographer"), jsonObject.getString("large"), jsonObject.getString("original"),wallobj.getString("url"));
                     modelData.add(modelData1);
-                    Log.d("imgLoad", modelData1.getLarge2x());
-                    Log.d("userImage", phUrl);
-                    Log.d("userImage1", userImg1);
-                    Log.d("ewf", String.valueOf(modelData));
-                    /*slides.add(object.getString("large2x"));*/
+
 
                 }
                 Collections.shuffle(modelData);
@@ -254,13 +258,8 @@ public class LastFragment extends Fragment {
                     intent.putExtra("img", modelData2.getLarge2x());
                     intent.putExtra("imgSmall", modelData2.getLarge());
                     intent.putExtra("large", modelData2.getOriginal());
-                    Pair<View, String> pair = Pair.create((View) imageView, ViewCompat.getTransitionName(imageView));
-                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            getActivity(), pair
-                    );
-
+                    intent.putExtra("PhotoUrl",modelData2.getPhotoUrl());
                     startActivity(intent);
-
                 });
 
 

@@ -190,7 +190,7 @@ public class PopAdapterLast extends RecyclerView.Adapter<PopAdapterLast.MyPopHan
                 intent.putExtra("largeImg",modelData1.getOriginal());
                 intent.putExtra("imgDataAdapter",modelData1.getLarge2x());
                 intent.putExtra("imgDataAdapterSmall",modelData1.getLarge());
-
+                intent.putExtra("photoUrl",modelData1.getPhotoUrl());
                 /*Pair<View, String> pair = Pair.create((View)holder.imageView, ViewCompat.getTransitionName(holder.imageView));
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         (Activity) context,pair
