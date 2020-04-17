@@ -1,10 +1,8 @@
 package com.client.vpman.weatherwall.Activity;
 
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,11 +15,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.LruCache;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -40,17 +35,12 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Adapter.PopAdapter;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData1;
+import com.client.vpman.weatherwall.Adapter.TestingAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData4;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.kc.unsplash.Unsplash;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,107 +51,61 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
+public class TestingMotionLayout extends AppCompatActivity {
 
-public class PopularList extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
-
-    ImageView back, back1;
     RecyclerView recyclerView;
-    MaterialTextView textView, textView1;
-    PopAdapter popAdapter;
+    List<ModelData4> modelData4List;
+    TestingAdapter testingAdapter;
     private long mRequestStartTime;
-    RoundedImageView imageView;
-    Timer timer=new Timer();
-
-    CoordinatorLayout coordinatorLayout;
-    private boolean isHideToolbarView = false;
-    private RelativeLayout titleAppbar;
-    private Toolbar toolbar;
-    private AppBarLayout appBarLayout;
-    List<ModelData1> list = new ArrayList<>();
-    private Unsplash unsplash;
-    private final String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
-    private final String CLIENT_ID1 = "d3a92adcee2ef1d4cee1b52e80ae2c7f8ca95494ece74c74ae9c396fe8ba941a";
     String query;
+    MaterialTextView materialTextView;
+    ImageView toolbar_image,backMotion;
     SharedPref1 sharedPref1;
+    MotionLayout motionLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popular_list);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        toolbar = findViewById(R.id.toolBar);
-
-        sharedPref1=new SharedPref1(PopularList.this);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        appBarLayout = findViewById(R.id.appBar);
-        appBarLayout.addOnOffsetChangedListener(this);
-        back = findViewById(R.id.back9);
-        back1 = findViewById(R.id.back10);
-        titleAppbar = findViewById(R.id.title_appbar);
-        coordinatorLayout=findViewById(R.id.cordinatorData);
-        textView = findViewById(R.id.tv009);
-        textView1 = findViewById(R.id.tv);
-        imageView = findViewById(R.id.roundImage);
-        recyclerView = findViewById(R.id.recyclerView991);
-        unsplash = new Unsplash(CLIENT_ID);
-
-        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("");
-
+        setContentView(R.layout.activity_testing_motion_layout);
+        recyclerView=findViewById(R.id.recyclerviewTesting);
+        toolbar_image=findViewById(R.id.toolbar_image);
+        materialTextView=findViewById(R.id.titleData);
+        backMotion=findViewById(R.id.backMotion);
+        motionLayout=findViewById(R.id.motionBackground);
         Intent intent = getIntent();
         String mImg = intent.getStringExtra("img1");
         String sImg = intent.getStringExtra("img2");
         query = intent.getStringExtra("query");
         String Landscape = intent.getStringExtra("text");
-        textView.setText(Landscape);
-        textView1.setText(Landscape);
-
-        back.setOnClickListener(view -> {
-
-            finish();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        });
-        back1.setOnClickListener(view -> {
-
-            finish();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        });
-
+        materialTextView.setText(Landscape);
+        sharedPref1=new SharedPref1(TestingMotionLayout.this);
         if (sharedPref1.getTheme().equals("Light")) {
+            toolbar_image.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            materialTextView.setTextColor(Color.parseColor("#000000"));
+            backMotion.setImageResource(R.drawable.ic_arrow_back);
+            motionLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+        else if (sharedPref1.getTheme().equals("Dark"))
+        {
+            toolbar_image.setBackgroundColor(Color.parseColor("#000000"));
+            materialTextView.setTextColor(Color.parseColor("#FFFFFF"));
+            backMotion.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+            motionLayout.setBackgroundColor(Color.parseColor("#000000"));
 
-            coordinatorLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            back.setImageResource(R.drawable.ic_arrow_back);
-            textView1.setTextColor(Color.parseColor("#000000"));
-
-        } else if (sharedPref1.getTheme().equals("Dark")) {
-            coordinatorLayout.setBackgroundColor(Color.parseColor("#000000"));
-            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#000000"));
-            toolbar.setBackgroundColor(Color.parseColor("#000000"));
-            back.setImageResource(R.drawable.ic_arrow_back_black_24dp);
-            textView1.setTextColor(Color.parseColor("#FFFFFF"));
-
-
-
-        } else {
-
-            coordinatorLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            collapsingToolbarLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            back.setImageResource(R.drawable.ic_arrow_back);
-            textView1.setTextColor(Color.parseColor("#000000"));
+        }
+        else
+        {
+            toolbar_image.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            materialTextView.setTextColor(Color.parseColor("#000000"));
+            backMotion.setImageResource(R.drawable.ic_arrow_back);
+            motionLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
-
-
+        backMotion.setOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        });
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -176,7 +120,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-         requestOptions.placeholder(Utils.getRandomDrawbleColor());
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.centerCrop();
 
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
@@ -188,12 +132,12 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.
-            imageView.setImageBitmap(image);
+            toolbar_image.setImageBitmap(image);
         } else {
-            Glide.with(PopularList.this)
+            Glide.with(TestingMotionLayout.this)
                     .load(mImg)
                     .thumbnail(
-                            Glide.with(PopularList.this).load(sImg)
+                            Glide.with(TestingMotionLayout.this).load(sImg)
                     )
                     .apply(requestOptions)
                     .listener(new RequestListener<Drawable>() {
@@ -212,48 +156,19 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                         }
                     })
 
-                    .into(imageView);
+                    .into(toolbar_image);
         }
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                LoadImage();
-            }
-        }, 0, 5 * 60 * 1000);
-
-
-
-
-    }
-
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        int maxScroll = appBarLayout.getTotalScrollRange();
-        float percentage = (float) Math.abs(i) / (float) maxScroll;
-        if (percentage == 1f && isHideToolbarView) {
-            imageView.setVisibility(View.GONE);
-            titleAppbar.setVisibility(View.VISIBLE);
-            back.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
-            toolbar.setVisibility(View.VISIBLE);
-            isHideToolbarView = !isHideToolbarView;
-
-        } else if (percentage < 1f && !isHideToolbarView) {
-            imageView.setVisibility(View.VISIBLE);
-            titleAppbar.setVisibility(View.GONE);
-            back.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.GONE);
-            isHideToolbarView = !isHideToolbarView;
-        }
+        modelData4List=new ArrayList<>();
+        LoadImage();
     }
 
     public void LoadImage() {
         mRequestStartTime = System.currentTimeMillis();
 
-        if (query != null) {
-            String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=100&page=1";
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            String Url = "https://api.pexels.com/v1/search?query="+query+"&per_page=100&page=1";
             StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
                 Log.d("response", response);
 
@@ -273,10 +188,10 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                         Log.d("PhotoURL", wallobj.getString("url"));
                         JSONObject jsonObject = wallobj.getJSONObject("src");
                         JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                        ModelData1 modelData1 = new ModelData1(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"),wallobj.getString("url"));
-                        list.add(modelData1);
+                        ModelData4 modelData1 = new ModelData4(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"),wallobj.getString("url"));
+                        modelData4List.add(modelData1);
                     }
-                    popAdapter = new PopAdapter(PopularList.this, list);
+                    testingAdapter = new TestingAdapter(TestingMotionLayout.this, modelData4List);
                     LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -285,7 +200,7 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
                     recyclerView.setNestedScrollingEnabled(true);
                     int itemViewType = 0;
                     recyclerView.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
-                    recyclerView.setAdapter(popAdapter);
+                    recyclerView.setAdapter(testingAdapter);
 
 
                 } catch (Exception e) {
@@ -321,13 +236,11 @@ public class PopularList extends AppCompatActivity implements AppBarLayout.OnOff
 
             stringRequest.setShouldCache(false);
 
-            RequestQueue requestQueue = Volley.newRequestQueue(PopularList.this);
+            RequestQueue requestQueue = Volley.newRequestQueue(TestingMotionLayout.this);
             stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(stringRequest);
-        } else {
-            Toast.makeText(this, "Network Failure", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
 

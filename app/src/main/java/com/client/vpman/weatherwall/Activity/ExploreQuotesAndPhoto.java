@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -343,7 +344,7 @@ public class ExploreQuotesAndPhoto extends AppCompatActivity implements AppBarLa
                     recyclerView.setLayoutManager(linearLayoutManager);
 
                     recyclerView.setHasFixedSize(true);
-
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setNestedScrollingEnabled(true);
                     int itemViewType = 0;
                     recyclerView.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);

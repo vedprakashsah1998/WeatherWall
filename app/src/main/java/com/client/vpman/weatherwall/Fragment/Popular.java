@@ -37,7 +37,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Activity.PopularList;
+import com.client.vpman.weatherwall.Activity.TestingMotionLayout;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
@@ -250,7 +250,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
 
                             imageView.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query);
@@ -343,7 +343,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
                                     .into(imageView1);
                             imageView1.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query1);
@@ -437,7 +437,7 @@ RoundedImageView imageView,imageView1,imageView2;
                                     .into(imageView2);
 
                             imageView2.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query2);
@@ -532,7 +532,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
 
                             Landscape.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query3);
@@ -626,7 +626,7 @@ RoundedImageView imageView,imageView1,imageView2;
                                     .into(Cityscape);
 
                             Cityscape.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query4);
@@ -721,7 +721,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
                                     .into(Seascape);
                         Seascape.setOnClickListener(view -> {
-                            Intent intent=new Intent(getActivity(), PopularList.class);
+                            Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                             intent.putExtra("img1",photos.get(n).getUrls().getFull());
                             intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                             intent.putExtra("query",query5);
@@ -815,7 +815,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
                                     .into(Twilight);
                             Twilight.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query6);
@@ -905,7 +905,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
                                     .into(Food);
                             Food.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query7);
@@ -995,7 +995,7 @@ RoundedImageView imageView,imageView1,imageView2;
 
                                     .into(DroneView);
                             DroneView.setOnClickListener(view -> {
-                                Intent intent=new Intent(getActivity(), PopularList.class);
+                                Intent intent=new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1",photos.get(n).getUrls().getFull());
                                 intent.putExtra("img2",photos.get(n).getUrls().getRegular());
                                 intent.putExtra("query",query8);

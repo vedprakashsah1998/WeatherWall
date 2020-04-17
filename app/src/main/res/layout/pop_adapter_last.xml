@@ -8,6 +8,7 @@
     android:id="@+id/imgDataLast"
     app:riv_corner_radius="22dp"
     app:riv_mutate_background="true"
+    android:adjustViewBounds="true"
     android:padding="2dp"
-    android:scaleType="centerCrop" />
+    android:scaleType="fitXY" />
 

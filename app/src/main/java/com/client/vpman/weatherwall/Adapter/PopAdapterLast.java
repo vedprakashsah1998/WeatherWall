@@ -1,6 +1,5 @@
 package com.client.vpman.weatherwall.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,9 +19,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Activity.FullImage;
 import com.client.vpman.weatherwall.Activity.FullImageQuotes;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData2;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
@@ -33,9 +30,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PopAdapterLast extends RecyclerView.Adapter<PopAdapterLast.MyPopHandlerMain>
@@ -215,13 +209,7 @@ public class PopAdapterLast extends RecyclerView.Adapter<PopAdapterLast.MyPopHan
             imageView=itemView.findViewById(R.id.imgDataLast);
         }
     }
-/*
-    public void setPhotos(List<ModelData1> photos)
-    {
-        this.list = photos;
-        notifyDataSetChanged();
 
-    }*/
 @Override
 public int getItemViewType(int position) {
     return position;

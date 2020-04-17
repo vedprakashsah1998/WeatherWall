@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.TestingMotionLayout"></activity>
         <activity android:name=".Activity.IntroActivity" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.FullImageQuotes" />
         <activity android:name=".Activity.ExploreQuotesAndPhoto" />
-        <activity android:name=".Activity.PopularList" />
         <activity android:name=".Activity.FullImage" />
         <activity android:name=".Activity.SplashScreen">
             <intent-filter>
@@ -40,6 +40,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <dist:module dist:instant="true" />
