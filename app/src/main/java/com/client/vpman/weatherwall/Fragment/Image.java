@@ -35,8 +35,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Activity.ExploreQuotesAndPhoto;
-import com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter;
+import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
@@ -44,6 +43,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
+
 
 
 import java.util.List;
@@ -86,34 +86,8 @@ public class Image extends Fragment {
 
         relativeLayout=view.findViewById(R.id.relative);
 
-       /* if (getActivity()!=null)
-        {
-            sharedPref1=new SharedPref1(getActivity());
-            if (sharedPref1.getTheme().equals("Light"))
-            {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.design_assets_black);
-                relativeLayout.setBackground(drawable);
-                desc.setTextColor(Color.parseColor("#FFFFFF"));
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            }
-            else if (sharedPref1.getTheme().equals("Dark"))
-            {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.design_assets);
-                relativeLayout.setBackground(drawable);
-                desc.setTextColor(Color.parseColor("#3C3C3C"));
-
-            }
-            else
-            {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.design_assets_black);
-                relativeLayout.setBackground(drawable);
-                desc.setTextColor(Color.parseColor("#FFFFFF"));
-
-            }
-        }*/
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -123,12 +97,11 @@ public class Image extends Fragment {
         requestOptions.onlyRetrieveFromCache(true);
         requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.priority(Priority.HIGH);
-        requestOptions.isMemoryCacheable();
+
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.centerCrop();
+
 
 
 
@@ -155,17 +128,25 @@ public class Image extends Fragment {
                         }
                     };
                     if (getActivity() != null) {
-                        Display display = getActivity().getWindowManager().getDefaultDisplay();
-                        Point size = new Point();
-                        display.getSize(size);
-                        int width = size.x; //width of screen in pixels
-                        int height = size.y;
+
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
                             imageView.setImageBitmap(image);
                         } else {
-                            Glide.with(getContext())
+/*                            Picasso.get().load(photos.get(n).getUrls().getFull())
+                                   .fit()
+                                    .placeholder(Utils.getRandomDrawbleColor()).into(imageView);*/
+
+/*                        Glide.with(getActivity()).load(photos.get(n).getUrls().getFull())
+                                .thumbnail( Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular()))
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70)
+                                .priority(Priority.HIGH).placeholder(Utils.getRandomDrawbleColor())
+                                .onlyRetrieveFromCache(true)
+                                .skipMemoryCache(false)
+                                .into(imageView);*/
+                            Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
                                             Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular())
@@ -192,7 +173,7 @@ public class Image extends Fragment {
                         }
 
                         imageView.setOnClickListener(v -> {
-                            Intent intent = new Intent(getActivity(), ExploreQuotesAndPhoto.class);
+                            Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
                             intent.putExtra("imgData", photos.get(n).getUrls().getFull());
                             intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
                             intent.putExtra("query", query);

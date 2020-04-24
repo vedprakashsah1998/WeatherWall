@@ -14,6 +14,7 @@
             android:layout_height="200dp"
             android:id="@+id/imageData"
             app:riv_corner_radius="20dp"
+            app:riv_tile_mode="repeat"
             app:riv_mutate_background="true"
             android:scaleType="centerCrop"/>
         <View

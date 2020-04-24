@@ -48,6 +48,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,16 +64,19 @@ public class TestingMotionLayout extends AppCompatActivity {
     ImageView toolbar_image,backMotion;
     SharedPref1 sharedPref1;
     MotionLayout motionLayout;
+    ImageView backgroundDesign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testing_motion_layout);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         recyclerView=findViewById(R.id.recyclerviewTesting);
         toolbar_image=findViewById(R.id.toolbar_image);
         materialTextView=findViewById(R.id.titleData);
         backMotion=findViewById(R.id.backMotion);
         motionLayout=findViewById(R.id.motionBackground);
+        backgroundDesign=findViewById(R.id.backgroundDesign);
         Intent intent = getIntent();
         String mImg = intent.getStringExtra("img1");
         String sImg = intent.getStringExtra("img2");
@@ -81,25 +85,27 @@ public class TestingMotionLayout extends AppCompatActivity {
         materialTextView.setText(Landscape);
         sharedPref1=new SharedPref1(TestingMotionLayout.this);
         if (sharedPref1.getTheme().equals("Light")) {
-            toolbar_image.setBackgroundColor(Color.parseColor("#FFFFFF"));
             materialTextView.setTextColor(Color.parseColor("#000000"));
             backMotion.setImageResource(R.drawable.ic_arrow_back);
             motionLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            backgroundDesign.setImageResource(R.drawable.basic_design_customized_white);
         }
         else if (sharedPref1.getTheme().equals("Dark"))
         {
-            toolbar_image.setBackgroundColor(Color.parseColor("#000000"));
+
             materialTextView.setTextColor(Color.parseColor("#FFFFFF"));
             backMotion.setImageResource(R.drawable.ic_arrow_back_black_24dp);
             motionLayout.setBackgroundColor(Color.parseColor("#000000"));
+            backgroundDesign.setImageResource(R.drawable.basic_design_customized);
 
         }
         else
         {
-            toolbar_image.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
             materialTextView.setTextColor(Color.parseColor("#000000"));
             backMotion.setImageResource(R.drawable.ic_arrow_back);
             motionLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            backgroundDesign.setImageResource(R.drawable.basic_design_customized_white);
         }
 
         backMotion.setOnClickListener(v -> {
@@ -166,7 +172,6 @@ public class TestingMotionLayout extends AppCompatActivity {
     public void LoadImage() {
         mRequestStartTime = System.currentTimeMillis();
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
             String Url = "https://api.pexels.com/v1/search?query="+query+"&per_page=100&page=1";
             StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
@@ -191,6 +196,7 @@ public class TestingMotionLayout extends AppCompatActivity {
                         ModelData4 modelData1 = new ModelData4(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"),wallobj.getString("url"));
                         modelData4List.add(modelData1);
                     }
+                    Collections.shuffle(modelData4List);
                     testingAdapter = new TestingAdapter(TestingMotionLayout.this, modelData4List);
                     LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(linearLayoutManager);

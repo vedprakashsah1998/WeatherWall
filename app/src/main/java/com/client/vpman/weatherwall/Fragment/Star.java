@@ -3,7 +3,6 @@ package com.client.vpman.weatherwall.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,10 +14,10 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.util.LruCache;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -28,7 +27,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.client.vpman.weatherwall.Activity.ExploreQuotesAndPhoto;
+import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.kc.unsplash.Unsplash;
@@ -69,7 +68,7 @@ public class Star extends Fragment {
 
         imageView=view.findViewById(R.id.Star);
         unsplash=new Unsplash(CLIENT_ID);
-
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
@@ -80,8 +79,7 @@ public class Star extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
         requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.centerCrop();
+
 
         query="star";
 
@@ -108,11 +106,6 @@ public class Star extends Fragment {
                     };
                     if (getActivity()!=null)
                     {
-                        Display display = getActivity().getWindowManager().getDefaultDisplay();
-                        Point size = new Point();
-                        display.getSize(size);
-                        int width = size.x; //width of screen in pixels
-                        int height = size.y;
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
@@ -146,7 +139,7 @@ public class Star extends Fragment {
 
                         }
                         imageView.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreQuotesAndPhoto.class);
+                            Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
                             intent.putExtra("imgData",photos.get(n).getUrls().getFull());
                             intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
                             intent.putExtra("query",query);

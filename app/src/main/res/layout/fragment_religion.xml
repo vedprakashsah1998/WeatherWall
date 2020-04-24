@@ -54,6 +54,8 @@
         android:id="@+id/Religion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:riv_tile_mode="repeat"
+
         android:scaleType="centerCrop"
         android:transitionName="imgData"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Transition
+        app:constraintSetEnd="@id/collapsed"
+        app:constraintSetStart="@id/expanded">
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/recylerViewExploreData"
+            app:touchAnchorSide="top" />
+        <KeyFrameSet>
+            <KeyAttribute
+                app:framePosition="60"
+                app:motionTarget="@id/imageExplore">
+                <CustomAttribute
+                    app:attributeName="imageAlpha"
+                    app:customIntegerValue="255" />
+            </KeyAttribute>
+            <KeyAttribute
+                app:framePosition="90"
+                app:motionTarget="@id/imageExplore">
+                <CustomAttribute
+                    app:attributeName="imageAlpha"
+                    app:customIntegerValue="0" />
+            </KeyAttribute>
+            <KeyPosition
+                app:keyPositionType="pathRelative"
+                app:framePosition="80"
+                app:motionTarget="@id/titleDataExp"
+                app:percentX="0.9" />
+        </KeyFrameSet>
+    </Transition>
+    <ConstraintSet android:id="@+id/expanded">
+        <Constraint
+            android:id="@id/imageExplore"
+            android:layout_height="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@id/titleDataExp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            app:layout_constraintTop_toTopOf="@+id/backgroundDesignExp"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/backgroundDesignExp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageExplore"
+            app:layout_constraintEnd_toStartOf="parent"
+            />
+    </ConstraintSet>
+    <ConstraintSet android:id="@+id/collapsed">
+        <Constraint
+            android:id="@id/imageExplore"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@id/titleDataExp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.625"
+            android:scaleY="0.625"
+            app:layout_constraintBottom_toTopOf="@+id/backgroundDesignExp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageExplore" />
+        <Constraint
+            android:id="@+id/backgroundDesignExp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/imageExplore"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+    </ConstraintSet>
+</MotionScene>

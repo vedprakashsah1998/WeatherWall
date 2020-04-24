@@ -7,7 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="54dp"
     tools:context=".Fragment.Car">
-
     <RelativeLayout
         android:id="@+id/relative5"
         android:layout_width="match_parent"
@@ -18,7 +17,6 @@
         app:layout_constraintBottom_toBottomOf="@id/Car"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/carText"
         android:layout_width="wrap_content"
@@ -35,7 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/relative5"
         app:textAllCaps="true" />
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/desc"
         android:layout_width="wrap_content"
@@ -49,11 +46,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/carText" />
-
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/Car"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:riv_tile_mode="repeat"
         android:scaleType="centerCrop"
         android:transitionName="imgData"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,6 +59,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:riv_corner_radius="50dp"
         app:riv_mutate_background="true" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

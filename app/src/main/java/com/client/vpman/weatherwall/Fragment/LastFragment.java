@@ -101,16 +101,7 @@ public class LastFragment extends Fragment {
         curatedText=view.findViewById(R.id.curatedText);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(true);
-        if (getActivity()!=null)
-        {
-            new Thread(() -> getActivity().runOnUiThread(() ->
-                    timer.scheduleAtFixedRate(new TimerTask() {
-                        @Override
-                        public void run() {
-                            loadImage();
-                        }
-                    }, 0, 5 * 60 * 1000))).start();
-        }
+        loadImage();
 
         layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true);
         recyclerView.setLayoutManager(layoutManager);
@@ -157,7 +148,7 @@ public class LastFragment extends Fragment {
 
     public void loadImage() {
         modelData = new ArrayList<>();
-        /*slides=new ArrayList<>();*/
+
 
         Log.d("iuedqwljgdho", Url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
@@ -187,14 +178,7 @@ public class LastFragment extends Fragment {
                 }
                 Collections.shuffle(modelData);
 
-/*
-                Random random=new Random();
-                int n = random.nextInt(modelData.size());*/
-/*
-                Log.d("regr", String.valueOf(modelData.get(n)));
-*/
                 RequestOptions requestOptions = new RequestOptions();
-                // requestOptions.error(Utils.getRandomDrawbleColor());
                 requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                         .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
                 requestOptions.priority(Priority.IMMEDIATE);
@@ -215,41 +199,40 @@ public class LastFragment extends Fragment {
                         return image.getByteCount() / 1024;
                     }
                 };
-                Display display = getActivity().getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                int width = size.x; //width of screen in pixels
-                int height = size.y;
                 Bitmap image = memCache.get("imagefile");
                 if (image != null) {
                     //Bitmap exists in cache.
                     imageView.setImageBitmap(image);
                 } else {
-                    Glide.with(getActivity())
-                            .load(modelData.get(0).getOriginal())
-                            .thumbnail(
-                                    Glide.with(getActivity()).load(modelData.get(0).getLarge2x())
-                            )
-                            .apply(requestOptions)
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    //  spinKitView.setVisibility(View.GONE);
+                    if (getActivity()!=null)
+                    {
+                        Glide.with(getActivity())
+                                .load(modelData.get(0).getOriginal())
+                                .thumbnail(
+                                        Glide.with(getActivity()).load(modelData.get(0).getLarge2x())
+                                )
+                                .apply(requestOptions)
+                                .listener(new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                        //  spinKitView.setVisibility(View.GONE);
 
 
-                                    return false;
-                                }
+                                        return false;
+                                    }
 
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
-                                    // spinKitView.setVisibility(View.GONE);
+                                        // spinKitView.setVisibility(View.GONE);
 
-                                    return false;
-                                }
-                            })
+                                        return false;
+                                    }
+                                })
 
-                            .into(imageView);
+                                .into(imageView);
+                    }
+
 
                 }
                 imageView.setOnClickListener(view -> {
@@ -292,45 +275,45 @@ public class LastFragment extends Fragment {
                                     return image.getByteCount() / 1024;
                                 }
                             };
-                            Display display = getActivity().getWindowManager().getDefaultDisplay();
-                            Point size = new Point();
-                            display.getSize(size);
-                            int width = size.x; //width of screen in pixels
-                            int height = size.y;
+
                             Bitmap image = memCache.get("imagefile");
                             if (image != null) {
                                 //Bitmap exists in cache.
                                 imageView.setImageBitmap(image);
                             } else {
 
-                                Glide.with(getActivity())
-                                        .load(modelData.get(position).getLarge2x())
-                                        .thumbnail(
-                                                Glide.with(getActivity()).load(modelData.get(position).getLarge2x())
-                                        )
-                                        .apply(requestOptions)
-                                        .listener(new RequestListener<Drawable>() {
-                                            @Override
-                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                                //  spinKitView.setVisibility(View.GONE);
+                                if (getActivity()!=null)
+                                {
+                                    Glide.with(getActivity())
+                                            .load(modelData.get(position).getLarge2x())
+                                            .thumbnail(
+                                                    Glide.with(getActivity()).load(modelData.get(position).getLarge2x())
+                                            )
+                                            .apply(requestOptions)
+                                            .listener(new RequestListener<Drawable>() {
+                                                @Override
+                                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                                    //  spinKitView.setVisibility(View.GONE);
 
 
-                                                return false;
-                                            }
+                                                    return false;
+                                                }
 
-                                            @Override
-                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                                @Override
+                                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
-                                                // spinKitView.setVisibility(View.GONE);
+                                                    // spinKitView.setVisibility(View.GONE);
 
-                                                return false;
-                                            }
-                                        })
+                                                    return false;
+                                                }
+                                            })
 
-                                        .into(imageView);
+                                            .into(imageView);
+                                }
+
+
                             }
 
-                            //  Glide.with(getActivity()).load(modelData.get(position).getLarge2x()).into(imageView);
 
                         }
                     }
@@ -361,13 +344,11 @@ public class LastFragment extends Fragment {
                             HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                     // Now you can use any deserializer to make sense of data
                     JSONObject obj = new JSONObject(res);
-                } catch (UnsupportedEncodingException e1) {
+                } catch (UnsupportedEncodingException | JSONException e1) {
                     // Couldn't properly decode data to string
                     e1.printStackTrace();
-                } catch (JSONException e2) {
-                    // returned data is not JSONObject?
-                    e2.printStackTrace();
-                }
+                } // returned data is not JSONObject?
+
             }
 
         }) {
@@ -381,10 +362,14 @@ public class LastFragment extends Fragment {
 
         stringRequest.setShouldCache(false);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
+        if (getActivity()!=null)
+        {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(stringRequest);
+        }
+
     }
 
 

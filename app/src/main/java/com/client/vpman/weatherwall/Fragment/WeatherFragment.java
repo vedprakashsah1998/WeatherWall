@@ -17,7 +17,6 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -58,7 +57,6 @@ import com.client.vpman.weatherwall.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -70,14 +68,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -87,13 +83,8 @@ import static android.content.Context.LOCATION_SERVICE;
 public class WeatherFragment extends Fragment {
     MaterialTextView t1_temp, t2_city, t3_description, t4_date, forbesQuotes;
     String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
-    String apiKey1 = "ec55ea59368f44782fb4dcb6ab028f5a";
-    String apiKey2 = "4256b9145e7841dad1aa07b8b3ca5be3";
-    String apiKey3 = "667dcb63169e18e220f8ade175d2b016";
 
-    String APIKEY[]={"1f01ced93d6608528a3bc65ad580f9e4","ec55ea59368f44782fb4dcb6ab028f5a","4256b9145e7841dad1aa07b8b3ca5be3","667dcb63169e18e220f8ade175d2b016"};
     List<String>apiList;
-    private Timer timer = new Timer();
 
     String JsonUrl = "https://api.openweathermap.org/data/2.5/weather?q=,in&appid=" + apiKey;
 
@@ -101,10 +92,8 @@ public class WeatherFragment extends Fragment {
     String cityname;
     private static final int PERMISSION_REQUEST_CODE = 200;
     private View view;
-    private StringBuilder msg = new StringBuilder(2048);
     Animation bounce;
     boolean gps_enabled = false;
-    private GoogleMap mMap;
     boolean network_enabled = false;
     OnDataPass dataPasser;
     ImageView swipeUp;
@@ -113,7 +102,7 @@ public class WeatherFragment extends Fragment {
 
     MaterialTextView swipeUp2;
 
-    int i = 0;
+
     ImageView image;
     List<Address> addresses;
 
@@ -261,97 +250,97 @@ public class WeatherFragment extends Fragment {
 
         if (getActivity() != null) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        }
-        apiList=new ArrayList<>();
-        apiList.add("1f01ced93d6608528a3bc65ad580f9e4");
-        apiList.add("ec55ea59368f44782fb4dcb6ab028f5a");
-        apiList.add("4256b9145e7841dad1aa07b8b3ca5be3");
-        apiList.add("667dcb63169e18e220f8ade175d2b016");
 
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), location -> {
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        // Logic to handle location object
-                        Geocoder gcd = new Geocoder(getActivity().getBaseContext(), Locale.getDefault());
-                        try {
-                            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            apiList = new ArrayList<>();
+            apiList.add("1f01ced93d6608528a3bc65ad580f9e4");
+            apiList.add("ec55ea59368f44782fb4dcb6ab028f5a");
+            apiList.add("4256b9145e7841dad1aa07b8b3ca5be3");
+            apiList.add("667dcb63169e18e220f8ade175d2b016");
 
-                            if (addresses.size() > 0) {
-                                cityname = addresses.get(0).getLocality();
-                                lat = addresses.get(0).getLatitude();
-                                lon = addresses.get(0).getLongitude();
-                                countryCode = addresses.get(0).getCountryCode();
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), location -> {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            Geocoder gcd = new Geocoder(getActivity().getBaseContext(), Locale.getDefault());
+                            try {
+                                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
-                                LocationRequest request = new LocationRequest();
-                                request.setInterval(10 * 60 * 1000);
-                                request.setMaxWaitTime(60 * 60 * 1000);
+                                if (addresses.size() > 0) {
+                                    cityname = addresses.get(0).getLocality();
+                                    lat = addresses.get(0).getLatitude();
+                                    lon = addresses.get(0).getLongitude();
+                                    countryCode = addresses.get(0).getCountryCode();
 
-                                Random random = new Random();
-                                int n = random.nextInt(apiList.size());
+                                    LocationRequest request = new LocationRequest();
+                                    request.setInterval(10 * 60 * 1000);
+                                    request.setMaxWaitTime(60 * 60 * 1000);
 
-                                JsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&q=" + cityname + "," + countryCode + "&appid=" + apiList.get(n);
+                                    Random random = new Random();
+                                    int n = random.nextInt(apiList.size());
 
-
-                                JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, JsonUrl, null, response -> {
+                                    JsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&q=" + cityname + "," + countryCode + "&appid=" + apiList.get(n);
 
 
-                                    Log.d("fjgj", String.valueOf(response));
-
-                                    try {
-
-                                        JSONObject main_Object = response.getJSONObject("main");
-                                        JSONArray array = response.getJSONArray("weather");
-                                        JSONObject object = array.getJSONObject(0);
-
-                                        String temp = String.valueOf(main_Object.getDouble("temp")).substring(0, 2);
-                                        String description = object.getString("description");
-                                        String city = response.getString("name");
-
-                                        t1_temp.setText(temp + "°C");
-                                        t2_city.setText(city);
-                                        t3_description.setText(description);
-
-                                        dataPasser.onDataPass(description);
+                                    JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, JsonUrl, null, response -> {
 
 
-                                        Calendar calendar = Calendar.getInstance();
+                                        Log.d("fjgj", String.valueOf(response));
 
-                                        SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-DD");
-                                        String formated_date = sdf.format(calendar.getTime());
+                                        try {
 
-                                        t4_date.setText(formated_date);
+                                            JSONObject main_Object = response.getJSONObject("main");
+                                            JSONArray array = response.getJSONArray("weather");
+                                            JSONObject object = array.getJSONObject(0);
+
+                                            String temp = String.valueOf(main_Object.getDouble("temp")).substring(0, 2);
+                                            String description = object.getString("description");
+                                            String city = response.getString("name");
+
+                                            t1_temp.setText(temp + "°C");
+                                            t2_city.setText(city);
+                                            t3_description.setText(description);
+
+                                            dataPasser.onDataPass(description);
 
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                            Calendar calendar = Calendar.getInstance();
 
-                                }, error -> {
+                                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-DD");
+                                            String formated_date = sdf.format(calendar.getTime());
 
-                                });
-                                jor.setShouldCache(false);
-                                RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-                                jor.setRetryPolicy(new DefaultRetryPolicy(
-                                        3000,
-                                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                                requestQueue.add(jor);
+                                            t4_date.setText(formated_date);
+
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }, error -> {
+
+                                    });
+                                    jor.setShouldCache(false);
+                                    RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+                                    jor.setRetryPolicy(new DefaultRetryPolicy(
+                                            3000,
+                                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                                    requestQueue.add(jor);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
 
 
-                    } else {
-                        if (checkLocationON()) {
-                            findWeather();
                         } else {
-                            checkGpsStatus();
+                            if (checkLocationON()) {
+                                findWeather();
+                            } else {
+                                checkGpsStatus();
+                            }
                         }
-                    }
-                });
-
+                    });
+        }
 
     }
 
@@ -370,12 +359,7 @@ public class WeatherFragment extends Fragment {
             // Permission has already been granted
             Log.d("hgfkj", "requestStoragePermission: 009");
             if (checkLocationON()) {
-                timer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        findWeather();
-                    }
-                }, 0, 5 * 60 * 1000);
+                    findWeather();
 
             } else {
                 checkGpsStatus();
@@ -395,12 +379,7 @@ public class WeatherFragment extends Fragment {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (checkLocationON()) {
-                        timer.scheduleAtFixedRate(new TimerTask() {
-                            @Override
-                            public void run() {
-                                findWeather();
-                            }
-                        }, 0, 5 * 60 * 1000);
+                            findWeather();
                     } else {
                         checkGpsStatus();
                     }
@@ -473,12 +452,7 @@ public class WeatherFragment extends Fragment {
             }
 
             if (checkLocationON()) {
-                timer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        findWeather();
-                    }
-                }, 0, 5 * 60 * 1000);
+                findWeather();
             }
 
         }
@@ -522,12 +496,7 @@ public class WeatherFragment extends Fragment {
         if (Connectivity.isConnected(getActivity())) {
             if (checkLocationON()) {
 
-                timer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        findWeather();
-                    }
-                }, 0, 5 * 60 * 1000);
+            findWeather();
             }
         } else {
             showDialg(getActivity());
@@ -538,12 +507,7 @@ public class WeatherFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    findWeather();
-                }
-            }, 0, 5 * 60 * 1000);
+            findWeather();
         }
     }
 

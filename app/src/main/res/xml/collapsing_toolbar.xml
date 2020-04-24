@@ -4,12 +4,10 @@
     <Transition
         app:constraintSetEnd="@id/collapsed"
         app:constraintSetStart="@id/expanded">
-
         <OnSwipe
             app:dragDirection="dragUp"
             app:touchAnchorId="@id/recyclerviewTesting"
             app:touchAnchorSide="top" />
-
         <KeyFrameSet>
             <KeyAttribute
                 app:framePosition="60"
@@ -32,7 +30,6 @@
                 app:percentX="0.9" />
         </KeyFrameSet>
     </Transition>
-
     <ConstraintSet android:id="@+id/expanded">
         <Constraint
             android:id="@id/toolbar_image"
@@ -45,13 +42,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="24dp"
             android:scaleX="1.0"
             android:scaleY="1.0"
-            app:layout_constraintBottom_toBottomOf="@id/toolbar_image"
+            app:layout_constraintTop_toTopOf="@+id/backgroundDesign"
             app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/backgroundDesign"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar_image"
+            app:layout_constraintEnd_toStartOf="parent"
+            />
     </ConstraintSet>
-
     <ConstraintSet android:id="@+id/collapsed">
         <Constraint
             android:id="@id/toolbar_image"
@@ -67,9 +69,16 @@
             android:layout_height="wrap_content"
             android:scaleX="0.625"
             android:scaleY="0.625"
-            app:layout_constraintBottom_toBottomOf="@id/toolbar_image"
+            app:layout_constraintBottom_toTopOf="@+id/backgroundDesign"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/toolbar_image" />
-
+        <Constraint
+            android:id="@+id/backgroundDesign"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar_image"
+            app:layout_constraintStart_toStartOf="parent"
+            />
     </ConstraintSet>
 </MotionScene >

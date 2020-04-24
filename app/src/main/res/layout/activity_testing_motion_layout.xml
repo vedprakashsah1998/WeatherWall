@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:id="@+id/motionBackground"
     tools:context=".Activity.TestingMotionLayout">
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewTesting"
         android:layout_width="0dp"
@@ -18,7 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_image" />
-
     <ImageView
         android:id="@+id/toolbar_image"
         android:layout_width="0dp"
@@ -31,7 +29,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/backMotion"
         android:layout_width="wrap_content"
@@ -44,18 +41,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="PrivateResource" />
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/backgroundDesign"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar_image"
+        app:layout_constraintStart_toStartOf="parent"
+        />
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/titleData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="24dp"
         android:textSize="32sp"
         android:textStyle="bold"
         android:transitionName="text"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar_image"
+        app:layout_constraintBottom_toTopOf="@+id/backgroundDesign"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 </androidx.constraintlayout.motion.widget.MotionLayout>
