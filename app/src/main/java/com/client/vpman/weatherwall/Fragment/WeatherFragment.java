@@ -24,8 +24,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import io.ghyeok.stickyswitch.widget.StickySwitch;
 
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,11 +42,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -59,29 +57,30 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
-
+import com.suke.widget.SwitchButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 
 import static android.content.Context.LOCATION_SERVICE;
+import static android.os.Looper.getMainLooper;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class WeatherFragment extends Fragment {
-    MaterialTextView t1_temp, t2_city, t3_description, t4_date, forbesQuotes;
+    MaterialTextView t1_temp, t2_city, t3_description, t4_date,t5_time,QuotesMain;
     String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
 
     List<String>apiList;
@@ -116,7 +115,6 @@ public class WeatherFragment extends Fragment {
         // Required empty public constructor
     }
 
-    ImageView designLayout;
 
 
     @Override
@@ -128,23 +126,28 @@ public class WeatherFragment extends Fragment {
         t2_city = view.findViewById(R.id.city);
         t3_description = view.findViewById(R.id.desc);
         t4_date = view.findViewById(R.id.date);
+
+        t5_time=view.findViewById(R.id.timeText);
         swipeUp = view.findViewById(R.id.swipUp);
         relLayout = view.findViewById(R.id.relLayout);
         swipeUp2 = view.findViewById(R.id.swipUp2);
         list = new ArrayList<>();
+        QuotesMain=view.findViewById(R.id.QuotesMainScreen);
 
-        forbesQuotes = view.findViewById(R.id.Forbes_quotes);
-
-        designLayout = view.findViewById(R.id.design_layout);
+        final Handler someHandler = new Handler(getMainLooper());
+        someHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                t5_time.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
+                someHandler.postDelayed(this, 1000);
+            }
+        }, 10);
 
         Log.d("hgfkj", "request");
         if (getActivity() != null) {
             SharedPref1 sharedPref1 = new SharedPref1(getActivity());
             if (sharedPref1.getTheme().equals("Light")) {
-                designLayout.setImageResource(R.drawable.basic_design1_white);
-                t1_temp.setTextColor(Color.parseColor("#000000"));
-                t2_city.setTextColor(Color.parseColor("#000000"));
-                t3_description.setTextColor(Color.parseColor("#000000"));
+
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design_white);
                 relLayout.setBackground(drawable);
@@ -152,20 +155,13 @@ public class WeatherFragment extends Fragment {
                 swipeUp.setImageResource(R.drawable.ic_up_arow_black);
 
             } else if (sharedPref1.getTheme().equals("Dark")) {
-                designLayout.setImageResource(R.drawable.basic_design1);
-                t1_temp.setTextColor(Color.parseColor("#FFFFFF"));
-                t2_city.setTextColor(Color.parseColor("#FFFFFF"));
-                t3_description.setTextColor(Color.parseColor("#FFFFFF"));
+
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design);
                 relLayout.setBackground(drawable);
                 swipeUp2.setTextColor(Color.parseColor("#FFFFFF"));
                 swipeUp.setImageResource(R.drawable.ic_up_arow);
             } else {
-                designLayout.setImageResource(R.drawable.basic_design1_white);
-                t1_temp.setTextColor(Color.parseColor("#000000"));
-                t2_city.setTextColor(Color.parseColor("#000000"));
-                t3_description.setTextColor(Color.parseColor("#000000"));
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design_white);
                 relLayout.setBackground(drawable);
@@ -306,7 +302,7 @@ public class WeatherFragment extends Fragment {
 
                                             Calendar calendar = Calendar.getInstance();
 
-                                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-DD");
+                                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-YYYY");
                                             String formated_date = sdf.format(calendar.getTime());
 
                                             t4_date.setText(formated_date);
@@ -574,7 +570,7 @@ public class WeatherFragment extends Fragment {
         });
         MaterialTextView faceBookText = dialog.findViewById(R.id.faceBookText);
         faceBookText.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/vedprakash.sah.378"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
             startActivity(browserIntent);
         });
         MaterialTextView LinkedIn = dialog.findViewById(R.id.LinkedIn);
@@ -584,7 +580,7 @@ public class WeatherFragment extends Fragment {
         });
         MaterialTextView github = dialog.findViewById(R.id.github);
         github.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
             startActivity(browserIntent);
         });
         ImageView pexels = dialog.findViewById(R.id.pexels);
@@ -671,15 +667,15 @@ public class WeatherFragment extends Fragment {
             }
         });
 
-        StickySwitch stickySwitch = dialog.findViewById(R.id.sticky_switch);
+        SwitchButton switchButton=dialog.findViewById(R.id.sticky_switch1);
+
 
         if (pref.getTheme().equals("Light")) {
-            stickySwitch.setDirection(StickySwitch.Direction.LEFT, false);
+            switchButton.setChecked(false);
         } else if (pref.getTheme().equals("Dark")) {
-            stickySwitch.setDirection(StickySwitch.Direction.RIGHT, false);
-
+                switchButton.setChecked(true);
         } else {
-            stickySwitch.setDirection(StickySwitch.Direction.LEFT, false);
+            switchButton.setChecked(false);
 
         }
 
@@ -687,7 +683,6 @@ public class WeatherFragment extends Fragment {
         Toolbar toolbar = dialog.findViewById(R.id.tool1barSetting);
         MaterialTextView toolBarText = dialog.findViewById(R.id.toolBartext);
         ImageView backtoMain = dialog.findViewById(R.id.backtoMain);
-        MaterialTextView settingText = dialog.findViewById(R.id.settingText);
         ImageView deleteImg = dialog.findViewById(R.id.deleteImg);
         CardView settingCardView = dialog.findViewById(R.id.cardSetting);
         ImageView share = dialog.findViewById(R.id.shareApp);
@@ -696,28 +691,41 @@ public class WeatherFragment extends Fragment {
         MaterialTextView ContactUsText = dialog.findViewById(R.id.ContactUsText);
         CardView cardContact = dialog.findViewById(R.id.cardContact);
         ImageView instagram = dialog.findViewById(R.id.instagram);
+        MaterialTextView weatherWallText,poweredby;
+        weatherWallText=dialog.findViewById(R.id.weatherWallText);
+        poweredby=dialog.findViewById(R.id.poweredby);
         ImageView facebook = dialog.findViewById(R.id.facebook);
+        ImageView privacyImg=dialog.findViewById(R.id.privacyImg);
         ImageView linkedIn = dialog.findViewById(R.id.linkedIn);
         ImageView Github = dialog.findViewById(R.id.Github);
+        CardView otherCard=dialog.findViewById(R.id.otherCard);
         MaterialTextView credit = dialog.findViewById(R.id.credit);
         CardView cardCredit = dialog.findViewById(R.id.cardCredit);
         MaterialTextView setThemeText = dialog.findViewById(R.id.setTheme);
-        stickySwitch.setOnSelectedChangeListener((direction, s) -> {
-            if (s.equals("Light")) {
-                pref.setTheme(s);
-                relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        CardView cardSetting=dialog.findViewById(R.id.settingCard);
+
+        switchButton.setOnCheckedChangeListener((view, isChecked) -> {
+            if (!isChecked)
+            {
+                pref.setTheme("Light");
+                relativeLayout.setBackgroundColor(Color.parseColor("#F0EFF4"));
                 toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 clearCache.setTextColor(Color.parseColor("#000000"));
                 setThemeText.setTextColor(Color.parseColor("#000000"));
+                weatherWallText.setTextColor(Color.parseColor("#000000"));
+                poweredby.setTextColor(Color.parseColor("#000000"));
+                otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                setThemeText.setText("Light Mode");
                 toolBarText.setTextColor(Color.parseColor("#000000"));
+                privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
                 backtoMain.setBackground(drawable);
                 loadQuality.setTextColor(Color.parseColor("#000000"));
-                settingText.setTextColor(Color.parseColor("#000000"));
                 deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
                 chooseImgQuality.setTextColor(Color.parseColor("#000000"));
                 settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                 share.setImageResource(R.drawable.ic_share_black_24dp);
                 reportUs.setImageResource(R.drawable.ic_report_problem);
                 rateUsImg.setImageResource(R.drawable.ic_rate_review);
@@ -740,14 +748,22 @@ public class WeatherFragment extends Fragment {
                 reportText.setTextColor(Color.parseColor("#000000"));
                 github.setTextColor(Color.parseColor("#000000"));
                 LinkedIn.setTextColor(Color.parseColor("#000000"));
-            } else {
-                pref.setTheme(s);
+            }
+            else {
+                pref.setTheme("Dark");
+                weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
+                poweredby.setTextColor(Color.parseColor("#FFFFFF"));
                 LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
                 github.setTextColor(Color.parseColor("#FFFFFF"));
+                cardSetting.setCardBackgroundColor(Color.parseColor("#303030"));
+                otherCard.setCardBackgroundColor(Color.parseColor("#303030"));
+                setThemeText.setText("Dark Mode");
                 faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
                 instagramText.setTextColor(Color.parseColor("#FFFFFF"));
                 rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
                 reportText.setTextColor(Color.parseColor("#FFFFFF"));
+                privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
+
                 relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
                 chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
                 toolbar.setBackgroundColor(Color.parseColor("#000000"));
@@ -758,37 +774,36 @@ public class WeatherFragment extends Fragment {
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
                 backtoMain.setBackground(drawable);
-                settingText.setTextColor(Color.parseColor("#FFFFFF"));
                 ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
                 deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
-                settingCardView.setCardBackgroundColor(Color.parseColor("#000000"));
+                settingCardView.setCardBackgroundColor(Color.parseColor("#303030"));
                 rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
                 share.setImageResource(R.drawable.ic_share_white_24dp);
                 reportUs.setImageResource(R.drawable.ic_report_problem_white);
-                cardContact.setCardBackgroundColor(Color.parseColor("#000000"));
+                cardContact.setCardBackgroundColor(Color.parseColor("#303030"));
                 instagram.setImageResource(R.drawable.ic_instagram_white);
                 facebook.setImageResource(R.drawable.ic_facebook_white);
                 linkedIn.setImageResource(R.drawable.ic_linkedin_white);
                 Github.setImageResource(R.drawable.ic_logo_white);
-                cardCredit.setCardBackgroundColor(Color.parseColor("#000000"));
+                cardCredit.setCardBackgroundColor(Color.parseColor("#303030"));
                 credit.setTextColor(Color.parseColor("#FFFFFF"));
                 flatIcon.setImageResource(R.drawable.ic_flaticon_white);
                 Unsplash.setImageResource(R.drawable.ic_unsplash_white);
                 pexels.setImageResource(R.drawable.pexels_white);
                 privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
                 shareApp.setTextColor(Color.parseColor("#FFFFFF"));
-
             }
-
-
         });
 
-
         if (pref.getTheme().equals("Light")) {
+            setThemeText.setText("Light Mode");
             LinkedIn.setTextColor(Color.parseColor("#000000"));
             github.setTextColor(Color.parseColor("#000000"));
+            cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
+
             rateUsText.setTextColor(Color.parseColor("#000000"));
-            relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            relativeLayout.setBackgroundColor(Color.parseColor("#F0EFF4"));
             setThemeText.setTextColor(Color.parseColor("#000000"));
             loadQuality.setTextColor(Color.parseColor("#000000"));
             chooseImgQuality.setTextColor(Color.parseColor("#000000"));
@@ -799,7 +814,7 @@ public class WeatherFragment extends Fragment {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
-            settingText.setTextColor(Color.parseColor("#000000"));
+            otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
             reportUs.setImageResource(R.drawable.ic_report_problem);
@@ -820,10 +835,18 @@ public class WeatherFragment extends Fragment {
             reportText.setTextColor(Color.parseColor("#000000"));
             instagramText.setTextColor(Color.parseColor("#000000"));
             faceBookText.setTextColor(Color.parseColor("#000000"));
+            weatherWallText.setTextColor(Color.parseColor("#000000"));
+            poweredby.setTextColor(Color.parseColor("#000000"));
 
         } else if (pref.getTheme().equals("Dark")) {
+            weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
+            poweredby.setTextColor(Color.parseColor("#FFFFFF"));
             LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
             faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
+            setThemeText.setText("Dark Mode");
+            cardSetting.setCardBackgroundColor(Color.parseColor("#303030"));
+            privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
+            otherCard.setCardBackgroundColor(Color.parseColor("#303030"));
             instagramText.setTextColor(Color.parseColor("#FFFFFF"));
             rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
             reportText.setTextColor(Color.parseColor("#FFFFFF"));
@@ -833,25 +856,23 @@ public class WeatherFragment extends Fragment {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
-            settingText.setTextColor(Color.parseColor("#FFFFFF"));
             shareApp.setTextColor(Color.parseColor("#FFFFFF"));
 
             reportUs.setImageResource(R.drawable.ic_report_problem_white);
             deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
-            settingCardView.setCardBackgroundColor(Color.parseColor("#000000"));
+            settingCardView.setCardBackgroundColor(Color.parseColor("#303030"));
             share.setImageResource(R.drawable.ic_share_white_24dp);
             rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
             ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
-            cardContact.setCardBackgroundColor(Color.parseColor("#000000"));
+            cardContact.setCardBackgroundColor(Color.parseColor("#303030"));
             instagram.setImageResource(R.drawable.ic_instagram_white);
             facebook.setImageResource(R.drawable.ic_facebook_white);
             linkedIn.setImageResource(R.drawable.ic_linkedin_white);
             Github.setImageResource(R.drawable.ic_logo_white);
             credit.setTextColor(Color.parseColor("#FFFFFF"));
-            cardCredit.setCardBackgroundColor(Color.parseColor("#000000"));
+            cardCredit.setCardBackgroundColor(Color.parseColor("#303030"));
             flatIcon.setImageResource(R.drawable.ic_flaticon_white);
             clearCache.setTextColor(Color.parseColor("#FFFFFF"));
-
             Unsplash.setImageResource(R.drawable.ic_unsplash_white);
             pexels.setImageResource(R.drawable.pexels_white);
             privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
@@ -861,13 +882,19 @@ public class WeatherFragment extends Fragment {
             github.setTextColor(Color.parseColor("#FFFFFF"));
 
         } else {
+            setThemeText.setText("Light Mode");
+            weatherWallText.setTextColor(Color.parseColor("#000000"));
+            poweredby.setTextColor(Color.parseColor("#000000"));
             LinkedIn.setTextColor(Color.parseColor("#000000"));
             github.setTextColor(Color.parseColor("#000000"));
+            cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
+            otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             faceBookText.setTextColor(Color.parseColor("#000000"));
             instagramText.setTextColor(Color.parseColor("#000000"));
             setThemeText.setTextColor(Color.parseColor("#000000"));
             rateUsText.setTextColor(Color.parseColor("#000000"));
-            relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            relativeLayout.setBackgroundColor(Color.parseColor("#F0EFF4"));
             loadQuality.setTextColor(Color.parseColor("#000000"));
             chooseImgQuality.setTextColor(Color.parseColor("#000000"));
             reportText.setTextColor(Color.parseColor("#000000"));
@@ -878,11 +905,10 @@ public class WeatherFragment extends Fragment {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
-            settingText.setTextColor(Color.parseColor("#000000"));
             rateUsImg.setImageResource(R.drawable.ic_rate_review);
             deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
             share.setImageResource(R.drawable.ic_share_black_24dp);
-            ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
+            ContactUsText.setTextColor(Color.parseColor("#000000"));
             cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             instagram.setImageResource(R.drawable.ic_instagram);
             facebook.setImageResource(R.drawable.ic_facebook);
@@ -919,6 +945,7 @@ public class WeatherFragment extends Fragment {
 
     public void Quotes() {
         String QuotesUrl = "https://www.forbes.com/forbesapi/thought/uri.json?enrich=true&query=1&relatedlimit=100";
+
         Log.d("sdfljh", "khwqgdi");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, QuotesUrl, response -> {
 
@@ -930,24 +957,19 @@ public class WeatherFragment extends Fragment {
 
                 JSONObject jsonObject1 = jsonObject.getJSONObject("thought");
                 Log.d("qeljg", String.valueOf(jsonObject1));
-/*
-                String quote=jsonObject1.getString("quote");
-*/
+
                 JSONArray jsonArray = jsonObject1.getJSONArray("relatedThemeThoughts");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                    /*  String quotes=jsonObject2.getString("quote");*/
-/*
-                    forbesQuotes.setText(quotes);
-*/
+
                     list.add(jsonObject2.getString("quote"));
 
                 }
                 Collections.shuffle(list);
                 Random random = new Random();
                 int n = random.nextInt(list.size());
-                forbesQuotes.setText(list.get(n));
-                /*Log.d("asljf",quote);*/
+                QuotesMain.setText(list.get(n));
+                Log.d("asljf", String.valueOf(n));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

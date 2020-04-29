@@ -5,11 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.WeatherFragment">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentTop="true"
-        android:id="@+id/design_layout" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,15 +15,6 @@
         android:id="@+id/relLayout"
         android:layout_centerHorizontal="true">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:fontFamily="@font/eagle_lake"
-            android:visibility="gone"
-            android:textColor="#FFFF"
-            android:id="@+id/Forbes_quotes"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -55,61 +42,8 @@
     </RelativeLayout>
 
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:padding="4dp"
-        android:textSize="16sp"
-        android:textStyle="normal" />
 
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/city"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="32dp"
-        android:padding="4dp"
-        android:textSize="20sp"
-        android:textStyle="normal" />
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/desc"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp"
-        android:textColor="@color/text1"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
-
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="4dp"
-        android:layout_toEndOf="@+id/sunImg"
-        android:textSize="50sp"
-        android:textStyle="bold" />
-    <ImageView
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:padding="4dp"
-        android:id="@+id/sunImg"
-        android:src="@drawable/ic_sun_cloud"/>
 
     <ImageView
         android:layout_width="44dp"
@@ -123,6 +57,118 @@
         android:layout_marginEnd="12dp"
         android:focusable="true" />
 
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settingImg"
+        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/temp_layout"
+        android:padding="12dp"
+        android:background="@drawable/layout_design">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/city"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="22dp"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="normal" />
+
+
+
+
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/sunImg"
+            android:textSize="42sp"
+            android:layout_marginStart="12dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="4dp"
+            android:id="@+id/sunImg"
+            android:src="@drawable/ic_sun_cloud"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_design"
+        android:padding="12dp"
+        android:id="@+id/timeLayout"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/temp_layout"
+        android:layout_centerHorizontal="true">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeText"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentEnd="true"
+            android:textSize="22sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_design"
+        android:layout_below="@+id/timeLayout"
+        android:layout_centerHorizontal="true"
+        android:padding="12dp"
+        android:layout_marginTop="32dp">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quotes of the day:"
+            android:id="@+id/quotesDay"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:padding="4dp"
+            android:layout_alignParentTop="true"
+            />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_below="@+id/quotesDay"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:id="@+id/QuotesMainScreen"/>
+    </RelativeLayout>
 
 
 
