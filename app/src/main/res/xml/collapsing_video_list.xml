@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Transition
+        app:constraintSetEnd="@id/collapsed"
+        app:constraintSetStart="@id/expanded">
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/videorecylerView"
+            app:touchAnchorSide="top" />
+        <KeyFrameSet>
+            <KeyAttribute
+                app:framePosition="60"
+                app:motionTarget="@id/toolbarVideo">
+                <CustomAttribute
+                    app:attributeName="videoAlpha"
+                    app:customIntegerValue="255" />
+            </KeyAttribute>
+            <KeyAttribute
+                app:framePosition="90"
+                app:motionTarget="@id/toolbarVideo">
+                <CustomAttribute
+                    app:attributeName="videoAlpha"
+                    app:customIntegerValue="0" />
+            </KeyAttribute>
+
+        </KeyFrameSet>
+    </Transition>
+    <ConstraintSet android:id="@+id/expanded">
+        <Constraint
+            android:id="@id/toolbarVideo"
+            android:layout_height="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    </ConstraintSet>
+    <ConstraintSet android:id="@+id/collapsed">
+        <Constraint
+            android:id="@id/toolbarVideo"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </ConstraintSet>
+</MotionScene >

@@ -222,8 +222,8 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout1));
         adapter = new DemoFragmentStateAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
-        tabLayout.setOnTabSelectedListener(this);
-        tabLayout1.setOnTabSelectedListener(MainActivity.this);
+        tabLayout.addOnTabSelectedListener(MainActivity.this);
+        tabLayout1.addOnTabSelectedListener(MainActivity.this);
         listModelData=new ArrayList<>();
 
 

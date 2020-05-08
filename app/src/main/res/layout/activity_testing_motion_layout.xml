@@ -1,61 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    app:layoutDescription="@xml/collapsing_toolbar"
     android:layout_height="match_parent"
-    android:id="@+id/motionBackground"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activity.TestingMotionLayout">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewTesting"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_image" />
-    <ImageView
-        android:id="@+id/toolbar_image"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:adjustViewBounds="true"
-        android:transitionName="img1"
-        android:contentDescription="@null"
-        android:fitsSystemWindows="true"
-        android:scaleType="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <ImageView
-        android:id="@+id/backMotion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@null"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="PrivateResource" />
-    <ImageView
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/backgroundDesign"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar_image"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/titleData"
-        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/viewpagerImgVied"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:transitionName="text"
-        app:layout_constraintBottom_toTopOf="@+id/backgroundDesign"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.motion.widget.MotionLayout>
+        android:id="@+id/bottomNavigation"
+        app:menu="@menu/menu_list"
+        app:layout_insetEdge="bottom"
+        android:showAsAction="always|withText"
+        app:elevation="12dp"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        android:layout_gravity="bottom"/>
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottomNavigation_white"
+        app:menu="@menu/menu_list"
+        app:layout_insetEdge="bottom"
+        android:background="#FFFFFF"
+        app:elevation="12dp"
+        app:itemIconTint="@drawable/bottom_nav_color_black"
+        app:itemTextColor="@drawable/bottom_nav_color_black"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        android:layout_gravity="bottom"/>-->
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

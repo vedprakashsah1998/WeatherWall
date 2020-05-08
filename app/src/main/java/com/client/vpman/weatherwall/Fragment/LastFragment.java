@@ -28,6 +28,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
@@ -88,6 +89,8 @@ public class LastFragment extends Fragment {
     String query = "4k wallpaper";
     private String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
 
+    private String VideoUrl="https://api.pexels.com/videos/search?query=nature+query&per_page=15&page=1";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,6 +105,8 @@ public class LastFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(true);
         loadImage();
+
+        loadVideo();
 
         layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true);
         recyclerView.setLayoutManager(layoutManager);
@@ -259,14 +264,11 @@ public class LastFragment extends Fragment {
                         } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                             position = layoutManager.findFirstVisibleItemPosition();
                             Log.d("poslwhf", String.valueOf(position));
-                            imageView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(getActivity(), FullImage.class);
-                                    ModelData modelData2 = modelData.get(position);
-                                    intent.putExtra("img", modelData2.getLarge2x());
-                                    startActivity(intent);
-                                }
+                            imageView.setOnClickListener(view -> {
+                                Intent intent = new Intent(getActivity(), FullImage.class);
+                                ModelData modelData2 = modelData.get(position);
+                                intent.putExtra("img", modelData2.getLarge2x());
+                                startActivity(intent);
                             });
 
                             LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
@@ -370,6 +372,49 @@ public class LastFragment extends Fragment {
             requestQueue.add(stringRequest);
         }
 
+    }
+
+    public void loadVideo()
+    {
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, VideoUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("VideoResponse",response);
+
+            }
+        },error -> {
+
+            NetworkResponse response = error.networkResponse;
+            if (error instanceof ServerError && response != null) {
+                try {
+                    String res = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                    // Now you can use any deserializer to make sense of data
+                    JSONObject obj = new JSONObject(res);
+                } catch (UnsupportedEncodingException | JSONException e1) {
+                    // Couldn't properly decode data to string
+                    e1.printStackTrace();
+                } // returned data is not JSONObject?
+
+            }
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "563492ad6f91700001000001fd351942a4524d62bb9a68308855b667");
+                return params;
+            }
+        };
+        stringRequest.setShouldCache(false);
+
+        if (getActivity()!=null)
+        {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(stringRequest);
+        }
     }
 
 

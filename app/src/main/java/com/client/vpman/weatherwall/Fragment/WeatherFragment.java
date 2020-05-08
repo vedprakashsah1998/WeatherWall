@@ -41,6 +41,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextClock;
 import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -80,7 +81,8 @@ import static android.os.Looper.getMainLooper;
  * A simple {@link Fragment} subclass.
  */
 public class WeatherFragment extends Fragment {
-    MaterialTextView t1_temp, t2_city, t3_description, t4_date,t5_time,QuotesMain;
+    MaterialTextView t1_temp, t2_city, t3_description, t4_date,QuotesMain;
+    TextClock t5_time;
     String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
 
     List<String>apiList;
@@ -134,14 +136,15 @@ public class WeatherFragment extends Fragment {
         list = new ArrayList<>();
         QuotesMain=view.findViewById(R.id.QuotesMainScreen);
 
-        final Handler someHandler = new Handler(getMainLooper());
+/*        final Handler someHandler = new Handler(getMainLooper());
         someHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 t5_time.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
                 someHandler.postDelayed(this, 1000);
             }
-        }, 10);
+        }, 10);*/
+
 
         Log.d("hgfkj", "request");
         if (getActivity() != null) {
@@ -927,17 +930,21 @@ public class WeatherFragment extends Fragment {
 
 
         backtoMain.setOnClickListener(v -> {
+            activity.overridePendingTransition(0,0);
 
             if (getFragmentManager() != null) {
                 getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
             }
             activity.recreate();
+            activity.overridePendingTransition(0,0);
         });
         dialog.setOnCancelListener(dialog1 -> {
+            activity.overridePendingTransition(0,0);
             if (getFragmentManager() != null) {
                 getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
             }
             activity.recreate();
+            activity.overridePendingTransition(0,0);
 
         });
     }

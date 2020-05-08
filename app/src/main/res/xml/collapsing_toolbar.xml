@@ -53,6 +53,9 @@
             app:layout_constraintBottom_toBottomOf="@+id/toolbar_image"
             app:layout_constraintEnd_toStartOf="parent"
             />
+
+
+
     </ConstraintSet>
     <ConstraintSet android:id="@+id/collapsed">
         <Constraint

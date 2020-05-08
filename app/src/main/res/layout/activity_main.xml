@@ -8,14 +8,6 @@
     android:background="#FFFFFF"
     tools:context=".Activity.MainActivity">
 
-<!--
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:id="@+id/imageView"/>-->
-
-
     <com.flaviofaria.kenburnsview.KenBurnsView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,7 +61,6 @@
         android:layout_width="wrap_content"
         android:layout_height="450dp"
         android:id="@+id/rotateLayout2"
-
         android:layout_centerVertical="true"
         android:visibility="gone"
         app:angle="90">
@@ -78,7 +69,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:visibility="gone"
-
             android:rotation="180"
             android:background="@android:color/transparent"
             app:tabIndicatorColor="@android:color/transparent"

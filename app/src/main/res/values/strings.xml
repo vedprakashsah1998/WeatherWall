@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Weather Wall</string>
     <string name="spinner_title">Default</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="list">
         <item>choose Quality</item>
         <item>Default</item>
