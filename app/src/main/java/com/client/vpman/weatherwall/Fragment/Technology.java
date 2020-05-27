@@ -6,19 +6,15 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -30,13 +26,11 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
-import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentTechnologyBinding;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
-import com.makeramen.roundedimageview.RoundedImageView;
-
-
+import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Random;
 
@@ -44,36 +38,21 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class Technology extends Fragment {
-
-
     public Technology() {
         // Required empty public constructor
     }
-
-
-    View view;
-
-
-    RoundedImageView imageView;
-    String query;
-
-
+    private View view;
+    private String query;
+    private FragmentTechnologyBinding binding;
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_technology, container, false);
-
-        imageView=view.findViewById(R.id.Technology);
+        binding=FragmentTechnologyBinding.inflate(inflater,container,false);
+        view=binding.getRoot();
         unsplash=new Unsplash(CLIENT_ID);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-
         Tech();
-
         return view;
     }
 
@@ -93,19 +72,12 @@ public class Technology extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.centerCrop();
-
         query="technology";
-
-
-
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {
                 Log.d("Photos", "Total Results Found " + results.getTotal());
-
                 List<Photo> photos = results.getResults();
-
-
                 Random random=new Random();
                 int n = random.nextInt(photos.size());
 
@@ -123,7 +95,7 @@ public class Technology extends Fragment {
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
-                            imageView.setImageBitmap(image);
+                            binding.Technology.setImageBitmap(image);
                         } else { Glide.with(getActivity())
                                 .load(photos.get(n).getUrls().getFull())
                                 .thumbnail(
@@ -142,20 +114,17 @@ public class Technology extends Fragment {
                                     }
                                 })
 
-                                .into(imageView);
+                                .into(binding.Technology);
                     }
 
-                        imageView.setOnClickListener(v -> {
+                        binding.Technology.setOnClickListener(v -> {
                             Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
                             intent.putExtra("imgData",photos.get(n).getUrls().getFull());
                             intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
                             intent.putExtra("query",query);
                             intent.putExtra("text","Technology");
-
                             Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(imageView,"imgData");
-
-
+                            pairs[0]=new Pair<View,String>(binding.Technology,"imgData");
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                     getActivity(),pairs
                             );
@@ -166,18 +135,8 @@ public class Technology extends Fragment {
                                 startActivity(intent);
                             }
                         });
-
-
                     }
-
-
                 }
-
-
-
-
-
-
             }
 
             @Override

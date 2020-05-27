@@ -1,12 +1,11 @@
 package com.client.vpman.weatherwall.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.client.vpman.weatherwall.CustomeUsefullClass.OnBoardingModel;
+import com.client.vpman.weatherwall.Model.OnBoardingModel;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -27,7 +26,7 @@ public class CustomePagerAdapter extends RecyclerView.Adapter<CustomePagerAdapte
     @NonNull
     @Override
     public CustomePagerAdapter.OnBoardingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new OnBoardingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_pager_adapter,parent,false));
+        return new OnBoardingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_pager_adapter, parent, false));
     }
 
     @Override
@@ -40,7 +39,7 @@ public class CustomePagerAdapter extends RecyclerView.Adapter<CustomePagerAdapte
         return list.size();
     }
 
-     class OnBoardingViewHolder extends RecyclerView.ViewHolder {
+     static class OnBoardingViewHolder extends RecyclerView.ViewHolder {
         private MaterialTextView textTitle;
         private MaterialTextView textDescription;
         private ImageView imageOnBoarding;

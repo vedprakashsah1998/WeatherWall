@@ -37,7 +37,7 @@
 
     <com.github.rongi.rotate_layout.layout.RotateLayout
         android:layout_width="wrap_content"
-        android:layout_height="450dp"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:id="@+id/rotateLayout"
         android:visibility="gone"
@@ -45,7 +45,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="44dp"
             android:visibility="gone"
             android:rotation="180"
             android:background="@android:color/transparent"
@@ -59,7 +59,7 @@
 
     <com.github.rongi.rotate_layout.layout.RotateLayout
         android:layout_width="wrap_content"
-        android:layout_height="450dp"
+        android:layout_height="match_parent"
         android:id="@+id/rotateLayout2"
         android:layout_centerVertical="true"
         android:visibility="gone"
@@ -67,7 +67,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout2"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="44dp"
             android:visibility="gone"
             android:rotation="180"
             android:background="@android:color/transparent"

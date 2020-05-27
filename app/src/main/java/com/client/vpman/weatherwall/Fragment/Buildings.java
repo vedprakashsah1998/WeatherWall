@@ -31,11 +31,14 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentBuildingsBinding;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -45,32 +48,24 @@ import java.util.Random;
  */
 public class Buildings extends Fragment {
 
-    View view;
-
+    private View view;
     public Buildings() {
         // Required empty public constructor
     }
-
-
-
-    RoundedImageView imageView;
-    String query;
-
-
+    private String query;
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
 
+    private FragmentBuildingsBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_buildings, container, false);
+        binding=FragmentBuildingsBinding.inflate(inflater,container,false);
+        view=binding.getRoot();
 
-        imageView=view.findViewById(R.id.Building);
         unsplash=new Unsplash(CLIENT_ID);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -113,7 +108,7 @@ public class Buildings extends Fragment {
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
-                            imageView.setImageBitmap(image);
+                            binding.Building.setImageBitmap(image);
                         } else
                         {
                             Glide.with(getActivity())
@@ -139,10 +134,10 @@ public class Buildings extends Fragment {
                                         }
                                     })
 
-                                    .into(imageView);
+                                    .into(binding.Building);
                     }
 
-                        imageView.setOnClickListener(v -> {
+                        binding.Building.setOnClickListener(v -> {
                             Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
                             intent.putExtra("imgData",photos.get(n).getUrls().getFull());
                             intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
@@ -150,7 +145,7 @@ public class Buildings extends Fragment {
                             intent.putExtra("text","Buildings");
 
                             Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(imageView,"imgData");
+                            pairs[0]=new Pair<View,String>(binding.Building,"imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -181,11 +176,7 @@ public class Buildings extends Fragment {
                 Log.d("Unsplash", error);
             }
         });
-
-
-        imageView.setTranslationZ(40);
-
-
+        binding.Building.setTranslationZ(40);
         return view;
     }
 

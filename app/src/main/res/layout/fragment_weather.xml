@@ -129,10 +129,9 @@
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:id="@+id/timeText"
-            android:layout_marginEnd="22dp"
-            android:maxLines="2"
+            android:maxLines="1"
             android:format24Hour="kk:mm"
             android:textColor="#FFFFFF"
             />
@@ -141,10 +140,10 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
-            android:layout_toEndOf="@+id/timeText"
+            android:layout_alignParentEnd="true"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 
@@ -172,9 +171,10 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:layout_below="@+id/quotesDay"
-            android:layout_centerHorizontal="true"
+            android:padding="8dp"
             android:textColor="#FFFFFF"
-            android:id="@+id/QuotesMainScreen"/>
+            android:maxLines="5"
+            android:id="@+id/quotesFirst"/>
     </RelativeLayout>
 
 

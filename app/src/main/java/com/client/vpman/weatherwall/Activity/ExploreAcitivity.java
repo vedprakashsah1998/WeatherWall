@@ -2,12 +2,9 @@ package com.client.vpman.weatherwall.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -15,9 +12,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.LruCache;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -36,16 +32,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.ExploreAdapter;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData5;
+import com.client.vpman.weatherwall.Model.ModelData5;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-import com.google.android.material.textview.MaterialTextView;
-
+import com.client.vpman.weatherwall.databinding.ActivityExploreAcitivityBinding;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,56 +51,46 @@ public class ExploreAcitivity extends AppCompatActivity {
 
     private long mRequestStartTime;
     String query;
-    RecyclerView recyclerView;
     List<ModelData5> model5;
     ExploreAdapter exploreAdapter;
-    MotionLayout motionLayout;
-    MaterialTextView textView;
-    ImageView imageExplore, backMotionExp, backgroundDesignExp;
     SharedPref1 sharedPref1;
+    ActivityExploreAcitivityBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_explore_acitivity);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        recyclerView = findViewById(R.id.recylerViewExploreData);
-        imageExplore = findViewById(R.id.imageExplore);
+        binding=ActivityExploreAcitivityBinding.inflate(getLayoutInflater());
+        View view=binding.getRoot();
+        setContentView(view);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         sharedPref1 = new SharedPref1(ExploreAcitivity.this);
-        textView = findViewById(R.id.titleDataExp);
-        motionLayout = findViewById(R.id.motionBackgroundExplore);
-        backgroundDesignExp = findViewById(R.id.backgroundDesignExp);
-        backMotionExp = findViewById(R.id.backMotionExp);
         Intent intent = getIntent();
         String mImg = intent.getStringExtra("imgData");
         String sImg = intent.getStringExtra("imgDataSmall");
         query = intent.getStringExtra("query");
         String text = intent.getStringExtra("text");
-        textView.setText(text);
+        binding.titleDataExp.setText(text);
 
         if (sharedPref1.getTheme().equals("Light")) {
-            textView.setTextColor(Color.parseColor("#000000"));
-            backMotionExp.setImageResource(R.drawable.ic_arrow_back);
-            motionLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            backgroundDesignExp.setImageResource(R.drawable.basic_design_customized_white);
+            binding.titleDataExp.setTextColor(Color.parseColor("#000000"));
+            binding.backMotionExp.setImageResource(R.drawable.ic_arrow_back);
+            binding.motionBackgroundExplore.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding.backgroundDesignExp.setImageResource(R.drawable.basic_design_customized_white);
         } else if (sharedPref1.getTheme().equals("Dark")) {
-
-            textView.setTextColor(Color.parseColor("#FFFFFF"));
-            backMotionExp.setImageResource(R.drawable.ic_arrow_back_black_24dp);
-            motionLayout.setBackgroundColor(Color.parseColor("#000000"));
-            backgroundDesignExp.setImageResource(R.drawable.basic_design_customized);
+            binding.titleDataExp.setTextColor(Color.parseColor("#FFFFFF"));
+            binding.backMotionExp.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+            binding.motionBackgroundExplore.setBackgroundColor(Color.parseColor("#000000"));
+            binding.backgroundDesignExp.setImageResource(R.drawable.basic_design_customized);
 
         } else {
-            textView.setTextColor(Color.parseColor("#000000"));
-            backMotionExp.setImageResource(R.drawable.ic_arrow_back);
-            motionLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            backgroundDesignExp.setImageResource(R.drawable.basic_design_customized_white);
+            binding.titleDataExp.setTextColor(Color.parseColor("#000000"));
+            binding.backMotionExp.setImageResource(R.drawable.ic_arrow_back);
+            binding.motionBackgroundExplore.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding.backgroundDesignExp.setImageResource(R.drawable.basic_design_customized_white);
         }
-        backMotionExp.setOnClickListener(v -> {
-            finish();
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-        });
+
+       binding.backMotionExp.setOnClickListener(v -> onBackPressed());
 
 
         RequestOptions requestOptions = new RequestOptions();
@@ -133,7 +117,7 @@ public class ExploreAcitivity extends AppCompatActivity {
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.
-            imageExplore.setImageBitmap(image);
+            binding.imageExplore.setImageBitmap(image);
         } else {
             Glide.with(ExploreAcitivity.this)
                     .load(mImg)
@@ -159,12 +143,14 @@ public class ExploreAcitivity extends AppCompatActivity {
                         }
                     })
 
-                    .into(imageExplore);
+                    .into(binding.imageExplore);
         }
 
         model5 = new ArrayList<>();
         LoadImage();
     }
+
+
 
     public void LoadImage() {
         mRequestStartTime = System.currentTimeMillis();
@@ -192,14 +178,14 @@ public class ExploreAcitivity extends AppCompatActivity {
                     Collections.shuffle(model5);
                     exploreAdapter = new ExploreAdapter(ExploreAcitivity.this, model5);
                     LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
-                    recyclerView.setLayoutManager(linearLayoutManager);
+                    binding.recylerViewExploreData.setLayoutManager(linearLayoutManager);
 
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setNestedScrollingEnabled(true);
+                    binding.recylerViewExploreData.setHasFixedSize(true);
+                    binding.recylerViewExploreData.setItemAnimator(new DefaultItemAnimator());
+                    binding.recylerViewExploreData.setNestedScrollingEnabled(true);
                     int itemViewType = 0;
-                    recyclerView.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
-                    recyclerView.setAdapter(exploreAdapter);
+                    binding.recylerViewExploreData.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
+                    binding.recylerViewExploreData.setAdapter(exploreAdapter);
 
 
                 } catch (Exception e) {
@@ -240,8 +226,4 @@ public class ExploreAcitivity extends AppCompatActivity {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(stringRequest);
         }
-
-
-
-
 }

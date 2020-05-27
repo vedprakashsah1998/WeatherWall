@@ -1,4 +1,4 @@
-package com.client.vpman.weatherwall.CustomeUsefullClass;
+package com.client.vpman.weatherwall.Model;
 
 public class RandomQuotesExp
 {

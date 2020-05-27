@@ -31,11 +31,14 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentImage1Binding;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -45,33 +48,21 @@ import java.util.Random;
  */
 public class Image1 extends Fragment {
 
-    View view;
-
-
-    RoundedImageView imageView;
+    private View view;
     String query;
-
-
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
 
     public Image1() {
         // Required empty public constructor
     }
-
-
+    private FragmentImage1Binding binding;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_image1, container, false);
-
-        imageView=view.findViewById(R.id.Bokeh);
+        binding=FragmentImage1Binding.inflate(inflater,container,false);
+        view=binding.getRoot();
         unsplash=new Unsplash(CLIENT_ID);
-
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -113,7 +104,7 @@ public class Image1 extends Fragment {
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
-                            imageView.setImageBitmap(image);
+                            binding.Bokeh.setImageBitmap(image);
                         } else
                         {
                             Glide.with(getActivity())
@@ -139,10 +130,10 @@ public class Image1 extends Fragment {
                                         }
                                     })
 
-                                    .into(imageView);
+                                    .into(binding.Bokeh);
                     }
 
-                        imageView.setOnClickListener(v -> {
+                        binding.Bokeh.setOnClickListener(v -> {
                             Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
                             intent.putExtra("imgData",photos.get(n).getUrls().getFull());
                             intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
@@ -150,7 +141,7 @@ public class Image1 extends Fragment {
                             intent.putExtra("text","Bokeh");
 
                             Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(imageView,"imgData");
+                            pairs[0]=new Pair<View,String>(binding.Bokeh,"imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -178,7 +169,7 @@ public class Image1 extends Fragment {
         });
 
 
-        imageView.setTranslationZ(40);
+        binding.Bokeh.setTranslationZ(40);
 
 
         return view;

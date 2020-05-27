@@ -20,10 +20,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.FullImage;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData4;
+import com.client.vpman.weatherwall.Model.ModelData4;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.List;
 import androidx.annotation.NonNull;
@@ -153,7 +154,7 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
     }
 
     public static class MyPopHandlerMainData extends RecyclerView.ViewHolder {
-        RoundedImageView imageView;
+        ShapeableImageView imageView;
         private View view;
         public MyPopHandlerMainData(@NonNull View itemView) {
             super(itemView);

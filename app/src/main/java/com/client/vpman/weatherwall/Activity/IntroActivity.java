@@ -5,44 +5,41 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.client.vpman.weatherwall.Adapter.CustomePagerAdapter;
-import com.client.vpman.weatherwall.CustomeUsefullClass.OnBoardingModel;
+import com.client.vpman.weatherwall.Model.OnBoardingModel;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
-import com.google.android.material.button.MaterialButton;
+import com.client.vpman.weatherwall.databinding.ActivityIntroBinding;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IntroActivity extends AppCompatActivity {
 
     private CustomePagerAdapter customePagerAdapter;
-    private LinearLayout layoutOnBoardingIndicator;
-    private MaterialButton onBoardingButton;
     private SharedPref1 pref;
-
-
+    ActivityIntroBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro);
+        binding=ActivityIntroBinding.inflate(getLayoutInflater());
+        View view1=binding.getRoot();
+        setContentView(view1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         pref=new SharedPref1(this);
         pref.setFirstState(false);
-        layoutOnBoardingIndicator=findViewById(R.id.onBoardingIndicator);
-        onBoardingButton=findViewById(R.id.buttonOnBoardingAction);
         setupOnBoardingItem();
-        ViewPager2 viewPager2=findViewById(R.id.onBoardingViewPager);
-        viewPager2.setAdapter(customePagerAdapter);
+        binding.onBoardingViewPager.setAdapter(customePagerAdapter);
         setupOnBoardingIndicator();
 
         setCurrentBoardingIndicator(0);
 
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        binding.onBoardingViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -50,10 +47,10 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-        onBoardingButton.setOnClickListener(v -> {
-            if (viewPager2.getCurrentItem()+1<customePagerAdapter.getItemCount())
+        binding.buttonOnBoardingAction.setOnClickListener(v -> {
+            if (binding.onBoardingViewPager.getCurrentItem()+1<customePagerAdapter.getItemCount())
             {
-                viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1);
+                binding.onBoardingViewPager.setCurrentItem(binding.onBoardingViewPager.getCurrentItem()+1);
             }
             else
             {
@@ -95,16 +92,16 @@ public class IntroActivity extends AppCompatActivity {
             indicator[i]=new ImageView(getApplicationContext());
             indicator[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.onboarding_inactive));
             indicator[i].setLayoutParams(layoutParams);
-            layoutOnBoardingIndicator.addView(indicator[i]);
+            binding.onBoardingIndicator.addView(indicator[i]);
 
         }
     }
     private void setCurrentBoardingIndicator(int index)
     {
-        int childCount=layoutOnBoardingIndicator.getChildCount();
+        int childCount=binding.onBoardingIndicator.getChildCount();
         for (int i=0;i<childCount;i++)
         {
-            ImageView imageView=(ImageView)layoutOnBoardingIndicator.getChildAt(i);
+            ImageView imageView=(ImageView)binding.onBoardingIndicator.getChildAt(i);
             if (i==index)
             {
                 imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.onborard_indicator));
@@ -117,11 +114,11 @@ public class IntroActivity extends AppCompatActivity {
         }
         if (index==customePagerAdapter.getItemCount()-1)
         {
-            onBoardingButton.setText("Start");
+            binding.buttonOnBoardingAction.setText("Start");
         }
         else
         {
-            onBoardingButton.setText("Next");
+            binding.buttonOnBoardingAction.setText("Next");
         }
     }
 

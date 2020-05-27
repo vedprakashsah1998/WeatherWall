@@ -31,11 +31,14 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentReligionBinding;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -49,30 +52,19 @@ public class Religion extends Fragment {
     public Religion() {
         // Required empty public constructor
     }
-    View view;
 
-
-    RoundedImageView imageView;
-    String query;
-
-
-    private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
+    private View view;
+    private String query;
+    private final String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
-
+    private FragmentReligionBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_religion, container, false);
-
-
-
-        imageView=view.findViewById(R.id.Religion);
-        unsplash=new Unsplash(CLIENT_ID);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-
+        binding = FragmentReligionBinding.inflate(inflater, container, false);
+        view = binding.getRoot();
+        unsplash = new Unsplash(CLIENT_ID);
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -83,42 +75,30 @@ public class Religion extends Fragment {
         requestOptions.isMemoryCacheable();
         requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-
-        query="religion";
-
-
-
+        query = "religion";
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {
                 Log.d("Photos", "Total Results Found " + results.getTotal());
-
                 List<Photo> photos = results.getResults();
-
-
-                Random random=new Random();
+                Random random = new Random();
                 int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
+                if (isAdded()) {
 
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
                         protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
+                            return image.getByteCount() / 1024;
                         }
                     };
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
-                            imageView.setImageBitmap(image);
-                        } else
-                        {
+                            binding.Religion.setImageBitmap(image);
+                        } else {
                             Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
@@ -135,48 +115,38 @@ public class Religion extends Fragment {
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                             return false;
                                         }
                                     })
 
-                                    .into(imageView);
-                    }
+                                    .into(binding.Religion);
+                        }
+                        binding.Religion.setOnClickListener(v -> {
+                            Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
+                            intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", "Religion");
 
-                        imageView.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
-                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query",query);
-                            intent.putExtra("text","Religion");
-
-                            Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(imageView,"imgData");
+                            Pair[] pairs = new Pair[1];
+                            pairs[0] = new Pair<View, String>(binding.Religion, "imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),pairs
+                                    getActivity(), pairs
                             );
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 startActivity(intent, optionsCompat.toBundle());
-                            }else {
+                            } else {
                                 startActivity(intent);
                             }
                         });
 
                     }
-
-
                 }
-
-
-
-
-
-
             }
 
             @Override
@@ -184,12 +154,8 @@ public class Religion extends Fragment {
                 Log.d("Unsplash", error);
             }
         });
-
-        imageView.setTranslationZ(40);
-
-
-
-    return view;
+        binding.Religion.setTranslationZ(40);
+        return view;
     }
 
 

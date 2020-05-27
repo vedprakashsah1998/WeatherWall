@@ -34,7 +34,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="4dp"
-                android:layout_toLeftOf="@+id/browser"
+                android:layout_toStartOf="@+id/browser"
                 android:layout_marginEnd="12dp"
                 android:id="@+id/downloadImg"/>
             <ImageView
@@ -69,7 +69,8 @@
             android:clickable="true"
             android:padding="12dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_wallpaper"/>
+            android:src="@drawable/ic_wallpaper"
+            android:focusable="true" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

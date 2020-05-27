@@ -1,13 +1,12 @@
-package com.client.vpman.weatherwall.CustomeUsefullClass;
+package com.client.vpman.weatherwall.Model;
 
-public class ModelData4
+public class ModelData5
 {
     private String large2x,photographer,large,original,photoUrl;
 
-    public ModelData4() {
-    }
 
-    public ModelData4(String large2x, String photographer, String large, String original, String photoUrl) {
+
+    public ModelData5(String large2x, String photographer, String large, String original, String photoUrl) {
         this.large2x = large2x;
         this.photographer = photographer;
         this.large = large;

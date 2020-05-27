@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     >
-    <com.makeramen.roundedimageview.RoundedImageView
+<!--    <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/expadapterImg"
@@ -15,7 +15,16 @@
         app:riv_corner_radius="22dp"
         app:riv_mutate_background="true"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY" />-->
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/roundedImageView"
+        android:id="@+id/expadapterImg"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"

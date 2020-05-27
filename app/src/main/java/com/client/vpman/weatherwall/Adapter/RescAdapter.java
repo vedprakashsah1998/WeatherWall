@@ -26,7 +26,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData;
+import com.client.vpman.weatherwall.Model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
@@ -35,11 +35,10 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
-public class RescAdapter extends RecyclerView.Adapter<RescAdapter.MyViewHolder>
-{
+public class RescAdapter extends RecyclerView.Adapter<RescAdapter.MyViewHolder> {
 
     private List<ModelData> modelData;
-private Context context;
+    private Context context;
 
     public RescAdapter(List<ModelData> modelData, Context context) {
         this.modelData = modelData;
@@ -48,28 +47,26 @@ private Context context;
 
     @NonNull
     @Override
-    public RescAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View view= LayoutInflater.from(context).inflate(R.layout.recycle_data,parent,false);
+    public RescAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recycle_data, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RescAdapter.MyViewHolder holder, int position) {
-        ModelData modelData1=modelData.get(position);
+        ModelData modelData1 = modelData.get(position);
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
             protected int sizeOf(String key, Bitmap image) {
-                return image.getByteCount()/1024;
+                return image.getByteCount() / 1024;
             }
         };
-        SharedPref1 pref1=new SharedPref1(context);
+        SharedPref1 pref1 = new SharedPref1(context);
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.
             holder.imageView.setImageBitmap(image);
-        } else
-        {
+        } else {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                     .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -85,30 +82,24 @@ private Context context;
             //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.centerCrop();
 
-            if (pref1.getTheme().equals("Light"))
-            {
+            if (pref1.getTheme().equals("Light")) {
                 Resources res = context.getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design_white);
                 holder.viewLayout.setBackground(drawable);
                 holder.PhotoGrapherName.setTextColor(Color.parseColor("#000000"));
-            }
-            else if (pref1.getTheme().equals("Dark"))
-            {
+            } else if (pref1.getTheme().equals("Dark")) {
                 Resources res = context.getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.basic_design);
                 holder.viewLayout.setBackground(drawable);
                 holder.PhotoGrapherName.setTextColor(Color.parseColor("#FFFFFF"));
-            }
-            else
-            {
+            } else {
                 holder.PhotoGrapherName.setTextColor(Color.parseColor("#000000"));
                 Resources res = context.getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design_white);
                 holder.viewLayout.setBackground(drawable);
             }
 
-            if (pref1.getImageLoadQuality().equals("Default"))
-            {
+            if (pref1.getImageLoadQuality().equals("Default")) {
 
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
@@ -126,17 +117,14 @@ private Context context;
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                 return false;
                             }
                         })
 
                         .into(holder.imageView);
-            }
-            else if (pref1.getImageLoadQuality().equals("High Quality"))
-            {
+            } else if (pref1.getImageLoadQuality().equals("High Quality")) {
 
                 Glide.with(context)
                         .load(modelData1.getOriginal())
@@ -154,17 +142,14 @@ private Context context;
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                 return false;
                             }
                         })
 
                         .into(holder.imageView);
-            }
-            else
-            {
+            } else {
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
                         .thumbnail(
@@ -181,8 +166,7 @@ private Context context;
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                 return false;
                             }
@@ -193,7 +177,7 @@ private Context context;
 
 
         }
-        holder.PhotoGrapherName.setText("Photographs by: "+modelData1.getPhotographer());
+        holder.PhotoGrapherName.setText("Photographs by: " + modelData1.getPhotographer());
     }
 
     @Override
@@ -201,16 +185,16 @@ private Context context;
         return modelData.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
-    {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         RoundedImageView imageView;
         MaterialTextView PhotoGrapherName;
         View viewLayout;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView=itemView.findViewById(R.id.imageData);
-            PhotoGrapherName=itemView.findViewById(R.id.photoGrapherName);
-            viewLayout=itemView.findViewById(R.id.viewLayout);
+            imageView = itemView.findViewById(R.id.imageData);
+            PhotoGrapherName = itemView.findViewById(R.id.photoGrapherName);
+            viewLayout = itemView.findViewById(R.id.viewLayout);
 
         }
     }

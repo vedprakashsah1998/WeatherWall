@@ -17,6 +17,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -43,6 +44,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextClock;
 import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -53,15 +55,19 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentWeatherBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.suke.widget.SwitchButton;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -81,71 +87,45 @@ import static android.os.Looper.getMainLooper;
  * A simple {@link Fragment} subclass.
  */
 public class WeatherFragment extends Fragment {
-    MaterialTextView t1_temp, t2_city, t3_description, t4_date,QuotesMain;
-    TextClock t5_time;
-    String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
+    private String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
 
-    List<String>apiList;
-
-    String JsonUrl = "https://api.openweathermap.org/data/2.5/weather?q=,in&appid=" + apiKey;
-
-    List<String> list;
-    String cityname;
+    private List<String> apiList;
+    private MaterialTextView clearCache,toolBarText,shareApp,reportText,rateUsText,instagramText,faceBookText,LinkedIn,privacyPolicy,github;
+   private MaterialTextView chooseImgQuality,loadQuality,ContactUsText,weatherWallText, poweredby,credit,setThemeText;
+   private ImageView pexels,flatIcon,Unsplash,backtoMain,deleteImg,share,reportUs,rateUsImg,facebook,privacyImg,instagram,Github,linkedIn;
+   private Spinner spinner,spinner1;
+   private CardView cardContact,settingCardView,cardSetting,cardCredit,otherCard;
+    private Toolbar toolbar;
+    private String JsonUrl = "https://api.openweathermap.org/data/2.5/weather?q=,in&appid=" + apiKey;
+    private Dialog dialog;
+    private RelativeLayout relativeLayout;
+    private List<String> list;
+    private String cityname;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private View view;
-    Animation bounce;
-    boolean gps_enabled = false;
-    boolean network_enabled = false;
-    OnDataPass dataPasser;
-    ImageView swipeUp;
-    Double lat, lon;
-    String countryCode = null;
-
-    MaterialTextView swipeUp2;
-
-
-    ImageView image;
-    List<Address> addresses;
+    private Animation bounce;
+    private boolean gps_enabled = false;
+    private boolean network_enabled = false;
+    private OnDataPass dataPasser;
+    private Double lat, lon;
+    private String countryCode = null;
+    private List<Address> addresses;
 
     private FusedLocationProviderClient fusedLocationClient;
 
-    RotateAnimation rotate;
-
-    RelativeLayout relLayout;
-
-    public WeatherFragment() {
+    private RotateAnimation rotate;
+        public WeatherFragment() {
         // Required empty public constructor
     }
 
+    private FragmentWeatherBinding binding;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_weather, container, false);
-        t1_temp = view.findViewById(R.id.temp);
-        t2_city = view.findViewById(R.id.city);
-        t3_description = view.findViewById(R.id.desc);
-        t4_date = view.findViewById(R.id.date);
-
-        t5_time=view.findViewById(R.id.timeText);
-        swipeUp = view.findViewById(R.id.swipUp);
-        relLayout = view.findViewById(R.id.relLayout);
-        swipeUp2 = view.findViewById(R.id.swipUp2);
+        binding=FragmentWeatherBinding.inflate(inflater,container,false);
+        View view1 = binding.getRoot();
         list = new ArrayList<>();
-        QuotesMain=view.findViewById(R.id.QuotesMainScreen);
-
-/*        final Handler someHandler = new Handler(getMainLooper());
-        someHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                t5_time.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
-                someHandler.postDelayed(this, 1000);
-            }
-        }, 10);*/
-
-
         Log.d("hgfkj", "request");
         if (getActivity() != null) {
             SharedPref1 sharedPref1 = new SharedPref1(getActivity());
@@ -153,23 +133,23 @@ public class WeatherFragment extends Fragment {
 
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design_white);
-                relLayout.setBackground(drawable);
-                swipeUp2.setTextColor(Color.parseColor("#000000"));
-                swipeUp.setImageResource(R.drawable.ic_up_arow_black);
+                binding.relLayout.setBackground(drawable);
+                binding.swipUp2.setTextColor(Color.parseColor("#000000"));
+                binding.swipUp.setImageResource(R.drawable.ic_up_arow_black);
 
             } else if (sharedPref1.getTheme().equals("Dark")) {
 
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design);
-                relLayout.setBackground(drawable);
-                swipeUp2.setTextColor(Color.parseColor("#FFFFFF"));
-                swipeUp.setImageResource(R.drawable.ic_up_arow);
+                binding.relLayout.setBackground(drawable);
+                binding.swipUp2.setTextColor(Color.parseColor("#FFFFFF"));
+                binding.swipUp.setImageResource(R.drawable.ic_up_arow);
             } else {
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.main_design_white);
-                relLayout.setBackground(drawable);
-                swipeUp2.setTextColor(Color.parseColor("#000000"));
-                swipeUp.setImageResource(R.drawable.ic_up_arow_black);
+                binding.relLayout.setBackground(drawable);
+                binding.swipUp2.setTextColor(Color.parseColor("#000000"));
+                binding.swipUp.setImageResource(R.drawable.ic_up_arow_black);
             }
         }
 
@@ -190,7 +170,7 @@ public class WeatherFragment extends Fragment {
 
                 bounce.setRepeatCount(Animation.INFINITE);
                 bounce.setRepeatMode(Animation.INFINITE);
-                swipeUp.startAnimation(bounce);
+                binding.swipUp.startAnimation(bounce);
 
             }
 
@@ -198,9 +178,9 @@ public class WeatherFragment extends Fragment {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-        swipeUp.startAnimation(bounce);
+        binding.swipUp.startAnimation(bounce);
 
-        image = view.findViewById(R.id.settingImg);
+        /*image = view.findViewById(R.id.settingImg);*/
         rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(5000);
         rotate.setInterpolator(new LinearInterpolator());
@@ -219,7 +199,7 @@ public class WeatherFragment extends Fragment {
                 rotate.setInterpolator(new LinearInterpolator());
                 rotate.setRepeatCount(Animation.INFINITE);
                 rotate.setRepeatMode(Animation.INFINITE);
-                image.startAnimation(rotate);
+                binding.settingImg.startAnimation(rotate);
             }
 
             @Override
@@ -227,8 +207,8 @@ public class WeatherFragment extends Fragment {
 
             }
         });
-        image.startAnimation(rotate);
-        image.setOnClickListener(v -> settingDialog(getActivity()));
+        binding.settingImg.startAnimation(rotate);
+        binding.settingImg.setOnClickListener(v -> settingDialog(getActivity()));
 
 
         if (Connectivity.isConnected(getActivity()) && Connectivity.isConnectedMobile(getActivity()) && Connectivity.isConnectedFast(getActivity()) ||
@@ -240,7 +220,8 @@ public class WeatherFragment extends Fragment {
         }
 
 
-        return view;
+        return view1;
+
 
     }
 
@@ -296,9 +277,9 @@ public class WeatherFragment extends Fragment {
                                             String description = object.getString("description");
                                             String city = response.getString("name");
 
-                                            t1_temp.setText(temp + "°C");
-                                            t2_city.setText(city);
-                                            t3_description.setText(description);
+                                            binding.temp.setText(temp + "°C");
+                                            binding.city.setText(city);
+                                            binding.desc.setText(description);
 
                                             dataPasser.onDataPass(description);
 
@@ -308,7 +289,7 @@ public class WeatherFragment extends Fragment {
                                             SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-YYYY");
                                             String formated_date = sdf.format(calendar.getTime());
 
-                                            t4_date.setText(formated_date);
+                                            binding.date.setText(formated_date);
 
 
                                         } catch (JSONException e) {
@@ -358,7 +339,7 @@ public class WeatherFragment extends Fragment {
             // Permission has already been granted
             Log.d("hgfkj", "requestStoragePermission: 009");
             if (checkLocationON()) {
-                    findWeather();
+                findWeather();
 
             } else {
                 checkGpsStatus();
@@ -378,7 +359,7 @@ public class WeatherFragment extends Fragment {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (checkLocationON()) {
-                            findWeather();
+                        findWeather();
                     } else {
                         checkGpsStatus();
                     }
@@ -495,7 +476,7 @@ public class WeatherFragment extends Fragment {
         if (Connectivity.isConnected(getActivity())) {
             if (checkLocationON()) {
 
-            findWeather();
+                findWeather();
             }
         } else {
             showDialg(getActivity());
@@ -512,11 +493,11 @@ public class WeatherFragment extends Fragment {
 
     public void showDialg(Activity activity) {
 
-        final Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.internet_connection);
-        MaterialButton connectInternet = dialog.findViewById(R.id.internet);
+        final Dialog dialog1 = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.setCancelable(false);
+        dialog1.setContentView(R.layout.internet_connection);
+        MaterialButton connectInternet = dialog1.findViewById(R.id.internet);
         connectInternet.setOnClickListener(view -> {
             Intent i = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
             startActivity(i);
@@ -524,21 +505,20 @@ public class WeatherFragment extends Fragment {
 
         });
 
-        dialog.show();
+        dialog1.show();
         if (Connectivity.isConnected(getActivity())) {
-            dialog.dismiss();
+            dialog1.dismiss();
         }
     }
 
-    public void settingDialog(Activity activity) {
-        final Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+    private void settingDialog(Activity activity) {
+        dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.show();
         dialog.setContentView(R.layout.setting_dialog);
-        MaterialTextView clearCache = dialog.findViewById(R.id.deleteTextMain);
+        initDialogView();
         clearCache.setOnClickListener(v -> deleteCache(activity));
-        MaterialTextView shareApp = dialog.findViewById(R.id.shareAppText);
         shareApp.setOnClickListener(v -> {
             try {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -552,7 +532,7 @@ public class WeatherFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-        MaterialTextView reportText = dialog.findViewById(R.id.reportText);
+
         reportText.setOnClickListener(v -> {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                     "mailto", "vp.mannu.kr@gmail.com", null));
@@ -560,53 +540,53 @@ public class WeatherFragment extends Fragment {
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall");
             startActivity(Intent.createChooser(emailIntent, "Send email..."));
         });
-        MaterialTextView rateUsText = dialog.findViewById(R.id.rateUsText);
+
         rateUsText.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
             startActivity(browserIntent);
 
         });
-        MaterialTextView instagramText = dialog.findViewById(R.id.instagramText);
+
         instagramText.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/weather_wall/"));
             startActivity(browserIntent);
         });
-        MaterialTextView faceBookText = dialog.findViewById(R.id.faceBookText);
+
         faceBookText.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
             startActivity(browserIntent);
         });
-        MaterialTextView LinkedIn = dialog.findViewById(R.id.LinkedIn);
+
         LinkedIn.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
             startActivity(browserIntent);
         });
-        MaterialTextView github = dialog.findViewById(R.id.github);
+
         github.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
             startActivity(browserIntent);
         });
-        ImageView pexels = dialog.findViewById(R.id.pexels);
+
         pexels.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com/"));
             startActivity(browserIntent);
         });
-        ImageView flatIcon = dialog.findViewById(R.id.flatIcon);
+
         flatIcon.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/"));
             startActivity(browserIntent);
         });
-        ImageView Unsplash = dialog.findViewById(R.id.Unsplash);
+
         Unsplash.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://unsplash.com/"));
             startActivity(browserIntent);
         });
-        MaterialTextView privacyPolicy = dialog.findViewById(R.id.privacyPolicy);
+
         privacyPolicy.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
             startActivity(browserIntent);
         });
-        Spinner spinner = dialog.findViewById(R.id.spinner);
+        spinner = dialog.findViewById(R.id.spinner);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(activity, R.layout.custome_spinner, getResources().getStringArray(R.array.list));
 
@@ -614,7 +594,7 @@ public class WeatherFragment extends Fragment {
         SharedPref1 pref = new SharedPref1(activity);
 
 
-        MaterialTextView chooseImgQuality = dialog.findViewById(R.id.chooseImgQuality);
+
         chooseImgQuality.append(pref.getImageQuality());
 
 
@@ -639,17 +619,11 @@ public class WeatherFragment extends Fragment {
 
             }
         });
-
-        Spinner spinner1 = dialog.findViewById(R.id.spinner2);
+         spinner1 = dialog.findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(activity, R.layout.custome_spinner_list, getResources().getStringArray(R.array.list));
-
         dataAdapter1.setDropDownViewResource(R.layout.custome_spinner_load);
-
-        MaterialTextView loadQuality = dialog.findViewById(R.id.loadQuality);
         loadQuality.append(pref.getImageLoadQuality());
-
         spinner1.setAdapter(dataAdapter1);
-
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -670,48 +644,25 @@ public class WeatherFragment extends Fragment {
             }
         });
 
-        SwitchButton switchButton=dialog.findViewById(R.id.sticky_switch1);
+        SwitchButton switchButton = dialog.findViewById(R.id.sticky_switch1);
 
 
         if (pref.getTheme().equals("Light")) {
             switchButton.setChecked(false);
         } else if (pref.getTheme().equals("Dark")) {
-                switchButton.setChecked(true);
+            switchButton.setChecked(true);
         } else {
             switchButton.setChecked(false);
 
         }
 
-        RelativeLayout relativeLayout = dialog.findViewById(R.id.themeColor);
-        Toolbar toolbar = dialog.findViewById(R.id.tool1barSetting);
-        MaterialTextView toolBarText = dialog.findViewById(R.id.toolBartext);
-        ImageView backtoMain = dialog.findViewById(R.id.backtoMain);
-        ImageView deleteImg = dialog.findViewById(R.id.deleteImg);
-        CardView settingCardView = dialog.findViewById(R.id.cardSetting);
-        ImageView share = dialog.findViewById(R.id.shareApp);
-        ImageView reportUs = dialog.findViewById(R.id.reportUs);
-        ImageView rateUsImg = dialog.findViewById(R.id.rateUsImg);
-        MaterialTextView ContactUsText = dialog.findViewById(R.id.ContactUsText);
-        CardView cardContact = dialog.findViewById(R.id.cardContact);
-        ImageView instagram = dialog.findViewById(R.id.instagram);
-        MaterialTextView weatherWallText,poweredby;
-        weatherWallText=dialog.findViewById(R.id.weatherWallText);
-        poweredby=dialog.findViewById(R.id.poweredby);
-        ImageView facebook = dialog.findViewById(R.id.facebook);
-        ImageView privacyImg=dialog.findViewById(R.id.privacyImg);
-        ImageView linkedIn = dialog.findViewById(R.id.linkedIn);
-        ImageView Github = dialog.findViewById(R.id.Github);
-        CardView otherCard=dialog.findViewById(R.id.otherCard);
-        MaterialTextView credit = dialog.findViewById(R.id.credit);
-        CardView cardCredit = dialog.findViewById(R.id.cardCredit);
-        MaterialTextView setThemeText = dialog.findViewById(R.id.setTheme);
-        CardView cardSetting=dialog.findViewById(R.id.settingCard);
+
+
 
         switchButton.setOnCheckedChangeListener((view, isChecked) -> {
-            if (!isChecked)
-            {
+            if (!isChecked) {
                 pref.setTheme("Light");
-                relativeLayout.setBackgroundColor(Color.parseColor("#F0EFF4"));
+                relativeLayout.setBackgroundColor(Color.parseColor("#F2F6F9"));
                 toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 clearCache.setTextColor(Color.parseColor("#000000"));
                 setThemeText.setTextColor(Color.parseColor("#000000"));
@@ -751,22 +702,20 @@ public class WeatherFragment extends Fragment {
                 reportText.setTextColor(Color.parseColor("#000000"));
                 github.setTextColor(Color.parseColor("#000000"));
                 LinkedIn.setTextColor(Color.parseColor("#000000"));
-            }
-            else {
+            } else {
                 pref.setTheme("Dark");
                 weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
                 poweredby.setTextColor(Color.parseColor("#FFFFFF"));
                 LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
                 github.setTextColor(Color.parseColor("#FFFFFF"));
-                cardSetting.setCardBackgroundColor(Color.parseColor("#303030"));
-                otherCard.setCardBackgroundColor(Color.parseColor("#303030"));
+                cardSetting.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+                otherCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
                 setThemeText.setText("Dark Mode");
                 faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
                 instagramText.setTextColor(Color.parseColor("#FFFFFF"));
                 rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
                 reportText.setTextColor(Color.parseColor("#FFFFFF"));
                 privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
-
                 relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
                 chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
                 toolbar.setBackgroundColor(Color.parseColor("#000000"));
@@ -779,16 +728,16 @@ public class WeatherFragment extends Fragment {
                 backtoMain.setBackground(drawable);
                 ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
                 deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
-                settingCardView.setCardBackgroundColor(Color.parseColor("#303030"));
+                settingCardView.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
                 rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
                 share.setImageResource(R.drawable.ic_share_white_24dp);
                 reportUs.setImageResource(R.drawable.ic_report_problem_white);
-                cardContact.setCardBackgroundColor(Color.parseColor("#303030"));
+                cardContact.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
                 instagram.setImageResource(R.drawable.ic_instagram_white);
                 facebook.setImageResource(R.drawable.ic_facebook_white);
                 linkedIn.setImageResource(R.drawable.ic_linkedin_white);
                 Github.setImageResource(R.drawable.ic_logo_white);
-                cardCredit.setCardBackgroundColor(Color.parseColor("#303030"));
+                cardCredit.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
                 credit.setTextColor(Color.parseColor("#FFFFFF"));
                 flatIcon.setImageResource(R.drawable.ic_flaticon_white);
                 Unsplash.setImageResource(R.drawable.ic_unsplash_white);
@@ -804,9 +753,8 @@ public class WeatherFragment extends Fragment {
             github.setTextColor(Color.parseColor("#000000"));
             cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
-
             rateUsText.setTextColor(Color.parseColor("#000000"));
-            relativeLayout.setBackgroundColor(Color.parseColor("#F0EFF4"));
+            relativeLayout.setBackgroundColor(Color.parseColor("#F2F6F9"));
             setThemeText.setTextColor(Color.parseColor("#000000"));
             loadQuality.setTextColor(Color.parseColor("#000000"));
             chooseImgQuality.setTextColor(Color.parseColor("#000000"));
@@ -847,9 +795,9 @@ public class WeatherFragment extends Fragment {
             LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
             faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
             setThemeText.setText("Dark Mode");
-            cardSetting.setCardBackgroundColor(Color.parseColor("#303030"));
+            cardSetting.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
-            otherCard.setCardBackgroundColor(Color.parseColor("#303030"));
+            otherCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             instagramText.setTextColor(Color.parseColor("#FFFFFF"));
             rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
             reportText.setTextColor(Color.parseColor("#FFFFFF"));
@@ -863,17 +811,17 @@ public class WeatherFragment extends Fragment {
 
             reportUs.setImageResource(R.drawable.ic_report_problem_white);
             deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
-            settingCardView.setCardBackgroundColor(Color.parseColor("#303030"));
+            settingCardView.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             share.setImageResource(R.drawable.ic_share_white_24dp);
             rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
             ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
-            cardContact.setCardBackgroundColor(Color.parseColor("#303030"));
+            cardContact.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             instagram.setImageResource(R.drawable.ic_instagram_white);
             facebook.setImageResource(R.drawable.ic_facebook_white);
             linkedIn.setImageResource(R.drawable.ic_linkedin_white);
             Github.setImageResource(R.drawable.ic_logo_white);
             credit.setTextColor(Color.parseColor("#FFFFFF"));
-            cardCredit.setCardBackgroundColor(Color.parseColor("#303030"));
+            cardCredit.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             flatIcon.setImageResource(R.drawable.ic_flaticon_white);
             clearCache.setTextColor(Color.parseColor("#FFFFFF"));
             Unsplash.setImageResource(R.drawable.ic_unsplash_white);
@@ -897,7 +845,7 @@ public class WeatherFragment extends Fragment {
             instagramText.setTextColor(Color.parseColor("#000000"));
             setThemeText.setTextColor(Color.parseColor("#000000"));
             rateUsText.setTextColor(Color.parseColor("#000000"));
-            relativeLayout.setBackgroundColor(Color.parseColor("#F0EFF4"));
+            relativeLayout.setBackgroundColor(Color.parseColor("#F2F6F9"));
             loadQuality.setTextColor(Color.parseColor("#000000"));
             chooseImgQuality.setTextColor(Color.parseColor("#000000"));
             reportText.setTextColor(Color.parseColor("#000000"));
@@ -930,21 +878,21 @@ public class WeatherFragment extends Fragment {
 
 
         backtoMain.setOnClickListener(v -> {
-            activity.overridePendingTransition(0,0);
+            activity.overridePendingTransition(0, 0);
 
             if (getFragmentManager() != null) {
                 getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
             }
             activity.recreate();
-            activity.overridePendingTransition(0,0);
+            activity.overridePendingTransition(0, 0);
         });
         dialog.setOnCancelListener(dialog1 -> {
-            activity.overridePendingTransition(0,0);
+            activity.overridePendingTransition(0, 0);
             if (getFragmentManager() != null) {
                 getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
             }
             activity.recreate();
-            activity.overridePendingTransition(0,0);
+            activity.overridePendingTransition(0, 0);
 
         });
     }
@@ -975,7 +923,7 @@ public class WeatherFragment extends Fragment {
                 Collections.shuffle(list);
                 Random random = new Random();
                 int n = random.nextInt(list.size());
-                QuotesMain.setText(list.get(n));
+                binding.quotesFirst.setText(list.get(n));
                 Log.d("asljf", String.valueOf(n));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1028,5 +976,45 @@ public class WeatherFragment extends Fragment {
         }
     }
 
+    private void initDialogView()
+    {
+        relativeLayout = dialog.findViewById(R.id.themeColor);
+        toolbar = dialog.findViewById(R.id.tool1barSetting);
+        toolBarText = dialog.findViewById(R.id.toolBartext);
+        backtoMain = dialog.findViewById(R.id.backtoMain);
+        deleteImg = dialog.findViewById(R.id.deleteImg);
+        settingCardView = dialog.findViewById(R.id.cardSetting);
+        share = dialog.findViewById(R.id.shareApp);
+        reportUs = dialog.findViewById(R.id.reportUs);
+        rateUsImg = dialog.findViewById(R.id.rateUsImg);
+        ContactUsText = dialog.findViewById(R.id.ContactUsText);
+        cardContact = dialog.findViewById(R.id.cardContact);
+        instagram = dialog.findViewById(R.id.instagram);
+        weatherWallText = dialog.findViewById(R.id.weatherWallText);
+        poweredby = dialog.findViewById(R.id.poweredby);
+        facebook = dialog.findViewById(R.id.facebook);
+        privacyImg = dialog.findViewById(R.id.privacyImg);
+        linkedIn = dialog.findViewById(R.id.linkedIn);
+        Github = dialog.findViewById(R.id.Github);
+        otherCard = dialog.findViewById(R.id.otherCard);
+        credit = dialog.findViewById(R.id.credit);
+        cardCredit = dialog.findViewById(R.id.cardCredit);
+        setThemeText = dialog.findViewById(R.id.setTheme);
+        cardSetting = dialog.findViewById(R.id.settingCard);
 
+        clearCache = dialog.findViewById(R.id.deleteTextMain);
+        shareApp = dialog.findViewById(R.id.shareAppText);
+        reportText = dialog.findViewById(R.id.reportText);
+        rateUsText = dialog.findViewById(R.id.rateUsText);
+        instagramText = dialog.findViewById(R.id.instagramText);
+        faceBookText = dialog.findViewById(R.id.faceBookText);
+        LinkedIn = dialog.findViewById(R.id.LinkedIn);
+        chooseImgQuality = dialog.findViewById(R.id.chooseImgQuality);
+        loadQuality = dialog.findViewById(R.id.loadQuality);
+        Unsplash = dialog.findViewById(R.id.Unsplash);
+        flatIcon = dialog.findViewById(R.id.flatIcon);
+        privacyPolicy = dialog.findViewById(R.id.privacyPolicy);
+        github = dialog.findViewById(R.id.github);
+        pexels = dialog.findViewById(R.id.pexels);
+    }
 }

@@ -245,29 +245,23 @@
         android:padding="54dp">
 
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/droneView"
             android:layout_width="150dp"
             android:layout_height="450dp"
-            android:elevation="20dp"
             android:scaleType="centerCrop"
-            app:riv_corner_radius_bottom_left="50dp"
-            app:riv_corner_radius_top_left="50dp"
-            app:riv_mutate_background="true" />
+            />
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/nature"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/droneView"
-            android:elevation="20dp"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius_top_right="50dp"
-            app:riv_mutate_background="true" />
+            android:scaleType="centerCrop"/>
 
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/food"
             android:layout_width="200dp"
             android:layout_height="200dp"
@@ -275,10 +269,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/droneView"
-            android:elevation="20dp"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius_bottom_right="50dp"
-            app:riv_mutate_background="true" />
+            android:scaleType="centerCrop"/>
 
 
     </RelativeLayout>
@@ -307,9 +298,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/cagliostro"
-        android:padding="12dp"
+        android:padding="8dp"
         android:text="Popular Photos"
-        android:textColor="#000"
+        android:paddingStart="54dp"
         android:textSize="24sp"
         android:textStyle="bold" />
 

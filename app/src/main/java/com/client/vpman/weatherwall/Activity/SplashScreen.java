@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.ActivitySplashScreenBinding;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -28,39 +29,39 @@ public class SplashScreen extends AppCompatActivity {
     public static final int ITEM_DELAY = 500;
     private boolean animationStarted = false;
     SharedPref1 pref1;
-
-
+    ActivitySplashScreenBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        binding=ActivitySplashScreenBinding.inflate(getLayoutInflater());
+        View view1=binding.getRoot();
+        setContentView(view1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         pref1 = new SharedPref1(SplashScreen.this);
-        RelativeLayout relativeLayout = findViewById(R.id.container);
         if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.splashlarge); //new Image that was added to the res folder
 
-            relativeLayout.setBackground(drawable);
+            binding.container.setBackground(drawable);
         } else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.splash); //new Image that was added to the res folder
 
-            relativeLayout.setBackground(drawable);
+            binding.container.setBackground(drawable);
         } else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.splashsmall); //new Image that was added to the res folder
 
-            relativeLayout.setBackground(drawable);
+            binding.container.setBackground(drawable);
         } else {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.splash); //new Image that was added to the res folder
 
-            relativeLayout.setBackground(drawable);
+            binding.container.setBackground(drawable);
         }
         new Handler().postDelayed(() -> {
-            if (pref1.looadFirstState() == true) {
+            if (pref1.looadFirstState()) {
                 Intent intent = new Intent(SplashScreen.this, IntroActivity.class);
                 startActivity(intent);
                 finish();
@@ -88,17 +89,14 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void animate() {
-        ImageView logoImageView =  findViewById(R.id.logoImg);
-        ViewGroup container =  findViewById(R.id.container);
-
-        ViewCompat.animate(logoImageView)
+        ViewCompat.animate(binding.logoImg)
                 .translationY(-250)
                 .setStartDelay(STARTUP_DELAY)
                 .setDuration(ANIM_ITEM_DURATION).setInterpolator(
                 new DecelerateInterpolator(1.2f)).start();
 
-        for (int i = 0; i < container.getChildCount(); i++) {
-            View v = container.getChildAt(i);
+        for (int i = 0; i < binding.container.getChildCount(); i++) {
+            View v = binding.container.getChildAt(i);
             ViewPropertyAnimatorCompat viewAnimator;
 
             if (!(v instanceof Button)) {
@@ -112,12 +110,9 @@ public class SplashScreen extends AppCompatActivity {
                         .setStartDelay((ITEM_DELAY * i) + 500)
                         .setDuration(500);
             }
-
             viewAnimator.setInterpolator(new DecelerateInterpolator()).start();
         }
     }
-
-
 }
 
 

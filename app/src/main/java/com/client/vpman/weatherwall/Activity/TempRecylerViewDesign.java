@@ -1,32 +1,26 @@
-package com.client.vpman.weatherwall.Fragment;
-
-
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
+package com.client.vpman.weatherwall.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import ccy.focuslayoutmanager.FocusLayoutManager;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.LruCache;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.WindowManager;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
@@ -40,14 +34,17 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Activity.FullImage;
+import com.client.vpman.weatherwall.Adapter.ExploreAdapter;
 import com.client.vpman.weatherwall.Adapter.RescAdapter;
-import com.client.vpman.weatherwall.Model.ModelData;
-import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
+import com.client.vpman.weatherwall.Adapter.TempRecylerAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.CenterZoomLayoutManager;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
+import com.client.vpman.weatherwall.Model.ModelData;
+import com.client.vpman.weatherwall.Model.ModelData1;
+import com.client.vpman.weatherwall.Model.ModelData5;
 import com.client.vpman.weatherwall.R;
-import com.google.android.material.textview.MaterialTextView;
-
+import com.yarolegovich.discretescrollview.DiscreteScrollView;
+import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,90 +56,146 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class LastFragment extends Fragment {
+import static ccy.focuslayoutmanager.FocusLayoutManager.dp2px;
 
-    private Timer timer = new Timer();
-    public LastFragment() {
-        // Required empty public constructor
+public class TempRecylerViewDesign extends AppCompatActivity {
+
+    RecyclerView scrollView;
+    private List<ModelData1> list;
+    private long mRequestStartTime;
+    private TempRecylerAdapter adapter;
+    private String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_temp_recyler_view_design);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        scrollView=findViewById(R.id.picker);
+
+        list=new ArrayList<>();
+
+        LoadImage();
     }
 
-    View view;
-    RecyclerView recyclerView;
-    RescAdapter rescAdapter;
-    List<ModelData> modelData = new ArrayList<>();
-    ImageView imageView;
-    List<String> slides = new ArrayList<>();
-    LinearLayoutManager layoutManager;
-    int position;
-    int req_code = 101;
-    View view1;
-    MaterialTextView curatedText;
-    SharedPref1 sharedPref1;
-    String query = "4k wallpaper";
-    private String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_last, container, false);
-        imageView = view.findViewById(R.id.lastImage);
-        view1 = view.findViewById(R.id.viewcurated);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        imageView = view.findViewById(R.id.lastImage);
-        recyclerView.setHasFixedSize(true);
-        curatedText=view.findViewById(R.id.curatedText);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(true);
-        loadImage();
-        layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true);
-        recyclerView.setLayoutManager(layoutManager);
-        /*  recyclerView.setLayoutManager((new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true)));*/
-        rescAdapter = new RescAdapter(modelData, getActivity());
+    public void LoadImage() {
+        mRequestStartTime = System.currentTimeMillis();
 
-        recyclerView.setAdapter(rescAdapter);
 
-        if (getActivity() != null) {
-            sharedPref1 = new SharedPref1(getActivity());
-            if (sharedPref1.getTheme().equals("Light")) {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-                view1.setBackground(drawable);
-                curatedText.setTextColor(Color.parseColor("#000000"));
+        String Url = "https://api.pexels.com/v1/search?query=nature&per_page=100&page=3";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+            Log.d("response", response);
+            try {
+                JSONObject obj = new JSONObject(response);
+                Log.d("mil gaya", String.valueOf(obj));
+                int totalRes = obj.getInt("total_results");
+                Log.d("werg", String.valueOf(totalRes));
 
-            } else if (sharedPref1.getTheme().equals("Dark")) {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.basic_design1);
-                view1.setBackground(drawable);
-                curatedText.setTextColor(Color.parseColor("#FFFFFF"));
+                JSONArray wallArray = obj.getJSONArray("photos");
+                for (int i = 0; i < wallArray.length(); i++) {
+                    JSONObject wallobj = wallArray.getJSONObject(i);
+                    JSONObject photographer = new JSONObject(String.valueOf(wallobj));
+                    Log.d("PhotoURL", wallobj.getString("url"));
+                    JSONObject jsonObject = wallobj.getJSONObject("src");
+                    JSONObject object = new JSONObject(String.valueOf(jsonObject));
+                    ModelData1 modelData1 = new ModelData1(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
+                    list.add(modelData1);
+                }
+                Collections.shuffle(list);
+                adapter = new TempRecylerAdapter(list,TempRecylerViewDesign.this);
+               /* LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);*/
 
-            } else {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-                view1.setBackground(drawable);
-                curatedText.setTextColor(Color.parseColor("#000000"));
+                FocusLayoutManager focusLayoutManager=new FocusLayoutManager.Builder()
+                        .layerPadding(dp2px(this, 14))
+                        .normalViewGap(dp2px(this, 14))
+                        .focusOrientation(FocusLayoutManager.FOCUS_LEFT)
+                        .isAutoSelect(true)
+                        .maxLayerCount(3)
+                        .setOnFocusChangeListener((focusdPosition, lastFocusedPosition) -> {
 
+                        }).build();
+                scrollView.setHasFixedSize(true);
+                scrollView.setNestedScrollingEnabled(true);
+
+
+               /* int position=scrollView.getCurrentItem();
+                Log.d("position", String.valueOf(position));*/
+
+                scrollView.setLayoutManager(focusLayoutManager);
+                scrollView.setAdapter(adapter);
+
+                /*scrollView.setOverScrollEnabled(true);
+
+
+                scrollView.setSlideOnFling(true);
+
+                scrollView.addScrollStateChangeListener(new DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder>() {
+                    @Override
+                    public void onScrollStart(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+                        scrollView.smoothScrollToPosition(i);
+                    }
+
+                    @Override
+                    public void onScrollEnd(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                        *//*scrollView.smoothScrollToPosition(i);*//*
+
+                    }
+
+                    @Override
+                    public void onScroll(float v, int i, int i1, @Nullable RecyclerView.ViewHolder viewHolder, @Nullable RecyclerView.ViewHolder t1) {
+                        scrollView.smoothScrollToPosition(i);
+
+                    }
+                });
+                InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(adapter);
+                scrollView.setAdapter(wrapper);*/
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
+        }, error -> {
 
-        }
-        return view;
+            NetworkResponse response = error.networkResponse;
+            if (error instanceof ServerError && response != null) {
+                try {
+                    String res = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                    // Now you can use any deserializer to make sense of data
+                    JSONObject obj = new JSONObject(res);
+                } catch (UnsupportedEncodingException e1) {
+                    // Couldn't properly decode data to string
+                    e1.printStackTrace();
+                } catch (JSONException e2) {
+                    // returned data is not JSONObject?
+                    e2.printStackTrace();
+                }
+            }
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "563492ad6f917000010000010175b010e54243678613ef0d7fd3c497");
+                return params;
+            }
+        };
+
+        stringRequest.setShouldCache(false);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(TempRecylerViewDesign.this);
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(stringRequest);
     }
 
-
-    public static LastFragment newInstance(String text) {
-        LastFragment f = new LastFragment();
-        Bundle b = new Bundle();
-        b.putString("msg", text);
-        f.setArguments(b);
-        return f;
-    }
-
-    public void loadImage() {
+/*    public void loadImage() {
         modelData = new ArrayList<>();
 
 
@@ -363,8 +416,5 @@ public class LastFragment extends Fragment {
             requestQueue.add(stringRequest);
         }
 
-    }
-
-
-
+    }*/
 }

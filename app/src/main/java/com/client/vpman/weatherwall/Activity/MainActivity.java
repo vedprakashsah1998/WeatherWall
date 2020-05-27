@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -44,11 +46,12 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter;
 import com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
-import com.client.vpman.weatherwall.CustomeUsefullClass.ModelData3;
+import com.client.vpman.weatherwall.Model.ModelData3;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.ActivityMainBinding;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.Transition;
 import com.github.rongi.rotate_layout.layout.RotateLayout;
@@ -75,159 +78,111 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
 
 
     private DemoFragmentStateAdapter adapter;
-    private VerticalViewPageAdapter mViewPager;
     List<String> slides = new ArrayList<>();
-
     private String JsonUrl;
     List<ModelData3> listModelData;
-
-
     private String Url;
-    KenBurnsView imageView;
     private long mRequestStartTime;
     Timer timer=new Timer();
     String query;
-    RotateLayout blackrotate,whiteRotate;
-
-
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
-    private TabLayout tabLayout,tabLayout1;
-
     SharedPref1 sharedPref1;
-    ProgressBar spinKitView;
     Wave wanderingCubes;
+    ActivityMainBinding binding;
+    @SuppressLint("BatteryLife")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mViewPager = findViewById(R.id.pager);
-        spinKitView=findViewById(R.id.spin_kit);
+        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        View view1=binding.getRoot();
+        setContentView(view1);
         wanderingCubes=new Wave();
-        spinKitView.setIndeterminateDrawable(wanderingCubes);
-        blackrotate=findViewById(R.id.rotateLayout);
-        whiteRotate=findViewById(R.id.rotateLayout2);
-        imageView=findViewById(R.id.imageView);
-        tabLayout=findViewById(R.id.tabLayout);
-        tabLayout1=findViewById(R.id.tabLayout2);
-        tabLayout.addTab(tabLayout.newTab().setText("WEATHER"));
-        tabLayout.addTab(tabLayout.newTab().setText("POPULAR"));
-        tabLayout.addTab(tabLayout.newTab().setText("EXPLORE"));
-        tabLayout.addTab(tabLayout.newTab().setText("4K WALLPAPER"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        binding.spinKit.setIndeterminateDrawable(wanderingCubes);
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("WEATHER"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("POPULAR"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("EXPLORE"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("4K WALLPAPER"));
+        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        tabLayout1.addTab(tabLayout1.newTab().setText("WEATHER"));
-        tabLayout1.addTab(tabLayout1.newTab().setText("POPULAR"));
-        tabLayout1.addTab(tabLayout1.newTab().setText("EXPLORE"));
-        tabLayout1.addTab(tabLayout1.newTab().setText("4K WALLPAPER"));
-        tabLayout1.setTabGravity(TabLayout.GRAVITY_FILL);
+        binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("WEATHER"));
+        binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("POPULAR"));
+        binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("EXPLORE"));
+        binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("4K WALLPAPER"));
+        binding.tabLayout2.setTabGravity(TabLayout.GRAVITY_FILL);
 
         sharedPref1=new SharedPref1(MainActivity.this);
         if (sharedPref1.getTheme().equals("Light"))
         {
-            blackrotate.setVisibility(View.VISIBLE);
-            whiteRotate.setVisibility(View.GONE);
-            tabLayout.setVisibility(View.VISIBLE);
-            tabLayout1.setVisibility(View.GONE);
+            binding.rotateLayout.setVisibility(View.VISIBLE);
+            binding.rotateLayout2.setVisibility(View.GONE);
+            binding.tabLayout.setVisibility(View.VISIBLE);
+            binding.tabLayout2.setVisibility(View.GONE);
         }
         else if (sharedPref1.getTheme().equals("Dark"))
         {
-            blackrotate.setVisibility(View.GONE);
-            whiteRotate.setVisibility(View.VISIBLE);
-            tabLayout1.setVisibility(View.VISIBLE);
-            tabLayout.setVisibility(View.GONE);
+            binding.rotateLayout.setVisibility(View.GONE);
+            binding.rotateLayout2.setVisibility(View.VISIBLE);
+            binding.tabLayout2.setVisibility(View.VISIBLE);
+            binding.tabLayout.setVisibility(View.GONE);
         }
         else
         {
-            blackrotate.setVisibility(View.VISIBLE);
-            whiteRotate.setVisibility(View.GONE);
-            tabLayout.setVisibility(View.VISIBLE);
-            tabLayout1.setVisibility(View.GONE);
+            binding.rotateLayout.setVisibility(View.VISIBLE);
+            binding.rotateLayout2.setVisibility(View.GONE);
+            binding.tabLayout.setVisibility(View.VISIBLE);
+            binding.tabLayout2.setVisibility(View.GONE);
         }
-
-
-        Notification notification = new Notification(R.mipmap.ic_launcher,
-                "Weather Wall",
-                System.currentTimeMillis());
-        notification.flags |= Notification.FLAG_NO_CLEAR
-                | Notification.FLAG_ONGOING_EVENT;
-        NotificationManager notifier = (NotificationManager)
-                MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-        notifier.notify(1, notification);
-
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();
             String packageName = getPackageName();
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
                 intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                 intent.setData(Uri.parse("package:" + packageName));
                 startActivity(intent);
             }
         }
-
-
-
-
-
-
-
-
-
-        imageView.setTransitionListener(new KenBurnsView.TransitionListener() {
+        binding.imageView.setTransitionListener(new KenBurnsView.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
 
             }
-
             @Override
             public void onTransitionEnd(Transition transition) {
-                imageView.resume();
-
+                binding.imageView.resume();
             }
         });
-
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
-
                 if (position==0)
                 {
-                    mViewPager.setCurrentItem(0);
-                    imageView.setVisibility(View.VISIBLE);
-
+                    binding.pager.setCurrentItem(0);
+                    binding.imageView.setVisibility(View.VISIBLE);
                 }
                 else {
-                    imageView.setVisibility(View.GONE);
-
+                    binding.imageView.setVisibility(View.GONE);
                 }
-
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
-
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout1));
+        binding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
+        binding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout2));
         adapter = new DemoFragmentStateAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(adapter);
-        tabLayout.addOnTabSelectedListener(MainActivity.this);
-        tabLayout1.addOnTabSelectedListener(MainActivity.this);
+        binding.pager.setAdapter(adapter);
+        binding.tabLayout.addOnTabSelectedListener(MainActivity.this);
+        binding.tabLayout2.addOnTabSelectedListener(MainActivity.this);
         listModelData=new ArrayList<>();
-
-
-
     }
 
 
@@ -300,7 +255,7 @@ public void loadImage()
             Bitmap image = memCache.get("imagefile");
             if (image != null) {
                 //Bitmap exists in cache.
-                imageView.setImageBitmap(image);
+                binding.imageView.setImageBitmap(image);
             } else
             {
                 Glide.with(MainActivity.this)
@@ -312,7 +267,7 @@ public void loadImage()
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                spinKitView.setVisibility(View.GONE);
+                                binding.spinKit.setVisibility(View.GONE);
 
 
 
@@ -322,7 +277,7 @@ public void loadImage()
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
                             {
 
-                                spinKitView.setVisibility(View.GONE);
+                                binding.spinKit.setVisibility(View.GONE);
 
 
 
@@ -331,7 +286,7 @@ public void loadImage()
                             }
                         }).centerInside()
 
-                        .into(imageView);
+                        .into(binding.imageView);
             }
 
 
@@ -451,7 +406,7 @@ public void loadImage()
                 Bitmap image = memCache.get("imagefile");
                 if (image != null) {
                     //Bitmap exists in cache.
-                    imageView.setImageBitmap(image);
+                    binding.imageView.setImageBitmap(image);
                 } else
                 {
                     Glide.with(MainActivity.this)
@@ -463,7 +418,7 @@ public void loadImage()
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    spinKitView.setVisibility(View.GONE);
+                                    binding.spinKit.setVisibility(View.GONE);
 
 
                                     return false;
@@ -473,13 +428,13 @@ public void loadImage()
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
                                 {
 
-                                    spinKitView.setVisibility(View.GONE);
+                                    binding.spinKit.setVisibility(View.GONE);
 
                                     return false;
                                 }
                             })
 
-                            .into(imageView);
+                            .into(binding.imageView);
 
                 }
 
@@ -596,7 +551,7 @@ public void loadImage()
                 Bitmap image = memCache.get("imagefile");
                 if (image != null) {
                     //Bitmap exists in cache.
-                    imageView.setImageBitmap(image);
+                    binding.imageView.setImageBitmap(image);
                 } else
                 {
                     Glide.with(MainActivity.this)
@@ -608,7 +563,7 @@ public void loadImage()
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    spinKitView.setVisibility(View.GONE);
+                                    binding.spinKit.setVisibility(View.GONE);
 
 
                                     return false;
@@ -618,13 +573,13 @@ public void loadImage()
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
                                 {
 
-                                    spinKitView.setVisibility(View.GONE);
+                                    binding.spinKit.setVisibility(View.GONE);
 
                                     return false;
                                 }
                             })
 
-                            .into(imageView);
+                            .into(binding.imageView);
                 }
 
                 // Glide.with(MainActivity.this).load(slides.get(n)).preload(500,500);
@@ -779,7 +734,7 @@ public void loadImage()
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                spinKitView.setVisibility(View.GONE);
+                                binding.spinKit.setVisibility(View.GONE);
 
 
                                 return false;
@@ -789,13 +744,13 @@ public void loadImage()
                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
                             {
 
-                                spinKitView.setVisibility(View.GONE);
+                                binding.spinKit.setVisibility(View.GONE);
 
                                 return false;
                             }
                         })
 
-                        .into(imageView);
+                        .into(binding.imageView);
 
             }
             catch (Exception e)
@@ -878,7 +833,7 @@ public void loadImage()
                 Bitmap image = memCache.get("imagefile");
                 if (image != null) {
                     //Bitmap exists in cache.
-                    imageView.setImageBitmap(image);
+                    binding.imageView.setImageBitmap(image);
                 } else
                 {
                     Glide.with(MainActivity.this)
@@ -891,7 +846,7 @@ public void loadImage()
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                     //  spinKitView.setVisibility(View.GONE);
-                                    spinKitView.setVisibility(View.GONE);
+                                    binding.spinKit.setVisibility(View.GONE);
 
 
                                     return false;
@@ -904,13 +859,13 @@ public void loadImage()
 
 
 
-                                    spinKitView.setVisibility(View.GONE);
+                                    binding.spinKit.setVisibility(View.GONE);
 
                                     return false;
                                 }
                             })
 
-                            .into(imageView);
+                            .into(binding.imageView);
                 }
 
 
@@ -926,7 +881,7 @@ public void loadImage()
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        mViewPager.setCurrentItem(tab.getPosition());
+        binding.pager.setCurrentItem(tab.getPosition());
 
     }
 
@@ -942,11 +897,11 @@ public void loadImage()
 
     @Override
     public void onBackPressed() {
-        if (mViewPager.getCurrentItem() == 0) {
+        if (binding.pager.getCurrentItem() == 0) {
             super.onBackPressed();
         }
         else {
-            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+            binding.pager.setCurrentItem(binding.pager.getCurrentItem() - 1);
         }
     }
 }

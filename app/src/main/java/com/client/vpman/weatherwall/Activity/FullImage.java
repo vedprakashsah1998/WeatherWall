@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,7 +41,7 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-
+import com.client.vpman.weatherwall.databinding.ActivityFullImageBinding;
 
 
 import java.io.OutputStream;
@@ -49,36 +50,25 @@ public class FullImage extends AppCompatActivity
 {
 
     String mImg,sImg,large,PhotoUrl;
-    ImageView imageView,browser;
-    RelativeLayout relativeLayout;
     SharedPref1 pref;
-    ImageView download,share,setWall;
     private int STORAGE_PERMISSION_CODE = 1;
-    Toolbar toolbar;
     ProgressDialog mProgressDialog;
-
+    ActivityFullImageBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_image);
+        binding=ActivityFullImageBinding.inflate(getLayoutInflater());
+        View view1=binding.getRoot();
+        setContentView(view1);
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        relativeLayout=findViewById(R.id.action_bar_layout);
-        toolbar=findViewById(R.id.tool1bar);
-        browser=findViewById(R.id.browserFull);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
+        binding.tool1bar.setTitle("");
+        setSupportActionBar(binding.tool1bar);
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        imageView=findViewById(R.id.imageFull);
-
-        download=findViewById(R.id.download);
-        share=findViewById(R.id.share);
-        setWall=findViewById(R.id.setWall);
         Intent intent=getIntent();
         mImg=intent.getStringExtra("img");
         sImg=intent.getStringExtra("imgSmall");
@@ -94,50 +84,50 @@ public class FullImage extends AppCompatActivity
         if (pref.getTheme().equals("Light")) {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-            toolbar.setBackground(drawable);
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+            binding.tool1bar.setBackground(drawable);
+            binding.tool1bar.setNavigationIcon(R.drawable.ic_arrow_back);
 
 
-            toolbar.setBackground(drawable);
-            browser.setImageResource(R.drawable.ic_global_black);
+            binding.tool1bar.setBackground(drawable);
+            binding.browserFull.setImageResource(R.drawable.ic_global_black);
 
             Resources res1 = getResources(); //resource handle
             Drawable drawable1 = res1.getDrawable(R.drawable.white_design_layout);
-            relativeLayout.setBackground(drawable1);
-            setWall.setImageResource(R.drawable.ic_wallpaper_black);
-            download.setImageResource(R.drawable.ic_file_download_black);
-            share.setImageResource(R.drawable.ic_share_black_24dp);
+            binding.actionBarLayout.setBackground(drawable1);
+            binding.setWall.setImageResource(R.drawable.ic_wallpaper_black);
+            binding.download.setImageResource(R.drawable.ic_file_download_black);
+            binding.share.setImageResource(R.drawable.ic_share_black_24dp);
 
         } else if (pref.getTheme().equals("Dark")) {
 
-            setWall.setImageResource(R.drawable.ic_wallpaper);
-            share.setImageResource(R.drawable.ic_share);
-            download.setImageResource(R.drawable.ic_file_download);
+            binding.setWall.setImageResource(R.drawable.ic_wallpaper);
+            binding.share.setImageResource(R.drawable.ic_share);
+            binding.download.setImageResource(R.drawable.ic_file_download);
 
             Resources res1 = getResources(); //resource handle
             Drawable drawable1 = res1.getDrawable(R.drawable.black_design_layout);
-            relativeLayout.setBackground(drawable1);
-            toolbar.setBackgroundColor(Color.parseColor("#000000"));
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-            browser.setImageResource(R.drawable.ic_global);
+            binding.actionBarLayout.setBackground(drawable1);
+            binding.tool1bar.setBackgroundColor(Color.parseColor("#000000"));
+            binding.tool1bar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+            binding.browserFull.setImageResource(R.drawable.ic_global);
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1);
-            toolbar.setBackground(drawable);
+            binding.tool1bar.setBackground(drawable);
 
         } else {
             Resources res1 = getResources(); //resource handle
             Drawable drawable1 = res1.getDrawable(R.drawable.white_design_layout);
-            relativeLayout.setBackground(drawable1);
-            setWall.setImageResource(R.drawable.ic_wallpaper_black);
-            download.setImageResource(R.drawable.ic_file_download_black);
-            share.setImageResource(R.drawable.ic_share_black_24dp);
+            binding.actionBarLayout.setBackground(drawable1);
+            binding.setWall.setImageResource(R.drawable.ic_wallpaper_black);
+            binding.download.setImageResource(R.drawable.ic_file_download_black);
+            binding.share.setImageResource(R.drawable.ic_share_black_24dp);
 
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
 
-            toolbar.setBackground(drawable);
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-            browser.setImageResource(R.drawable.ic_global_black);
+            binding.tool1bar.setBackground(drawable);
+            binding.tool1bar.setNavigationIcon(R.drawable.ic_arrow_back);
+            binding.browserFull.setImageResource(R.drawable.ic_global_black);
         }
 
         RequestOptions requestOptions = new RequestOptions();
@@ -166,7 +156,7 @@ public class FullImage extends AppCompatActivity
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.
-            imageView.setImageBitmap(image);
+            binding.imageFull.setImageBitmap(image);
         } else
         {
 
@@ -197,7 +187,7 @@ public class FullImage extends AppCompatActivity
                             }
                         })
 
-                        .into(imageView);
+                        .into(binding.imageFull);
 
             }
             else if(pref.getImageQuality().equals("High Quality"))
@@ -227,7 +217,7 @@ public class FullImage extends AppCompatActivity
                             }
                         })
 
-                        .into(imageView);
+                        .into(binding.imageFull);
             }
             else
             {
@@ -256,14 +246,14 @@ public class FullImage extends AppCompatActivity
                             }
                         })
 
-                        .into(imageView);
+                        .into(binding.imageFull);
             }
 
 
 
 
 
-            setWall.setOnClickListener(view -> {
+            binding.setWall.setOnClickListener(view -> {
 
                 Log.d("wefe","ewf");
                 boolean granted=checkWriteExternalPermission();
@@ -417,7 +407,7 @@ public class FullImage extends AppCompatActivity
 
             });
 
-            download.setOnClickListener(view -> {
+            binding.download.setOnClickListener(view -> {
                 boolean granted=checkWriteExternalPermission();
                 if (granted==true) {
 
@@ -560,7 +550,7 @@ public class FullImage extends AppCompatActivity
                     Toast.makeText(FullImage.this, "Permission is not given", Toast.LENGTH_SHORT).show();
                 }
             });
-            share.setOnClickListener(view -> {
+            binding.share.setOnClickListener(view -> {
                 boolean granted=checkWriteExternalPermission();
                 if (granted==true)
                 {
@@ -751,7 +741,7 @@ public class FullImage extends AppCompatActivity
 
         requestStoragePermission();
 
-        browser.setOnClickListener(v -> {
+        binding.browserFull.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PhotoUrl));
             startActivity(browserIntent);
         });

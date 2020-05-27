@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:text="Explore"
         android:textSize="32sp"
-        android:textColor="#000"
         android:textStyle="bold"
+        android:paddingStart="54dp"
         android:layout_alignParentTop="true"
         android:padding="16dp"
         android:id="@+id/exploreId"/>

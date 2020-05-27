@@ -30,11 +30,14 @@ import com.bumptech.glide.request.target.Target;
 import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentMountainBinding;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -48,26 +51,17 @@ public class Mountain extends Fragment {
     public Mountain() {
         // Required empty public constructor
     }
-
-    View view;
-
-
-    RoundedImageView imageView;
-    String query;
-
-
+    private View view;
+    private String query;
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
-
+    private FragmentMountainBinding binding;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_mountain, container, false);
-        imageView=view.findViewById(R.id.Mountain);
+        binding=FragmentMountainBinding.inflate(inflater,container,false);
+        view=binding.getRoot();
         unsplash=new Unsplash(CLIENT_ID);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
         requestOptions.priority(Priority.IMMEDIATE);
@@ -76,22 +70,13 @@ public class Mountain extends Fragment {
         requestOptions.skipMemoryCache(true);
         requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-
         query="mountain";
-
-
-
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {
                 Log.d("Photos", "Total Results Found " + results.getTotal());
-
                 List<Photo> photos = results.getResults();
-
-
                 Random random=new Random();
                 int n = random.nextInt(photos.size());
 
@@ -110,7 +95,7 @@ public class Mountain extends Fragment {
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
-                            imageView.setImageBitmap(image);
+                            binding.Mountain.setImageBitmap(image);
                         } else
                         {
                             Glide.with(getActivity())
@@ -136,11 +121,11 @@ public class Mountain extends Fragment {
                                         }
                                     })
 
-                                    .into(imageView);
+                                    .into(binding.Mountain);
 
                     }
 
-                        imageView.setOnClickListener(v -> {
+                        binding.Mountain.setOnClickListener(v -> {
                             Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
                             intent.putExtra("imgData",photos.get(n).getUrls().getFull());
                             intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
@@ -148,7 +133,7 @@ public class Mountain extends Fragment {
                             intent.putExtra("text","Mountain");
 
                             Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(imageView,"imgData");
+                            pairs[0]=new Pair<View,String>(binding.Mountain,"imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -161,36 +146,17 @@ public class Mountain extends Fragment {
                                 startActivity(intent);
                             }
                         });
-
                     }
-
                 }
-
-
-
-
-
-
-
-
-
             }
-
             @Override
             public void onError(String error) {
                 Log.d("Unsplash", error);
             }
         });
-
-
-        imageView.setTranslationZ(40);
-
-
+        binding.Mountain.setTranslationZ(40);
     return view;
     }
-
-
-
     public static Mountain newInstance(String text) {
         Mountain f = new Mountain();
         Bundle b = new Bundle();

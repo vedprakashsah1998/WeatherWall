@@ -9,4 +9,5 @@
         <item>Default</item>
         <item>High Quality</item>
     </string-array>
+    <string name="tag_is_center">tagIsCenter</string>
 </resources>

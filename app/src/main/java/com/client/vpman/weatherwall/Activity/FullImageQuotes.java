@@ -25,6 +25,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -44,10 +45,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.CustomeUsefullClass.RandomQuotes1;
+import com.client.vpman.weatherwall.Model.RandomQuotes1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.ActivityFullImageQuotesBinding;
 import com.google.android.material.textview.MaterialTextView;
 
 
@@ -65,49 +67,42 @@ import java.util.Random;
 public class FullImageQuotes extends AppCompatActivity {
 
     String mImg, sImg, largeImg,photoUrl;
-    ImageView imageView, downloadImg, browser, share, setWall;
-    Toolbar toolbar;
     List<String> list;
-    MaterialTextView Quotestext;
     List<RandomQuotes1> randomQuotes;
     ProgressDialog mProgressDialog;
     private int STORAGE_PERMISSION_CODE = 1;
     SharedPref1 pref;
+    ActivityFullImageQuotesBinding binding;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_image_quotes);
+        binding=ActivityFullImageQuotesBinding.inflate(getLayoutInflater());
+        View view1=binding.getRoot();
+        setContentView(view1);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
          pref=new SharedPref1(FullImageQuotes.this);
-
-        toolbar = findViewById(R.id.tool1barMain);
-        imageView = findViewById(R.id.imageFullLast);
-        browser = findViewById(R.id.browser);
-        setWall = findViewById(R.id.setWallQuotes);
-        share = findViewById(R.id.shareQuotes);
-        Quotestext = findViewById(R.id.quotesTextMain);
-        downloadImg = findViewById(R.id.downloadImg);
-
 
         if (pref.getTheme().equals("Light")) {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
 
-            toolbar.setBackground(drawable);
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-            downloadImg.setImageResource(R.drawable.ic_file_download_black);
-            browser.setImageResource(R.drawable.ic_global_black);
+            binding.tool1barMain.setBackground(drawable);
+            binding.tool1barMain.setNavigationIcon(R.drawable.ic_arrow_back);
+            binding.downloadImg.setImageResource(R.drawable.ic_file_download_black);
+            binding.browser.setImageResource(R.drawable.ic_global_black);
 
         } else if (pref.getTheme().equals("Dark")) {
 
-            toolbar.setBackgroundColor(Color.parseColor("#000000"));
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-            browser.setImageResource(R.drawable.ic_global);
-            downloadImg.setImageResource(R.drawable.ic_file_download);
+            binding.tool1barMain.setBackgroundColor(Color.parseColor("#000000"));
+            binding.tool1barMain.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+            binding.browser.setImageResource(R.drawable.ic_global);
+            binding.downloadImg.setImageResource(R.drawable.ic_file_download);
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1);
-            toolbar.setBackground(drawable);
+            binding.tool1barMain.setBackground(drawable);
 
 
         } else {
@@ -116,10 +111,10 @@ public class FullImageQuotes extends AppCompatActivity {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
 
-            toolbar.setBackground(drawable);
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-            browser.setImageResource(R.drawable.ic_global_black);
-            downloadImg.setImageResource(R.drawable.ic_file_download_black);
+            binding.tool1barMain.setBackground(drawable);
+            binding.tool1barMain.setNavigationIcon(R.drawable.ic_arrow_back);
+            binding.browser.setImageResource(R.drawable.ic_global_black);
+            binding.downloadImg.setImageResource(R.drawable.ic_file_download_black);
         }
 
         Intent intent = getIntent();
@@ -127,8 +122,8 @@ public class FullImageQuotes extends AppCompatActivity {
         sImg = intent.getStringExtra("imgDataAdapterSmall");
         largeImg = intent.getStringExtra("largeImg");
         photoUrl=intent.getStringExtra("photoUrl");
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
+        binding.tool1barMain.setTitle("");
+        setSupportActionBar(binding.tool1barMain);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -161,7 +156,7 @@ public class FullImageQuotes extends AppCompatActivity {
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.
-            imageView.setImageBitmap(image);
+            binding.imageFullLast.setImageBitmap(image);
         } else {
 
             if(pref.getImageQuality().equals("Default"))
@@ -190,7 +185,7 @@ public class FullImageQuotes extends AppCompatActivity {
                             }
                         })
 
-                        .into(imageView);
+                        .into(binding.imageFullLast);
 
             }
             else if (pref.getImageQuality().equals("High Quality"))
@@ -219,7 +214,7 @@ public class FullImageQuotes extends AppCompatActivity {
                             }
                         })
 
-                        .into(imageView);
+                        .into(binding.imageFullLast);
 
             }
             else
@@ -249,7 +244,7 @@ public class FullImageQuotes extends AppCompatActivity {
                             }
                         })
 
-                        .into(imageView);
+                        .into(binding.imageFullLast);
             }
 
 
@@ -258,7 +253,7 @@ public class FullImageQuotes extends AppCompatActivity {
         }
 
 
-        setWall.setOnClickListener(view -> {
+        binding.setWallQuotes.setOnClickListener(view -> {
 
             Log.d("wefe", "ewf");
             boolean granted = checkWriteExternalPermission();
@@ -402,7 +397,7 @@ public class FullImageQuotes extends AppCompatActivity {
 
         });
 
-        share.setOnClickListener(view -> {
+        binding.shareQuotes.setOnClickListener(view -> {
             boolean granted = checkWriteExternalPermission();
             if (granted == true) {
 
@@ -574,7 +569,7 @@ public class FullImageQuotes extends AppCompatActivity {
 
         });
 
-        downloadImg.setOnClickListener(view -> {
+        binding.downloadImg.setOnClickListener(view -> {
             boolean granted = checkWriteExternalPermission();
             if (granted == true) {
 
@@ -707,7 +702,7 @@ public class FullImageQuotes extends AppCompatActivity {
                 Toast.makeText(FullImageQuotes.this, "Permission is not given", Toast.LENGTH_SHORT).show();
             }
         });
-        browser.setOnClickListener(v -> {
+        binding.browser.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(photoUrl));
             startActivity(browserIntent);
         });
@@ -715,10 +710,8 @@ public class FullImageQuotes extends AppCompatActivity {
         list = new ArrayList<>();
         Quotes();
     }
-
     public void Quotes()
     {
-
         randomQuotes=new ArrayList<>();
         String QuotesUrl="https://type.fit/api/quotes";
         Log.d("sdfljh","khwqgdi");
@@ -744,7 +737,7 @@ public class FullImageQuotes extends AppCompatActivity {
                 Random random = new Random();
                 int n = random.nextInt(randomQuotes.size());
 
-                Quotestext.setText(randomQuotes.get(n).getQuotes());
+                binding.quotesTextMain.setText(randomQuotes.get(n).getQuotes());
                 /*Log.d("asljf",quote);*/
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -800,14 +793,8 @@ public class FullImageQuotes extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Permission needed")
                     .setMessage("This permission is needed because of this and that")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(FullImageQuotes.this,
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-                        }
-
-                    }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("ok", (dialog, which) -> ActivityCompat.requestPermissions(FullImageQuotes.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE)).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();

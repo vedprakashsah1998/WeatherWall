@@ -15,7 +15,10 @@ import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter1;
 import com.client.vpman.weatherwall.CustomeDesignViewPager.DepthTransformation;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentExploreBinding;
 import com.google.android.material.textview.MaterialTextView;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,32 +27,20 @@ public class Explore extends Fragment {
 
     private DemoFragmentStateAdapter1 adapter;
 
-    View view;
-    ViewPager mViewPager;
-
-    ImageView SwipeUp,left,right;
-    Animation bounce;
-    RelativeLayout relexp;
-    SharedPref1 sharedPref1;
-    MaterialTextView exploreId;
-
+    private View view;
+    private Animation bounce;
+    private SharedPref1 sharedPref1;
+    private FragmentExploreBinding binding;
     public Explore() {
         // Required empty public constructor
     }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_explore, container, false);
 
-        mViewPager = view.findViewById(R.id.pager1);
-        SwipeUp=view.findViewById(R.id.SwipUp009);
-        left=view.findViewById(R.id.left);
-        right=view.findViewById(R.id.right);
-        relexp=view.findViewById(R.id.relexp);
-        exploreId=view.findViewById(R.id.exploreId);
+        binding=FragmentExploreBinding.inflate(inflater,container,false);
+
+        view=binding.getRoot();
         bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
 
         bounce.setRepeatCount(Animation.INFINITE);
@@ -65,7 +56,7 @@ public class Explore extends Fragment {
 
                 bounce.setRepeatCount(Animation.INFINITE);
                 bounce.setRepeatMode(Animation.INFINITE);
-                SwipeUp.startAnimation(bounce);
+                binding.SwipUp009.startAnimation(bounce);
 
             }
 
@@ -73,41 +64,41 @@ public class Explore extends Fragment {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-        SwipeUp.startAnimation(bounce);
+        binding.SwipUp009.startAnimation(bounce);
 
         if (getActivity()!=null)
         {
             sharedPref1=new SharedPref1(getActivity());
             if (sharedPref1.getTheme().equals("Light"))
             {
-                relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                exploreId.setTextColor(Color.parseColor("#000000"));
-                SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
-                right.setImageResource(R.drawable.ic_right);
+                binding.relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding.exploreId.setTextColor(Color.parseColor("#000000"));
+                binding.SwipUp009.setImageResource(R.drawable.ic_up_arow_black);
+                binding.right.setImageResource(R.drawable.ic_right);
             }
             else if (sharedPref1.getTheme().equals("Dark"))
             {
-                relexp.setBackgroundColor(Color.parseColor("#000000"));
-                exploreId.setTextColor(Color.parseColor("#FFFFFF"));
-                SwipeUp.setImageResource(R.drawable.ic_up_arow);
-                right.setImageResource(R.drawable.ic_right_white);
+                binding.relexp.setBackgroundColor(Color.parseColor("#000000"));
+                binding.exploreId.setTextColor(Color.parseColor("#FFFFFF"));
+                binding.SwipUp009.setImageResource(R.drawable.ic_up_arow);
+                binding.right.setImageResource(R.drawable.ic_right_white);
             }
             else
             {
-                relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                exploreId.setTextColor(Color.parseColor("#000000"));
-                SwipeUp.setImageResource(R.drawable.ic_up_arow_black);
-                right.setImageResource(R.drawable.ic_right);
+                binding.relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding.exploreId.setTextColor(Color.parseColor("#000000"));
+                binding.SwipUp009.setImageResource(R.drawable.ic_up_arow_black);
+                binding.right.setImageResource(R.drawable.ic_right);
             }
         }
 
         DepthTransformation depthTransformation = new DepthTransformation();
 
         adapter = new DemoFragmentStateAdapter1(getChildFragmentManager());
-        mViewPager.setPageTransformer(true,depthTransformation);
-        mViewPager.setAdapter(adapter);
+        binding.pager1.setPageTransformer(true,depthTransformation);
+        binding.pager1.setAdapter(adapter);
 
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.pager1.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -118,26 +109,20 @@ public class Explore extends Fragment {
 
                 if (position==0)
                 {
-                    mViewPager.setCurrentItem(0);
+                    binding.pager1.setCurrentItem(0);
                     /*left.setVisibility(View.GONE);*/
                 }
                 else if(position==11)
                 {
-                    right.setVisibility(View.GONE);
-                    mViewPager.setCurrentItem(11);
+                    binding.right.setVisibility(View.GONE);
+                    binding.pager1.setCurrentItem(11);
                 }
-
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
-
-
-
     return view;
     }
     public static Explore newInstance(String text) {

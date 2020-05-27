@@ -31,11 +31,14 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentDarkBinding;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -44,35 +47,20 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class Dark extends Fragment {
-
-
     public Dark() {
         // Required empty public constructor
     }
-
-
-    View view;
-
-
-
-    RoundedImageView imageView;
+    private View view;
     String query;
-
-
+    private FragmentDarkBinding binding;
     private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_dark, container, false);
-
-        imageView=view.findViewById(R.id.Dark);
+        binding=FragmentDarkBinding.inflate(inflater,container,false);
+        view=binding.getRoot();
         unsplash=new Unsplash(CLIENT_ID);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -84,20 +72,13 @@ public class Dark extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-
         query="dark";
-
-
-
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {
                 Log.d("Photos", "Total Results Found " + results.getTotal());
 
                 List<Photo> photos = results.getResults();
-
-
                 Random random=new Random();
                 int n = random.nextInt(photos.size());
 
@@ -115,7 +96,7 @@ public class Dark extends Fragment {
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
-                            imageView.setImageBitmap(image);
+                            binding.Dark.setImageBitmap(image);
                         } else
                         {
                             Glide.with(getActivity())
@@ -141,10 +122,10 @@ public class Dark extends Fragment {
                                         }
                                     })
 
-                                    .into(imageView);
+                                    .into( binding.Dark);
                     }
 
-                        imageView.setOnClickListener(v -> {
+                        binding.Dark.setOnClickListener(v -> {
                             Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
                             intent.putExtra("imgData",photos.get(n).getUrls().getFull());
                             intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
@@ -152,7 +133,7 @@ public class Dark extends Fragment {
                             intent.putExtra("text","Dark");
 
                             Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(imageView,"imgData");
+                            pairs[0]=new Pair<View,String>( binding.Dark,"imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -183,7 +164,7 @@ public class Dark extends Fragment {
             }
         });
 
-        imageView.setTranslationZ(40);
+        binding.Dark.setTranslationZ(40);
 
 
     return view;
