@@ -4,10 +4,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="tag_is_center">tagIsCenter</string>
+    <string name="curatedList">Curated List</string>
+    <string name="popular">Popular</string>
+    <string name="notFound">No data are found for this search</string>
+    <string name="latestphoto">Latest Photo</string>
     <string-array name="list">
         <item>choose Quality</item>
         <item>Default</item>
         <item>High Quality</item>
     </string-array>
-    <string name="tag_is_center">tagIsCenter</string>
 </resources>

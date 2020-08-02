@@ -23,12 +23,13 @@ public class DemoFragmentStateAdapter extends FragmentStatePagerAdapter
             case 0:
                 return WeatherFragment.newInstance("WeatherFragment, Instance 1");
             case 1:
-              return  Popular.newInstance("Popular, Instance1");
+                return LastFragment.newInstance("LastFragment, Instance1");
 
             case 2:
-                return Explore.newInstance("Explore, Instance1");
+                return  Popular.newInstance("Popular, Instance1");
+
             case 3:
-                return LastFragment.newInstance("LastFragment, Instance1");
+                return Explore.newInstance("Explore, Instance1");
 
             default:
                 return WeatherFragment.newInstance("WeatherFragment, Instance 1");

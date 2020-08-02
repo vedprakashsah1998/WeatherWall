@@ -1,10 +1,10 @@
 package com.client.vpman.weatherwall.Model;
 
-public class ModelData1 {
-
+public class SearchModel
+{
     private String large2x,photographer,large,original,photoUrl;
 
-    public ModelData1(String large2x, String photographer, String large, String original, String photoUrl) {
+    public SearchModel(String large2x, String photographer, String large, String original, String photoUrl) {
         this.large2x = large2x;
         this.photographer = photographer;
         this.large = large;

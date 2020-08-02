@@ -160,7 +160,7 @@ public class Popular extends Fragment {
             binding.droneView.setShapeAppearanceModel(binding.droneView.getShapeAppearanceModel()
                     .toBuilder().setTopLeftCorner(CornerFamily.ROUNDED,150)
                     .setBottomLeftCorner(CornerFamily.ROUNDED,150).build());
-            unsplash.searchPhotos(query, 3, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query, 1, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -251,7 +251,7 @@ public class Popular extends Fragment {
             query1 = "nature";
 
 
-            unsplash.searchPhotos(query1, 44, 20, "landscape", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query1, 33, 20, "landscape", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -341,7 +341,7 @@ public class Popular extends Fragment {
 
             query2 = "food";
 
-            unsplash.searchPhotos(query2, new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query2,5,20,"portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -435,7 +435,7 @@ public class Popular extends Fragment {
 
             query3 = "Landscape";
 
-            unsplash.searchPhotos(query3, new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query3,2,20,"portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -524,7 +524,7 @@ public class Popular extends Fragment {
             });
 
             query4 = "Cityscape";
-            unsplash.searchPhotos(query4, new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query4,8,20,"portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -575,7 +575,7 @@ public class Popular extends Fragment {
                                         }
                                     })
 
-                                    .into(  binding.Cityscape);
+                                    .into(binding.Cityscape);
 
                             binding.Cityscape.setOnClickListener(view -> {
                                 Intent intent = new Intent(getActivity(), TestingMotionLayout.class);
@@ -615,7 +615,7 @@ public class Popular extends Fragment {
 
             query5 = "Seascape";
 
-            unsplash.searchPhotos(query5, new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query5,9,20,"portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -706,7 +706,7 @@ public class Popular extends Fragment {
 
 
             query6 = "Twilight";
-            unsplash.searchPhotos(query6, new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query6,11,20,"portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -793,7 +793,7 @@ public class Popular extends Fragment {
                 }
             });
             query7 = "Food";
-            unsplash.searchPhotos(query7, new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query7,12,20,"portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -881,7 +881,7 @@ public class Popular extends Fragment {
             });
 
             query8 = "Drone View";
-            unsplash.searchPhotos(query8, new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query8, 8,20,"portrait",new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -983,6 +983,8 @@ public class Popular extends Fragment {
         f.setArguments(b);
         return f;
     }
+
+
 
 
 }

@@ -45,7 +45,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="38dp"
             android:visibility="gone"
             android:rotation="180"
             android:background="@android:color/transparent"
@@ -67,7 +67,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout2"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="38dp"
             android:visibility="gone"
             android:rotation="180"
             android:background="@android:color/transparent"

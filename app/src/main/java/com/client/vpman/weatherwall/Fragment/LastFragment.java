@@ -1,36 +1,32 @@
 package com.client.vpman.weatherwall.Fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
+import android.text.Editable;
 import android.util.LruCache;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -40,154 +36,293 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Activity.FullImage;
-import com.client.vpman.weatherwall.Adapter.RescAdapter;
-import com.client.vpman.weatherwall.Model.ModelData;
-import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
+import com.client.vpman.weatherwall.Activity.SearchActivity;
+import com.client.vpman.weatherwall.Activity.TestingMotionLayout;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.databinding.FragmentLastBinding;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
+import com.kc.unsplash.Unsplash;
+import com.kc.unsplash.models.Photo;
+import com.kc.unsplash.models.SearchResults;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Timer;
+import java.util.Objects;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LastFragment extends Fragment {
 
-    private Timer timer = new Timer();
+
     public LastFragment() {
         // Required empty public constructor
     }
 
-    View view;
-    RecyclerView recyclerView;
-    RescAdapter rescAdapter;
-    List<ModelData> modelData = new ArrayList<>();
-    ImageView imageView;
-    List<String> slides = new ArrayList<>();
-    LinearLayoutManager layoutManager;
-    int position;
-    int req_code = 101;
-    View view1;
-    MaterialTextView curatedText;
-    SharedPref1 sharedPref1;
-    String query = "4k wallpaper";
-    private String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
+    Fragment fragment = null;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+
+    private Unsplash unsplash;
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_last, container, false);
-        imageView = view.findViewById(R.id.lastImage);
-        view1 = view.findViewById(R.id.viewcurated);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        imageView = view.findViewById(R.id.lastImage);
-        recyclerView.setHasFixedSize(true);
-        curatedText=view.findViewById(R.id.curatedText);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(true);
-        loadImage();
-        layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true);
-        recyclerView.setLayoutManager(layoutManager);
-        /*  recyclerView.setLayoutManager((new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, true)));*/
-        rescAdapter = new RescAdapter(modelData, getActivity());
 
-        recyclerView.setAdapter(rescAdapter);
+        FragmentLastBinding binding = FragmentLastBinding.inflate(inflater, container, false);
+        View view=binding.getRoot();
+        fragment=new CuratedList();
+        if (getActivity()!=null)
+        {
+            fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            fragmentTransaction.commit();
+        }
 
-        if (getActivity() != null) {
-            sharedPref1 = new SharedPref1(getActivity());
-            if (sharedPref1.getTheme().equals("Light")) {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-                view1.setBackground(drawable);
-                curatedText.setTextColor(Color.parseColor("#000000"));
+        binding.searchView.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-            } else if (sharedPref1.getTheme().equals("Dark")) {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.basic_design1);
-                view1.setBackground(drawable);
-                curatedText.setTextColor(Color.parseColor("#FFFFFF"));
+                Intent intent=new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("searchQuery",binding.searchView.getText().toString());
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+        binding.searchView.setOnTouchListener((v, event) -> {
 
-            } else {
-                Resources res = getResources(); //resource handle
-                Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-                view1.setBackground(drawable);
-                curatedText.setTextColor(Color.parseColor("#000000"));
+            final int DRAWABLE_LEFT = 0;
+            final int DRAWABLE_TOP = 1;
+            final int DRAWABLE_RIGHT = 2;
+            final int DRAWABLE_BOTTOM = 3;
+
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                if(event.getRawX() >= (binding.searchView.getRight() - binding.searchView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    // your action here
+                    Intent intent=new Intent(getActivity(), SearchActivity.class);
+                    intent.putExtra("searchQuery",binding.searchView.getText().toString());
+                    startActivity(intent);
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        binding.tabLayoutLast.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        fragment = new CuratedList();
+                        break;
+                    case 1:
+                        fragment = new Awarded();
+                        break;
+                    case 2:
+                        fragment = new LatestFragment();
+                        break;
+                }
+                FragmentManager fm = Objects.requireNonNull(getActivity()). getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.frameLayout, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
             }
 
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+/*
+        String CLIENT_ID = "WWNYnxHendMl4D2GIXD_l14mcK4x7QwFJ-56VtQPdF8";
+*/
+
+        String CLIENT_ID="p8S-xjITsctkke0ZmKIdklrug3IMpYcMdObQuGx5xOY";
+
+        unsplash = new Unsplash(CLIENT_ID);
+
+        RequestOptions requestOptions = new RequestOptions();
+        // requestOptions.error(Utils.getRandomDrawbleColor());
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
+                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
+        requestOptions.priority(Priority.IMMEDIATE);
+        requestOptions.skipMemoryCache(false);
+        requestOptions.onlyRetrieveFromCache(true);
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
+        requestOptions.priority(Priority.HIGH);
+        requestOptions.isMemoryCacheable();
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
+
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
+        requestOptions.centerCrop();
+
+
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (day) {
+            case Calendar.SUNDAY:
+                // Current day is Sunday
+                binding.fashionTextView.setText("fashion");
+
+                setImage(binding, requestOptions,"fashion",binding.fashionImageView,binding.fashionTextView);
+
+                binding.bikeRideTextView.setText("bike ride");
+
+                setImage(binding, requestOptions,"bike ride",binding.bikeRideImageView,binding.bikeRideTextView);
+
+                binding.abstractTextView.setText("abstract");
+                setImage(binding, requestOptions,"abstract",binding.abstractImageView,binding.abstractTextView);
+                binding.coffeeShopTextView.setText("coffee shop");
+                setImage(binding, requestOptions,"coffee shop",binding.coffeeShopImageView,binding.coffeeShopTextView);
+                binding.gameTextView.setText("game");
+                setImage(binding, requestOptions,"game",binding.gameImageView,binding.gameTextView);
+                binding.vacationTextView.setText("vacation");
+                setImage(binding, requestOptions,"vacation",binding.vacationImageView,binding.vacationTextView);
+                break;
+            case Calendar.MONDAY:
+                binding.fashionTextView.setText("bar");
+                setImage(binding, requestOptions,"bar",binding.fashionImageView,binding.fashionTextView);
+                binding.bikeRideTextView.setText("london");
+                setImage(binding, requestOptions,"london",binding.bikeRideImageView,binding.bikeRideTextView);
+                binding.abstractTextView.setText("puppy");
+                setImage(binding, requestOptions,"puppy",binding.abstractImageView,binding.abstractTextView);
+
+                binding.coffeeShopTextView.setText("e commerce");
+                setImage(binding, requestOptions,"e commerce",binding.coffeeShopImageView,binding.coffeeShopTextView);
+
+                binding.gameTextView.setText("camping");
+                setImage(binding, requestOptions,"camping",binding.gameImageView,binding.gameTextView);
+
+                binding.vacationTextView.setText("basketball");
+                setImage(binding, requestOptions,"basketball",binding.vacationImageView,binding.vacationTextView);
+
+                // Current day is Monday
+                break;
+            case Calendar.TUESDAY:
+                binding.fashionTextView.setText("sleeping");
+                setImage(binding, requestOptions,"sleeping",binding.fashionImageView,binding.fashionTextView);
+
+                binding.bikeRideTextView.setText("microphone");
+                setImage(binding, requestOptions,"microphone",binding.bikeRideImageView,binding.bikeRideTextView);
+
+                binding.abstractTextView.setText("video conference");
+                setImage(binding, requestOptions,"video conference",binding.abstractImageView,binding.abstractTextView);
+                binding.coffeeShopTextView.setText("strategy");
+                setImage(binding, requestOptions,"strategy",binding.coffeeShopImageView,binding.coffeeShopTextView);
+                binding.gameTextView.setText("hiking");
+                setImage(binding, requestOptions,"hiking",binding.gameImageView,binding.gameTextView);
+
+                binding.vacationTextView.setText("airport");
+                setImage(binding, requestOptions,"airport",binding.vacationImageView,binding.vacationTextView);
+
+                // etc.
+                break;
+            case Calendar.WEDNESDAY:
+                binding.fashionTextView.setText("dark and moody");
+                setImage(binding, requestOptions,"dark and moody",binding.fashionImageView,binding.fashionTextView);
+
+                binding.bikeRideTextView.setText("Holiday Mood");
+                setImage(binding, requestOptions,"Holiday Mood",binding.bikeRideImageView,binding.bikeRideTextView);
+
+                binding.abstractTextView.setText("Winter");
+                setImage(binding, requestOptions,"Winter",binding.abstractImageView,binding.abstractTextView);
+                binding.coffeeShopTextView.setText("Dark Portraits");
+                setImage(binding, requestOptions,"Dark Portraits",binding.coffeeShopImageView,binding.coffeeShopTextView);
+
+                binding.gameTextView.setText("Space Travel");
+                setImage(binding, requestOptions,"hiking",binding.gameImageView,binding.gameTextView);
+
+                binding.vacationTextView.setText("Let's Party");
+                setImage(binding, requestOptions,"Let's Party",binding.vacationImageView,binding.vacationTextView);
+                break;
+            case Calendar.THURSDAY:
+                binding.fashionTextView.setText("Cosmetics");
+                setImage(binding, requestOptions,"Cosmetics",binding.fashionImageView,binding.fashionTextView);
+                binding.bikeRideTextView.setText("Retro");
+                setImage(binding, requestOptions,"Retro",binding.bikeRideImageView,binding.bikeRideTextView);
+
+                binding.abstractTextView.setText("Summertime");
+                setImage(binding, requestOptions,"Summertime",binding.abstractImageView,binding.abstractTextView);
+
+                binding.coffeeShopTextView.setText("Rainy Days");
+                setImage(binding, requestOptions,"Rainy Days",binding.coffeeShopImageView,binding.coffeeShopTextView);
+                binding.gameTextView.setText("Floral Beauty");
+                setImage(binding, requestOptions,"Floral Beauty",binding.gameImageView,binding.gameTextView);
+                binding.vacationTextView.setText("Home");
+                setImage(binding, requestOptions,"Home",binding.vacationImageView,binding.vacationTextView);
+
+                break;
+            case Calendar.FRIDAY:
+                binding.fashionTextView.setText("Dancers");
+                setImage(binding, requestOptions,"Dancers",binding.fashionImageView,binding.fashionTextView);
+
+                binding.bikeRideTextView.setText("Work");
+                setImage(binding, requestOptions,"Work",binding.bikeRideImageView,binding.bikeRideTextView);
+                binding.abstractTextView.setText("marine");
+                setImage(binding, requestOptions,"marine",binding.abstractImageView,binding.abstractTextView);
+
+                binding.coffeeShopTextView.setText("animals");
+                setImage(binding, requestOptions,"animals",binding.coffeeShopImageView,binding.coffeeShopTextView);
+                binding.gameTextView.setText("Maldives");
+                setImage(binding, requestOptions,"Maldives",binding.gameImageView,binding.gameTextView);
+
+                binding.vacationTextView.setText("Minimal black and white");
+                setImage(binding, requestOptions,"Minimal black and white",binding.vacationImageView,binding.vacationTextView);
+                break;
+                case  Calendar.SATURDAY:
+                    binding.fashionTextView.setText("spectrum");
+                    setImage(binding, requestOptions,"spectrum",binding.fashionImageView,binding.fashionTextView);
+                    binding.bikeRideTextView.setText("together");
+                    setImage(binding, requestOptions,"together",binding.bikeRideImageView,binding.bikeRideTextView);
+
+                    binding.abstractTextView.setText("christmas");
+                    setImage(binding, requestOptions,"christmas",binding.abstractImageView,binding.abstractTextView);
+
+                    binding.coffeeShopTextView.setText("party night");
+                    setImage(binding, requestOptions,"party night",binding.coffeeShopImageView,binding.coffeeShopTextView);
+
+                    binding.gameTextView.setText("extream neon");
+                    setImage(binding, requestOptions,"extream neon",binding.gameImageView,binding.gameTextView);
+                    binding.vacationTextView.setText("autumn");
+                    setImage(binding, requestOptions,"autumn",binding.vacationImageView,binding.vacationTextView);
+
+                    break;
         }
+
+
         return view;
     }
 
+    private void setImage(FragmentLastBinding binding, RequestOptions requestOptions, String query, ShapeableImageView img,MaterialTextView textView) {
+        unsplash.searchPhotos(query, 1, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
+            @Override
+            public void onComplete(SearchResults results) {
+                List<Photo> photos = results.getResults();
 
-    public static LastFragment newInstance(String text) {
-        LastFragment f = new LastFragment();
-        Bundle b = new Bundle();
-        b.putString("msg", text);
-        f.setArguments(b);
-        return f;
-    }
+                Random random = new Random();
+                int n = random.nextInt(photos.size());
 
-    public void loadImage() {
-        modelData = new ArrayList<>();
-
-
-        Log.d("iuedqwljgdho", Url);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
-            Log.d("resPonseData", response);
-
-
-            try {
-                JSONObject obj = new JSONObject(response);
-
-
-                JSONArray wallArray = obj.getJSONArray("photos");
-                for (int i = 0; i < wallArray.length(); i++) {
-                    JSONObject wallobj = wallArray.getJSONObject(i);
-                    JSONObject photographer = new JSONObject(String.valueOf(wallobj));
-                    String phUrl = wallobj.getString("url");
-                    JSONObject ProfileUrl = new JSONObject(String.valueOf(wallobj));
-                    JSONObject jsonObject = wallobj.getJSONObject("src");
-                    JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                    String userImg = object.getString("small");
-                    String userImg1 = object.getString("tiny");
-
-
-                    ModelData modelData1 = new ModelData(jsonObject.getString("large2x"), photographer.getString("photographer"), jsonObject.getString("large"), jsonObject.getString("original"),wallobj.getString("url"));
-                    modelData.add(modelData1);
-
-
-                }
-                Collections.shuffle(modelData);
-
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-                requestOptions.priority(Priority.IMMEDIATE);
-                requestOptions.skipMemoryCache(false);
-                requestOptions.onlyRetrieveFromCache(true);
-                requestOptions.priority(Priority.HIGH);
-                requestOptions.placeholder(Utils.getRandomDrawbleColor());
-                requestOptions.isMemoryCacheable();
-                requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-
-                requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-                //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
-                requestOptions.centerCrop();
+                Collections.shuffle(photos);
 
                 LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                     @Override
@@ -195,17 +330,19 @@ public class LastFragment extends Fragment {
                         return image.getByteCount() / 1024;
                     }
                 };
+
+
+
                 Bitmap image = memCache.get("imagefile");
                 if (image != null) {
                     //Bitmap exists in cache.
-                    imageView.setImageBitmap(image);
+                    img.setImageBitmap(image);
                 } else {
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
                         Glide.with(getActivity())
-                                .load(modelData.get(0).getOriginal())
+                                .load(photos.get(n).getUrls().getFull())
                                 .thumbnail(
-                                        Glide.with(getActivity()).load(modelData.get(0).getLarge2x())
+                                        Glide.with(Objects.requireNonNull(getActivity())).load(photos.get(n).getUrls().getRegular())
                                 )
                                 .apply(requestOptions)
                                 .listener(new RequestListener<Drawable>() {
@@ -220,150 +357,64 @@ public class LastFragment extends Fragment {
                                     @Override
                                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
-                                        // spinKitView.setVisibility(View.GONE);
+                                        //    spinKitView.setVisibility(View.GONE);
 
                                         return false;
                                     }
                                 })
+                                .into(img);
 
-                                .into(imageView);
+                        img.setOnClickListener(v -> {
+                            Intent intent = new Intent(getActivity(), TestingMotionLayout.class);
+                            intent.putExtra("img1", photos.get(n).getUrls().getFull());
+                            intent.putExtra("img2", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", query);
+
+                            Pair[] pairs = new Pair[2];
+                            pairs[0] = new Pair<View, String>(img, "img1");
+                            pairs[1] = new Pair<View, String>(textView, "text");
+
+                           /* Pair<View, String> pair = Pair.create((View)Landscape, ViewCompat.getTransitionName(Landscape));
+                            Pair<View, String> pair1 = Pair.create((View)Landscape1, ViewCompat.getTransitionName(Landscape1));*/
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(), pairs
+                            );
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                startActivity(intent, optionsCompat.toBundle());
+                            } else {
+                                startActivity(intent);
+                            }
+                        });
                     }
+
+
 
 
                 }
-                imageView.setOnClickListener(view -> {
-                    Intent intent = new Intent(getActivity(), FullImage.class);
-                    ModelData modelData2 = modelData.get(position);
-                    intent.putExtra("img", modelData2.getLarge2x());
-                    intent.putExtra("imgSmall", modelData2.getLarge());
-                    intent.putExtra("large", modelData2.getOriginal());
-                    intent.putExtra("PhotoUrl",modelData2.getPhotoUrl());
-                    startActivity(intent);
-                });
-
-
-                rescAdapter = new RescAdapter(modelData, getActivity());
-                position = 0;
-                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                        super.onScrollStateChanged(recyclerView, newState);
-                        Log.d("fdsf", String.valueOf(newState));
-                        Log.d("khfkhk", String.valueOf(position));
-                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                            //Dragging
-                        } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                            position = layoutManager.findFirstVisibleItemPosition();
-                            Log.d("poslwhf", String.valueOf(position));
-                            imageView.setOnClickListener(view -> {
-                                Intent intent = new Intent(getActivity(), FullImage.class);
-                                ModelData modelData2 = modelData.get(position);
-                                intent.putExtra("img", modelData2.getLarge2x());
-                                startActivity(intent);
-                            });
-
-                            LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
-                                @Override
-                                protected int sizeOf(String key, Bitmap image) {
-                                    return image.getByteCount() / 1024;
-                                }
-                            };
-
-                            Bitmap image = memCache.get("imagefile");
-                            if (image != null) {
-                                //Bitmap exists in cache.
-                                imageView.setImageBitmap(image);
-                            } else {
-
-                                if (getActivity()!=null)
-                                {
-                                    Glide.with(getActivity())
-                                            .load(modelData.get(position).getLarge2x())
-                                            .thumbnail(
-                                                    Glide.with(getActivity()).load(modelData.get(position).getLarge2x())
-                                            )
-                                            .apply(requestOptions)
-                                            .listener(new RequestListener<Drawable>() {
-                                                @Override
-                                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                                    //  spinKitView.setVisibility(View.GONE);
-
-
-                                                    return false;
-                                                }
-
-                                                @Override
-                                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                                                    // spinKitView.setVisibility(View.GONE);
-
-                                                    return false;
-                                                }
-                                            })
-
-                                            .into(imageView);
-                                }
-
-
-                            }
-
-
-                        }
-                    }
-
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                    }
-                });
-
-
-                recyclerView.setAdapter(rescAdapter);
-
-                // Glide.with(MainActivity.this).load(slides.get(n)).preload(500,500);
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("catchError", "Got the error" + e);
-            }
-
-        }, error -> {
-
-            NetworkResponse response = error.networkResponse;
-            if (error instanceof ServerError && response != null) {
-                try {
-                    String res = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                    // Now you can use any deserializer to make sense of data
-                    JSONObject obj = new JSONObject(res);
-                } catch (UnsupportedEncodingException | JSONException e1) {
-                    // Couldn't properly decode data to string
-                    e1.printStackTrace();
-                } // returned data is not JSONObject?
 
             }
 
-        }) {
             @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "563492ad6f91700001000001fd351942a4524d62bb9a68308855b667");
-                return params;
+            public void onError(String error) {
+
             }
-        };
-
-        stringRequest.setShouldCache(false);
-
-        if (getActivity()!=null)
-        {
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            requestQueue.add(stringRequest);
-        }
-
+        });
     }
+
+
+
+
+
+    public static LastFragment newInstance(String text) {
+        LastFragment f = new LastFragment();
+        Bundle b = new Bundle();
+        b.putString("msg", text);
+        f.setArguments(b);
+        return f;
+    }
+
 
 
 

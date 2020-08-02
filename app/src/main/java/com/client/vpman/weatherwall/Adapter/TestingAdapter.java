@@ -1,9 +1,12 @@
 package com.client.vpman.weatherwall.Adapter;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,46 +23,53 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.FullImage;
+import com.client.vpman.weatherwall.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.Model.ModelData4;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
+
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
-public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHandlerMainData>
-{
+
+public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHandlerMainData> {
     private Context context;
     private List<ModelData4> list;
+
     public TestingAdapter(Context context, List<ModelData4> list) {
         this.context = context;
         this.list = list;
     }
+
     @NonNull
     @Override
-    public TestingAdapter.MyPopHandlerMainData onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.testing_adapter,parent,false);
+    public MyPopHandlerMainData onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.testing_adapter, parent, false);
         return new MyPopHandlerMainData(view);
     }
+
     @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull TestingAdapter.MyPopHandlerMainData holder, int position) {
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
             protected int sizeOf(String key, Bitmap image) {
-                return image.getByteCount()/1024;
+                return image.getByteCount() / 1024;
             }
         };
-        SharedPref1 pref1=new SharedPref1(context);
-        ModelData4 modelData1=list.get(position);
+        SharedPref1 pref1 = new SharedPref1(context);
+        ModelData4 modelData1 = list.get(position);
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             holder.imageView.setImageBitmap(image);
-        } else
-        {
+        } else {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                     .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -70,8 +80,7 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
             requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
             requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            if (pref1.getImageLoadQuality().equals("Default"))
-            {
+            if (pref1.getImageLoadQuality().equals("Default")) {
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
                         .thumbnail(
@@ -83,16 +92,14 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                 return false;
                             }
+
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 return false;
                             }
                         })
                         .into(holder.imageView);
-            }
-            else if (pref1.getImageLoadQuality().equals("High Quality"))
-            {
+            } else if (pref1.getImageLoadQuality().equals("High Quality")) {
                 Glide.with(context)
                         .load(modelData1.getOriginal())
                         .thumbnail(
@@ -106,16 +113,13 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 return false;
                             }
                         })
 
                         .into(holder.imageView);
-            }
-            else
-            {
+            } else {
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
                         .thumbnail(
@@ -127,9 +131,9 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                 return false;
                             }
+
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                            {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                 return false;
                             }
@@ -137,17 +141,33 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                         .into(holder.imageView);
             }
             holder.imageView.requestLayout();
-            holder.getView().setAnimation(AnimationUtils.loadAnimation(context,R.anim.zoom_in));
+            holder.getView().setAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in));
             holder.imageView.setOnClickListener(view -> {
-                Intent intent=new Intent(context, FullImage.class);
-                intent.putExtra("large",modelData1.getOriginal());
-                intent.putExtra("img",modelData1.getLarge2x());
-                intent.putExtra("imgSmall",modelData1.getLarge());
-                intent.putExtra("PhotoUrl",modelData1.getPhotoUrl());
-                context.startActivity(intent);
+                Intent intent = new Intent(context, TestFullActivity.class);
+                intent.putExtra("large", modelData1.getOriginal());
+                intent.putExtra("img", modelData1.getLarge2x());
+                intent.putExtra("imgSmall", modelData1.getLarge());
+                intent.putExtra("PhotoUrl", modelData1.getPhotoUrl());
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View, String>(holder.imageView, "imageData");
+
+
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        (Activity) context, pairs
+                );
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    context.startActivity(intent, optionsCompat.toBundle());
+                } else {
+                    context.startActivity(intent);
+                }
+
+
             });
         }
     }
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -156,19 +176,22 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
     public static class MyPopHandlerMainData extends RecyclerView.ViewHolder {
         ShapeableImageView imageView;
         private View view;
+
         public MyPopHandlerMainData(@NonNull View itemView) {
             super(itemView);
-            this.view=itemView;
-            imageView=itemView.findViewById(R.id.testingImg);
+            this.view = itemView;
+            imageView = itemView.findViewById(R.id.testingImg);
         }
+
         public View getView() {
             return view;
         }
     }
-@Override
-public int getItemViewType(int position) {
-    return position;
-}
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @Override
     public long getItemId(int position) {

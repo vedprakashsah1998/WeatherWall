@@ -95,6 +95,8 @@ public class TestingMotionLayout extends AppCompatActivity {
             binding.backgroundDesign.setImageResource(R.drawable.basic_design_customized_white);
         }
 
+
+
         binding.backMotion.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -153,11 +155,6 @@ public class TestingMotionLayout extends AppCompatActivity {
             Log.d("response", response);
             try {
                 JSONObject obj = new JSONObject(response);
-                Log.d("mil gaya", String.valueOf(obj));
-                int totalRes = obj.getInt("total_results");
-
-                Log.d("werg", String.valueOf(totalRes));
-
                 JSONArray wallArray = obj.getJSONArray("photos");
                 for (int i = 0; i < wallArray.length(); i++) {
                     JSONObject wallobj = wallArray.getJSONObject(i);

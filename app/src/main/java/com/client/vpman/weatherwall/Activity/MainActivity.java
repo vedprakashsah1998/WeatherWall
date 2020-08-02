@@ -100,15 +100,17 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
         wanderingCubes=new Wave();
         binding.spinKit.setIndeterminateDrawable(wanderingCubes);
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("WEATHER"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("DISCOVERY"));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("POPULAR"));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("EXPLORE"));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("4K WALLPAPER"));
+
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("WEATHER"));
+        binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("DISCOVERY"));
         binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("POPULAR"));
         binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("EXPLORE"));
-        binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("4K WALLPAPER"));
+
         binding.tabLayout2.setTabGravity(TabLayout.GRAVITY_FILL);
 
         sharedPref1=new SharedPref1(MainActivity.this);

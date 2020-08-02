@@ -46,8 +46,10 @@ import android.widget.TextClock;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -70,6 +72,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -96,7 +99,7 @@ public class WeatherFragment extends Fragment {
    private Spinner spinner,spinner1;
    private CardView cardContact,settingCardView,cardSetting,cardCredit,otherCard;
     private Toolbar toolbar;
-    private String JsonUrl = "https://api.openweathermap.org/data/2.5/weather?q=,in&appid=" + apiKey;
+    private String JsonUrl;
     private Dialog dialog;
     private RelativeLayout relativeLayout;
     private List<String> list;
@@ -236,6 +239,8 @@ public class WeatherFragment extends Fragment {
             apiList.add("ec55ea59368f44782fb4dcb6ab028f5a");
             apiList.add("4256b9145e7841dad1aa07b8b3ca5be3");
             apiList.add("667dcb63169e18e220f8ade175d2b016");
+            apiList.add("6a1565969d4149752e9fa55a7bec0720");
+
 
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(getActivity(), location -> {
@@ -298,6 +303,24 @@ public class WeatherFragment extends Fragment {
 
                                     }, error -> {
 
+                                        NetworkResponse response = error.networkResponse;
+                                        if (response != null && response.statusCode == 404) {
+                                            try {
+                                                String res = new String(response.data,
+                                                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                                                // Now you can use any deserializer to make sense of data
+                                                JSONObject obj = new JSONObject(res);
+                                                //use this json as you want
+
+                                            } catch (UnsupportedEncodingException e1) {
+                                                // Couldn't properly decode data to string
+                                                e1.printStackTrace();
+                                            } catch (JSONException e2) {
+                                                // returned data is not JSONObject?
+                                                e2.printStackTrace();
+                                            }
+                                        }
+
                                     });
                                     jor.setShouldCache(false);
                                     RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -305,6 +328,7 @@ public class WeatherFragment extends Fragment {
                                             3000,
                                             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
                                     requestQueue.add(jor);
                                 }
                             } catch (IOException e) {

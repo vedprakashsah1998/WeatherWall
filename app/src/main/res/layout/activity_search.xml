@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.SearchActivity">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Search Photos"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:inputType="text"
+        android:layout_below="@+id/discoverText"
+        android:paddingEnd="8dp"
+        android:imeOptions="actionSearch"
+        android:layout_marginTop="22dp"
+        android:maxLines="1"
+        android:textColorHint="#434343"
+        android:layout_marginStart="12dp"
+        android:drawableEnd="@drawable/ic_twotone_search_24"
+        android:paddingStart="8dp"
+        android:textSize="24sp"
+        android:id="@+id/searchViewData"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/searchViewData"
+        android:id="@+id/searchData"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/notfound"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        app:lottie_fileName="maindata.json"
+        app:lottie_autoPlay="true"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notFoundText"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:visibility="gone"
+        android:text="@string/notFound"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/notfound"
+        />
+
+</RelativeLayout>

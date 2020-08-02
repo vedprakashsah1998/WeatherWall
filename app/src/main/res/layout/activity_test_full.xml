@@ -5,19 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.FullImage">
-<ImageView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scaleType="centerCrop"
-    android:transitionName="imageData"
-    android:id="@+id/imageFull"/>
+    tools:context=".Activity.TestFullActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:transitionName="imageData"
+        android:id="@+id/imageFullTest"/>
+
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="5dp"
         app:popupTheme="@style/ToolbarThemeWhite"
-        android:id="@+id/tool1bar"
+        android:id="@+id/toolBarFull"
         android:visibility="visible"
         android:layout_alignParentTop="true"
         >
@@ -27,7 +29,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/backexp"
+                android:id="@+id/backExpFull"
                 android:layout_alignParentStart="true"
                 />
             <ImageView
@@ -37,7 +39,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_alignParentEnd="true"
-                android:id="@+id/browserFull" />
+                android:id="@+id/browserFull1" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -49,7 +51,7 @@
         android:clipToPadding="false"
         android:elevation="12dp"
         android:translationZ="8dp"
-        android:id="@+id/action_bar_layout"
+        android:id="@+id/mainBar"
         android:layout_marginBottom="18dp"
         android:layout_height="wrap_content">
         <ImageView
@@ -60,13 +62,13 @@
             android:translationZ="5dp"
             android:clickable="true"
             android:focusable="true"
-            android:id="@+id/download" />
+            android:id="@+id/downloadFull" />
 
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/setWall"
+            android:id="@+id/setWallFull"
             android:elevation="5dp"
             android:translationZ="5dp"
             android:layout_centerInParent="true"
@@ -83,10 +85,7 @@
             android:clickable="true"
             android:translationZ="5dp"
             android:layout_alignParentEnd="true"
-            android:id="@+id/share" />
+            android:id="@+id/shareFull" />
     </RelativeLayout>
-
-
-
 
 </RelativeLayout>

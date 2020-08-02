@@ -3,49 +3,306 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.LastFragment"
-    android:background="#FFF">
+    android:padding="38dp"
+    android:background="#FFFFFF">
 
 
-    <ImageView
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/discoverText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cantata_one"
+        android:text="Discover"
+        android:padding="12dp"
+        android:textStyle="bold"
+        android:textColor="#1A1A1A"
+        android:textSize="32sp" />
+
+
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit_text_bg"
+    android:hint="Search Photos"
+    android:textCursorDrawable="@drawable/color_cursor"
+    android:inputType="text"
+    android:layout_below="@+id/discoverText"
+    android:paddingEnd="8dp"
+    android:imeOptions="actionSearch"
+    android:layout_marginTop="22dp"
+    android:maxLines="1"
+    android:textColorHint="#434343"
+    android:layout_marginStart="12dp"
+    android:drawableEnd="@drawable/ic_twotone_search_24"
+    android:paddingStart="8dp"
+    android:textSize="24sp"
+    android:id="@+id/searchView"/>
+
+<com.google.android.material.textview.MaterialTextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/searchView"
+    android:id="@+id/topic"
+    android:text="Topic"
+    android:padding="12dp"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    android:textColor="@color/black"
+    android:fontFamily="@font/cagliostro"
+    />
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:transitionName="img"
-        android:id="@+id/lastImage"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topic"
+        android:id="@+id/horizontalView"
+        android:scrollbars="none">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_height="90dp"
+                    android:id="@+id/fashionLayout"
+                    android:padding="4dp"
+                    >
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:scaleType="centerCrop"
+                        android:transitionName="img1"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        android:id="@+id/fashionImageView"
+                        android:layout_height="match_parent"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:id="@+id/viewcurated"
-        android:background="@drawable/basic_design1"
-        android:layout_alignParentTop="true"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/img_bg"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="fashion"
+                        android:transitionName="text"
+                        android:id="@+id/fashionTextView"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:padding="4dp"
+                    android:layout_height="90dp"
+                    >
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:transitionName="img1"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        android:id="@+id/bikeRideImageView"
+                        android:scaleType="centerCrop"
+                        android:layout_height="match_parent"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/img_bg"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/bikeRideTextView"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="bike ride"
+                        android:transitionName="text"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_height="90dp"
+                    android:padding="4dp"
+
+                    >
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        android:id="@+id/gameImageView"
+                        android:transitionName="img1"
+
+                        android:scaleType="centerCrop"
+                        android:layout_height="match_parent"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/img_bg"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="game"
+                        android:transitionName="text"
+                        android:id="@+id/gameTextView"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_height="90dp"
+                    android:padding="4dp"
+
+                    >
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        android:id="@+id/coffeeShopImageView"
+                        android:scaleType="centerCrop"
+                        android:transitionName="img1"
+
+                        android:layout_height="match_parent"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/img_bg"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/coffeeShopTextView"
+                        android:text="coffee shop"
+                        android:transitionName="text"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_height="90dp"
+                    android:padding="4dp"
+
+                    >
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        android:scaleType="centerCrop"
+                        android:transitionName="img1"
+
+                        android:id="@+id/abstractImageView"
+                        android:layout_height="match_parent"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/img_bg"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/abstractTextView"
+                        android:text="abstract"
+                        android:transitionName="text"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_height="90dp"
+                    android:padding="4dp"
+
+                    >
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        android:scaleType="centerCrop"
+                        android:transitionName="img1"
+
+                        android:id="@+id/vacationImageView"
+                        android:layout_height="match_parent"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/img_bg"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/vacationTextView"
+                        android:text="vacation"
+                        android:transitionName="text"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </HorizontalScrollView>
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4k Wallpaper"
+        android:layout_below="@+id/horizontalView"
+        android:id="@+id/category"
+        android:text="Category"
+        android:padding="12dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:fontFamily="@font/cagliostro"
-        android:id="@+id/curatedText"
-        android:textSize="32sp"
-        android:layout_alignParentTop="true"
-        android:padding="24dp"
-        android:textColor="#FFFFFF"
         />
 
+   <com.google.android.material.tabs.TabLayout
+       android:layout_width="match_parent"
+       android:id="@+id/tabLayoutLast"
+       app:tabIndicator="@android:color/transparent"
+       android:layout_below="@+id/category"
+       app:tabSelectedTextColor="#000000"
+       app:tabTextAppearance="@style/MyCustomTextAppearance"
+       android:layout_height="wrap_content">
 
+<com.google.android.material.tabs.TabItem
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/curatedList"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/recyclerView"
-        android:layout_alignParentBottom="true"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:layoutDirection="rtl"
-        android:paddingStart="24dp"
-        android:paddingEnd="4dp"
-        android:scrollbars="horizontal"/>
+      <com.google.android.material.tabs.TabItem
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/popular"/>
+      <com.google.android.material.tabs.TabItem
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/latestphoto"/>
+
+   </com.google.android.material.tabs.TabLayout>
+
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="300dp"
+       android:layout_below="@+id/tabLayoutLast"
+       android:id="@+id/frameLayout"
+       />
 
 </RelativeLayout>
