@@ -7,6 +7,11 @@
     <string name="tag_is_center">tagIsCenter</string>
     <string name="curatedList">Curated List</string>
     <string name="popular">Popular</string>
+    <string name="category">Category</string>
+    <string name="Topic">Topic</string>
+    <string name="setting">Setting</string>
+    <string name="hintSearch">Search Photos</string>
+    <string name="discover">Discover</string>
     <string name="notFound">No data are found for this search</string>
     <string name="latestphoto">Latest Photo</string>
     <string-array name="list">

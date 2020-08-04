@@ -3,12 +3,14 @@ package com.client.vpman.weatherwall.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityOptionsCompat;
@@ -16,17 +18,14 @@ import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.text.Editable;
 import android.util.LruCache;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -38,6 +37,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.SearchActivity;
 import com.client.vpman.weatherwall.Activity.TestingMotionLayout;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentLastBinding;
@@ -71,16 +71,44 @@ public class LastFragment extends Fragment {
     FragmentTransaction fragmentTransaction;
 
     private Unsplash unsplash;
+    private Animation fromtop, bounce;
 
 
     @SuppressLint("ClickableViewAccessibility")
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         FragmentLastBinding binding = FragmentLastBinding.inflate(inflater, container, false);
         View view=binding.getRoot();
+        fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
+        bounce = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
+
+        bounce.setRepeatCount(Animation.INFINITE);
+        bounce.setRepeatMode(Animation.INFINITE);
+        bounce.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                bounce = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
+
+                bounce.setRepeatCount(Animation.INFINITE);
+                bounce.setRepeatMode(Animation.INFINITE);
+                binding.SwipUpdisc.startAnimation(bounce);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        binding.SwipUpdisc.startAnimation(bounce);
+
         fragment=new CuratedList();
         if (getActivity()!=null)
         {
@@ -89,7 +117,83 @@ public class LastFragment extends Fragment {
             fragmentTransaction.replace(R.id.frameLayout, fragment);
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.commit();
+            SharedPref1 sharedPref1=new SharedPref1(getActivity());
+            if (sharedPref1.getTheme().equals("Light"))
+            {
+                binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding.discoverText.setTextColor(Color.parseColor("#1A1A1A"));
+                binding.topic.setTextColor(getResources().getColor(R.color.black));
+                binding.category.setTextColor(getResources().getColor(R.color.black));
+                binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+                binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);
+/*
+                binding.tabLayoutLast.setVisibility(View.VISIBLE);
+*/
+
+                /*binding.tabLayoutLastDark.setVisibility(View.GONE);*/
+                binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
+
+                Resources res = getResources();
+                Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
+                binding.searchView.setBackground(drawable);
+/*                Resources res1 = getResources();
+                Drawable drawable1 = res1.getDrawable(R.drawable.color_cursor);
+                binding.searchView.setTextCursorDrawable(drawable1);*/
+                binding.searchView.setHintTextColor(Color.parseColor("#434343"));
+                binding.searchView.setTextColor(Color.parseColor("#1A1A1A"));
+
+            }
+            else if (sharedPref1.getTheme().equals("Dark"))
+            {
+                binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#000000"));
+                binding.discoverText.setTextColor(Color.parseColor("#FFFFFF"));
+                binding.topic.setTextColor(getResources().getColor(R.color.white));
+                binding.category.setTextColor(getResources().getColor(R.color.white));
+/*
+                binding.tabLayoutLast.setVisibility(View.GONE);
+*/
+                /*binding.tabLayoutLastDark.setVisibility(View.VISIBLE);*/
+
+                Resources res = getResources();
+                Drawable drawable = res.getDrawable(R.drawable.edit_text_bg_dark);
+                binding.searchView.setBackground(drawable);
+                binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24_white, 0);
+/*                Resources res1 = getResources();
+                Drawable drawable1 = res1.getDrawable(R.drawable.color_cursor_white);
+                binding.searchView.setTextCursorDrawable(drawable1);*/
+                binding.searchView.setHintTextColor(Color.parseColor("#FFFFFF"));
+                binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow);
+
+                binding.searchView.setTextColor(Color.parseColor("#F2F6F9"));
+                binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            }
+            else
+            {
+                binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);
+
+                binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+                /*binding.tabLayoutLast.setVisibility(View.VISIBLE);*/
+                /*binding.tabLayoutLastDark.setVisibility(View.GONE);*/
+                binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding.discoverText.setTextColor(Color.parseColor("#1A1A1A"));
+                binding.topic.setTextColor(getResources().getColor(R.color.black));
+                binding.category.setTextColor(getResources().getColor(R.color.black));
+
+                binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
+
+                Resources res = getResources();
+                Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
+                binding.searchView.setBackground(drawable);
+/*                Resources res1 = getResources();
+                Drawable drawable1 = res1.getDrawable(R.drawable.color_cursor);
+                binding.searchView.setTextCursorDrawable(drawable1);*/
+                binding.searchView.setHintTextColor(Color.parseColor("#434343"));
+                binding.searchView.setTextColor(Color.parseColor("#1A1A1A"));
+
+            }
         }
+
+
 
         binding.searchView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -119,6 +223,39 @@ public class LastFragment extends Fragment {
             }
             return false;
         });
+
+       /* binding.tabLayoutLastDark.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        fragment = new CuratedList();
+                        break;
+                    case 1:
+                        fragment = new Awarded();
+                        break;
+                    case 2:
+                        fragment = new LatestFragment();
+                        break;
+                }
+                FragmentManager fm = Objects.requireNonNull(getActivity()). getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.frameLayout, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });*/
 
         binding.tabLayoutLast.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

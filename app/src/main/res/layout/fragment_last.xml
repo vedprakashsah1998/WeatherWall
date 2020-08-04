@@ -6,28 +6,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.LastFragment"
     android:padding="38dp"
-    android:background="#FFFFFF">
+    android:id="@+id/rlLayoutDisc"
+    >
 
-
-
-
-    <com.google.android.material.textview.MaterialTextView
+        <com.google.android.material.textview.MaterialTextView
         android:id="@+id/discoverText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/cantata_one"
-        android:text="Discover"
+        android:text="@string/discover"
         android:padding="12dp"
         android:textStyle="bold"
-        android:textColor="#1A1A1A"
         android:textSize="32sp" />
 
 
 <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/edit_text_bg"
-    android:hint="Search Photos"
+    android:hint="@string/hintSearch"
     android:textCursorDrawable="@drawable/color_cursor"
     android:inputType="text"
     android:layout_below="@+id/discoverText"
@@ -35,23 +31,23 @@
     android:imeOptions="actionSearch"
     android:layout_marginTop="22dp"
     android:maxLines="1"
-    android:textColorHint="#434343"
     android:layout_marginStart="12dp"
-    android:drawableEnd="@drawable/ic_twotone_search_24"
+    android:layout_marginEnd="12dp"
     android:paddingStart="8dp"
     android:textSize="24sp"
     android:id="@+id/searchView"/>
+
+
 
 <com.google.android.material.textview.MaterialTextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/searchView"
     android:id="@+id/topic"
-    android:text="Topic"
+    android:text="@string/Topic"
     android:padding="12dp"
     android:textSize="22sp"
     android:textStyle="bold"
-    android:textColor="@color/black"
     android:fontFamily="@font/cagliostro"
     />
 
@@ -265,11 +261,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/horizontalView"
         android:id="@+id/category"
-        android:text="Category"
+        android:text="@string/category"
         android:padding="12dp"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         android:fontFamily="@font/cagliostro"
         />
 
@@ -279,6 +274,7 @@
        app:tabIndicator="@android:color/transparent"
        android:layout_below="@+id/category"
        app:tabSelectedTextColor="#000000"
+       android:background="@android:color/transparent"
        app:tabTextAppearance="@style/MyCustomTextAppearance"
        android:layout_height="wrap_content">
 
@@ -297,12 +293,26 @@
           android:text="@string/latestphoto"/>
 
    </com.google.android.material.tabs.TabLayout>
-
-   <FrameLayout
+       <FrameLayout
        android:layout_width="match_parent"
        android:layout_height="300dp"
-       android:layout_below="@+id/tabLayoutLast"
        android:id="@+id/frameLayout"
+        android:layout_below="@+id/tabLayoutLast"
        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/SwipUpdisc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

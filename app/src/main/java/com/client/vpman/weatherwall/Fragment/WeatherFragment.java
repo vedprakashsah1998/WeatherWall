@@ -742,7 +742,7 @@ public class WeatherFragment extends Fragment {
                 privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
                 relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
                 chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
-                toolbar.setBackgroundColor(Color.parseColor("#000000"));
+                toolbar.setBackgroundColor(Color.parseColor("#1A1A1A"));
                 loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
                 setThemeText.setTextColor(Color.parseColor("#FFFFFF"));
                 toolBarText.setTextColor(Color.parseColor("#FFFFFF"));

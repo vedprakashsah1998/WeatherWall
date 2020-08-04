@@ -5,23 +5,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/searchrel"
     tools:context=".Activity.SearchActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool1barSearch"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:elevation="12dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/backactivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/queryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/backactivity"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="-4dp"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_bg"
-        android:hint="Search Photos"
+        android:hint="@string/hintSearch"
         android:textCursorDrawable="@drawable/color_cursor"
         android:inputType="text"
-        android:layout_below="@+id/discoverText"
+        android:layout_below="@+id/tool1barSearch"
         android:paddingEnd="8dp"
         android:imeOptions="actionSearch"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="12dp"
         android:maxLines="1"
-        android:textColorHint="#434343"
+        android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
-        android:drawableEnd="@drawable/ic_twotone_search_24"
         android:paddingStart="8dp"
         android:textSize="24sp"
         android:id="@+id/searchViewData"/>
@@ -55,5 +84,7 @@
         android:layout_marginTop="22dp"
         android:layout_below="@+id/notfound"
         />
+
+
 
 </RelativeLayout>

@@ -4,39 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.SearchAdapter;
-import com.client.vpman.weatherwall.Adapter.TestingAdapter;
-import com.client.vpman.weatherwall.Model.ModelData4;
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.Model.SearchModel;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivitySearchBinding;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -61,6 +56,54 @@ public class SearchActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent intent = getIntent();
         query = intent.getStringExtra("searchQuery");
+
+        SharedPref1 sharedPref1=new SharedPref1(SearchActivity.this);
+        if (sharedPref1.getTheme().equals("Light"))
+        {
+            binding.searchrel.setBackgroundColor(Color.parseColor("#F2F6F9"));
+            binding.tool1barSearch.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding.queryText.setTextColor(Color.parseColor("#000000"));
+            Resources res = getResources();
+            binding.backactivity.setImageResource(R.drawable.ic_arrow_back);
+            Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
+            binding.searchViewData.setBackground(drawable);
+            binding.searchViewData.setHintTextColor(Color.parseColor("#434343"));
+            binding.searchViewData.setTextColor(Color.parseColor("#1A1A1A"));
+            binding.searchViewData.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);
+
+        }
+        else if (sharedPref1.getTheme().equals("Dark"))
+        {
+            binding.searchrel.setBackgroundColor(Color.parseColor("#000000"));
+            binding.tool1barSearch.setBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding.queryText.setTextColor(Color.parseColor("#FFFFFF"));
+            Resources res = getResources();
+            Drawable drawable = res.getDrawable(R.drawable.edit_text_bg_dark);
+            binding.searchViewData.setBackground(drawable);
+            binding.searchViewData.setHintTextColor(Color.parseColor("#FFFFFF"));
+            binding.searchViewData.setTextColor(Color.parseColor("#F2F6F9"));
+            binding.searchViewData.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24_white, 0);
+            binding.backactivity.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+
+        }
+        else
+        {
+            binding.backactivity.setImageResource(R.drawable.ic_arrow_back);
+
+            binding.searchrel.setBackgroundColor(Color.parseColor("#F2F6F9"));
+            binding.tool1barSearch.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding.queryText.setTextColor(Color.parseColor("#000000"));
+
+            Resources res = getResources();
+            Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
+            binding.searchViewData.setBackground(drawable);
+            binding.searchViewData.setHintTextColor(Color.parseColor("#434343"));
+            binding.searchViewData.setTextColor(Color.parseColor("#1A1A1A"));
+            binding.searchViewData.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);
+
+        }
+
+        binding.backactivity.setOnClickListener(v -> onBackPressed());
 
         binding.searchViewData.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -88,16 +131,12 @@ public class SearchActivity extends AppCompatActivity {
             return false;
         });
         LoadImage(query);
-
-
-
-
     }
 
-    private void LoadImage(String query) {
+    private void LoadImage(String query)
+    {
+
         list=new ArrayList<>();
-
-
         String[] data ={"sex","nude","porn","fuck","vagina","orgasam","sexy girl","nude pic","hot girl","porn star","xvideos",
                 "chutiya","lund","dick","pussy","hot girl","sexy","Sex","Sexy","Porn","Vagina",
                 "Sexy girl","Porn star","Xvideos","Hot girl","Nude","Orgasam","Fuck"};
@@ -114,6 +153,8 @@ public class SearchActivity extends AppCompatActivity {
             binding.notfound.setVisibility(View.GONE);
             binding.searchData.setVisibility(View.VISIBLE);
         }
+
+        binding.queryText.setText(query);
 
         String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=100&page=1";
         Log.d("ewjoh",Url);

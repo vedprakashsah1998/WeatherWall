@@ -76,9 +76,7 @@ public class Popular extends Fragment {
     private String query, query1, query2, query3, query4, query5, query6, query7, query8;
     private SharedPref1 sharedPref1;
     private Animation fromtop, bounce;
-    private final String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
-    private Unsplash unsplash;
-   private FragmentPopularBinding binding;
+    private FragmentPopularBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -86,7 +84,8 @@ public class Popular extends Fragment {
         // Inflate the layout for this fragment
         binding= FragmentPopularBinding.inflate(inflater,container,false);
         view = binding.getRoot();
-        unsplash = new Unsplash(CLIENT_ID);
+        String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
+        Unsplash unsplash = new Unsplash(CLIENT_ID);
 
         fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
 

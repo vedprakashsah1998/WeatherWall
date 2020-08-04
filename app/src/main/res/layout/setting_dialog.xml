@@ -495,9 +495,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:elevation="5dp"
-        android:visibility="visible"
-        app:popupTheme="@style/ToolbarThemeWhite">
+        android:elevation="5dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -516,7 +514,7 @@
                 android:layout_marginTop="-4dp"
                 android:layout_toEndOf="@+id/backtoMain"
                 android:fontFamily="sans-serif-medium"
-                android:text="Setting"
+                android:text="@string/setting"
                 android:textSize="22sp"
                 android:textStyle="bold" />
         </RelativeLayout>
