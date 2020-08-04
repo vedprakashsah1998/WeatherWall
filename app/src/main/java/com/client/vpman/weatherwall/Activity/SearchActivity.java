@@ -1,9 +1,13 @@
 package com.client.vpman.weatherwall.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -130,6 +134,29 @@ public class SearchActivity extends AppCompatActivity {
             }
             return false;
         });
+        binding.swipeRefreshLayout.post(() -> {
+            binding.swipeRefreshLayout.setRefreshing(true);
+            LoadImage(query);
+        });
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> LoadImage(query));
+
+
+        binding.searchData.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int topRowVerticalPosition =
+                        (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+                binding.swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+            }
+        });
+
+
         LoadImage(query);
     }
 
@@ -218,6 +245,10 @@ public class SearchActivity extends AppCompatActivity {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
-
+        onItemsLoadComplete();
     }
+    void onItemsLoadComplete() {
+        binding.swipeRefreshLayout.setRefreshing(false);
+    }
+
 }

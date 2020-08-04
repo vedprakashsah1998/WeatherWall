@@ -54,13 +54,20 @@
         android:paddingStart="8dp"
         android:textSize="24sp"
         android:id="@+id/searchViewData"/>
-
-    <androidx.recyclerview.widget.RecyclerView
+    
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/searchViewData"
-        android:id="@+id/searchData"/>
+        android:id="@+id/swipeRefreshLayout"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchData"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
