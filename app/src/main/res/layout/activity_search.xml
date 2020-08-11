@@ -79,6 +79,17 @@
         app:lottie_fileName="maindata.json"
         app:lottie_autoPlay="true"/>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/notfound1"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        app:lottie_fileName="notfound.json"
+        app:lottie_autoPlay="true"/>
+
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,8 +99,8 @@
         android:visibility="gone"
         android:text="@string/notFound"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:layout_below="@+id/notfound"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
         />
 
 

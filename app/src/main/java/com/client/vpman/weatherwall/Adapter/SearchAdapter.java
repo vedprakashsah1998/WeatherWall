@@ -139,6 +139,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                         .into(holder.imageView);
             }
             holder.imageView.requestLayout();
+            holder.getView().setAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in));
+
             holder.imageView.setOnClickListener(view -> {
                 Intent intent = new Intent(context, TestFullActivity.class);
                 intent.putExtra("large", modelData1.getOriginal());
@@ -173,9 +175,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     public static class SearchHolder extends RecyclerView.ViewHolder
     {
         private ShapeableImageView imageView;
+        private View view;
         public SearchHolder(@NonNull View itemView) {
             super(itemView);
+            this.view=itemView;
             imageView=itemView.findViewById(R.id.searchImageList);
         }
+        public View getView() {
+            return view;
+        }
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 }

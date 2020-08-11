@@ -126,19 +126,12 @@ public class LastFragment extends Fragment {
                 binding.category.setTextColor(getResources().getColor(R.color.black));
                 binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
                 binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);
-/*
-                binding.tabLayoutLast.setVisibility(View.VISIBLE);
-*/
 
-                /*binding.tabLayoutLastDark.setVisibility(View.GONE);*/
                 binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
 
                 Resources res = getResources();
                 Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
                 binding.searchView.setBackground(drawable);
-/*                Resources res1 = getResources();
-                Drawable drawable1 = res1.getDrawable(R.drawable.color_cursor);
-                binding.searchView.setTextCursorDrawable(drawable1);*/
                 binding.searchView.setHintTextColor(Color.parseColor("#434343"));
                 binding.searchView.setTextColor(Color.parseColor("#1A1A1A"));
 
@@ -149,18 +142,10 @@ public class LastFragment extends Fragment {
                 binding.discoverText.setTextColor(Color.parseColor("#FFFFFF"));
                 binding.topic.setTextColor(getResources().getColor(R.color.white));
                 binding.category.setTextColor(getResources().getColor(R.color.white));
-/*
-                binding.tabLayoutLast.setVisibility(View.GONE);
-*/
-                /*binding.tabLayoutLastDark.setVisibility(View.VISIBLE);*/
-
                 Resources res = getResources();
                 Drawable drawable = res.getDrawable(R.drawable.edit_text_bg_dark);
                 binding.searchView.setBackground(drawable);
                 binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24_white, 0);
-/*                Resources res1 = getResources();
-                Drawable drawable1 = res1.getDrawable(R.drawable.color_cursor_white);
-                binding.searchView.setTextCursorDrawable(drawable1);*/
                 binding.searchView.setHintTextColor(Color.parseColor("#FFFFFF"));
                 binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow);
 
@@ -172,8 +157,6 @@ public class LastFragment extends Fragment {
                 binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);
 
                 binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
-                /*binding.tabLayoutLast.setVisibility(View.VISIBLE);*/
-                /*binding.tabLayoutLastDark.setVisibility(View.GONE);*/
                 binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 binding.discoverText.setTextColor(Color.parseColor("#1A1A1A"));
                 binding.topic.setTextColor(getResources().getColor(R.color.black));
@@ -184,9 +167,6 @@ public class LastFragment extends Fragment {
                 Resources res = getResources();
                 Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
                 binding.searchView.setBackground(drawable);
-/*                Resources res1 = getResources();
-                Drawable drawable1 = res1.getDrawable(R.drawable.color_cursor);
-                binding.searchView.setTextCursorDrawable(drawable1);*/
                 binding.searchView.setHintTextColor(Color.parseColor("#434343"));
                 binding.searchView.setTextColor(Color.parseColor("#1A1A1A"));
 
@@ -224,38 +204,6 @@ public class LastFragment extends Fragment {
             return false;
         });
 
-       /* binding.tabLayoutLastDark.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        fragment = new CuratedList();
-                        break;
-                    case 1:
-                        fragment = new Awarded();
-                        break;
-                    case 2:
-                        fragment = new LatestFragment();
-                        break;
-                }
-                FragmentManager fm = Objects.requireNonNull(getActivity()). getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.frameLayout, fragment);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.commit();
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });*/
 
         binding.tabLayoutLast.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

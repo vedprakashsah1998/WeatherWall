@@ -37,6 +37,8 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivityExploreAcitivityBinding;
+import com.google.android.material.dialog.MaterialDialogs;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +73,7 @@ public class ExploreAcitivity extends AppCompatActivity {
         query = intent.getStringExtra("query");
         String text = intent.getStringExtra("text");
         binding.titleDataExp.setText(text);
+
 
         if (sharedPref1.getTheme().equals("Light")) {
             binding.titleDataExp.setTextColor(Color.parseColor("#000000"));

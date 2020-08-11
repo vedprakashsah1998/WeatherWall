@@ -48,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     ActivitySearchBinding binding;
     String query;
     List<SearchModel> list;
+    SharedPref1 sharedPref1;
     SearchAdapter searchAdapter;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -61,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = getIntent();
         query = intent.getStringExtra("searchQuery");
 
-        SharedPref1 sharedPref1=new SharedPref1(SearchActivity.this);
+        sharedPref1=new SharedPref1(SearchActivity.this);
         if (sharedPref1.getTheme().equals("Light"))
         {
             binding.searchrel.setBackgroundColor(Color.parseColor("#F2F6F9"));
@@ -168,10 +169,28 @@ public class SearchActivity extends AppCompatActivity {
                 "chutiya","lund","dick","pussy","hot girl","sexy","Sex","Sexy","Porn","Vagina",
                 "Sexy girl","Porn star","Xvideos","Hot girl","Nude","Orgasam","Fuck"};
 
+
+
         if (Arrays.asList(data).contains(query))
         {
+            if (sharedPref1.getTheme().equals("Light"))
+            {
+                binding.notfound.setVisibility(View.VISIBLE);
+                binding.notFoundText.setTextColor(Color.parseColor("#000000"));
+            }
+            else if (sharedPref1.getTheme().equals("Dark"))
+            {
+                binding.notfound1.setVisibility(View.VISIBLE);
+                binding.notFoundText.setTextColor(Color.parseColor("#FFFFFF"));
+
+            }
+            else
+            {
+                binding.notfound.setVisibility(View.VISIBLE);
+                binding.notFoundText.setTextColor(Color.parseColor("#000000"));
+            }
             binding.searchData.setVisibility(View.GONE);
-            binding.notfound.setVisibility(View.VISIBLE);
+
             binding.notFoundText.setVisibility(View.VISIBLE);
         }
         else

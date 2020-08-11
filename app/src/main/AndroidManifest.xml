@@ -15,13 +15,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity android:name=".Activity.SearchActivity"></activity>
-        <activity android:name=".Activity.TestFullActivity" />
+        <activity android:name=".Activity.TestFullActivity" >
+        </activity>
         <activity android:name=".Activity.ExploreAcitivity" />
         <activity android:name=".Activity.TestingMotionLayout" />
         <activity android:name=".Activity.IntroActivity" />
-        <activity android:name=".Activity.MainActivity" />
-        <activity android:name=".Activity.FullImageQuotes" />
-        <activity android:name=".Activity.FullImage" />
+        <activity android:name=".Activity.MainActivity" >
+        </activity>
+        <activity android:name=".Activity.FullImageQuotes" >
+        </activity>
         <activity android:name=".Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

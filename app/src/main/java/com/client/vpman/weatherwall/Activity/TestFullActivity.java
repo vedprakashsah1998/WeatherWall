@@ -207,9 +207,7 @@ public class TestFullActivity extends AppCompatActivity {
             binding.backExpFull.setImageResource(R.drawable.ic_arrow_back);
             binding.toolBarFull.setBackground(drawable);
             binding.browserFull1.setImageResource(R.drawable.ic_global_black);
-            Resources res1 = getResources(); //resource handle
-            Drawable drawable1 = res1.getDrawable(R.drawable.white_design_layout);
-            binding.mainBar.setBackground(drawable1);
+            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
             binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
             binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
@@ -219,23 +217,19 @@ public class TestFullActivity extends AppCompatActivity {
             binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
             binding.shareFull.setImageResource(R.drawable.ic_share);
             binding.downloadFull.setImageResource(R.drawable.ic_file_download);
-            Resources res1 = getResources(); //resource handle
-            Drawable drawable1 = res1.getDrawable(R.drawable.black_design_layout);
-            binding.mainBar.setBackground(drawable1);
-            binding.toolBarFull.setBackgroundColor(Color.parseColor("#000000"));
             binding.backExpFull.setImageResource(R.drawable.ic_arrow_back_black_24dp);
             binding.browserFull1.setImageResource(R.drawable.ic_global);
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1);
             binding.toolBarFull.setBackground(drawable);
+            binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
 
         } else {
-            Resources res1 = getResources(); //resource handle
-            Drawable drawable1 = res1.getDrawable(R.drawable.white_design_layout);
-            binding.mainBar.setBackground(drawable1);
+            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
             binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
             binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
+            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
             binding.toolBarFull.setBackground(drawable);
