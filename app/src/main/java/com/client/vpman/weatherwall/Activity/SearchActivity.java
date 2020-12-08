@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -29,9 +28,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.SearchAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
-import com.client.vpman.weatherwall.Model.SearchModel;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivitySearchBinding;
+import com.client.vpman.weatherwall.model.ModelData;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,15 +42,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class SearchActivity extends AppCompatActivity {
 
     ActivitySearchBinding binding;
-    String query;
-    List<SearchModel> list;
+/*    String query;
+    List<ModelData> list;
     SharedPref1 sharedPref1;
     SearchAdapter searchAdapter;
+    LinearLayoutManager linearLayoutManager;
+    static int page=1;*/
 
+    private List<String> apiList;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,13 @@ public class SearchActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Intent intent = getIntent();
+
+
+
+
+
+
+        /*Intent intent = getIntent();
         query = intent.getStringExtra("searchQuery");
 
         sharedPref1=new SharedPref1(SearchActivity.this);
@@ -110,10 +120,37 @@ public class SearchActivity extends AppCompatActivity {
 
         binding.backactivity.setOnClickListener(v -> onBackPressed());
 
+
+
+        Log.d("loadMain","load1");
+
+
+        LoadImage(query,page);
+
+        binding.searchData.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                if (linearLayoutManager.findLastVisibleItemPosition() == searchAdapter.getItemCount() - 1) {
+                    page++;
+                    LoadImage(query,page);
+                    Log.d("loadMain","load2");
+                }
+
+            }
+        });
         binding.searchViewData.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-                LoadImage(binding.searchViewData.getText().toString());
+                LoadImage(binding.searchViewData.getText().toString(),page);
+                Log.d("loadMain","load3");
                 return true;
             }
             return false;
@@ -129,44 +166,22 @@ public class SearchActivity extends AppCompatActivity {
                 if(event.getRawX() >= (binding.searchViewData.getRight()-binding.searchViewData.getCompoundDrawables()
                         [DRAWABLE_RIGHT].getBounds().width())) {
                     // your action here
-                    LoadImage(binding.searchViewData.getText().toString());
+                    LoadImage(binding.searchViewData.getText().toString(),page);
+                    Log.d("loadMain","load4");
                     return true;
                 }
             }
             return false;
         });
-        binding.swipeRefreshLayout.post(() -> {
-            binding.swipeRefreshLayout.setRefreshing(true);
-            LoadImage(query);
-        });
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> LoadImage(query));
-
-
-        binding.searchData.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int topRowVerticalPosition =
-                        (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-                binding.swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
-            }
-        });
-
-
-        LoadImage(query);
+        */
     }
 
-    private void LoadImage(String query)
+   /* private void LoadImage(String query,int page)
     {
-
         list=new ArrayList<>();
+
         String[] data ={"sex","nude","porn","fuck","vagina","orgasam","sexy girl","nude pic","hot girl","porn star","xvideos",
-                "chutiya","lund","dick","pussy","hot girl","sexy","Sex","Sexy","Porn","Vagina",
+                "chutiya","lund","dick","pussy","hot girl","sexy","Sex","Sexy","Porn","Vagina","nudes",
                 "Sexy girl","Porn star","Xvideos","Hot girl","Nude","Orgasam","Fuck"};
 
 
@@ -202,7 +217,7 @@ public class SearchActivity extends AppCompatActivity {
 
         binding.queryText.setText(query);
 
-        String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=100&page=1";
+        String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=100&page="+page+"";
         Log.d("ewjoh",Url);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
@@ -217,12 +232,13 @@ public class SearchActivity extends AppCompatActivity {
                     Log.d("PhotoURL", wallobj.getString("url"));
                     JSONObject jsonObject = wallobj.getJSONObject("src");
                     JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                    SearchModel modelData1 = new SearchModel(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
+                    ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
                     list.add(modelData1);
                 }
                 Collections.shuffle(list);
+
                 searchAdapter = new SearchAdapter(SearchActivity.this, list);
-                LinearLayoutManager linearLayoutManager = new GridLayoutManager(SearchActivity.this, 2, GridLayoutManager.VERTICAL, false);
+                linearLayoutManager = new GridLayoutManager(SearchActivity.this, 2, GridLayoutManager.VERTICAL, false);
                 binding.searchData.setLayoutManager(linearLayoutManager);
                 binding.searchData.setHasFixedSize(true);
                 binding.searchData.setItemAnimator(new DefaultItemAnimator());
@@ -230,6 +246,7 @@ public class SearchActivity extends AppCompatActivity {
                 int itemViewType = 0;
                 binding.searchData.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
                 binding.searchData.setAdapter(searchAdapter);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -255,7 +272,16 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "563492ad6f917000010000010175b010e54243678613ef0d7fd3c497");
+                apiList = new ArrayList<>();
+                apiList.add(getString(R.string.APIKEY1));
+                apiList.add(getString(R.string.APIKEY2));
+                apiList.add(getString(R.string.APIKEY3));
+                apiList.add(getString(R.string.APIKEY4));
+                apiList.add(getString(R.string.APIKEY5));
+                Random random = new Random();
+                int n = random.nextInt(apiList.size());
+                params.put("Authorization", apiList.get(n));
+
                 return params;
             }
         };
@@ -264,10 +290,7 @@ public class SearchActivity extends AppCompatActivity {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
-        onItemsLoadComplete();
-    }
-    void onItemsLoadComplete() {
-        binding.swipeRefreshLayout.setRefreshing(false);
-    }
+
+    }*/
 
 }

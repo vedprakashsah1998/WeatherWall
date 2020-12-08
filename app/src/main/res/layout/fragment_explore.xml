@@ -9,29 +9,16 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Explore"
+        android:text="@string/explore"
         android:textSize="32sp"
         android:textStyle="bold"
         android:paddingStart="54dp"
+        android:fontFamily="@font/averia_sans_libre"
         android:layout_alignParentTop="true"
         android:padding="16dp"
         android:id="@+id/exploreId"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/SwipUp009"
-            />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"

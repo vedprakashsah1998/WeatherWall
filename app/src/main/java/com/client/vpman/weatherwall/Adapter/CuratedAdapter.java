@@ -23,8 +23,8 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
-import com.client.vpman.weatherwall.Model.CuratedListData;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.model.ModelData;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -38,9 +38,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CuratedAdapter extends RecyclerView.Adapter<CuratedAdapter.Curatedholder>
 {
     private Context context;
-    private List<CuratedListData> list;
+    private List<ModelData> list;
 
-    public CuratedAdapter(Context context, List<CuratedListData> list) {
+    public CuratedAdapter(Context context, List<ModelData> list) {
         this.context = context;
         this.list = list;
     }
@@ -54,7 +54,7 @@ public class CuratedAdapter extends RecyclerView.Adapter<CuratedAdapter.Curatedh
 
     @Override
     public void onBindViewHolder(@NonNull Curatedholder holder, int position) {
-        CuratedListData modelData1 = list.get(position);
+        ModelData modelData1 = list.get(position);
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
             protected int sizeOf(String key, Bitmap image) {

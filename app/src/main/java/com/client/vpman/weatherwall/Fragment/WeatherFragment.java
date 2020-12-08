@@ -17,16 +17,6 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-
-import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +32,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextClock;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -77,14 +66,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static android.os.Looper.getMainLooper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,11 +87,11 @@ public class WeatherFragment extends Fragment {
     private String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
 
     private List<String> apiList;
-    private MaterialTextView clearCache,toolBarText,shareApp,reportText,rateUsText,instagramText,faceBookText,LinkedIn,privacyPolicy,github;
-   private MaterialTextView chooseImgQuality,loadQuality,ContactUsText,weatherWallText, poweredby,credit,setThemeText;
-   private ImageView pexels,flatIcon,Unsplash,backtoMain,deleteImg,share,reportUs,rateUsImg,facebook,privacyImg,instagram,Github,linkedIn;
-   private Spinner spinner,spinner1;
-   private CardView cardContact,settingCardView,cardSetting,cardCredit,otherCard;
+    private MaterialTextView clearCache, toolBarText, shareApp, reportText, rateUsText, instagramText, faceBookText, LinkedIn, privacyPolicy, github;
+    private MaterialTextView chooseImgQuality, loadQuality, ContactUsText, weatherWallText, poweredby, credit, setThemeText;
+    private ImageView pexels, flatIcon, Unsplash, backtoMain, deleteImg, share, reportUs, rateUsImg, facebook, privacyImg, instagram, Github, linkedIn;
+    private Spinner spinner, spinner1;
+    private CardView cardContact, settingCardView, cardSetting, cardCredit, otherCard;
     private Toolbar toolbar;
     private String JsonUrl;
     private Dialog dialog;
@@ -116,7 +110,8 @@ public class WeatherFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationClient;
 
     private RotateAnimation rotate;
-        public WeatherFragment() {
+
+    public WeatherFragment() {
         // Required empty public constructor
     }
 
@@ -126,7 +121,7 @@ public class WeatherFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentWeatherBinding.inflate(inflater,container,false);
+        binding = FragmentWeatherBinding.inflate(inflater, container, false);
         View view1 = binding.getRoot();
         list = new ArrayList<>();
         Log.d("hgfkj", "request");
@@ -263,7 +258,10 @@ public class WeatherFragment extends Fragment {
 
                                     Random random = new Random();
                                     int n = random.nextInt(apiList.size());
-
+                                    if (cityname == null){
+                                        cityname="Jaipur";
+                                    }
+                                    Log.d("cityName",cityname);
                                     JsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&q=" + cityname + "," + countryCode + "&appid=" + apiList.get(n);
 
 
@@ -282,7 +280,7 @@ public class WeatherFragment extends Fragment {
                                             String description = object.getString("description");
                                             String city = response.getString("name");
 
-                                            binding.temp.setText(temp + "°C");
+                                            binding.temp.setText(temp +"°C");
                                             binding.city.setText(city);
                                             binding.desc.setText(description);
 
@@ -618,7 +616,6 @@ public class WeatherFragment extends Fragment {
         SharedPref1 pref = new SharedPref1(activity);
 
 
-
         chooseImgQuality.append(pref.getImageQuality());
 
 
@@ -643,7 +640,7 @@ public class WeatherFragment extends Fragment {
 
             }
         });
-         spinner1 = dialog.findViewById(R.id.spinner2);
+        spinner1 = dialog.findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(activity, R.layout.custome_spinner_list, getResources().getStringArray(R.array.list));
         dataAdapter1.setDropDownViewResource(R.layout.custome_spinner_load);
         loadQuality.append(pref.getImageLoadQuality());
@@ -679,8 +676,6 @@ public class WeatherFragment extends Fragment {
             switchButton.setChecked(false);
 
         }
-
-
 
 
         switchButton.setOnCheckedChangeListener((view, isChecked) -> {
@@ -826,7 +821,7 @@ public class WeatherFragment extends Fragment {
             rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
             reportText.setTextColor(Color.parseColor("#FFFFFF"));
             relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
-            toolbar.setBackgroundColor(Color.parseColor("#000000"));
+            toolbar.setBackgroundColor(Color.parseColor("#1A1A1A"));
             toolBarText.setTextColor(Color.parseColor("#FFFFFF"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
@@ -1000,8 +995,7 @@ public class WeatherFragment extends Fragment {
         }
     }
 
-    private void initDialogView()
-    {
+    private void initDialogView() {
         relativeLayout = dialog.findViewById(R.id.themeColor);
         toolbar = dialog.findViewById(R.id.tool1barSetting);
         toolBarText = dialog.findViewById(R.id.toolBartext);

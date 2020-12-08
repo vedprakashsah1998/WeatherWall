@@ -8,7 +8,7 @@
     android:id="@+id/searchrel"
     tools:context=".Activity.SearchActivity">
 
-    <androidx.appcompat.widget.Toolbar
+   <!-- <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool1barSearch"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -54,18 +54,14 @@
         android:paddingStart="8dp"
         android:textSize="24sp"
         android:id="@+id/searchViewData"/>
-    
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/searchViewData"
-        android:id="@+id/swipeRefreshLayout"
-        >
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/searchViewData"
             android:id="@+id/searchData"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -101,7 +97,29 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="32dp"
-        />
+        />-->
+
+   <ImageView
+       android:layout_width="64dp"
+       android:layout_height="64dp"
+       android:padding="8dp"
+       android:layout_marginTop="12dp"
+       android:id="@+id/close"
+       android:layout_marginStart="12dp"
+       android:src="@drawable/ic_baseline_close_24"/>
+
+   <EditText
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="8dp"
+       android:layout_toEndOf="@+id/close"
+       android:hint="@string/hintSearch"
+       android:maxLines="1"
+       android:inputType="text"
+       android:imeOptions="actionSearch"
+       android:background="@android:color/transparent"
+       android:layout_marginTop="22dp"/>
+
 
 
 

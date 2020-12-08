@@ -8,15 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter1;
-import com.client.vpman.weatherwall.CustomeDesignViewPager.DepthTransformation;
+import com.client.vpman.weatherwall.CustomeDesignViewPager.DepthTransform;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentExploreBinding;
-import com.google.android.material.textview.MaterialTextView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,30 +38,7 @@ public class Explore extends Fragment {
         binding=FragmentExploreBinding.inflate(inflater,container,false);
 
         view=binding.getRoot();
-        bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
 
-        bounce.setRepeatCount(Animation.INFINITE);
-        bounce.setRepeatMode(Animation.INFINITE);
-        bounce.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                bounce= AnimationUtils.loadAnimation(getActivity(),R.anim.bounce);
-
-                bounce.setRepeatCount(Animation.INFINITE);
-                bounce.setRepeatMode(Animation.INFINITE);
-                binding.SwipUp009.startAnimation(bounce);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-        binding.SwipUp009.startAnimation(bounce);
 
         if (getActivity()!=null)
         {
@@ -73,26 +47,23 @@ public class Explore extends Fragment {
             {
                 binding.relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 binding.exploreId.setTextColor(Color.parseColor("#000000"));
-                binding.SwipUp009.setImageResource(R.drawable.ic_up_arow_black);
                 binding.right.setImageResource(R.drawable.ic_right);
             }
             else if (sharedPref1.getTheme().equals("Dark"))
             {
                 binding.relexp.setBackgroundColor(Color.parseColor("#000000"));
                 binding.exploreId.setTextColor(Color.parseColor("#FFFFFF"));
-                binding.SwipUp009.setImageResource(R.drawable.ic_up_arow);
                 binding.right.setImageResource(R.drawable.ic_right_white);
             }
             else
             {
                 binding.relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 binding.exploreId.setTextColor(Color.parseColor("#000000"));
-                binding.SwipUp009.setImageResource(R.drawable.ic_up_arow_black);
                 binding.right.setImageResource(R.drawable.ic_right);
             }
         }
 
-        DepthTransformation depthTransformation = new DepthTransformation();
+        DepthTransform depthTransformation = new DepthTransform();
 
         adapter = new DemoFragmentStateAdapter1(getChildFragmentManager());
         binding.pager1.setPageTransformer(true,depthTransformation);

@@ -1,14 +1,12 @@
 package com.client.vpman.weatherwall.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -25,7 +23,7 @@ import android.util.LruCache;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -44,9 +42,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.DemoFragmentStateAdapter;
-import com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
-import com.client.vpman.weatherwall.Model.ModelData3;
+import com.client.vpman.weatherwall.model.ModelData1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
@@ -54,12 +51,12 @@ import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivityMainBinding;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.Transition;
-import com.github.rongi.rotate_layout.layout.RotateLayout;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.material.tabs.TabLayout;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
     private DemoFragmentStateAdapter adapter;
     List<String> slides = new ArrayList<>();
     private String JsonUrl;
-    List<ModelData3> listModelData;
+    List<ModelData1> listModelData;
     private String Url;
     private long mRequestStartTime;
     Timer timer=new Timer();
@@ -90,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
     SharedPref1 sharedPref1;
     Wave wanderingCubes;
     ActivityMainBinding binding;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("BatteryLife")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +110,69 @@ public class MainActivity extends AppCompatActivity implements OnDataPass,TabLay
         binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("EXPLORE"));
 
         binding.tabLayout2.setTabGravity(TabLayout.GRAVITY_FILL);
+
+       /* RateThisApp.onCreate(this);
+
+        RateThisApp.Config config = new RateThisApp.Config(0, 1);
+        config.setTitle(R.string.my_own_title);
+        config.setMessage(R.string.my_own_message);
+        config.setYesButtonText(R.string.my_own_rate);
+        config.setNoButtonText(R.string.my_own_thanks);
+        config.setCancelButtonText(R.string.my_own_cancel);
+        config.setUrl("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall");
+        RateThisApp.init(config);
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (day){
+            case Calendar.SUNDAY:
+
+                RateThisApp.showRateDialog(MainActivity.this);
+                break;
+
+            case Calendar.MONDAY:
+
+            case Calendar.TUESDAY:
+
+            case Calendar.WEDNESDAY:
+                RateThisApp.showRateDialog(MainActivity.this);
+                break;
+
+            case Calendar.THURSDAY:
+
+            case Calendar.FRIDAY:
+                RateThisApp.showRateDialog(MainActivity.this);
+                break;
+
+            case Calendar.SATURDAY:
+        }
+
+        // Show a dialog if criteria is satisfied
+        *//*RateThisApp.showRateDialog(MainActivity.this);*//*
+        RateThisApp.setCallback(new RateThisApp.Callback() {
+            @Override
+            public void onYesClicked() {
+                Toast.makeText(MainActivity.this, "Thank You!", Toast.LENGTH_SHORT).show();
+                RateThisApp.stopRateDialog(MainActivity.this);
+
+            }
+
+            @Override
+            public void onNoClicked() {
+                Toast.makeText(MainActivity.this, "Later Rate us!", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelClicked() {
+                RateThisApp.stopRateDialog(MainActivity.this);
+                Toast.makeText(MainActivity.this, "Ok!", Toast.LENGTH_SHORT).show();
+
+            }
+        });*/
+
+
+
+
 
         sharedPref1=new SharedPref1(MainActivity.this);
         if (sharedPref1.getTheme().equals("Light"))
@@ -217,7 +278,7 @@ public void loadImage()
                           JSONObject ProfileUrl=new JSONObject(String.valueOf(wallobj));
                         JSONObject jsonObject=wallobj.getJSONObject("src");
                            JSONObject object=new JSONObject(String.valueOf(jsonObject));
-                           ModelData3 modelData3=new ModelData3(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"));
+                           ModelData1 modelData3=new ModelData1(object.getString("large2x"),photographer.getString("photographer"),object.getString("large"));
                         listModelData.add(modelData3);
                          /*slides.add(object.getString("large2x"));*/
 

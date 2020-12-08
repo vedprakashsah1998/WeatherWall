@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.client.vpman.weatherwall.Adapter.CustomePagerAdapter;
-import com.client.vpman.weatherwall.Model.OnBoardingModel;
+import com.client.vpman.weatherwall.model.OnBoardingModel;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivityIntroBinding;

@@ -39,8 +39,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Landscape"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:scaleType="centerCrop"
                         android:transitionName="img1"
                         app:civ_border_width="2dp"
@@ -73,8 +73,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Cityscape"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:scaleType="centerCrop"
                         android:transitionName="img1"
                         app:civ_border_width="2dp"
@@ -106,8 +106,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Seascape"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:scaleType="centerCrop"
                         android:transitionName="img1"
                         app:civ_border_width="2dp"
@@ -140,8 +140,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Twilight"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:scaleType="centerCrop"
 
                         android:transitionName="img1"
@@ -173,8 +173,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/Food"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:scaleType="centerCrop"
 
                         android:transitionName="img1"
@@ -206,8 +206,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/DronView"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:scaleType="centerCrop"
                         android:transitionName="img1"
                         app:civ_border_width="2dp"
@@ -301,11 +301,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/cagliostro"
+        android:fontFamily="@font/averia_sans_libre"
         android:padding="8dp"
-        android:text="Popular Photos"
+        android:text="@string/popularphoto"
         android:paddingStart="54dp"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
 

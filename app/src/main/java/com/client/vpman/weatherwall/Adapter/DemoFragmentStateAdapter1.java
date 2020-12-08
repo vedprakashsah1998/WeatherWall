@@ -39,7 +39,6 @@ public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter
             case 3:
                 return Car.newInstance("Sparkles, Instance1");
 
-
             case 4:
                 return Buildings.newInstance("Buildings, Instance1");
             case 5:

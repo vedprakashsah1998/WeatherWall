@@ -42,6 +42,7 @@
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
+        android:requestLegacyExternalStorage="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -52,7 +53,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <dist:module dist:instant="true" />

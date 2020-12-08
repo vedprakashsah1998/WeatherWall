@@ -51,7 +51,6 @@ public class Sparkles extends Fragment {
 
     private View view;
     private String query;
-    private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
 
     public Sparkles() {
@@ -63,7 +62,8 @@ public class Sparkles extends Fragment {
                              Bundle savedInstanceState) {
         binding=FragmentSparklesBinding.inflate(inflater,container,false);
         view=binding.getRoot();
-        unsplash=new Unsplash(CLIENT_ID);
+        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);

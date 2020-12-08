@@ -11,7 +11,6 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -23,25 +22,22 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
-import com.client.vpman.weatherwall.Model.PopularModel;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.model.ModelData;
 import com.google.android.material.imageview.ShapeableImageView;
-
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AwardedAdapter extends RecyclerView.Adapter<AwardedAdapter.AwardedHolder>
-{
+public class AwardedAdapter extends RecyclerView.Adapter<AwardedAdapter.AwardedHolder> {
 
-    private Context context;
-    private List<PopularModel> list;
+    private final Context context;
+    private final List<ModelData> list;
 
-    public AwardedAdapter(Context context, List<PopularModel> list) {
+    public AwardedAdapter(Context context, List<ModelData> list) {
         this.context = context;
         this.list = list;
     }
@@ -56,7 +52,7 @@ public class AwardedAdapter extends RecyclerView.Adapter<AwardedAdapter.AwardedH
     @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull AwardedAdapter.AwardedHolder holder, int position) {
-        PopularModel modelData1 = list.get(position);
+        ModelData modelData1 = list.get(position);
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
             protected int sizeOf(String key, Bitmap image) {

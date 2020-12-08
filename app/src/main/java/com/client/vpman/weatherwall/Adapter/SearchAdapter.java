@@ -24,8 +24,9 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
-import com.client.vpman.weatherwall.Model.SearchModel;
 import com.client.vpman.weatherwall.R;
+import com.client.vpman.weatherwall.model.ModelData;
+
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -40,9 +41,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 {
 
     private Context context;
-    private List<SearchModel> list;
+    private List<ModelData> list;
 
-    public SearchAdapter(Context context, List<SearchModel> list) {
+    public SearchAdapter(Context context, List<ModelData> list) {
         this.context = context;
         this.list = list;
     }
@@ -63,7 +64,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
             }
         };
         SharedPref1 pref1 = new SharedPref1(context);
-        SearchModel modelData1 = list.get(position);
+        ModelData modelData1 = list.get(position);
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             holder.imageView.setImageBitmap(image);

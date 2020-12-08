@@ -16,7 +16,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.LatestAdapter;
-import com.client.vpman.weatherwall.Model.InstagramModel;
+import com.client.vpman.weatherwall.model.InstaModel;
 import com.client.vpman.weatherwall.databinding.FragmentLatestBinding;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -33,7 +33,7 @@ public class LatestFragment extends Fragment {
 
     FragmentLatestBinding binding;
     View view;
-    List<InstagramModel> lists;
+    List<InstaModel> lists;
     private LatestAdapter adapter;
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -72,7 +72,7 @@ public class LatestFragment extends Fragment {
                         String displayUrl=node.getString("display_url");
                         String thumbnail_src=node.getString("thumbnail_src");
                         String photGrapherUrl="https://www.instagram.com/isabellandscapes/?hl=en";
-                        InstagramModel instagramModel=new InstagramModel(displayUrl,thumbnail_src,photGrapherUrl);
+                        InstaModel instagramModel=new InstaModel(displayUrl,thumbnail_src,photGrapherUrl);
                         lists.add(instagramModel);
                     }
                     Collections.shuffle(lists);
@@ -132,7 +132,7 @@ public class LatestFragment extends Fragment {
                         String displayUrl=node.getString("display_url");
                         String thumbnail_src=node.getString("thumbnail_src");
                         String photographerUrl="https://www.instagram.com/madspeteriversen_photography/?hl=en";
-                        InstagramModel instagramModel=new InstagramModel(displayUrl,thumbnail_src,photographerUrl);
+                        InstaModel instagramModel=new InstaModel(displayUrl,thumbnail_src,photographerUrl);
                         lists.add(instagramModel);
                     }
                     Collections.shuffle(lists);
@@ -207,7 +207,7 @@ public class LatestFragment extends Fragment {
                         String displayUrl=node.getString("display_url");
                         String thumbnail_src=node.getString("thumbnail_src");
                         String photographerUrl="https://www.instagram.com/art_of_buildings/?hl=en";
-                        InstagramModel instagramModel=new InstagramModel(displayUrl,thumbnail_src,photographerUrl);
+                        InstaModel instagramModel=new InstaModel(displayUrl,thumbnail_src,photographerUrl);
                         lists.add(instagramModel);
                     }
                     Collections.shuffle(lists);
@@ -267,7 +267,7 @@ public class LatestFragment extends Fragment {
                         String displayUrl=node.getString("display_url");
                         String thumbnail_src=node.getString("thumbnail_src");
                         String photoUrl="https://www.instagram.com/seanbagshaw/?hl=en";
-                        InstagramModel instagramModel=new InstagramModel(displayUrl,thumbnail_src,photoUrl);
+                        InstaModel instagramModel=new InstaModel(displayUrl,thumbnail_src,photoUrl);
                         lists.add(instagramModel);
                     }
                     Collections.shuffle(lists);
@@ -329,7 +329,7 @@ public class LatestFragment extends Fragment {
                         String displayUrl=node.getString("display_url");
                         String thumbnail_src=node.getString("thumbnail_src");
                         String photoUrl="https://www.instagram.com/rachel_jones_ross/?hl=en";
-                        InstagramModel instagramModel=new InstagramModel(displayUrl,thumbnail_src,photoUrl);
+                        InstaModel instagramModel=new InstaModel(displayUrl,thumbnail_src,photoUrl);
                         lists.add(instagramModel);
                     }
                     Collections.shuffle(lists);

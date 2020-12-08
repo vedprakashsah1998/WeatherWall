@@ -23,7 +23,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.TestFullActivity;
-import com.client.vpman.weatherwall.Model.ModelData4;
+import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
@@ -39,9 +39,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHandlerMainData> {
     private Context context;
-    private List<ModelData4> list;
+    private List<ModelData> list;
 
-    public TestingAdapter(Context context, List<ModelData4> list) {
+    public TestingAdapter(Context context, List<ModelData> list) {
         this.context = context;
         this.list = list;
     }
@@ -63,7 +63,7 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
             }
         };
         SharedPref1 pref1 = new SharedPref1(context);
-        ModelData4 modelData1 = list.get(position);
+        ModelData modelData1 = list.get(position);
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             holder.imageView.setImageBitmap(image);

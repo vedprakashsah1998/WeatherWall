@@ -28,14 +28,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.FullImageQuotes;
-import com.client.vpman.weatherwall.Model.ModelData5;
-import com.client.vpman.weatherwall.Model.RandomQuotesExp;
+import com.client.vpman.weatherwall.model.ModelData;
+import com.client.vpman.weatherwall.model.RandomQuotesExp;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,9 +50,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHolder> {
     private Context context;
-    private List<ModelData5> list;
+    private List<ModelData> list;
 
-    public ExploreAdapter(Context context, List<ModelData5> list) {
+    public ExploreAdapter(Context context, List<ModelData> list) {
         this.context = context;
         this.list = list;
     }
@@ -76,7 +75,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
                 return image.getByteCount() / 1024;
             }
         };
-        ModelData5 modelData1 = list.get(position);
+        ModelData modelData1 = list.get(position);
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             holder.imageView.setImageBitmap(image);

@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -20,8 +19,9 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.CuratedAdapter;
-import com.client.vpman.weatherwall.Model.CuratedListData;
+import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentCuratedListBinding;
+import com.client.vpman.weatherwall.model.ModelData;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -34,16 +34,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static ccy.focuslayoutmanager.FocusLayoutManager.dp2px;
 
 public class CuratedList extends Fragment {
 
-    List<CuratedListData> list;
+    List<ModelData> list;
 
     private CuratedAdapter adapter;
     private String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
    private FragmentCuratedListBinding binding;
+    private List<String> apiList;
 
    View view;
     @Override
@@ -74,7 +76,7 @@ public class CuratedList extends Fragment {
                         Log.d("PhotoURL", wallobj.getString("url"));
                         JSONObject jsonObject = wallobj.getJSONObject("src");
                         JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                        CuratedListData modelData1 = new CuratedListData(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
+                        ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
                         list.add(modelData1);
                     }
                     Collections.shuffle(list);
@@ -120,7 +122,16 @@ public class CuratedList extends Fragment {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("Authorization", "563492ad6f917000010000010175b010e54243678613ef0d7fd3c497");
+                    apiList = new ArrayList<>();
+                    apiList.add(getString(R.string.APIKEY1));
+                    apiList.add(getString(R.string.APIKEY2));
+                    apiList.add(getString(R.string.APIKEY3));
+                    apiList.add(getString(R.string.APIKEY4));
+                    apiList.add(getString(R.string.APIKEY5));
+                    Random random = new Random();
+                    int n = random.nextInt(apiList.size());
+                    params.put("Authorization", apiList.get(n));
+
                     return params;
                 }
             };

@@ -23,7 +23,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
-import com.client.vpman.weatherwall.Model.InstagramModel;
+import com.client.vpman.weatherwall.model.InstaModel;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -38,9 +38,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHolder>
 {
     Context context;
-    List<InstagramModel> lists;
+    List<InstaModel> lists;
 
-    public LatestAdapter(Context context, List<InstagramModel> lists) {
+    public LatestAdapter(Context context, List<InstaModel> lists) {
         this.context = context;
         this.lists = lists;
     }
@@ -56,7 +56,7 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
     @Override
     public void onBindViewHolder(@NonNull LatestAdapter.PicsumHolder holder, int position) {
 
-        InstagramModel modelData1 = lists.get(position);
+        InstaModel modelData1 = lists.get(position);
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
             protected int sizeOf(String key, Bitmap image) {

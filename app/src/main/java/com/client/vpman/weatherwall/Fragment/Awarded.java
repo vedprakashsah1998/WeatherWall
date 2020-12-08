@@ -19,8 +19,9 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.AwardedAdapter;
-import com.client.vpman.weatherwall.Model.PopularModel;
+import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentAwardedBinding;
+import com.client.vpman.weatherwall.model.ModelData;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -31,7 +32,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static ccy.focuslayoutmanager.FocusLayoutManager.dp2px;
 
@@ -41,9 +44,9 @@ public class Awarded extends Fragment {
     private String Url = "https://api.pexels.com/v1/popular?per_page=80&page=1";
 
     private FragmentAwardedBinding binding;
-    private ArrayList<PopularModel> list;
+    private ArrayList<ModelData> list;
     private AwardedAdapter awardedAdapter;
-
+    private List<String> apiList;
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class Awarded extends Fragment {
                         Log.d("PhotoURL", wallobj.getString("url"));
                         JSONObject jsonObject = wallobj.getJSONObject("src");
                         JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                        PopularModel modelData1 = new PopularModel(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
+                        ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
                         list.add(modelData1);
                     }
                     Collections.shuffle(list);
@@ -117,7 +120,15 @@ public class Awarded extends Fragment {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("Authorization", "563492ad6f917000010000010175b010e54243678613ef0d7fd3c497");
+                    apiList = new ArrayList<>();
+                    apiList.add(getString(R.string.APIKEY1));
+                    apiList.add(getString(R.string.APIKEY2));
+                    apiList.add(getString(R.string.APIKEY3));
+                    apiList.add(getString(R.string.APIKEY4));
+                    apiList.add(getString(R.string.APIKEY5));
+                    Random random = new Random();
+                    int n = random.nextInt(apiList.size());
+                    params.put("Authorization", apiList.get(n));
                     return params;
                 }
             };

@@ -7,13 +7,26 @@
     <string name="tag_is_center">tagIsCenter</string>
     <string name="curatedList">Curated List</string>
     <string name="popular">Popular</string>
+    <string name="popularphoto">Popular Photos</string>
     <string name="category">Category</string>
     <string name="Topic">Topic</string>
     <string name="setting">Setting</string>
     <string name="hintSearch">Search Photos</string>
+    <string name="explore">Explore</string>
+    <string name="APIKEY1">563492ad6f91700001000001951134cf8ed846e1ae33bdab2d865c13</string>
+    <string name="APIKEY2">563492ad6f917000010000010175b010e54243678613ef0d7fd3c497</string>
+    <string name="APIKEY3">563492ad6f9170000100000167dc026e80d04332a8b282c32968aed6</string>
+    <string name="APIKEY4">563492ad6f91700001000001d13057437948447189e0b830f8128e15</string>
+    <string name="APIKEY5">563492ad6f91700001000001fd351942a4524d62bb9a68308855b667</string>
+    <string name="UNSPLASH_CLIENT">fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f</string>
     <string name="discover">Discover</string>
     <string name="notFound">No data are found for this search</string>
     <string name="latestphoto">Latest Photo</string>
+    <string name="my_own_title">Rate us!</string>
+    <string name="my_own_message">If you enjoy this app, please take a moment to rate this app. It won\'t take more than a minute. Thank you for your support! :)</string>
+    <string name="my_own_rate">Rate now</string>
+    <string name="my_own_thanks">No, thanks</string>
+    <string name="my_own_cancel">Later</string>
     <string-array name="list">
         <item>choose Quality</item>
         <item>Default</item>

@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.client.vpman.weatherwall.Model.OnBoardingModel;
+import com.client.vpman.weatherwall.model.OnBoardingModel;
 import com.client.vpman.weatherwall.R;
 import com.google.android.material.textview.MaterialTextView;
 

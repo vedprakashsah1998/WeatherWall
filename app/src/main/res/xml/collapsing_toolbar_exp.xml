@@ -7,6 +7,7 @@
         <OnSwipe
             app:dragDirection="dragUp"
             app:touchAnchorId="@id/recylerViewExploreData"
+            app:onTouchUp="autoCompleteToStart"
             app:touchAnchorSide="top" />
         <KeyFrameSet>
             <KeyAttribute

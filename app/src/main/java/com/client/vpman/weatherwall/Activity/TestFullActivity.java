@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ContentValues;
@@ -14,17 +16,26 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.transition.Explode;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -184,11 +195,11 @@ public class TestFullActivity extends AppCompatActivity {
             }
         }
 
+
         setWall();
         download();
         share();
-
-
+        applyBlur();
 
 
         binding.browserFull1.setOnClickListener(v -> {
@@ -253,12 +264,8 @@ public class TestFullActivity extends AppCompatActivity {
                     mProgressDialog.setIndeterminate(true);
                     mProgressDialog.setProgressNumberFormat(null);
                     mProgressDialog.setProgressPercentFormat(null);
-
                     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-
-
                     mProgressDialog.onStart();
-
                     mProgressDialog.show();
 
 
@@ -743,4 +750,56 @@ public class TestFullActivity extends AppCompatActivity {
         super.onStart();
         requestStoragePermission();
     }
+
+    private void applyBlur() {
+        binding.imageFullTest.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                binding.imageFullTest.getViewTreeObserver().removeOnPreDrawListener(this);
+                binding.imageFullTest.buildDrawingCache();
+
+                Bitmap bmp = binding.imageFullTest.getDrawingCache();
+                blur(bmp, binding.relLayout);
+                return true;
+            }
+        });
+
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void blur(Bitmap bkg, View view) {
+        float radius = 20;
+
+        Bitmap overlay = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(overlay);
+
+        canvas.translate(-view.getLeft(), -view.getTop());
+        canvas.drawBitmap(bkg, 0, 0, null);
+
+        RenderScript rs = RenderScript.create(TestFullActivity.this);
+
+        Allocation overlayAlloc = Allocation.createFromBitmap(
+                rs, overlay);
+
+        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(
+                rs, overlayAlloc.getElement());
+
+        blur.setInput(overlayAlloc);
+
+        blur.setRadius(radius);
+
+        blur.forEach(overlayAlloc);
+
+        overlayAlloc.copyTo(overlay);
+
+        view.setBackground(new BitmapDrawable(
+                getResources(), overlay));
+
+        rs.destroy();
+    }
+
+
 }

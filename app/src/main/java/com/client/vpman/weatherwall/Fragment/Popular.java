@@ -84,8 +84,8 @@ public class Popular extends Fragment {
         // Inflate the layout for this fragment
         binding= FragmentPopularBinding.inflate(inflater,container,false);
         view = binding.getRoot();
-        String CLIENT_ID = "fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
-        Unsplash unsplash = new Unsplash(CLIENT_ID);
+       Unsplash unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+
 
         fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
 

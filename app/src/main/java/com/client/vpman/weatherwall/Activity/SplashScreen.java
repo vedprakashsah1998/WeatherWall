@@ -27,7 +27,6 @@ public class SplashScreen extends AppCompatActivity {
     public static final int STARTUP_DELAY = 500;
     public static final int ANIM_ITEM_DURATION = 1000;
     public static final int ITEM_DELAY = 500;
-    private boolean animationStarted = false;
     SharedPref1 pref1;
     ActivitySplashScreenBinding binding;
     @Override
@@ -81,6 +80,7 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 
+        boolean animationStarted = false;
         if (!hasFocus || animationStarted) {
             return;
         }

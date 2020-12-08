@@ -14,7 +14,7 @@ public class SharedPref1 {
     public void setFirstState(Boolean state) {
         SharedPreferences.Editor editor = mySharedPref.edit();
         editor.putBoolean("FIRST", state);
-        editor.commit();
+        editor.apply();
     }
 
     public boolean looadFirstState() {
@@ -25,7 +25,7 @@ public class SharedPref1 {
     public void setImageQuality(String state) {
         SharedPreferences.Editor editor = mySharedPref.edit();
         editor.putString("image_quality", state);
-        editor.commit();
+        editor.apply();
     }
 
     public String getImageQuality() {
@@ -35,7 +35,7 @@ public class SharedPref1 {
     public void setImageLoadQuality(String state) {
         SharedPreferences.Editor editor = mySharedPref.edit();
         editor.putString("load_quality", state);
-        editor.commit();
+        editor.apply();
     }
 
     public String getImageLoadQuality() {
@@ -45,7 +45,7 @@ public class SharedPref1 {
     public void setTheme(String state) {
         SharedPreferences.Editor editor = mySharedPref.edit();
         editor.putString("Theme", state);
-        editor.commit();
+        editor.apply();
     }
 
     public String getTheme() {

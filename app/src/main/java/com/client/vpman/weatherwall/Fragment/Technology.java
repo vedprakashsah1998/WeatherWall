@@ -26,6 +26,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.ExploreAcitivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
+import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentTechnologyBinding;
 import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
@@ -44,14 +45,14 @@ public class Technology extends Fragment {
     private View view;
     private String query;
     private FragmentTechnologyBinding binding;
-    private final String CLIENT_ID="fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f";
     private Unsplash unsplash;
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding=FragmentTechnologyBinding.inflate(inflater,container,false);
         view=binding.getRoot();
-        unsplash=new Unsplash(CLIENT_ID);
+        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+
         Tech();
         return view;
     }
