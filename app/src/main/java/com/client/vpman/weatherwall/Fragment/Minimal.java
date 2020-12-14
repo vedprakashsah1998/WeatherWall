@@ -48,20 +48,20 @@ import java.util.Random;
  */
 public class Minimal extends Fragment {
 
-    private View view;
-
     public Minimal() {
         // Required empty public constructor
     }
+
     String query;
     private Unsplash unsplash;
     private FragmentMinimalBinding binding;
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentMinimalBinding.inflate(inflater,container,false);
-        view=binding.getRoot();
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        binding = FragmentMinimalBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -76,8 +76,7 @@ public class Minimal extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
 
-        query="minimal";
-
+        query = "minimal";
 
 
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
@@ -87,74 +86,73 @@ public class Minimal extends Fragment {
 
                 List<Photo> photos = results.getResults();
 
+                Log.d("photoData", String.valueOf(photos));
 
-                Random random=new Random();
-                int n = random.nextInt(photos.size());
+                Random random = new Random();
+                if (photos.size() > 0) {
+                    int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
-                    LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
-                        @Override
-                        protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
-                        }
-                    };
-                    if (getActivity()!=null)
-                    {
-
-                        Bitmap image = memCache.get("imagefile");
-                        if (image != null) {
-                            //Bitmap exists in cache.
-                            binding.Minimal.setImageBitmap(image);
-                        } else
-                        {
-                            Glide.with(getActivity())
-                                    .load(photos.get(n).getUrls().getFull())
-                                    .thumbnail(
-                                            Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular())
-                                    )
-                                    .apply(requestOptions)
-                                    .listener(new RequestListener<Drawable>() {
-                                        @Override
-                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                            //  spinKitView.setVisibility(View.GONE);
-
-
-                                            return false;
-                                        }
-
-                                        @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
-
-                                            return false;
-                                        }
-                                    })
-
-                                    .into(binding.Minimal);
-                    }
-
-                        binding.Minimal.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
-                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query",query);
-                            intent.putExtra("text","Minimal");
-
-                            Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(binding.Minimal,"imgData");
-
-
-                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),pairs
-                            );
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                startActivity(intent, optionsCompat.toBundle());
-                            }else {
-                                startActivity(intent);
+                    if (isAdded()) {
+                        LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
+                            @Override
+                            protected int sizeOf(String key, Bitmap image) {
+                                return image.getByteCount() / 1024;
                             }
-                        });
+                        };
+                        if (getActivity() != null) {
+
+                            Bitmap image = memCache.get("imagefile");
+                            if (image != null) {
+                                //Bitmap exists in cache.
+                                binding.Minimal.setImageBitmap(image);
+                            } else {
+                                Glide.with(getActivity())
+                                        .load(photos.get(n).getUrls().getFull())
+                                        .thumbnail(
+                                                Glide.with(getActivity()).load(photos.get(n).getUrls().getRegular())
+                                        )
+                                        .apply(requestOptions)
+                                        .listener(new RequestListener<Drawable>() {
+                                            @Override
+                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                                //  spinKitView.setVisibility(View.GONE);
+
+
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+                                                return false;
+                                            }
+                                        })
+
+                                        .into(binding.Minimal);
+                            }
+
+                            binding.Minimal.setOnClickListener(v -> {
+                                Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
+                                intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                                intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                                intent.putExtra("query", query);
+                                intent.putExtra("text", "Minimal");
+
+                                Pair[] pairs = new Pair[1];
+                                pairs[0] = new Pair<View, String>(binding.Minimal, "imgData");
+
+
+                                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        getActivity(), pairs
+                                );
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                    startActivity(intent, optionsCompat.toBundle());
+                                } else {
+                                    startActivity(intent);
+                                }
+                            });
+                        }
 
                     }
                 }
@@ -169,7 +167,7 @@ public class Minimal extends Fragment {
         binding.Minimal.setTranslationZ(40);
 
 
-    return view;
+        return view;
     }
 
 

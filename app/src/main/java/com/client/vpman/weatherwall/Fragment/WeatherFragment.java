@@ -47,6 +47,7 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentWeatherBinding;
+import com.client.vpman.weatherwall.databinding.SettingDialogBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;

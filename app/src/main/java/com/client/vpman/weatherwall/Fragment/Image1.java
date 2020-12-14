@@ -48,9 +48,7 @@ import java.util.Random;
  */
 public class Image1 extends Fragment {
 
-    private View view;
     String query;
-    private Unsplash unsplash;
 
     public Image1() {
         // Required empty public constructor
@@ -60,8 +58,8 @@ public class Image1 extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding=FragmentImage1Binding.inflate(inflater,container,false);
-        view=binding.getRoot();
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        View view = binding.getRoot();
+        Unsplash unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -88,7 +86,7 @@ public class Image1 extends Fragment {
 
                 Random random=new Random();
                 int n = random.nextInt(photos.size());
-
+                Log.d("negative1", String.valueOf(n));
                 if (isAdded())
                 {
 

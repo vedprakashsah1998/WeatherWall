@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CustomePagerAdapter extends RecyclerView.Adapter<CustomePagerAdapter.OnBoardingViewHolder>
 {
 
-    List<OnBoardingModel>list;
+   private final List<OnBoardingModel>list;
 
     public CustomePagerAdapter(List<OnBoardingModel> list) {
         this.list = list;
@@ -40,9 +40,9 @@ public class CustomePagerAdapter extends RecyclerView.Adapter<CustomePagerAdapte
     }
 
      static class OnBoardingViewHolder extends RecyclerView.ViewHolder {
-        private MaterialTextView textTitle;
-        private MaterialTextView textDescription;
-        private ImageView imageOnBoarding;
+        private final MaterialTextView textTitle;
+        private final MaterialTextView textDescription;
+        private final ImageView imageOnBoarding;
          OnBoardingViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle=itemView.findViewById(R.id.textTitle);

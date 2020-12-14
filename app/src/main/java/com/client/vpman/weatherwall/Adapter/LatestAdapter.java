@@ -11,7 +11,6 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -23,12 +22,9 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
+import com.client.vpman.weatherwall.databinding.LatestAdapterBinding;
 import com.client.vpman.weatherwall.model.InstaModel;
-import com.client.vpman.weatherwall.R;
-import com.google.android.material.imageview.ShapeableImageView;
-
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
@@ -37,8 +33,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHolder>
 {
-    Context context;
-    List<InstaModel> lists;
+  private final Context context;
+   private final List<InstaModel> lists;
+
 
     public LatestAdapter(Context context, List<InstaModel> lists) {
         this.context = context;
@@ -48,8 +45,9 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
     @NonNull
     @Override
     public PicsumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.latest_adapter, parent, false);
-        return new PicsumHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        LatestAdapterBinding binding= LatestAdapterBinding.inflate(inflater,parent,false);
+        return new PicsumHolder(binding);
     }
 
     @SuppressLint("CheckResult")
@@ -67,7 +65,7 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
             //Bitmap exists in cache.
-            holder.imageView.setImageBitmap(image);
+            holder.binding.latestMain.setImageBitmap(image);
         } else {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -109,9 +107,9 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
                         }
                     })
 
-                    .into(holder.imageView);
+                    .into(holder.binding.latestMain);
 
-            holder.imageView.setOnClickListener(v -> {
+            holder.binding.latestMain.setOnClickListener(v -> {
                 Intent intent = new Intent(context, TestFullActivity.class);
                 intent.putExtra("large", modelData1.getDisplayUrl());
                 intent.putExtra("img", modelData1.getThumbnail_src());
@@ -119,7 +117,7 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
                 intent.putExtra("PhotoUrl", modelData1.getPhotoUrl());
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(holder.imageView, "imageData");
+                pairs[0] = new Pair<View, String>(holder.binding.latestMain, "imageData");
 
 
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -139,14 +137,15 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
 
     @Override
     public int getItemCount() {
-        return lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
     public static class PicsumHolder extends RecyclerView.ViewHolder {
-        ShapeableImageView imageView;
-        public PicsumHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView=itemView.findViewById(R.id.latestMain);
+        LatestAdapterBinding binding;
+        public PicsumHolder(@NonNull LatestAdapterBinding itemView) {
+            super(itemView.getRoot());
+            this.binding=itemView;
+
         }
     }
 }

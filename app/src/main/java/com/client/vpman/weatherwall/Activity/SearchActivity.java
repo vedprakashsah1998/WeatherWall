@@ -2,6 +2,8 @@ package com.client.vpman.weatherwall.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.SearchAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
+import com.client.vpman.weatherwall.Fragment.SearchFragment;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivitySearchBinding;
 import com.client.vpman.weatherwall.model.ModelData;
@@ -55,6 +58,8 @@ public class SearchActivity extends AppCompatActivity {
     static int page=1;*/
 
     private List<String> apiList;
+    SharedPref1 sharedPref1;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +69,25 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(view);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,new SearchFragment())
+                .commit();
 
+        sharedPref1=new SharedPref1(SearchActivity.this);
 
-
-
-
+        if (sharedPref1.getTheme().equals("Light")){
+            binding.searchrel.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+        else if (sharedPref1.getTheme().equals("Dark")){
+            binding.searchrel.setBackgroundColor(Color.parseColor("#000000"));
+        }
+        else
+        {
+            binding.searchrel.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
         /*Intent intent = getIntent();
         query = intent.getStringExtra("searchQuery");
 
-        sharedPref1=new SharedPref1(SearchActivity.this);
+
         if (sharedPref1.getTheme().equals("Light"))
         {
             binding.searchrel.setBackgroundColor(Color.parseColor("#F2F6F9"));

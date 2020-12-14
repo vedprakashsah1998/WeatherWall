@@ -43,7 +43,7 @@ public class CuratedList extends Fragment {
     List<ModelData> list;
 
     private CuratedAdapter adapter;
-    private String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
+    private final String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
    private FragmentCuratedListBinding binding;
     private List<String> apiList;
 

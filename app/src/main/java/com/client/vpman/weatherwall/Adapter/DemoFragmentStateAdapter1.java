@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
 import com.client.vpman.weatherwall.Fragment.Amoled;
 import com.client.vpman.weatherwall.Fragment.Buildings;
 import com.client.vpman.weatherwall.Fragment.Car;
@@ -18,8 +19,7 @@ import com.client.vpman.weatherwall.Fragment.Star;
 import com.client.vpman.weatherwall.Fragment.Technology;
 
 
-public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter
-{
+public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter {
     public DemoFragmentStateAdapter1(@NonNull FragmentManager fm) {
         super(fm);
     }
@@ -27,14 +27,13 @@ public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position)
-        {
+        switch (position) {
             case 0:
                 return Image.newInstance("Image, Instance 1");
             case 1:
-              return  Image1.newInstance("Image1, Instance1");
+                return Image1.newInstance("Image1, Instance1");
             case 2:
-                    return Sparkles.newInstance("Sparkles, Instance1");
+                return Sparkles.newInstance("Sparkles, Instance1");
 
             case 3:
                 return Car.newInstance("Sparkles, Instance1");
@@ -47,7 +46,6 @@ public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter
                 return Minimal.newInstance("Minimal, Instance1");
             case 7:
                 return Religion.newInstance("Religion, Instance1");
-
 
             case 8:
                 return Technology.newInstance("Religion, Instance1");

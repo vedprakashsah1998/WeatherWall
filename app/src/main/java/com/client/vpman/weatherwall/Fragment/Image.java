@@ -97,7 +97,7 @@ public class Image extends Fragment {
 
                 Random random = new Random();
                 int n = random.nextInt(photos.size());
-
+                Log.d("negative", String.valueOf(n));
                 if (isAdded()) {
 
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {

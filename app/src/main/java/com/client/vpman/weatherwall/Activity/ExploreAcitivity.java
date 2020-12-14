@@ -70,8 +70,7 @@ public class ExploreAcitivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityExploreAcitivityBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         sharedPref1 = new SharedPref1(ExploreAcitivity.this);
         Intent intent = getIntent();

@@ -132,7 +132,7 @@ public class LastFragment extends Fragment {
                 binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
 
                 Resources res = getResources();
-                Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
+
 /*                binding.searchView.setBackground(drawable);
                 binding.searchView.setHintTextColor(Color.parseColor("#434343"));
                 binding.searchView.setTextColor(Color.parseColor("#1A1A1A"));*/

@@ -9,10 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,18 +25,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.FullImageQuotes;
+import com.client.vpman.weatherwall.databinding.ExpAdapterBinding;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.model.RandomQuotesExp;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-import com.google.android.material.imageview.ShapeableImageView;
-import com.google.android.material.textview.MaterialTextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,8 +43,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHolder> {
-    private Context context;
-    private List<ModelData> list;
+    private final Context context;
+    private final List<ModelData> list;
 
     public ExploreAdapter(Context context, List<ModelData> list) {
         this.context = context;
@@ -59,15 +53,16 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
 
     @NonNull
     @Override
-    public ExploreAdapter.MyExpHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.exp_adapter, parent, false);
-        return new MyExpHolder(view);
+    public MyExpHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        ExpAdapterBinding binding=ExpAdapterBinding.inflate(inflater,parent,false);
+        return new MyExpHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExploreAdapter.MyExpHolder holder, int position) {
 
-        SharedPref1 sharedPref1=new SharedPref1(context);
+        SharedPref1 sharedPref1 = new SharedPref1(context);
 
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
@@ -78,7 +73,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
         ModelData modelData1 = list.get(position);
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
-            holder.imageView.setImageBitmap(image);
+            holder.binding.expadapterImg.setImageBitmap(image);
         } else {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -91,8 +86,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
             requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
             requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            if (sharedPref1.getImageLoadQuality().equals("Default"))
-            {
+            if (sharedPref1.getImageLoadQuality().equals("Default")) {
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
                         .thumbnail(
@@ -115,9 +109,8 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
                             }
                         })
 
-                        .into(holder.imageView);
-            }else if (sharedPref1.getImageLoadQuality().equals("High Quality"))
-            {
+                        .into(holder.binding.expadapterImg);
+            } else if (sharedPref1.getImageLoadQuality().equals("High Quality")) {
                 Glide.with(context)
                         .load(modelData1.getOriginal())
                         .thumbnail(
@@ -140,10 +133,8 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
                             }
                         })
 
-                        .into(holder.imageView);
-            }
-            else
-            {
+                        .into(holder.binding.expadapterImg);
+            } else {
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
                         .thumbnail(
@@ -166,32 +157,27 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
                             }
                         })
 
-                        .into(holder.imageView);
+                        .into(holder.binding.expadapterImg);
             }
 
         }
 
-        if (sharedPref1.getTheme().equals("Light"))
-        {
-            holder.quotes.setTextColor(Color.parseColor("#000000"));
+        if (sharedPref1.getTheme().equals("Light")) {
+            holder.binding.quotesList.setTextColor(Color.parseColor("#000000"));
             Resources res = context.getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design_customized_curved_white);
-            holder.relativeLayout.setBackground(drawable);
-        }
-        else if (sharedPref1.getTheme().equals("Dark"))
-        {
-            holder.quotes.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.binding.relativeExp.setBackground(drawable);
+        } else if (sharedPref1.getTheme().equals("Dark")) {
+            holder.binding.quotesList.setTextColor(Color.parseColor("#FFFFFF"));
             Resources res = context.getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design_customized_curved);
-            holder.relativeLayout.setBackground(drawable);
+            holder.binding.relativeExp.setBackground(drawable);
 
-        }
-        else
-        {
-            holder.quotes.setTextColor(Color.parseColor("#000000"));
+        } else {
+            holder.binding.quotesList.setTextColor(Color.parseColor("#000000"));
             Resources res = context.getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design_customized_curved_white);
-            holder.relativeLayout.setBackground(drawable);
+            holder.binding.relativeExp.setBackground(drawable);
 
         }
 
@@ -215,8 +201,8 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
                 }
 
                 Collections.shuffle(randomQuotesExps);
-                holder.quotes.setText(randomQuotesExps.get(position).getQuotes());
-                holder.author.setText(randomQuotesExps.get(position).getAuthor());
+                holder.binding.quotesList.setText(randomQuotesExps.get(position).getQuotes());
+                holder.binding.quotesAuthorList.setText(randomQuotesExps.get(position).getAuthor());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -232,33 +218,27 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
-        holder.imageView.requestLayout();
-        holder.imageView.setOnClickListener(view -> {
-            Intent intent=new Intent(context, FullImageQuotes.class);
-            intent.putExtra("largeImg",modelData1.getOriginal());
-            intent.putExtra("imgDataAdapter",modelData1.getLarge2x());
-            intent.putExtra("imgDataAdapterSmall",modelData1.getLarge());
-            intent.putExtra("photoUrl",modelData1.getPhotoUrl());
+        holder.binding.relativeExp.requestLayout();
+        holder.binding.expadapterImg.setOnClickListener(view -> {
+            Intent intent = new Intent(context, FullImageQuotes.class);
+            intent.putExtra("largeImg", modelData1.getOriginal());
+            intent.putExtra("imgDataAdapter", modelData1.getLarge2x());
+            intent.putExtra("imgDataAdapterSmall", modelData1.getLarge());
+            intent.putExtra("photoUrl", modelData1.getPhotoUrl());
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
     public static class MyExpHolder extends RecyclerView.ViewHolder {
-        ShapeableImageView imageView;
-        MaterialTextView quotes, author;
-        RelativeLayout relativeLayout;
-
-        public MyExpHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.expadapterImg);
-            quotes = itemView.findViewById(R.id.quotesList);
-            author = itemView.findViewById(R.id.quotesAuthorList);
-            relativeLayout=itemView.findViewById(R.id.relativeExp);
+        ExpAdapterBinding binding;
+        public MyExpHolder(@NonNull ExpAdapterBinding itemView) {
+            super(itemView.getRoot());
+            this.binding=itemView;
         }
     }
 }

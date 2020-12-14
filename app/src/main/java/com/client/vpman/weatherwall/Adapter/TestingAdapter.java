@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -23,11 +22,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Activity.TestFullActivity;
+import com.client.vpman.weatherwall.databinding.TestingAdapterBinding;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-import com.google.android.material.imageview.ShapeableImageView;
+
 
 import java.util.List;
 
@@ -38,8 +38,9 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHandlerMainData> {
-    private Context context;
-    private List<ModelData> list;
+    private final Context context;
+    private final List<ModelData> list;
+
 
     public TestingAdapter(Context context, List<ModelData> list) {
         this.context = context;
@@ -49,13 +50,14 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
     @NonNull
     @Override
     public MyPopHandlerMainData onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.testing_adapter, parent, false);
-        return new MyPopHandlerMainData(view);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        TestingAdapterBinding binding = TestingAdapterBinding.inflate(inflater, parent, false);
+        return new MyPopHandlerMainData(binding);
     }
 
     @SuppressLint("CheckResult")
     @Override
-    public void onBindViewHolder(@NonNull TestingAdapter.MyPopHandlerMainData holder, int position) {
+    public void onBindViewHolder(@NonNull MyPopHandlerMainData holder, int position) {
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
             protected int sizeOf(String key, Bitmap image) {
@@ -66,7 +68,7 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
         ModelData modelData1 = list.get(position);
         Bitmap image = memCache.get("imagefile");
         if (image != null) {
-            holder.imageView.setImageBitmap(image);
+            holder.itemBinding.testingImg.setImageBitmap(image);
         } else {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -96,7 +98,7 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                                 return false;
                             }
                         })
-                        .into(holder.imageView);
+                        .into(holder.itemBinding.testingImg);
             } else if (pref1.getImageLoadQuality().equals("High Quality")) {
                 Glide.with(context)
                         .load(modelData1.getOriginal())
@@ -116,7 +118,7 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                             }
                         })
 
-                        .into(holder.imageView);
+                        .into(holder.itemBinding.testingImg);
             } else {
                 Glide.with(context)
                         .load(modelData1.getLarge2x())
@@ -136,11 +138,11 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                                 return false;
                             }
                         })
-                        .into(holder.imageView);
+                        .into(holder.itemBinding.testingImg);
             }
-            holder.imageView.requestLayout();
+            holder.itemBinding.testingImg.requestLayout();
             holder.getView().setAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in));
-            holder.imageView.setOnClickListener(view -> {
+            holder.itemBinding.testingImg.setOnClickListener(view -> {
                 Intent intent = new Intent(context, TestFullActivity.class);
                 intent.putExtra("large", modelData1.getOriginal());
                 intent.putExtra("img", modelData1.getLarge2x());
@@ -148,7 +150,7 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
                 intent.putExtra("PhotoUrl", modelData1.getPhotoUrl());
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(holder.imageView, "imageData");
+                pairs[0] = new Pair<View, String>(holder.itemBinding.testingImg, "imageData");
 
 
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -168,23 +170,22 @@ public class TestingAdapter extends RecyclerView.Adapter<TestingAdapter.MyPopHan
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
     public static class MyPopHandlerMainData extends RecyclerView.ViewHolder {
-        ShapeableImageView imageView;
-        private View view;
+        private final TestingAdapterBinding itemBinding;
 
-        public MyPopHandlerMainData(@NonNull View itemView) {
-            super(itemView);
-            this.view = itemView;
-            imageView = itemView.findViewById(R.id.testingImg);
+        public MyPopHandlerMainData(TestingAdapterBinding itemView) {
+            super(itemView.getRoot());
+            this.itemBinding = itemView;
         }
 
         public View getView() {
-            return view;
+            return itemView;
         }
     }
+
 
     @Override
     public int getItemViewType(int position) {

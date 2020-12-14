@@ -41,7 +41,7 @@ import static ccy.focuslayoutmanager.FocusLayoutManager.dp2px;
 
 public class Awarded extends Fragment {
 
-    private String Url = "https://api.pexels.com/v1/popular?per_page=80&page=1";
+    private final String Url = "https://api.pexels.com/v1/popular?per_page=80&page=1";
 
     private FragmentAwardedBinding binding;
     private ArrayList<ModelData> list;
