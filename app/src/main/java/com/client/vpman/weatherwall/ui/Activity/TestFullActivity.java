@@ -312,28 +312,6 @@ public class TestFullActivity extends AppCompatActivity {
                 }
 
             });
-
-/*            binding.shareFull.setOnClickListener(v -> {
-                Uri bmpUri = getLocalBitmapUri(binding.imageFullTest);
-                if (bmpUri != null) {
-                    // Construct a ShareIntent with link to image
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                    shareIntent.setType("image/*");
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                    String shareMessage = "\nDownload this application from PlayStore\n\n";
-                    shareMessage = shareMessage + getIntent().getData();
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
-
-                    // Launch sharing dialog for image
-                    startActivity(Intent.createChooser(shareIntent, "Share Image"));
-                } else {
-                    // user did'n get bitmap uri, sharing failed
-                    Toast.makeText(TestFullActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                }
-            });*/
         } else {
             setWall();
 
@@ -790,29 +768,6 @@ public class TestFullActivity extends AppCompatActivity {
         }
     }
 
-    public Uri getLocalBitmapUri(ImageView imageView) {
-        // Extract Bitmap from ImageView drawable
-        Drawable drawable = imageView.getDrawable();
-        Bitmap bmp = null;
-        if (drawable instanceof BitmapDrawable) {
-            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        } else {
-            return null;
-        }
-        // Store image to default external storage directory
-        Uri bmpUri = null;
-        try {
-            // This way, you don't need to request external read/write permission.
-            File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
-            bmpUri = Uri.fromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
-    }
 
 
 }

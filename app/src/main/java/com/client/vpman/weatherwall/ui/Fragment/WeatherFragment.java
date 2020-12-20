@@ -207,8 +207,8 @@ public class WeatherFragment extends Fragment {
             }
         });
         binding.settingImg.startAnimation(rotate);
-/*        binding.settingImg.setOnClickListener(v -> settingDialog(getActivity()));*/
-        binding.settingImg.setOnClickListener(v -> startActivity(new Intent(getActivity(), SettingActivity.class)));
+        binding.settingImg.setOnClickListener(v -> settingDialog(getActivity()));
+/*        binding.settingImg.setOnClickListener(v -> startActivity(new Intent(getActivity(), SettingActivity.class)));*/
 
 
         if (Connectivity.isConnected(getActivity()) && Connectivity.isConnectedMobile(getActivity()) && Connectivity.isConnectedFast(getActivity()) ||
@@ -614,12 +614,9 @@ public class WeatherFragment extends Fragment {
             startActivity(browserIntent);
         });
 
-        facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
-                startActivity(browserIntent);
-            }
+        facebook.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
+            startActivity(browserIntent);
         });
 
         LinkedIn.setOnClickListener(v -> {

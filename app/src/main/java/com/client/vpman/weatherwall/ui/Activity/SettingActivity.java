@@ -1,6 +1,7 @@
 package com.client.vpman.weatherwall.ui.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivitySettingBinding;
@@ -26,6 +28,7 @@ import java.io.File;
 public class SettingActivity extends AppCompatActivity {
 
     ActivitySettingBinding binding;
+    SharedPref1 pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class SettingActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(SettingActivity.this, R.layout.custome_spinner, getResources().getStringArray(R.array.list));
 
         dataAdapter.setDropDownViewResource(R.layout.custome_spinner_dropdown);
-        SharedPref1 pref = new SharedPref1(SettingActivity.this);
+        pref = new SharedPref1(SettingActivity.this);
         binding.chooseImgQuality.append(pref.getImageQuality());
 
         // attaching data adapter to spinner
@@ -97,6 +100,201 @@ public class SettingActivity extends AppCompatActivity {
 
         }
 
+        SetTheme();
+
+    }
+
+    public void ClickAction() {
+        binding.deleteTextMain.setOnClickListener(v -> deleteCache(SettingActivity.this));
+        binding.deleteImg.setOnClickListener(v -> deleteCache(SettingActivity.this));
+        binding.shareApp.setOnClickListener(v -> {
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
+                String shareMessage = "\nDownload this application from PlayStore\n\n";
+                shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "choose one"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        binding.shareAppText.setOnClickListener(v -> {
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
+                String shareMessage = "\nDownload this application from PlayStore\n\n";
+                shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "choose one"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        binding.reportText.setOnClickListener(v -> {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", "vp.mannu.kr@gmail.com", null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall");
+            startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        });
+        binding.reportUs.setOnClickListener(v -> {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", "vp.mannu.kr@gmail.com", null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall");
+            startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        });
+
+        binding.rateUsText.setOnClickListener(v -> {
+            ReviewManager manager = ReviewManagerFactory.create(SettingActivity.this);
+            Task<ReviewInfo> request = manager.requestReviewFlow();
+            request.addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // We can get the ReviewInfo object
+                    ReviewInfo reviewInfo = task.getResult();
+                    Task<Void> flow = manager.launchReviewFlow(SettingActivity.this, reviewInfo);
+                    flow.addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Toast.makeText(SettingActivity.this, "Review Done", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SettingActivity.this, "NOT Done", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    // There was some problem, continue regardless of the result.
+                    Toast.makeText(SettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        });
+        binding.rateUsImg.setOnClickListener(v -> {
+            ReviewManager manager = ReviewManagerFactory.create(SettingActivity.this);
+            Task<ReviewInfo> request = manager.requestReviewFlow();
+            request.addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // We can get the ReviewInfo object
+                    ReviewInfo reviewInfo = task.getResult();
+                    Task<Void> flow = manager.launchReviewFlow(SettingActivity.this, reviewInfo);
+                    flow.addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Toast.makeText(SettingActivity.this, "Review Done", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SettingActivity.this, "NOT Done", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    // There was some problem, continue regardless of the result.
+                    Toast.makeText(SettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        });
+
+        binding.instagramText.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
+            startActivity(browserIntent);
+
+        });
+
+        binding.instagram.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
+            startActivity(browserIntent);
+
+        });
+
+        binding.faceBookText.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
+            startActivity(browserIntent);
+        });
+
+        binding.facebook.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
+            startActivity(browserIntent);
+        });
+
+        binding.LinkedIn.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
+            startActivity(browserIntent);
+        });
+
+        binding.linkedIn.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
+            startActivity(browserIntent);
+        });
+
+        binding.github.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
+            startActivity(browserIntent);
+        });
+
+        binding.Github.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
+            startActivity(browserIntent);
+        });
+
+        binding.pexels.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com/"));
+            startActivity(browserIntent);
+        });
+
+        binding.flatIcon.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/"));
+            startActivity(browserIntent);
+        });
+
+        binding.Unsplash.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://unsplash.com/"));
+            startActivity(browserIntent);
+        });
+
+        binding.privacyPolicy.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
+            startActivity(browserIntent);
+        });
+
+        binding.privacyImg.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
+            startActivity(browserIntent);
+        });
+    }
+
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+            Toast.makeText(context, "Cache Memory is deleted", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            if (children != null) {
+                for (String child : children) {
+                    boolean success = deleteDir(new File(dir, child));
+                    if (!success) {
+                        return false;
+                    }
+                }
+            }
+
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
+
+    public void SetTheme() {
         binding.stickySwitch1.setOnCheckedChangeListener((view, isChecked) -> {
             if (!isChecked) {
                 pref.setTheme("Light");
@@ -313,197 +511,6 @@ public class SettingActivity extends AppCompatActivity {
             binding.privacyPolicy.setTextColor(Color.parseColor("#000000"));
 
 
-        }
-
-    }
-
-    public void ClickAction() {
-        binding.deleteTextMain.setOnClickListener(v -> deleteCache(SettingActivity.this));
-        binding.deleteImg.setOnClickListener(v -> deleteCache(SettingActivity.this));
-        binding.shareApp.setOnClickListener(v -> {
-            try {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                String shareMessage = "\nDownload this application from PlayStore\n\n";
-                shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
-                startActivity(Intent.createChooser(shareIntent, "choose one"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        binding.shareAppText.setOnClickListener(v -> {
-            try {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                String shareMessage = "\nDownload this application from PlayStore\n\n";
-                shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall";
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
-                startActivity(Intent.createChooser(shareIntent, "choose one"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        binding.reportText.setOnClickListener(v -> {
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "vp.mannu.kr@gmail.com", null));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall");
-            startActivity(Intent.createChooser(emailIntent, "Send email..."));
-        });
-        binding.reportUs.setOnClickListener(v -> {
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "vp.mannu.kr@gmail.com", null));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Weather Wall");
-            startActivity(Intent.createChooser(emailIntent, "Send email..."));
-        });
-
-        binding.rateUsText.setOnClickListener(v -> {
-            ReviewManager manager = ReviewManagerFactory.create(SettingActivity.this);
-            Task<ReviewInfo> request = manager.requestReviewFlow();
-            request.addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // We can get the ReviewInfo object
-                    ReviewInfo reviewInfo = task.getResult();
-                    Task<Void> flow = manager.launchReviewFlow(SettingActivity.this, reviewInfo);
-                    flow.addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            Toast.makeText(SettingActivity.this, "Review Done", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SettingActivity.this, "NOT Done", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                } else {
-                    // There was some problem, continue regardless of the result.
-                    Toast.makeText(SettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        });
-        binding.rateUsImg.setOnClickListener(v -> {
-            ReviewManager manager = ReviewManagerFactory.create(SettingActivity.this);
-            Task<ReviewInfo> request = manager.requestReviewFlow();
-            request.addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // We can get the ReviewInfo object
-                    ReviewInfo reviewInfo = task.getResult();
-                    Task<Void> flow = manager.launchReviewFlow(SettingActivity.this, reviewInfo);
-                    flow.addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            Toast.makeText(SettingActivity.this, "Review Done", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SettingActivity.this, "NOT Done", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                } else {
-                    // There was some problem, continue regardless of the result.
-                    Toast.makeText(SettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        });
-
-        binding.instagramText.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
-            startActivity(browserIntent);
-
-        });
-
-        binding.instagram.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
-            startActivity(browserIntent);
-
-        });
-
-        binding.faceBookText.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
-            startActivity(browserIntent);
-        });
-
-        binding.facebook.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
-            startActivity(browserIntent);
-        });
-
-        binding.LinkedIn.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
-            startActivity(browserIntent);
-        });
-
-        binding.linkedIn.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
-            startActivity(browserIntent);
-        });
-
-        binding.github.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
-            startActivity(browserIntent);
-        });
-
-        binding.Github.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
-            startActivity(browserIntent);
-        });
-
-        binding.pexels.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com/"));
-            startActivity(browserIntent);
-        });
-
-        binding.flatIcon.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/"));
-            startActivity(browserIntent);
-        });
-
-        binding.Unsplash.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://unsplash.com/"));
-            startActivity(browserIntent);
-        });
-
-        binding.privacyPolicy.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
-            startActivity(browserIntent);
-        });
-
-        binding.privacyImg.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
-            startActivity(browserIntent);
-        });
-    }
-
-    public static void deleteCache(Context context) {
-        try {
-            File dir = context.getCacheDir();
-            deleteDir(dir);
-            Toast.makeText(context, "Cache Memory is deleted", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            if (children != null) {
-                for (String child : children) {
-                    boolean success = deleteDir(new File(dir, child));
-                    if (!success) {
-                        return false;
-                    }
-                }
-            }
-
-            return dir.delete();
-        } else if (dir != null && dir.isFile()) {
-            return dir.delete();
-        } else {
-            return false;
         }
     }
 
