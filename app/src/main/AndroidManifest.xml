@@ -17,7 +17,7 @@
         <activity android:name=".ui.Activity.SettingActivity"></activity>
         <activity android:name=".ui.Activity.SearchActivity" />
         <activity android:name=".ui.Activity.TestFullActivity">
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -27,6 +27,12 @@
                     android:host="images.pexels.com"
                     android:pathPrefix="/photos/"
                     android:scheme="https" />
+
+                <data
+                    android:host="images.pexels.com"
+                    android:pathPrefix="/photos/"
+                    android:scheme="http" />
+
             </intent-filter>
         </activity>
         <activity android:name=".ui.Activity.ExploreAcitivity" />

@@ -18,10 +18,6 @@ import android.widget.Toast;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivitySettingBinding;
-import com.google.android.play.core.review.ReviewInfo;
-import com.google.android.play.core.review.ReviewManager;
-import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.tasks.Task;
 
 import java.io.File;
 
@@ -150,49 +146,13 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         binding.rateUsText.setOnClickListener(v -> {
-            ReviewManager manager = ReviewManagerFactory.create(SettingActivity.this);
-            Task<ReviewInfo> request = manager.requestReviewFlow();
-            request.addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // We can get the ReviewInfo object
-                    ReviewInfo reviewInfo = task.getResult();
-                    Task<Void> flow = manager.launchReviewFlow(SettingActivity.this, reviewInfo);
-                    flow.addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            Toast.makeText(SettingActivity.this, "Review Done", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SettingActivity.this, "NOT Done", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                } else {
-                    // There was some problem, continue regardless of the result.
-                    Toast.makeText(SettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
+            startActivity(browserIntent);
 
         });
         binding.rateUsImg.setOnClickListener(v -> {
-            ReviewManager manager = ReviewManagerFactory.create(SettingActivity.this);
-            Task<ReviewInfo> request = manager.requestReviewFlow();
-            request.addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // We can get the ReviewInfo object
-                    ReviewInfo reviewInfo = task.getResult();
-                    Task<Void> flow = manager.launchReviewFlow(SettingActivity.this, reviewInfo);
-                    flow.addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            Toast.makeText(SettingActivity.this, "Review Done", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SettingActivity.this, "NOT Done", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                } else {
-                    // There was some problem, continue regardless of the result.
-                    Toast.makeText(SettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
+            startActivity(browserIntent);
 
         });
 
