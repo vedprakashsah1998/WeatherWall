@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import com.client.vpman.weatherwall.Fragment.Explore;
-import com.client.vpman.weatherwall.Fragment.LastFragment;
-import com.client.vpman.weatherwall.Fragment.Popular;
-import com.client.vpman.weatherwall.Fragment.WeatherFragment;
+import com.client.vpman.weatherwall.ui.Fragment.Explore;
+import com.client.vpman.weatherwall.ui.Fragment.LastFragment;
+import com.client.vpman.weatherwall.ui.Fragment.Popular;
+import com.client.vpman.weatherwall.ui.Fragment.WeatherFragment;
 
 public class DemoFragmentStateAdapter extends FragmentStatePagerAdapter
 {

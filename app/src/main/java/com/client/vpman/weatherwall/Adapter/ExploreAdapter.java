@@ -24,7 +24,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Activity.FullImageQuotes;
+import com.client.vpman.weatherwall.ui.Activity.FullImageQuotes;
 import com.client.vpman.weatherwall.databinding.ExpAdapterBinding;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.model.RandomQuotesExp;

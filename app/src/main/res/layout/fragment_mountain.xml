@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:padding="54dp"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Mountain">
+    tools:context=".ui.Fragment.Mountain">
 
     <RelativeLayout
         android:id="@+id/relative7"

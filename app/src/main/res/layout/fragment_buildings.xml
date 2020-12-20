@@ -6,7 +6,7 @@
     android:padding="54dp"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.Buildings">
+    tools:context=".ui.Fragment.Buildings">
     <RelativeLayout
         android:id="@+id/relative4"
         android:layout_width="match_parent"

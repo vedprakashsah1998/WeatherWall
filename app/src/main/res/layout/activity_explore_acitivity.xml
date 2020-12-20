@@ -7,7 +7,7 @@
     app:layoutDescription="@xml/collapsing_toolbar_exp"
     android:layout_height="match_parent"
     android:id="@+id/motionBackgroundExplore"
-    tools:context=".Activity.ExploreAcitivity">
+    tools:context=".ui.Activity.ExploreAcitivity">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recylerViewExploreData"
         android:layout_width="0dp"

@@ -14,17 +14,29 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.SearchActivity"></activity>
-        <activity android:name=".Activity.TestFullActivity" >
+        <activity android:name=".ui.Activity.SettingActivity"></activity>
+        <activity android:name=".ui.Activity.SearchActivity" />
+        <activity android:name=".ui.Activity.TestFullActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="images.pexels.com"
+                    android:pathPrefix="/photos/"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
-        <activity android:name=".Activity.ExploreAcitivity" />
-        <activity android:name=".Activity.TestingMotionLayout" />
-        <activity android:name=".Activity.IntroActivity" />
-        <activity android:name=".Activity.MainActivity" >
+        <activity android:name=".ui.Activity.ExploreAcitivity" />
+        <activity android:name=".ui.Activity.TestingMotionLayout" />
+        <activity android:name=".ui.Activity.IntroActivity" />
+        <activity android:name=".ui.Activity.MainActivity">
+
         </activity>
-        <activity android:name=".Activity.FullImageQuotes" >
-        </activity>
-        <activity android:name=".Activity.SplashScreen">
+        <activity android:name=".ui.Activity.FullImageQuotes"></activity>
+        <activity android:name=".ui.Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,18 +53,20 @@
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
-        android:resizeable="true"
         android:requestLegacyExternalStorage="true"
+        android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <dist:module dist:instant="true" />

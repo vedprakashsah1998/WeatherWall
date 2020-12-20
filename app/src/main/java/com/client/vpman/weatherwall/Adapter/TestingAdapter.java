@@ -21,7 +21,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.Activity.TestFullActivity;
+import com.client.vpman.weatherwall.ui.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.databinding.TestingAdapterBinding;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;

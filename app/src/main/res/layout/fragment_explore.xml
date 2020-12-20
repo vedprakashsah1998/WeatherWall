@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/relexp"
-    tools:context=".Fragment.Explore">
+    tools:context=".ui.Fragment.Explore">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"

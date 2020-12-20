@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/motionBackground"
     app:layoutDescription="@xml/collapsing_toolbar"
-    tools:context=".Activity.TestingMotionLayout">
+    tools:context=".ui.Activity.TestingMotionLayout">
 
 
     <androidx.recyclerview.widget.RecyclerView

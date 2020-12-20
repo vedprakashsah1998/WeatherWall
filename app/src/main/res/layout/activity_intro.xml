@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFFFF"
-    tools:context=".Activity.IntroActivity">
+    tools:context=".ui.Activity.IntroActivity">
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
