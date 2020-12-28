@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class PagerAgentViewModel extends ViewModel {
-    private MutableLiveData<CharSequence> text = new MutableLiveData<>();
+    private final MutableLiveData<CharSequence> text = new MutableLiveData<>();
     public void setText(CharSequence input) {
         text.setValue(input);
     }

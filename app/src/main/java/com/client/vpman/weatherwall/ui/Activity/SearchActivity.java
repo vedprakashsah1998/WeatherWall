@@ -1,11 +1,13 @@
 package com.client.vpman.weatherwall.ui.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.ui.Fragment.SearchFragment;
 import com.client.vpman.weatherwall.R;
@@ -25,24 +27,20 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(view);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,new SearchFragment())
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, new SearchFragment())
                 .commit();
 
-        sharedPref1=new SharedPref1(SearchActivity.this);
+        sharedPref1 = new SharedPref1(SearchActivity.this);
 
-        if (sharedPref1.getTheme().equals("Light")){
+        if (sharedPref1.getTheme().equals("Light")) {
             binding.searchrel.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
-        else if (sharedPref1.getTheme().equals("Dark")){
+        } else if (sharedPref1.getTheme().equals("Dark")) {
             binding.searchrel.setBackgroundColor(Color.parseColor("#000000"));
-        }
-        else
-        {
+        } else {
             binding.searchrel.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
     }
-
 
 
 }

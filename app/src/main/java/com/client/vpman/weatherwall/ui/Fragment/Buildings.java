@@ -47,11 +47,12 @@ import java.util.Random;
 public class Buildings extends Fragment {
 
     private View view;
+
     public Buildings() {
         // Required empty public constructor
     }
+
     private String query;
-    private Unsplash unsplash;
 
     private FragmentBuildingsBinding binding;
 
@@ -59,10 +60,10 @@ public class Buildings extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding=FragmentBuildingsBinding.inflate(inflater,container,false);
-        view=binding.getRoot();
+        binding = FragmentBuildingsBinding.inflate(inflater, container, false);
+        view = binding.getRoot();
 
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        Unsplash unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -76,8 +77,7 @@ public class Buildings extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
 
-        query="Building";
-
+        query = "Building";
 
 
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
@@ -88,26 +88,23 @@ public class Buildings extends Fragment {
                 List<Photo> photos = results.getResults();
 
 
-                Random random=new Random();
+                Random random = new Random();
                 int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
+                if (isAdded()) {
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
                         protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
+                            return image.getByteCount() / 1024;
                         }
                     };
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
 
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
                             binding.Building.setImageBitmap(image);
-                        } else
-                        {
+                        } else {
                             Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
@@ -124,34 +121,33 @@ public class Buildings extends Fragment {
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                             return false;
                                         }
                                     })
 
                                     .into(binding.Building);
-                    }
+                        }
 
                         binding.Building.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
-                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query",query);
-                            intent.putExtra("text","Buildings");
+                            Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
+                            intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", "Buildings");
 
-                            Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(binding.Building,"imgData");
+                            Pair[] pairs = new Pair[1];
+                            pairs[0] = new Pair<View, String>(binding.Building, "imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),pairs
+                                    getActivity(), pairs
                             );
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 startActivity(intent, optionsCompat.toBundle());
-                            }else {
+                            } else {
                                 startActivity(intent);
                             }
                         });
@@ -160,10 +156,6 @@ public class Buildings extends Fragment {
 
 
                 }
-
-
-
-
 
 
             }

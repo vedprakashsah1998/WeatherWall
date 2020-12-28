@@ -27,10 +27,11 @@ public class SplashScreen extends AppCompatActivity {
     public static final int ITEM_DELAY = 500;
     SharedPref1 pref1;
     ActivitySplashScreenBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivitySplashScreenBinding.inflate(getLayoutInflater());
+        binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -72,8 +73,8 @@ public class SplashScreen extends AppCompatActivity {
         }, 3000);
 
 
-
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 

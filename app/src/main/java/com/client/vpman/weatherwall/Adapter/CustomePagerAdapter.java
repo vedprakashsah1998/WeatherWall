@@ -14,10 +14,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CustomePagerAdapter extends RecyclerView.Adapter<CustomePagerAdapter.OnBoardingViewHolder>
-{
+public class CustomePagerAdapter extends RecyclerView.Adapter<CustomePagerAdapter.OnBoardingViewHolder> {
 
-   private final List<OnBoardingModel>list;
+    private final List<OnBoardingModel> list;
 
     public CustomePagerAdapter(List<OnBoardingModel> list) {
         this.list = list;
@@ -39,19 +38,20 @@ public class CustomePagerAdapter extends RecyclerView.Adapter<CustomePagerAdapte
         return list.size();
     }
 
-     static class OnBoardingViewHolder extends RecyclerView.ViewHolder {
+    static class OnBoardingViewHolder extends RecyclerView.ViewHolder {
         private final MaterialTextView textTitle;
         private final MaterialTextView textDescription;
         private final ImageView imageOnBoarding;
-         OnBoardingViewHolder(@NonNull View itemView) {
+
+        OnBoardingViewHolder(@NonNull View itemView) {
             super(itemView);
-            textTitle=itemView.findViewById(R.id.textTitle);
-            textDescription=itemView.findViewById(R.id.textDescription);
-            imageOnBoarding=itemView.findViewById(R.id.onBoardingImage);
+            textTitle = itemView.findViewById(R.id.textTitle);
+            textDescription = itemView.findViewById(R.id.textDescription);
+            imageOnBoarding = itemView.findViewById(R.id.onBoardingImage);
 
         }
-        void setOnBoardingItem(OnBoardingModel onBoardingItem)
-        {
+
+        void setOnBoardingItem(OnBoardingModel onBoardingItem) {
             textTitle.setText(onBoardingItem.getTitle());
             textDescription.setText(onBoardingItem.getDescription());
             imageOnBoarding.setImageResource(onBoardingItem.getImage());

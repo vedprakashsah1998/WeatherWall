@@ -47,9 +47,11 @@ import java.util.Random;
 public class Amoled extends Fragment {
 
     private View view;
+
     public Amoled() {
         // Required empty public constructor
     }
+
     private String query;
     private Unsplash unsplash;
     private FragmentAmoledBinding binding;
@@ -57,9 +59,9 @@ public class Amoled extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentAmoledBinding.inflate(inflater,container,false);
-        view=binding.getRoot();
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        binding = FragmentAmoledBinding.inflate(inflater, container, false);
+        view = binding.getRoot();
+        unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -72,7 +74,7 @@ public class Amoled extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
 
-        query="Luxury";
+        query = "Luxury";
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {
@@ -81,26 +83,23 @@ public class Amoled extends Fragment {
                 List<Photo> photos = results.getResults();
 
 
-                Random random=new Random();
+                Random random = new Random();
                 int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
+                if (isAdded()) {
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
                         protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
+                            return image.getByteCount() / 1024;
                         }
                     };
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
 
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
                             binding.Amoled.setImageBitmap(image);
-                        } else
-                        {
+                        } else {
                             Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
@@ -117,34 +116,33 @@ public class Amoled extends Fragment {
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                             return false;
                                         }
                                     })
 
                                     .into(binding.Amoled);
-                    }
+                        }
 
                         binding.Amoled.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
-                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query",query);
-                            intent.putExtra("text","Luxury");
+                            Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
+                            intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", "Luxury");
 
-                            Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(binding.Amoled,"imgData");
+                            Pair[] pairs = new Pair[1];
+                            pairs[0] = new Pair<View, String>(binding.Amoled, "imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),pairs
+                                    getActivity(), pairs
                             );
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 startActivity(intent, optionsCompat.toBundle());
-                            }else {
+                            } else {
                                 startActivity(intent);
                             }
                         });
@@ -152,10 +150,6 @@ public class Amoled extends Fragment {
                     }
 
                 }
-
-
-
-
 
 
             }

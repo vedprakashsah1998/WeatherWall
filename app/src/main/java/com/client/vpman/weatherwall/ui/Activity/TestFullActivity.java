@@ -214,6 +214,7 @@ public class TestFullActivity extends AppCompatActivity {
         if (getIntent().getData() != null) {
             Log.d("wegfwe", String.valueOf(getIntent().getData()));
 
+            binding.browserFull1.setVisibility(View.GONE);
 
             Picasso.get()
                     .load(getIntent().getData())
@@ -314,7 +315,7 @@ public class TestFullActivity extends AppCompatActivity {
             });
         } else {
             setWall();
-
+            binding.browserFull1.setVisibility(View.VISIBLE);
             binding.downloadFull.setOnClickListener(v -> {
                 SaveImage(TestFullActivity.this);
 

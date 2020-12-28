@@ -4,7 +4,6 @@ package com.client.vpman.weatherwall.ui.Fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -26,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -49,7 +49,6 @@ import com.kc.unsplash.Unsplash;
 import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -72,7 +71,7 @@ public class LastFragment extends Fragment {
     FragmentTransaction fragmentTransaction;
 
     private Unsplash unsplash;
-    private Animation fromtop, bounce;
+    private Animation bounce;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -83,7 +82,6 @@ public class LastFragment extends Fragment {
 
         FragmentLastBinding binding = FragmentLastBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
         bounce = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
 
         bounce.setRepeatCount(Animation.INFINITE);
@@ -125,32 +123,18 @@ public class LastFragment extends Fragment {
                 binding.category.setTextColor(getResources().getColor(R.color.black));
                 binding.searchIcon.setImageResource(R.drawable.ic_loupe);
                 binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
-                /*binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);*/
-
                 binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
 
-                Resources res = getResources();
-
-/*                binding.searchView.setBackground(drawable);
-                binding.searchView.setHintTextColor(Color.parseColor("#434343"));
-                binding.searchView.setTextColor(Color.parseColor("#1A1A1A"));*/
 
             } else if (sharedPref1.getTheme().equals("Dark")) {
                 binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#000000"));
                 binding.discoverText.setTextColor(Color.parseColor("#FFFFFF"));
                 binding.topic.setTextColor(getResources().getColor(R.color.white));
                 binding.category.setTextColor(getResources().getColor(R.color.white));
-                Resources res = getResources();
- /*               Drawable drawable = res.getDrawable(R.drawable.edit_text_bg_dark);
-                binding.searchView.setBackground(drawable);
-                binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24_white, 0);
-                binding.searchView.setHintTextColor(Color.parseColor("#FFFFFF"));*/
                 binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow);
                 binding.searchIcon.setImageResource(R.drawable.ic_loupe_white);
-                /*binding.searchView.setTextColor(Color.parseColor("#F2F6F9"));*/
                 binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.white)));
             } else {
-                /*binding.searchView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_twotone_search_24, 0);*/
                 binding.searchIcon.setImageResource(R.drawable.ic_loupe);
                 binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
                 binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -160,45 +144,9 @@ public class LastFragment extends Fragment {
 
                 binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
 
- /*               Resources res = getResources();
-                Drawable drawable = res.getDrawable(R.drawable.edit_text_bg);
-                binding.searchView.setBackground(drawable);
-                binding.searchView.setHintTextColor(Color.parseColor("#434343"));
-                binding.searchView.setTextColor(Color.parseColor("#1A1A1A"));*/
 
             }
         }
-
-
-
-      /*  binding.searchView.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
-                Intent intent=new Intent(getActivity(), SearchActivity.class);
-                intent.putExtra("searchQuery",binding.searchView.getText().toString());
-                startActivity(intent);
-                return true;
-            }
-            return false;
-        });
-        binding.searchView.setOnTouchListener((v, event) -> {
-
-            final int DRAWABLE_LEFT = 0;
-            final int DRAWABLE_TOP = 1;
-            final int DRAWABLE_RIGHT = 2;
-            final int DRAWABLE_BOTTOM = 3;
-
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                if(event.getRawX() >= (binding.searchView.getRight() - binding.searchView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                    // your action here
-                    Intent intent=new Intent(getActivity(), SearchActivity.class);
-                    intent.putExtra("searchQuery",binding.searchView.getText().toString());
-                    startActivity(intent);
-                    return true;
-                }
-            }
-            return false;
-        });*/
 
 
         binding.tabLayoutLast.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -233,9 +181,6 @@ public class LastFragment extends Fragment {
             }
         });
 
-/*
-        String CLIENT_ID = "WWNYnxHendMl4D2GIXD_l14mcK4x7QwFJ-56VtQPdF8";
-*/
 
         String CLIENT_ID = "p8S-xjITsctkke0ZmKIdklrug3IMpYcMdObQuGx5xOY";
 
@@ -265,215 +210,224 @@ public class LastFragment extends Fragment {
                 // Current day is Sunday
                 binding.fashionTextView.setText("fashion");
 
-                setImage(binding, requestOptions, "fashion", binding.fashionImageView, binding.fashionTextView);
+                setImage(requestOptions, "fashion", binding.fashionImageView, binding.fashionTextView);
 
                 binding.bikeRideTextView.setText("bike ride");
 
-                setImage(binding, requestOptions, "bike ride", binding.bikeRideImageView, binding.bikeRideTextView);
+                setImage(requestOptions, "bike ride", binding.bikeRideImageView, binding.bikeRideTextView);
 
                 binding.abstractTextView.setText("abstract");
-                setImage(binding, requestOptions, "abstract", binding.abstractImageView, binding.abstractTextView);
+                setImage(requestOptions, "abstract", binding.abstractImageView, binding.abstractTextView);
                 binding.coffeeShopTextView.setText("coffee shop");
-                setImage(binding, requestOptions, "coffee shop", binding.coffeeShopImageView, binding.coffeeShopTextView);
+                setImage(requestOptions, "coffee shop", binding.coffeeShopImageView, binding.coffeeShopTextView);
                 binding.gameTextView.setText("game");
-                setImage(binding, requestOptions, "game", binding.gameImageView, binding.gameTextView);
+                setImage(requestOptions, "game", binding.gameImageView, binding.gameTextView);
                 binding.vacationTextView.setText("vacation");
-                setImage(binding, requestOptions, "vacation", binding.vacationImageView, binding.vacationTextView);
+                setImage(requestOptions, "vacation", binding.vacationImageView, binding.vacationTextView);
                 break;
             case Calendar.MONDAY:
                 binding.fashionTextView.setText("bar");
-                setImage(binding, requestOptions, "bar", binding.fashionImageView, binding.fashionTextView);
+                setImage(requestOptions, "bar", binding.fashionImageView, binding.fashionTextView);
                 binding.bikeRideTextView.setText("london");
-                setImage(binding, requestOptions, "london", binding.bikeRideImageView, binding.bikeRideTextView);
+                setImage(requestOptions, "london", binding.bikeRideImageView, binding.bikeRideTextView);
                 binding.abstractTextView.setText("puppy");
-                setImage(binding, requestOptions, "puppy", binding.abstractImageView, binding.abstractTextView);
+                setImage(requestOptions, "puppy", binding.abstractImageView, binding.abstractTextView);
 
                 binding.coffeeShopTextView.setText("e commerce");
-                setImage(binding, requestOptions, "e commerce", binding.coffeeShopImageView, binding.coffeeShopTextView);
+                setImage(requestOptions, "e commerce", binding.coffeeShopImageView, binding.coffeeShopTextView);
 
                 binding.gameTextView.setText("camping");
-                setImage(binding, requestOptions, "camping", binding.gameImageView, binding.gameTextView);
+                setImage(requestOptions, "camping", binding.gameImageView, binding.gameTextView);
 
                 binding.vacationTextView.setText("basketball");
-                setImage(binding, requestOptions, "basketball", binding.vacationImageView, binding.vacationTextView);
+                setImage(requestOptions, "basketball", binding.vacationImageView, binding.vacationTextView);
 
                 // Current day is Monday
                 break;
             case Calendar.TUESDAY:
                 binding.fashionTextView.setText("sleeping");
-                setImage(binding, requestOptions, "sleeping", binding.fashionImageView, binding.fashionTextView);
+                setImage(requestOptions, "sleeping", binding.fashionImageView, binding.fashionTextView);
 
                 binding.bikeRideTextView.setText("microphone");
-                setImage(binding, requestOptions, "microphone", binding.bikeRideImageView, binding.bikeRideTextView);
+                setImage(requestOptions, "microphone", binding.bikeRideImageView, binding.bikeRideTextView);
 
                 binding.abstractTextView.setText("video conference");
-                setImage(binding, requestOptions, "video conference", binding.abstractImageView, binding.abstractTextView);
+                setImage(requestOptions, "video conference", binding.abstractImageView, binding.abstractTextView);
                 binding.coffeeShopTextView.setText("strategy");
-                setImage(binding, requestOptions, "strategy", binding.coffeeShopImageView, binding.coffeeShopTextView);
+                setImage(requestOptions, "strategy", binding.coffeeShopImageView, binding.coffeeShopTextView);
                 binding.gameTextView.setText("hiking");
-                setImage(binding, requestOptions, "hiking", binding.gameImageView, binding.gameTextView);
+                setImage(requestOptions, "hiking", binding.gameImageView, binding.gameTextView);
 
                 binding.vacationTextView.setText("airport");
-                setImage(binding, requestOptions, "airport", binding.vacationImageView, binding.vacationTextView);
+                setImage(requestOptions, "airport", binding.vacationImageView, binding.vacationTextView);
 
                 // etc.
                 break;
             case Calendar.WEDNESDAY:
                 binding.fashionTextView.setText("dark and moody");
-                setImage(binding, requestOptions, "dark and moody", binding.fashionImageView, binding.fashionTextView);
+                setImage(requestOptions, "dark and moody", binding.fashionImageView, binding.fashionTextView);
 
                 binding.bikeRideTextView.setText("Holiday Mood");
-                setImage(binding, requestOptions, "Holiday Mood", binding.bikeRideImageView, binding.bikeRideTextView);
+                setImage(requestOptions, "Holiday Mood", binding.bikeRideImageView, binding.bikeRideTextView);
 
                 binding.abstractTextView.setText("Winter");
-                setImage(binding, requestOptions, "Winter", binding.abstractImageView, binding.abstractTextView);
+                setImage(requestOptions, "Winter", binding.abstractImageView, binding.abstractTextView);
                 binding.coffeeShopTextView.setText("Dark Portraits");
-                setImage(binding, requestOptions, "Dark Portraits", binding.coffeeShopImageView, binding.coffeeShopTextView);
+                setImage(requestOptions, "Dark Portraits", binding.coffeeShopImageView, binding.coffeeShopTextView);
 
                 binding.gameTextView.setText("Space Travel");
-                setImage(binding, requestOptions, "Space Travel", binding.gameImageView, binding.gameTextView);
+                setImage(requestOptions, "Space Travel", binding.gameImageView, binding.gameTextView);
 
                 binding.vacationTextView.setText("Let's Party");
-                setImage(binding, requestOptions, "Let's Party", binding.vacationImageView, binding.vacationTextView);
+                setImage(requestOptions, "Let's Party", binding.vacationImageView, binding.vacationTextView);
                 break;
             case Calendar.THURSDAY:
                 binding.fashionTextView.setText("Cosmetics");
-                setImage(binding, requestOptions, "Cosmetics", binding.fashionImageView, binding.fashionTextView);
+                setImage(requestOptions, "Cosmetics", binding.fashionImageView, binding.fashionTextView);
                 binding.bikeRideTextView.setText("Retro");
-                setImage(binding, requestOptions, "Retro", binding.bikeRideImageView, binding.bikeRideTextView);
+                setImage(requestOptions, "Retro", binding.bikeRideImageView, binding.bikeRideTextView);
 
                 binding.abstractTextView.setText("Summertime");
-                setImage(binding, requestOptions, "Summertime", binding.abstractImageView, binding.abstractTextView);
+                setImage(requestOptions, "Summertime", binding.abstractImageView, binding.abstractTextView);
 
                 binding.coffeeShopTextView.setText("Rainy Days");
-                setImage(binding, requestOptions, "Rainy Days", binding.coffeeShopImageView, binding.coffeeShopTextView);
+                setImage(requestOptions, "Rainy Days", binding.coffeeShopImageView, binding.coffeeShopTextView);
                 binding.gameTextView.setText("Floral Beauty");
-                setImage(binding, requestOptions, "Floral Beauty", binding.gameImageView, binding.gameTextView);
+                setImage(requestOptions, "Floral Beauty", binding.gameImageView, binding.gameTextView);
                 binding.vacationTextView.setText("Home");
-                setImage(binding, requestOptions, "Home", binding.vacationImageView, binding.vacationTextView);
+                setImage(requestOptions, "Home", binding.vacationImageView, binding.vacationTextView);
 
                 break;
             case Calendar.FRIDAY:
                 binding.fashionTextView.setText("Dancers");
-                setImage(binding, requestOptions, "Dancers", binding.fashionImageView, binding.fashionTextView);
+                setImage(requestOptions, "Dancers", binding.fashionImageView, binding.fashionTextView);
 
                 binding.bikeRideTextView.setText("Work");
-                setImage(binding, requestOptions, "Work", binding.bikeRideImageView, binding.bikeRideTextView);
+                setImage(requestOptions, "Work", binding.bikeRideImageView, binding.bikeRideTextView);
                 binding.abstractTextView.setText("marine");
-                setImage(binding, requestOptions, "marine", binding.abstractImageView, binding.abstractTextView);
+                setImage(requestOptions, "marine", binding.abstractImageView, binding.abstractTextView);
 
                 binding.coffeeShopTextView.setText("animals");
-                setImage(binding, requestOptions, "animals", binding.coffeeShopImageView, binding.coffeeShopTextView);
+                setImage(requestOptions, "animals", binding.coffeeShopImageView, binding.coffeeShopTextView);
                 binding.gameTextView.setText("Maldives");
-                setImage(binding, requestOptions, "Maldives", binding.gameImageView, binding.gameTextView);
+                setImage(requestOptions, "Maldives", binding.gameImageView, binding.gameTextView);
 
                 binding.vacationTextView.setText("Minimal black and white");
-                setImage(binding, requestOptions, "Minimal black and white", binding.vacationImageView, binding.vacationTextView);
+                setImage(requestOptions, "Minimal black and white", binding.vacationImageView, binding.vacationTextView);
                 break;
             case Calendar.SATURDAY:
                 binding.fashionTextView.setText("spectrum");
-                setImage(binding, requestOptions, "spectrum", binding.fashionImageView, binding.fashionTextView);
+                setImage(requestOptions, "spectrum", binding.fashionImageView, binding.fashionTextView);
                 binding.bikeRideTextView.setText("together");
-                setImage(binding, requestOptions, "together", binding.bikeRideImageView, binding.bikeRideTextView);
+                setImage(requestOptions, "together", binding.bikeRideImageView, binding.bikeRideTextView);
 
                 binding.abstractTextView.setText("christmas");
-                setImage(binding, requestOptions, "christmas", binding.abstractImageView, binding.abstractTextView);
+                setImage(requestOptions, "christmas", binding.abstractImageView, binding.abstractTextView);
 
                 binding.coffeeShopTextView.setText("party night");
-                setImage(binding, requestOptions, "party night", binding.coffeeShopImageView, binding.coffeeShopTextView);
+                setImage(requestOptions, "party night", binding.coffeeShopImageView, binding.coffeeShopTextView);
 
                 binding.gameTextView.setText("extream neon");
-                setImage(binding, requestOptions, "extream neon", binding.gameImageView, binding.gameTextView);
+                setImage(requestOptions, "extream neon", binding.gameImageView, binding.gameTextView);
                 binding.vacationTextView.setText("autumn");
-                setImage(binding, requestOptions, "autumn", binding.vacationImageView, binding.vacationTextView);
+                setImage(requestOptions, "autumn", binding.vacationImageView, binding.vacationTextView);
 
                 break;
         }
 
         binding.searchIcon.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(),SearchActivity.class));
+            startActivity(new Intent(getActivity(), SearchActivity.class));
         });
 
         return view;
     }
 
-    private void setImage(FragmentLastBinding binding, RequestOptions requestOptions, String query, ShapeableImageView img, MaterialTextView textView) {
+    private void setImage(RequestOptions requestOptions, String query, ShapeableImageView img, MaterialTextView textView) {
         unsplash.searchPhotos(query, 1, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {
                 List<Photo> photos = results.getResults();
 
-                Random random = new Random();
-                int n = random.nextInt(photos.size());
+                if (photos != null) {
+                    Random random = new Random();
+                    int n = random.nextInt(photos.size());
 
-                Collections.shuffle(photos);
+                    Collections.shuffle(photos);
 
-                LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
-                    @Override
-                    protected int sizeOf(String key, Bitmap image) {
-                        return image.getByteCount() / 1024;
-                    }
-                };
-
-
-                Bitmap image = memCache.get("imagefile");
-                if (image != null) {
-                    //Bitmap exists in cache.
-                    img.setImageBitmap(image);
-                } else {
-                    if (getActivity() != null) {
-                        Glide.with(getActivity())
-                                .load(photos.get(n).getUrls().getFull())
-                                .thumbnail(
-                                        Glide.with(Objects.requireNonNull(getActivity())).load(photos.get(n).getUrls().getRegular())
-                                )
-                                .apply(requestOptions)
-                                .listener(new RequestListener<Drawable>() {
-                                    @Override
-                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                        //  spinKitView.setVisibility(View.GONE);
+                    LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
+                        @Override
+                        protected int sizeOf(String key, Bitmap image) {
+                            return image.getByteCount() / 1024;
+                        }
+                    };
 
 
-                                        return false;
-                                    }
+                    Bitmap image = memCache.get("imagefile");
+                    if (image != null) {
+                        //Bitmap exists in cache.
+                        img.setImageBitmap(image);
+                    } else {
+                        if (getActivity() != null) {
+                            Glide.with(getActivity())
+                                    .load(photos.get(n).getUrls().getFull())
+                                    .thumbnail(
+                                            Glide.with(Objects.requireNonNull(getActivity())).load(photos.get(n).getUrls().getRegular())
+                                    )
+                                    .apply(requestOptions)
+                                    .listener(new RequestListener<Drawable>() {
+                                        @Override
+                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                            //  spinKitView.setVisibility(View.GONE);
 
-                                    @Override
-                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
-                                        //    spinKitView.setVisibility(View.GONE);
+                                            return false;
+                                        }
 
-                                        return false;
-                                    }
-                                })
-                                .into(img);
+                                        @Override
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
-                        img.setOnClickListener(v -> {
-                            Intent intent = new Intent(getActivity(), TestingMotionLayout.class);
-                            intent.putExtra("img1", photos.get(n).getUrls().getFull());
-                            intent.putExtra("img2", photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query", query);
-                            intent.putExtra("text", query);
+                                            //    spinKitView.setVisibility(View.GONE);
 
-                            Pair[] pairs = new Pair[2];
-                            pairs[0] = new Pair<View, String>(img, "img1");
-                            pairs[1] = new Pair<View, String>(textView, "text");
+                                            return false;
+                                        }
+                                    })
+                                    .into(img);
+
+                            img.setOnClickListener(v -> {
+                                Intent intent = new Intent(getActivity(), TestingMotionLayout.class);
+                                intent.putExtra("img1", photos.get(n).getUrls().getFull());
+                                intent.putExtra("img2", photos.get(n).getUrls().getRegular());
+                                intent.putExtra("query", query);
+                                intent.putExtra("text", query);
+
+                                Pair[] pairs = new Pair[2];
+                                pairs[0] = new Pair<View, String>(img, "img1");
+                                pairs[1] = new Pair<View, String>(textView, "text");
 
                            /* Pair<View, String> pair = Pair.create((View)Landscape, ViewCompat.getTransitionName(Landscape));
                             Pair<View, String> pair1 = Pair.create((View)Landscape1, ViewCompat.getTransitionName(Landscape1));*/
-                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(), pairs
-                            );
+                                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        getActivity(), pairs
+                                );
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                startActivity(intent, optionsCompat.toBundle());
-                            } else {
-                                startActivity(intent);
-                            }
-                        });
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                    startActivity(intent, optionsCompat.toBundle());
+                                } else {
+                                    startActivity(intent);
+                                }
+                            });
+
+                        }
+
                     }
 
 
                 }
+                else
+                {
+                    Toast.makeText(getContext(), "Unsplash Error", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
 

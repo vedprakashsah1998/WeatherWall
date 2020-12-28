@@ -63,7 +63,7 @@ public class Image extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentImageBinding.inflate(inflater, container, false);
         view = binding.getRoot();
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)

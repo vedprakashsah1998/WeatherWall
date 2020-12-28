@@ -19,6 +19,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.LatestAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.model.InstaModel;
 import com.client.vpman.weatherwall.databinding.FragmentLatestBinding;
 
@@ -62,8 +63,7 @@ public class LatestFragment extends Fragment {
 
         if (getActivity() != null) {
             lists = new ArrayList<>();
-            String bestUrl = "https://www.instagram.com/madspeteriversen_photography/?__a=1";
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, bestUrl, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.madspeteriversen_photography, response -> {
                 Log.d("instaresponse", response);
 
                 try {
@@ -134,8 +134,7 @@ public class LatestFragment extends Fragment {
 
     private void isabellandscapes() {
         if (getActivity() != null) {
-            String isabellandscapes = "https://www.instagram.com/isabellandscapes/?__a=1";
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, isabellandscapes, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.isabellandscapes, response -> {
                 Log.d("betaTest", response);
 
                 try {
@@ -191,8 +190,7 @@ public class LatestFragment extends Fragment {
 
     private void artOFBuilding() {
         if (getActivity() != null) {
-            String url = "https://www.instagram.com/art_of_buildings/?__a=1";
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.chrisburkard, response -> {
                 Log.d("betaTest", response);
 
                 try {
@@ -206,7 +204,7 @@ public class LatestFragment extends Fragment {
                         JSONObject node = jsonObject1.getJSONObject("node");
                         String displayUrl = node.getString("display_url");
                         String thumbnail_src = node.getString("thumbnail_src");
-                        String photographerUrl = "https://www.instagram.com/art_of_buildings/?hl=en";
+                        String photographerUrl = "https://www.instagram.com/chrisburkard/?hl=en";
                         InstaModel instagramModel = new InstaModel(displayUrl, thumbnail_src, photographerUrl);
                         lists.add(instagramModel);
                     }
@@ -248,8 +246,7 @@ public class LatestFragment extends Fragment {
 
     private void seanView() {
         if (getActivity() != null) {
-            String Url = "https://www.instagram.com/seanbagshaw/?__a=1";
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.seanbagshaw, response -> {
                 Log.d("betaTest", response);
 
                 try {
@@ -307,8 +304,7 @@ public class LatestFragment extends Fragment {
 
     private void rachel_jones_ross() {
         if (getActivity() != null) {
-            String Url = "https://www.instagram.com/rachel_jones_ross/?__a=1";
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.rachel_jones_ross, response -> {
                 Log.d("betaTest", response);
 
                 try {

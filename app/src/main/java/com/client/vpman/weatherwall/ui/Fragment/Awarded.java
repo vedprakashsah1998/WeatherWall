@@ -19,6 +19,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.AwardedAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentAwardedBinding;
 import com.client.vpman.weatherwall.model.ModelData;
@@ -41,8 +42,6 @@ import static ccy.focuslayoutmanager.FocusLayoutManager.dp2px;
 
 public class Awarded extends Fragment {
 
-    private final String Url = "https://api.pexels.com/v1/popular?per_page=80&page=1";
-
     private FragmentAwardedBinding binding;
     private ArrayList<ModelData> list;
     private AwardedAdapter awardedAdapter;
@@ -62,7 +61,7 @@ public class Awarded extends Fragment {
         list=new ArrayList<>();
         if (getActivity()!=null)
         {
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.POPULAR_URL, response -> {
                 Log.d("curatedResponse", response);
                 try {
                     JSONObject obj = new JSONObject(response);

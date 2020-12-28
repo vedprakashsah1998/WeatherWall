@@ -68,9 +68,9 @@ public class Popular extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding= FragmentPopularBinding.inflate(inflater,container,false);
+        binding = FragmentPopularBinding.inflate(inflater, container, false);
         view = binding.getRoot();
-       Unsplash unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        Unsplash unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
 
 
         fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
@@ -143,8 +143,8 @@ public class Popular extends Fragment {
                 Connectivity.isConnected(getActivity()) && Connectivity.isConnectedWifi(getActivity()) && Connectivity.isConnectedFast(getActivity())) {
 
             binding.droneView.setShapeAppearanceModel(binding.droneView.getShapeAppearanceModel()
-                    .toBuilder().setTopLeftCorner(CornerFamily.ROUNDED,150)
-                    .setBottomLeftCorner(CornerFamily.ROUNDED,150).build());
+                    .toBuilder().setTopLeftCorner(CornerFamily.ROUNDED, 150)
+                    .setBottomLeftCorner(CornerFamily.ROUNDED, 150).build());
             unsplash.searchPhotos(query, 1, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
@@ -205,7 +205,7 @@ public class Popular extends Fragment {
                                 intent.putExtra("text", "Drone View");
 
                                 Pair[] pairs = new Pair[1];
-                                pairs[0] = new Pair<View, String>( binding.droneView, "img1");
+                                pairs[0] = new Pair<View, String>(binding.droneView, "img1");
 
 
                                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -252,9 +252,9 @@ public class Popular extends Fragment {
                         }
                     };
 
-                    binding.nature.setShapeAppearanceModel( binding.nature.getShapeAppearanceModel()
+                    binding.nature.setShapeAppearanceModel(binding.nature.getShapeAppearanceModel()
                             .toBuilder()
-                            .setTopRightCorner(CornerFamily.ROUNDED,150)
+                            .setTopRightCorner(CornerFamily.ROUNDED, 150)
                             .build());
 
                     Bitmap image = memCache.get("imagefile");
@@ -287,7 +287,7 @@ public class Popular extends Fragment {
                                         }
                                     })
 
-                                    .into( binding.nature);
+                                    .into(binding.nature);
                             binding.nature.setOnClickListener(view -> {
                                 Intent intent = new Intent(getActivity(), TestingMotionLayout.class);
                                 intent.putExtra("img1", photos.get(n).getUrls().getFull());
@@ -296,7 +296,7 @@ public class Popular extends Fragment {
                                 intent.putExtra("text", "Nature");
 
                                 Pair[] pairs = new Pair[1];
-                                pairs[0] = new Pair<View, String>(  binding.nature, "img1");
+                                pairs[0] = new Pair<View, String>(binding.nature, "img1");
 
                                /* Pair<View, String> pair = Pair.create((View)Landscape, ViewCompat.getTransitionName(Landscape));
                                 Pair<View, String> pair1 = Pair.create((View)Landscape1, ViewCompat.getTransitionName(Landscape1));*/
@@ -326,7 +326,7 @@ public class Popular extends Fragment {
 
             query2 = "food";
 
-            unsplash.searchPhotos(query2,5,20,"portrait", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query2, 5, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -347,7 +347,7 @@ public class Popular extends Fragment {
                     };
                     binding.food.setShapeAppearanceModel(binding.food.getShapeAppearanceModel()
                             .toBuilder()
-                            .setBottomRightCorner(CornerFamily.ROUNDED,150).build());
+                            .setBottomRightCorner(CornerFamily.ROUNDED, 150).build());
 
                     Bitmap image = memCache.get("imagefile");
                     if (image != null) {
@@ -389,7 +389,7 @@ public class Popular extends Fragment {
                                 intent.putExtra("text", "Food");
 
                                 Pair[] pairs = new Pair[1];
-                                pairs[0] = new Pair<View, String>(  binding.food, "img1");
+                                pairs[0] = new Pair<View, String>(binding.food, "img1");
 
 
                                /* Pair<View, String> pair = Pair.create((View)Landscape, ViewCompat.getTransitionName(Landscape));
@@ -420,7 +420,7 @@ public class Popular extends Fragment {
 
             query3 = "Landscape";
 
-            unsplash.searchPhotos(query3,2,20,"portrait", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query3, 2, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -509,7 +509,7 @@ public class Popular extends Fragment {
             });
 
             query4 = "Cityscape";
-            unsplash.searchPhotos(query4,8,20,"portrait", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query4, 8, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -600,7 +600,7 @@ public class Popular extends Fragment {
 
             query5 = "Seascape";
 
-            unsplash.searchPhotos(query5,9,20,"portrait", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query5, 9, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -691,7 +691,7 @@ public class Popular extends Fragment {
 
 
             query6 = "Twilight";
-            unsplash.searchPhotos(query6,11,20,"portrait", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query6, 11, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -778,7 +778,7 @@ public class Popular extends Fragment {
                 }
             });
             query7 = "Food";
-            unsplash.searchPhotos(query7,12,20,"portrait", new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query7, 12, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -866,7 +866,7 @@ public class Popular extends Fragment {
             });
 
             query8 = "Drone View";
-            unsplash.searchPhotos(query8, 8,20,"portrait",new Unsplash.OnSearchCompleteListener() {
+            unsplash.searchPhotos(query8, 8, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
                 @Override
                 public void onComplete(SearchResults results) {
                     Log.d("Photos", "Total Results Found " + results.getTotal());
@@ -968,8 +968,6 @@ public class Popular extends Fragment {
         f.setArguments(b);
         return f;
     }
-
-
 
 
 }

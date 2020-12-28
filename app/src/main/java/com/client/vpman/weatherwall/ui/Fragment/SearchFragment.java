@@ -26,6 +26,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.SearchAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentSearchBinding;
@@ -48,8 +49,6 @@ import java.util.Random;
 public class SearchFragment extends Fragment {
 
     private List<String> apiList;
-    private final String UrlPop = "https://api.pexels.com/v1/popular?per_page=80&page=1";
-    private final String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
     SearchAdapter adapter;
     List<ModelData> list;
     LinearLayoutManager linearLayoutManager;
@@ -156,7 +155,7 @@ public class SearchFragment extends Fragment {
     private void CuratedImages() {
         list = new ArrayList<>();
         if (getActivity() != null) {
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.CURATED_URL, response -> {
                 Log.d("curatedResponse", response);
                 try {
                     JSONObject obj = new JSONObject(response);
@@ -238,7 +237,7 @@ public class SearchFragment extends Fragment {
         list = new ArrayList<>();
         long mRequestStartTime = System.currentTimeMillis();
         if (getActivity() != null) {
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, UrlPop, response -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.POPULAR_URL, response -> {
                 Log.d("curatedResponse", response);
                 try {
                     JSONObject obj = new JSONObject(response);

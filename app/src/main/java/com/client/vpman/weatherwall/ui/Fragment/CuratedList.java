@@ -19,6 +19,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.CuratedAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentCuratedListBinding;
 import com.client.vpman.weatherwall.model.ModelData;
@@ -43,28 +44,26 @@ public class CuratedList extends Fragment {
     List<ModelData> list;
 
     private CuratedAdapter adapter;
-    private final String Url = "https://api.pexels.com/v1/curated?per_page=80&page=1";
-   private FragmentCuratedListBinding binding;
+    private FragmentCuratedListBinding binding;
     private List<String> apiList;
 
-   View view;
+    View view;
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentCuratedListBinding.inflate(inflater,container,false);
-        view=binding.getRoot();
+        binding = FragmentCuratedListBinding.inflate(inflater, container, false);
+        view = binding.getRoot();
         CuratedImages();
         return view;
 
     }
 
-    private void CuratedImages()
-    {
-        list=new ArrayList<>();
+    private void CuratedImages() {
+        list = new ArrayList<>();
         long mRequestStartTime = System.currentTimeMillis();
-        if (getActivity()!=null)
-        {
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+        if (getActivity() != null) {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.CURATED_URL, response -> {
                 Log.d("curatedResponse", response);
                 try {
                     JSONObject obj = new JSONObject(response);
@@ -80,10 +79,10 @@ public class CuratedList extends Fragment {
                         list.add(modelData1);
                     }
                     Collections.shuffle(list);
-                    adapter = new CuratedAdapter(getActivity(),list);
+                    adapter = new CuratedAdapter(getActivity(), list);
                     /* LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);*/
 
-                    FocusLayoutManager focusLayoutManager=new FocusLayoutManager.Builder()
+                    FocusLayoutManager focusLayoutManager = new FocusLayoutManager.Builder()
                             .layerPadding(dp2px(getActivity(), 14))
                             .normalViewGap(dp2px(getActivity(), 14))
                             .focusOrientation(FocusLayoutManager.FOCUS_LEFT)

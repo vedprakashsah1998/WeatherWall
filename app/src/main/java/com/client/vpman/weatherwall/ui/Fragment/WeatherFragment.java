@@ -85,7 +85,6 @@ import static android.content.Context.LOCATION_SERVICE;
  * A simple {@link Fragment} subclass.
  */
 public class WeatherFragment extends Fragment {
-    private String apiKey = "1f01ced93d6608528a3bc65ad580f9e4";
 
     private List<String> apiList;
     private MaterialTextView clearCache, toolBarText, shareApp, reportText, rateUsText, instagramText, faceBookText, LinkedIn, privacyPolicy, github;
@@ -107,8 +106,6 @@ public class WeatherFragment extends Fragment {
     private Double lat, lon;
     private String countryCode = null;
     private List<Address> addresses;
-
-    private FusedLocationProviderClient fusedLocationClient;
 
     private RotateAnimation rotate;
 
@@ -208,7 +205,7 @@ public class WeatherFragment extends Fragment {
         });
         binding.settingImg.startAnimation(rotate);
         binding.settingImg.setOnClickListener(v -> settingDialog(getActivity()));
-/*        binding.settingImg.setOnClickListener(v -> startActivity(new Intent(getActivity(), SettingActivity.class)));*/
+        /*        binding.settingImg.setOnClickListener(v -> startActivity(new Intent(getActivity(), SettingActivity.class)));*/
 
 
         if (Connectivity.isConnected(getActivity()) && Connectivity.isConnectedMobile(getActivity()) && Connectivity.isConnectedFast(getActivity()) ||
@@ -229,7 +226,7 @@ public class WeatherFragment extends Fragment {
     public void findWeather() {
 
         if (getActivity() != null) {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
             apiList = new ArrayList<>();
             apiList.add("1f01ced93d6608528a3bc65ad580f9e4");
@@ -260,10 +257,10 @@ public class WeatherFragment extends Fragment {
 
                                     Random random = new Random();
                                     int n = random.nextInt(apiList.size());
-                                    if (cityname == null){
-                                        cityname="Jaipur";
+                                    if (cityname == null) {
+                                        cityname = "Jaipur";
                                     }
-                                    Log.d("cityName",cityname);
+                                    Log.d("cityName", cityname);
                                     JsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&q=" + cityname + "," + countryCode + "&appid=" + apiList.get(n);
 
 
@@ -282,7 +279,7 @@ public class WeatherFragment extends Fragment {
                                             String description = object.getString("description");
                                             String city = response.getString("name");
 
-                                            binding.temp.setText(temp +"°C");
+                                            binding.temp.setText(temp + "°C");
                                             binding.city.setText(city);
                                             binding.desc.setText(description);
 

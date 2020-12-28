@@ -26,6 +26,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.client.vpman.weatherwall.Adapter.SearchAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentSearchBinding;
@@ -62,25 +63,18 @@ public class SearchResult extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSearchResultBinding.inflate(inflater, container, false);
-/*        Bundle bundle = this.getArguments();
-        assert bundle != null;
-        binding.searchResult.setText(bundle.getString("query"));
-        Log.d("qefe",bundle.getString("query"));*/
-        sharedPref1=new SharedPref1(getContext());
-        if (sharedPref1.getTheme().equals("Light")){
+        sharedPref1 = new SharedPref1(getContext());
+        if (sharedPref1.getTheme().equals("Light")) {
             binding.backres.setImageResource(R.drawable.ic_arrow_back);
             binding.searchResult.setTextColor(Color.parseColor("#000000"));
             binding.resBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
             binding.resultToolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
-        else if (sharedPref1.getTheme().equals("Dark")){
+        } else if (sharedPref1.getTheme().equals("Dark")) {
             binding.backres.setImageResource(R.drawable.ic_baseline_arrow_back_24_white);
             binding.searchResult.setTextColor(Color.parseColor("#FFFFFF"));
             binding.resBackground.setBackgroundColor(Color.parseColor("#000000"));
             binding.resultToolbar.setBackgroundColor(Color.parseColor("#000000"));
-        }
-        else
-        {
+        } else {
             binding.resBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
             binding.resultToolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
             binding.backres.setImageResource(R.drawable.ic_arrow_back);
@@ -110,38 +104,30 @@ public class SearchResult extends Fragment {
                 "Sexy girl", "Porn star", "Xvideos", "Hot girl", "Nude", "Orgasam", "Fuck"};
 
 
-        if (Arrays.asList(data).contains(query))
-        {
-            if (sharedPref1.getTheme().equals("Light"))
-            {
+        if (Arrays.asList(data).contains(query)) {
+            if (sharedPref1.getTheme().equals("Light")) {
                 binding.notfound.setVisibility(View.VISIBLE);
                 binding.notFoundText.setTextColor(Color.parseColor("#000000"));
-            }
-            else if (sharedPref1.getTheme().equals("Dark"))
-            {
+            } else if (sharedPref1.getTheme().equals("Dark")) {
                 binding.notfound1.setVisibility(View.VISIBLE);
                 binding.notFoundText.setTextColor(Color.parseColor("#FFFFFF"));
 
-            }
-            else
-            {
+            } else {
                 binding.notfound.setVisibility(View.VISIBLE);
                 binding.notFoundText.setTextColor(Color.parseColor("#000000"));
             }
             binding.searchResultRecylerview.setVisibility(View.GONE);
 
             binding.notFoundText.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             binding.notFoundText.setVisibility(View.GONE);
             binding.notfound.setVisibility(View.GONE);
             binding.searchResultRecylerview.setVisibility(View.VISIBLE);
         }
 
 
-        String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=80&page=1";
-        Log.d("ewjoh",Url);
+        String Url = Constant.BASE_URL + query + "&per_page=80&page=1";
+        Log.d("ewjoh", Url);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("searchResponse", response);

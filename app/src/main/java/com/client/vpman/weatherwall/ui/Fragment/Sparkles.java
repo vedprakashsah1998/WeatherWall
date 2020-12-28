@@ -54,13 +54,15 @@ public class Sparkles extends Fragment {
     public Sparkles() {
         // Required empty public constructor
     }
+
     private FragmentSparklesBinding binding;
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentSparklesBinding.inflate(inflater,container,false);
-        view=binding.getRoot();
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        binding = FragmentSparklesBinding.inflate(inflater, container, false);
+        view = binding.getRoot();
+        unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -74,7 +76,7 @@ public class Sparkles extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
 
-        query="Sparkles";
+        query = "Sparkles";
 
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
@@ -84,25 +86,22 @@ public class Sparkles extends Fragment {
                 List<Photo> photos = results.getResults();
 
 
-                Random random=new Random();
+                Random random = new Random();
                 int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
+                if (isAdded()) {
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
                         protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
+                            return image.getByteCount() / 1024;
                         }
                     };
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
                             binding.Sparks.setImageBitmap(image);
-                        } else
-                        {
+                        } else {
                             Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
@@ -119,38 +118,37 @@ public class Sparkles extends Fragment {
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                             return false;
                                         }
                                     })
 
                                     .into(binding.Sparks);
-                    }
+                        }
 
                         binding.Sparks.setOnClickListener(v -> {
-                                Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
-                                intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                                intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                                intent.putExtra("query",query);
-                                intent.putExtra("text","Sparkles");
+                            Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
+                            intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", "Sparkles");
 
-                                Pair[] pairs=new Pair[1];
-                                pairs[0]=new Pair<View,String>(binding.Sparks,"imgData");
+                            Pair[] pairs = new Pair[1];
+                            pairs[0] = new Pair<View, String>(binding.Sparks, "imgData");
 
 
-                                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        getActivity(),pairs
-                                );
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(), pairs
+                            );
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                    startActivity(intent, optionsCompat.toBundle());
-                                }else {
-                                    startActivity(intent);
-                                }
-                            });
-                        }
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                startActivity(intent, optionsCompat.toBundle());
+                            } else {
+                                startActivity(intent);
+                            }
+                        });
+                    }
                 }
 
             }
@@ -163,7 +161,6 @@ public class Sparkles extends Fragment {
 
 
         binding.Sparks.setTranslationZ(40);
-
 
 
         return view;

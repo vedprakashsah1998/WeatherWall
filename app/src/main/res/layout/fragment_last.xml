@@ -28,23 +28,6 @@
         android:layout_alignParentEnd="true" />
 
 
-<!--<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="@string/hintSearch"
-    android:textCursorDrawable="@drawable/color_cursor"
-    android:inputType="text"
-    android:layout_below="@+id/discoverText"
-    android:paddingEnd="8dp"
-    android:imeOptions="actionSearch"
-    android:layout_marginTop="22dp"
-    android:maxLines="1"
-    android:layout_marginStart="12dp"
-    android:layout_marginEnd="12dp"
-    android:paddingStart="8dp"
-    android:textSize="24sp"
-    android:id="@+id/searchView"/>-->
-
 
 
 <com.google.android.material.textview.MaterialTextView

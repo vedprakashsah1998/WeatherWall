@@ -35,6 +35,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.ExploreAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
@@ -57,7 +58,7 @@ public class ExploreAcitivity extends AppCompatActivity {
 
     private long mRequestStartTime;
     String query;
-    List<ModelData> model5;
+    private List<ModelData> model5;
     ExploreAdapter exploreAdapter;
     SharedPref1 sharedPref1;
     ActivityExploreAcitivityBinding binding;
@@ -78,7 +79,6 @@ public class ExploreAcitivity extends AppCompatActivity {
         query = intent.getStringExtra("query");
         String text = intent.getStringExtra("text");
         binding.titleDataExp.setText(text);
-
 
         if (sharedPref1.getTheme().equals("Light")) {
             binding.titleDataExp.setTextColor(Color.parseColor("#000000"));
@@ -188,7 +188,7 @@ public class ExploreAcitivity extends AppCompatActivity {
 
     public void LoadImage(int page) {
         mRequestStartTime = System.currentTimeMillis();
-        String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=100&page=" + page + "";
+        String Url = Constant.BASE_URL + query + "&per_page=100&page=" + page + "";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("response", response);
             try {

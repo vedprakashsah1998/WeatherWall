@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,9 +32,11 @@ import com.client.vpman.weatherwall.model.RandomQuotesExp;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,7 +58,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
     @Override
     public MyExpHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        ExpAdapterBinding binding=ExpAdapterBinding.inflate(inflater,parent,false);
+        ExpAdapterBinding binding = ExpAdapterBinding.inflate(inflater, parent, false);
         return new MyExpHolder(binding);
     }
 
@@ -236,9 +239,10 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
 
     public static class MyExpHolder extends RecyclerView.ViewHolder {
         ExpAdapterBinding binding;
+
         public MyExpHolder(@NonNull ExpAdapterBinding itemView) {
             super(itemView.getRoot());
-            this.binding=itemView;
+            this.binding = itemView;
         }
     }
 }

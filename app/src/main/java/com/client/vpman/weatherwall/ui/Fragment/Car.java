@@ -55,7 +55,6 @@ public class Car extends Fragment {
 
 
     private String query;
-    private Unsplash unsplash;
 
     FragmentCarBinding binding;
 
@@ -63,9 +62,9 @@ public class Car extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding=FragmentCarBinding.inflate(inflater,container,false);
-        view=binding.getRoot();
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        binding = FragmentCarBinding.inflate(inflater, container, false);
+        view = binding.getRoot();
+        Unsplash unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
@@ -77,8 +76,7 @@ public class Car extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
-        query="Car";
-
+        query = "Car";
 
 
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
@@ -89,28 +87,25 @@ public class Car extends Fragment {
                 List<Photo> photos = results.getResults();
 
 
-                Random random=new Random();
+                Random random = new Random();
                 int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
+                if (isAdded()) {
 
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
                         protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
+                            return image.getByteCount() / 1024;
                         }
                     };
 
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
 
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
                             binding.Car.setImageBitmap(image);
-                        } else
-                        {
+                        } else {
                             Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
@@ -127,34 +122,33 @@ public class Car extends Fragment {
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                             return false;
                                         }
                                     })
 
                                     .into(binding.Car);
-                    }
+                        }
 
                         binding.Car.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
-                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query",query);
-                            intent.putExtra("text","Cars");
+                            Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
+                            intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", "Cars");
 
-                            Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>(binding.Car,"imgData");
+                            Pair[] pairs = new Pair[1];
+                            pairs[0] = new Pair<View, String>(binding.Car, "imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),pairs
+                                    getActivity(), pairs
                             );
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 startActivity(intent, optionsCompat.toBundle());
-                            }else {
+                            } else {
                                 startActivity(intent);
                             }
                         });
@@ -162,10 +156,6 @@ public class Car extends Fragment {
 
 
                 }
-
-
-
-
 
 
             }

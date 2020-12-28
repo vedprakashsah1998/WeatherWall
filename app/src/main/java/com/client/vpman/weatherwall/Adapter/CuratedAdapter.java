@@ -11,6 +11,7 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -25,15 +26,16 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.databinding.CuratedAdapterBinding;
 import com.client.vpman.weatherwall.model.ModelData;
+
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CuratedAdapter extends RecyclerView.Adapter<CuratedAdapter.Curatedholder>
-{
+public class CuratedAdapter extends RecyclerView.Adapter<CuratedAdapter.Curatedholder> {
     private final Context context;
     private final List<ModelData> list;
 
@@ -46,7 +48,7 @@ public class CuratedAdapter extends RecyclerView.Adapter<CuratedAdapter.Curatedh
     @Override
     public Curatedholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        CuratedAdapterBinding binding=CuratedAdapterBinding.inflate(inflater,parent,false);
+        CuratedAdapterBinding binding = CuratedAdapterBinding.inflate(inflater, parent, false);
         return new Curatedholder(binding);
     }
 
@@ -134,7 +136,7 @@ public class CuratedAdapter extends RecyclerView.Adapter<CuratedAdapter.Curatedh
                         })
                         .into(holder.binding.curatedMain);
             }
-            Log.d("curatedList",list.get(position).getLarge2x());
+            Log.d("curatedList", list.get(position).getLarge2x());
 
 
             holder.binding.curatedMain.setOnClickListener(v -> {
@@ -170,9 +172,10 @@ public class CuratedAdapter extends RecyclerView.Adapter<CuratedAdapter.Curatedh
 
     public static class Curatedholder extends RecyclerView.ViewHolder {
         CuratedAdapterBinding binding;
+
         public Curatedholder(@NonNull CuratedAdapterBinding itemView) {
             super(itemView.getRoot());
-            this.binding=itemView;
+            this.binding = itemView;
 
         }
     }

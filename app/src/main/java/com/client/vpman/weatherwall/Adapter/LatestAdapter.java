@@ -11,6 +11,7 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -24,17 +25,18 @@ import com.client.vpman.weatherwall.ui.Activity.TestFullActivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.databinding.LatestAdapterBinding;
 import com.client.vpman.weatherwall.model.InstaModel;
+
 import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHolder>
-{
-  private final Context context;
-   private final List<InstaModel> lists;
+public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHolder> {
+    private final Context context;
+    private final List<InstaModel> lists;
 
 
     public LatestAdapter(Context context, List<InstaModel> lists) {
@@ -46,7 +48,7 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
     @Override
     public PicsumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        LatestAdapterBinding binding= LatestAdapterBinding.inflate(inflater,parent,false);
+        LatestAdapterBinding binding = LatestAdapterBinding.inflate(inflater, parent, false);
         return new PicsumHolder(binding);
     }
 
@@ -81,8 +83,6 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
             requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             //   requestOptions.placeholder(Utils.getRandomDrawbleColor());
             requestOptions.centerCrop();
-
-
 
 
             Glide.with(context)
@@ -142,9 +142,10 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
 
     public static class PicsumHolder extends RecyclerView.ViewHolder {
         LatestAdapterBinding binding;
+
         public PicsumHolder(@NonNull LatestAdapterBinding itemView) {
             super(itemView.getRoot());
-            this.binding=itemView;
+            this.binding = itemView;
 
         }
     }

@@ -48,16 +48,18 @@ public class Dark extends Fragment {
     public Dark() {
         // Required empty public constructor
     }
+
     private View view;
     String query;
     private FragmentDarkBinding binding;
     private Unsplash unsplash;
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentDarkBinding.inflate(inflater,container,false);
-        view=binding.getRoot();
-        unsplash=new Unsplash(getString(R.string.UNSPLASH_CLIENT));
+        binding = FragmentDarkBinding.inflate(inflater, container, false);
+        view = binding.getRoot();
+        unsplash = new Unsplash(getString(R.string.UNSPLASH_CLIENT));
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -70,33 +72,30 @@ public class Dark extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        query="dark";
+        query = "dark";
         unsplash.searchPhotos(query, new Unsplash.OnSearchCompleteListener() {
             @Override
             public void onComplete(SearchResults results) {
                 Log.d("Photos", "Total Results Found " + results.getTotal());
 
                 List<Photo> photos = results.getResults();
-                Random random=new Random();
+                Random random = new Random();
                 int n = random.nextInt(photos.size());
 
-                if (isAdded())
-                {
+                if (isAdded()) {
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
                         protected int sizeOf(String key, Bitmap image) {
-                            return image.getByteCount()/1024;
+                            return image.getByteCount() / 1024;
                         }
                     };
-                    if (getActivity()!=null)
-                    {
+                    if (getActivity() != null) {
 
                         Bitmap image = memCache.get("imagefile");
                         if (image != null) {
                             //Bitmap exists in cache.
                             binding.Dark.setImageBitmap(image);
-                        } else
-                        {
+                        } else {
                             Glide.with(getActivity())
                                     .load(photos.get(n).getUrls().getFull())
                                     .thumbnail(
@@ -113,34 +112,33 @@ public class Dark extends Fragment {
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource)
-                                        {
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 
                                             return false;
                                         }
                                     })
 
-                                    .into( binding.Dark);
-                    }
+                                    .into(binding.Dark);
+                        }
 
                         binding.Dark.setOnClickListener(v -> {
-                            Intent intent=new Intent(getActivity(), ExploreAcitivity.class);
-                            intent.putExtra("imgData",photos.get(n).getUrls().getFull());
-                            intent.putExtra("imgDataSmall",photos.get(n).getUrls().getRegular());
-                            intent.putExtra("query",query);
-                            intent.putExtra("text","Dark");
+                            Intent intent = new Intent(getActivity(), ExploreAcitivity.class);
+                            intent.putExtra("imgData", photos.get(n).getUrls().getFull());
+                            intent.putExtra("imgDataSmall", photos.get(n).getUrls().getRegular());
+                            intent.putExtra("query", query);
+                            intent.putExtra("text", "Dark");
 
-                            Pair[] pairs=new Pair[1];
-                            pairs[0]=new Pair<View,String>( binding.Dark,"imgData");
+                            Pair[] pairs = new Pair[1];
+                            pairs[0] = new Pair<View, String>(binding.Dark, "imgData");
 
 
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),pairs
+                                    getActivity(), pairs
                             );
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 startActivity(intent, optionsCompat.toBundle());
-                            }else {
+                            } else {
                                 startActivity(intent);
                             }
                         });
@@ -148,10 +146,6 @@ public class Dark extends Fragment {
                     }
 
                 }
-
-
-
-
 
 
             }
@@ -165,9 +159,8 @@ public class Dark extends Fragment {
         binding.Dark.setTranslationZ(40);
 
 
-    return view;
+        return view;
     }
-
 
 
     public static Dark newInstance(String text) {

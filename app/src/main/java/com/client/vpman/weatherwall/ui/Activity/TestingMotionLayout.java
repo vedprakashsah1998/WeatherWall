@@ -38,6 +38,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.Adapter.TestingAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
@@ -61,7 +62,6 @@ import java.util.Random;
 public class TestingMotionLayout extends AppCompatActivity {
     String query;
     TestingAdapter testingAdapter;
-    private long mRequestStartTime;
     List<ModelData> modelData4List;
     SharedPref1 sharedPref1;
     private List<String> apiList;
@@ -158,7 +158,7 @@ public class TestingMotionLayout extends AppCompatActivity {
         }
         LoadImage(page);
 
-        Log.d("onScrolled","Data1");
+        Log.d("onScrolled", "Data1");
         binding.recyclerviewTesting.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -170,21 +170,20 @@ public class TestingMotionLayout extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 if (linearLayoutManager.findLastVisibleItemPosition() == testingAdapter.getItemCount() - 1) {
                     page++;
-                    Log.d("onScrolled","Data2");
+                    Log.d("onScrolled", "Data2");
                     LoadImage(page);
                 }
             }
         });
 
 
-
     }
 
     public void LoadImage(int page) {
         modelData4List = new ArrayList<>();
-        mRequestStartTime = System.currentTimeMillis();
-        String Url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=80&page=" + page + "";
-        Log.d("urlData",Url);
+        long mRequestStartTime = System.currentTimeMillis();
+        String Url = Constant.BASE_URL + query + "&per_page=80&page=" + page + "";
+        Log.d("urlData", Url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("response", response);
             try {
@@ -243,7 +242,7 @@ public class TestingMotionLayout extends AppCompatActivity {
                 apiList.add(getString(R.string.APIKEY5));
                 Random random = new Random();
                 int n = random.nextInt(apiList.size());
-                params.put("Authorization",apiList.get(n));
+                params.put("Authorization", apiList.get(n));
                 return params;
             }
         };
@@ -345,15 +344,14 @@ public class TestingMotionLayout extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        if(mListState != null) {
+        if (mListState != null) {
 
             linearLayoutManager.onRestoreInstanceState(mListState);
-        }else {
+        } else {
             Toast.makeText(this, "List is Empty", Toast.LENGTH_SHORT).show();
         }
         super.onResume();
     }
-
 
 
 }
