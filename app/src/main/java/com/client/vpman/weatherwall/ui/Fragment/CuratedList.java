@@ -61,7 +61,6 @@ public class CuratedList extends Fragment {
 
     private void CuratedImages() {
         list = new ArrayList<>();
-        long mRequestStartTime = System.currentTimeMillis();
         if (getActivity() != null) {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.CURATED_URL, response -> {
                 Log.d("curatedResponse", response);

@@ -15,10 +15,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +31,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -36,6 +50,9 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
+import com.client.vpman.weatherwall.Adapter.SearchAdapter;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
+import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.ui.Activity.SearchActivity;
 import com.client.vpman.weatherwall.ui.Activity.TestingMotionLayout;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
@@ -50,9 +67,16 @@ import com.kc.unsplash.models.Photo;
 import com.kc.unsplash.models.SearchResults;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -66,11 +90,13 @@ public class LastFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private List<String> apiList;
+
+
     Fragment fragment = null;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    private Unsplash unsplash;
     private Animation bounce;
 
 
@@ -181,10 +207,6 @@ public class LastFragment extends Fragment {
             }
         });
 
-
-        String CLIENT_ID = "p8S-xjITsctkke0ZmKIdklrug3IMpYcMdObQuGx5xOY";
-
-        unsplash = new Unsplash(CLIENT_ID);
 
         RequestOptions requestOptions = new RequestOptions();
         // requestOptions.error(Utils.getRandomDrawbleColor());
@@ -343,16 +365,20 @@ public class LastFragment extends Fragment {
     }
 
     private void setImage(RequestOptions requestOptions, String query, ShapeableImageView img, MaterialTextView textView) {
-        unsplash.searchPhotos(query, 1, 20, "portrait", new Unsplash.OnSearchCompleteListener() {
-            @Override
-            public void onComplete(SearchResults results) {
-                List<Photo> photos = results.getResults();
 
-                if (photos != null) {
-                    Random random = new Random();
-                    int n = random.nextInt(photos.size());
+        String Url = Constant.BASE_URL + query + "&per_page=80&page=1";
 
-                    Collections.shuffle(photos);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
+            try {
+                JSONObject obj = new JSONObject(response);
+                JSONArray wallArray = obj.getJSONArray("photos");
+                for (int i = 0; i < wallArray.length(); i++) {
+                    JSONObject wallobj = wallArray.getJSONObject(i);
+                    JSONObject photographer = new JSONObject(String.valueOf(wallobj));
+                    JSONObject PhotoUrl = new JSONObject(String.valueOf(wallobj));
+                    Log.d("PhotoURL", wallobj.getString("url"));
+                    JSONObject jsonObject = wallobj.getJSONObject("src");
+                    JSONObject object = new JSONObject(String.valueOf(jsonObject));
 
                     LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
                         @Override
@@ -361,7 +387,6 @@ public class LastFragment extends Fragment {
                         }
                     };
 
-
                     Bitmap image = memCache.get("imagefile");
                     if (image != null) {
                         //Bitmap exists in cache.
@@ -369,9 +394,9 @@ public class LastFragment extends Fragment {
                     } else {
                         if (getActivity() != null) {
                             Glide.with(getActivity())
-                                    .load(photos.get(n).getUrls().getFull())
+                                    .load(object.getString("large"))
                                     .thumbnail(
-                                            Glide.with(Objects.requireNonNull(getActivity())).load(photos.get(n).getUrls().getRegular())
+                                            Glide.with(Objects.requireNonNull(getActivity())).load(object.getString("large2x"))
                                     )
                                     .apply(requestOptions)
                                     .listener(new RequestListener<Drawable>() {
@@ -395,8 +420,16 @@ public class LastFragment extends Fragment {
 
                             img.setOnClickListener(v -> {
                                 Intent intent = new Intent(getActivity(), TestingMotionLayout.class);
-                                intent.putExtra("img1", photos.get(n).getUrls().getFull());
-                                intent.putExtra("img2", photos.get(n).getUrls().getRegular());
+                                try {
+                                    intent.putExtra("img1", object.getString("large2x"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    intent.putExtra("img2", object.getString("large"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 intent.putExtra("query", query);
                                 intent.putExtra("text", query);
 
@@ -404,8 +437,6 @@ public class LastFragment extends Fragment {
                                 pairs[0] = new Pair<View, String>(img, "img1");
                                 pairs[1] = new Pair<View, String>(textView, "text");
 
-                           /* Pair<View, String> pair = Pair.create((View)Landscape, ViewCompat.getTransitionName(Landscape));
-                            Pair<View, String> pair1 = Pair.create((View)Landscape1, ViewCompat.getTransitionName(Landscape1));*/
                                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                         getActivity(), pairs
                                 );
@@ -420,22 +451,51 @@ public class LastFragment extends Fragment {
                         }
 
                     }
-
-
-                }
-                else
-                {
-                    Toast.makeText(getContext(), "Unsplash Error", Toast.LENGTH_SHORT).show();
                 }
 
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            NetworkResponse response = error.networkResponse;
+            if (error instanceof ServerError && response != null) {
+                try {
+                    String res = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                    // Now you can use any deserializer to make sense of data
+                    JSONObject obj = new JSONObject(res);
+                } catch (UnsupportedEncodingException e1) {
+                    // Couldn't properly decode data to string
+                    e1.printStackTrace();
+                } catch (JSONException e2) {
+                    // returned data is not JSONObject?
+                    e2.printStackTrace();
+                }
             }
 
+        }) {
             @Override
-            public void onError(String error) {
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<>();
+                apiList = new ArrayList<>();
+                apiList.add(getString(R.string.APIKEY1));
+                apiList.add(getString(R.string.APIKEY2));
+                apiList.add(getString(R.string.APIKEY3));
+                apiList.add(getString(R.string.APIKEY4));
+                apiList.add(getString(R.string.APIKEY5));
+                Random random = new Random();
+                int n = random.nextInt(apiList.size());
+                params.put("Authorization", apiList.get(n));
 
+                return params;
             }
-        });
+        };
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(stringRequest);
     }
 
 

@@ -55,10 +55,6 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.Transition;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.material.tabs.TabLayout;
-import com.kc.unsplash.Unsplash;
-import com.kc.unsplash.models.Photo;
-import com.kc.unsplash.models.SearchResults;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
     Timer timer = new Timer();
     String query;
 
-    private Unsplash unsplash;
     SharedPref1 sharedPref1;
     Wave wanderingCubes;
     ActivityMainBinding binding;
