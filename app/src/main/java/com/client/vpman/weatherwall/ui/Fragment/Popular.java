@@ -73,12 +73,11 @@ public class Popular extends Fragment {
     public Popular() {
         // Required empty public constructor
     }
+
     private List<String> apiList;
 
-
-    private String query, query1, query2, query3, query4, query5, query6, query7, query8;
     private SharedPref1 sharedPref1;
-    private Animation fromtop, bounce;
+    private Animation  bounce;
     private FragmentPopularBinding binding;
 
     @Override
@@ -88,8 +87,6 @@ public class Popular extends Fragment {
         binding = FragmentPopularBinding.inflate(inflater, container, false);
         view = binding.getRoot();
 
-
-        fromtop = AnimationUtils.loadAnimation(getActivity(), R.anim.fromtop);
 
         if (getActivity() != null) {
             sharedPref1 = new SharedPref1(getActivity());
@@ -160,50 +157,35 @@ public class Popular extends Fragment {
             binding.droneView.setShapeAppearanceModel(binding.droneView.getShapeAppearanceModel()
                     .toBuilder().setTopLeftCorner(CornerFamily.ROUNDED, 150)
                     .setBottomLeftCorner(CornerFamily.ROUNDED, 150).build());
-            query = "drone view";
 
-            LoadImageDiff(requestOptions,query,binding.droneView);
+            LoadImageDiff(requestOptions, Constant.drone_view, binding.droneView);
 
 
-            query1 = "nature";
-            LoadImageDiff(requestOptions,query1,binding.nature);
+            LoadImageDiff(requestOptions, Constant.nature, binding.nature);
             binding.nature.setShapeAppearanceModel(binding.nature.getShapeAppearanceModel()
                     .toBuilder()
                     .setTopRightCorner(CornerFamily.ROUNDED, 150)
                     .build());
 
 
-
-            query2 = "food";
-            LoadImageDiff(requestOptions,query2,binding.food);
+            LoadImageDiff(requestOptions, Constant.food, binding.food);
             binding.food.setShapeAppearanceModel(binding.food.getShapeAppearanceModel()
                     .toBuilder()
                     .setBottomRightCorner(CornerFamily.ROUNDED, 150).build());
 
 
+            LoadImage(requestOptions, Constant.Landscape, binding.Landscape, binding.landScape);
 
-            query3 = "Landscape";
+            LoadImage(requestOptions, Constant.Cityscape, binding.Cityscape, binding.cityScape);
 
-            LoadImage(requestOptions,query3,binding.Landscape,binding.landScape);
+            LoadImage(requestOptions, Constant.Seascape, binding.Seascape, binding.seaScape);
 
+            LoadImage(requestOptions, Constant.Twilight, binding.Twilight, binding.twiLight);
 
-            query4 = "Cityscape";
-            LoadImage(requestOptions,query4,binding.Cityscape,binding.cityScape);
-
-
-            query5 = "Seascape";
-            LoadImage(requestOptions,query5,binding.Seascape,binding.seaScape);
+            LoadImage(requestOptions, Constant.Food, binding.Food, binding.fOOD);
 
 
-
-            query6 = "Twilight";
-            LoadImage(requestOptions,query6,binding.Twilight,binding.twiLight);
-
-            query7 = "Food";
-            LoadImage(requestOptions,query7,binding.Food,binding.fOOD);
-
-            query8 = "Drone View";
-            LoadImage(requestOptions,query8,binding.DronView,binding.DroneView991);
+            LoadImage(requestOptions, Constant.Drone_View, binding.DronView, binding.DroneView991);
 
 
         }
@@ -222,7 +204,7 @@ public class Popular extends Fragment {
         return f;
     }
 
-    public void LoadImage(RequestOptions requestOptions, String query, CircularImageView imageView, MaterialTextView textView){
+    public void LoadImage(RequestOptions requestOptions, String query, CircularImageView imageView, MaterialTextView textView) {
 
         String Url = Constant.BASE_URL + query + "&per_page=80&page=1";
 
@@ -357,7 +339,7 @@ public class Popular extends Fragment {
 
     }
 
-    public void LoadImageDiff(RequestOptions requestOptions, String query, ShapeableImageView imageView){
+    public void LoadImageDiff(RequestOptions requestOptions, String query, ShapeableImageView imageView) {
 
         String Url = Constant.BASE_URL + query + "&per_page=80&page=1";
 

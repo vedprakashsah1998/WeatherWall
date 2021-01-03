@@ -11,4 +11,27 @@ public interface Constant {
     String seanbagshaw = "https://www.instagram.com/seanbagshaw/?__a=1";
     String rachel_jones_ross = "https://www.instagram.com/rachel_jones_ross/?__a=1";
 
+    String drone_view="drone view";
+    String nature="nature";
+    String food="food";
+    String Landscape="Landscape";
+    String Cityscape="Cityscape";
+    String Seascape="Seascape";
+    String Twilight="Twilight";
+    String Food="Food";
+    String Drone_View="Drone View";
+    String Luxury="Luxury";
+    String Building="Building";
+    String Car="Car";
+    String dark="dark";
+    String Nature="Nature";
+    String Bokeh="Bokeh";
+    String minimal="minimal";
+    String mountain="mountain";
+    String religion="religion";
+    String Sparkles="Sparkles";
+    String star="star";
+    String technology="technology";
+
+
 }

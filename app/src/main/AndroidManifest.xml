@@ -41,7 +41,7 @@
         <activity android:name=".ui.Activity.MainActivity">
 
         </activity>
-        <activity android:name=".ui.Activity.FullImageQuotes"></activity>
+        <activity android:name=".ui.Activity.FullImageQuotes"/>
         <activity android:name=".ui.Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

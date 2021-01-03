@@ -42,7 +42,6 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
-import com.client.vpman.weatherwall.model.UnsplashModel;
 import com.client.vpman.weatherwall.R;
 
 import com.client.vpman.weatherwall.databinding.ActivityTestingMotionLayoutBinding;
@@ -66,7 +65,6 @@ public class TestingMotionLayout extends AppCompatActivity {
     SharedPref1 sharedPref1;
     private List<String> apiList;
 
-    List<UnsplashModel> unsplashModelList;
     private Parcelable mListState;
     LinearLayoutManager linearLayoutManager;
     static int page = 1;

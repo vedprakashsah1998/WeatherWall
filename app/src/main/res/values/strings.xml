@@ -18,8 +18,6 @@
     <string name="APIKEY3">563492ad6f9170000100000167dc026e80d04332a8b282c32968aed6</string>
     <string name="APIKEY4">563492ad6f91700001000001d13057437948447189e0b830f8128e15</string>
     <string name="APIKEY5">563492ad6f91700001000001fd351942a4524d62bb9a68308855b667</string>
-    <!--    <string name="UNSPLASH_CLIENT">fcd5073926c7fdd11b9eb62887dbd6398eafbb8f3c56073035b141ad57d1ab5f</string>-->
-    <string name="UNSPLASH_CLIENT">d3a92adcee2ef1d4cee1b52e80ae2c7f8ca95494ece74c74ae9c396fe8ba941a</string>
     <string name="discover">Discover</string>
     <string name="notFound">No data are found for this search</string>
     <string name="latestphoto">Latest Photo</string>
