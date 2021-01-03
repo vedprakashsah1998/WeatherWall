@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
-import com.client.vpman.weatherwall.CustomeUsefullClass.TestingClass;
+import com.client.vpman.weatherwall.CustomeUsefullClass.VolleyGlobalLization;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.databinding.FragmentDarkBinding;
 import org.jetbrains.annotations.NotNull;
@@ -44,8 +44,8 @@ public class Dark extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         query = "dark";
 
-        TestingClass testingClass=new TestingClass();
-        testingClass.LoadImageDiff(requestOptions, Constant.dark, binding.Dark,getActivity());
+        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
+        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.dark, binding.Dark,getActivity());
 
         binding.Dark.setTranslationZ(40);
 

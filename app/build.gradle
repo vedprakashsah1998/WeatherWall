@@ -9,9 +9,9 @@ android {
         applicationId "com.client.vpman.weatherwall"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 35
+        versionCode 36
         vectorDrawables.useSupportLibrary = true
-        versionName "3.5"
+        versionName "3.6"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs "en"

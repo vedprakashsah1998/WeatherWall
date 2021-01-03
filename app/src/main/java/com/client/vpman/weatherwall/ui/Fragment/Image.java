@@ -10,7 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
-import com.client.vpman.weatherwall.CustomeUsefullClass.TestingClass;
+import com.client.vpman.weatherwall.CustomeUsefullClass.VolleyGlobalLization;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.databinding.FragmentImageBinding;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +43,8 @@ public class Image extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
-        TestingClass testingClass=new TestingClass();
-        testingClass.LoadImageDiff(requestOptions, Constant.Nature, binding.NatureUn,getActivity());
+        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
+        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.Nature, binding.NatureUn,getActivity());
 
         binding.NatureUn.setTranslationZ(40);
 

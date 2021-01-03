@@ -26,7 +26,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.ui.Activity.ExploreAcitivity;
-import com.client.vpman.weatherwall.ui.Activity.TestingMotionLayout;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONArray;
@@ -45,10 +44,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 
-public class TestingClass {
+public class VolleyGlobalLization {
     private List<String> apiList;
 
-    public TestingClass() {
+    public VolleyGlobalLization() {
     }
 
     public void LoadImageDiff(RequestOptions requestOptions, String query, RoundedImageView imageView, Context context) {

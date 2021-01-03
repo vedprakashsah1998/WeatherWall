@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
-import com.client.vpman.weatherwall.CustomeUsefullClass.TestingClass;
+import com.client.vpman.weatherwall.CustomeUsefullClass.VolleyGlobalLization;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.databinding.FragmentTechnologyBinding;
 import org.jetbrains.annotations.NotNull;
@@ -42,8 +42,8 @@ public class Technology extends Fragment {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         requestOptions.centerCrop();
 
-        TestingClass testingClass=new TestingClass();
-        testingClass.LoadImageDiff(requestOptions, Constant.technology, binding.Technology,getActivity());
+        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
+        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.technology, binding.Technology,getActivity());
 
         return view;
     }

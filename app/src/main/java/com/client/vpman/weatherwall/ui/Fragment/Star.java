@@ -10,7 +10,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
-import com.client.vpman.weatherwall.CustomeUsefullClass.TestingClass;
+import com.client.vpman.weatherwall.CustomeUsefullClass.VolleyGlobalLization;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.databinding.FragmentStarBinding;
 import org.jetbrains.annotations.NotNull;
@@ -42,8 +42,8 @@ public class Star extends Fragment {
         requestOptions.placeholder(Utils.getRandomDrawbleColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
-        TestingClass testingClass=new TestingClass();
-        testingClass.LoadImageDiff(requestOptions, Constant.star, binding.Star,getActivity());
+        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
+        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.star, binding.Star,getActivity());
 
         binding.Star.setTranslationZ(40);
 
