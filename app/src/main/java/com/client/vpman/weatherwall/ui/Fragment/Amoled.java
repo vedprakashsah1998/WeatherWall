@@ -30,20 +30,8 @@ public class Amoled extends Fragment {
                              Bundle savedInstanceState) {
         FragmentAmoledBinding binding = FragmentAmoledBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
-
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions,Constant.Luxury, binding.Amoled,getActivity());
+        VolleyGlobalLization.LoadImageDiff(Constant.Luxury, binding.Amoled,getActivity());
 
         binding.Amoled.setTranslationZ(40);
 

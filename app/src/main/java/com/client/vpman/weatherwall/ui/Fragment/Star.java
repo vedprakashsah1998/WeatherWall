@@ -32,18 +32,7 @@ public class Star extends Fragment {
         FragmentStarBinding binding = FragmentStarBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.skipMemoryCache(true);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.star, binding.Star,getActivity());
+        VolleyGlobalLization.LoadImageDiff( Constant.star, binding.Star,getActivity());
 
         binding.Star.setTranslationZ(40);
 

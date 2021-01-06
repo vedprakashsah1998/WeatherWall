@@ -47,6 +47,7 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentWeatherBinding;
+import com.client.vpman.weatherwall.databinding.SettingDialogBinding;
 import com.client.vpman.weatherwall.ui.Activity.SettingActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -87,10 +88,9 @@ import static android.content.Context.LOCATION_SERVICE;
 public class WeatherFragment extends Fragment {
 
     private List<String> apiList;
-    private MaterialTextView clearCache, toolBarText, shareApp, reportText, rateUsText, instagramText, faceBookText, LinkedIn, privacyPolicy, github;
+    private MaterialTextView  shareApp, reportText, rateUsText, instagramText, faceBookText, LinkedIn, privacyPolicy, github;
     private MaterialTextView chooseImgQuality, loadQuality, ContactUsText, weatherWallText, poweredby, credit, setThemeText;
-    private ImageView pexels, flatIcon, Unsplash, backtoMain, deleteImg, share, reportUs, rateUsImg, facebook, privacyImg, instagram, Github, linkedIn;
-    private Spinner spinner, spinner1;
+    private ImageView pexels, flatIcon, Unsplash, backtoMain, share, reportUs, rateUsImg, facebook, privacyImg, instagram, Github, linkedIn;
     private CardView cardContact, settingCardView, cardSetting, cardCredit, otherCard;
     private Toolbar toolbar;
     private String JsonUrl;
@@ -372,26 +372,20 @@ public class WeatherFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+                                           @NotNull String[] permissions, @NotNull int[] grantResults) {
         Log.d("hgfkj", "onRequestPermissionsResult:989 ");
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (checkLocationON()) {
-                        findWeather();
-                    } else {
-                        checkGpsStatus();
-                    }
-
-
+        if (requestCode == PERMISSION_REQUEST_CODE) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (checkLocationON()) {
+                    findWeather();
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    checkGpsStatus();
                 }
-                return;
-            }
+
+
+            }  // permission denied, boo! Disable the
+            // functionality that depends on this permission.
 
             // other 'case' lines to check for other
             // permissions this app might request.
@@ -422,7 +416,7 @@ public class WeatherFragment extends Fragment {
                     gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 }
 
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
 
             try {
@@ -430,22 +424,19 @@ public class WeatherFragment extends Fragment {
                     network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                 }
 
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
 
             if (!gps_enabled && !network_enabled) {
                 // notify user
                 new AlertDialog.Builder(getActivity())
                         .setMessage("GPS is not enabled")
-                        .setPositiveButton("Open Location Setting", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                                if (getActivity() != null) {
-                                    getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-
-                                }
+                        .setPositiveButton("Open Location Setting", (paramDialogInterface, paramInt) -> {
+                            if (getActivity() != null) {
+                                getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 
                             }
+
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
@@ -468,22 +459,18 @@ public class WeatherFragment extends Fragment {
                 if (locationManager != null) {
                     gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 }
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
 
             try {
                 if (locationManager != null) {
                     network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                 }
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
 
-            if (!gps_enabled && !network_enabled) {
-                // notify user
-                return false;
-            } else {
-                return true;
-            }
+            // notify user
+            return gps_enabled || network_enabled;
         }
         return false;
 
@@ -537,11 +524,13 @@ public class WeatherFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.show();
-        dialog.setContentView(R.layout.setting_dialog);
-        initDialogView();
-        clearCache.setOnClickListener(v -> deleteCache(activity));
+        SettingDialogBinding binding1=SettingDialogBinding.inflate(LayoutInflater.from(getContext()));
+        dialog.setContentView(binding1.getRoot());
 
-        deleteImg.setOnClickListener(v -> deleteCache(activity));
+        initDialogView();
+        binding1.deleteTextMain.setOnClickListener(v -> deleteCache(activity));
+
+        binding1.deleteImg.setOnClickListener(v -> deleteCache(activity));
         shareApp.setOnClickListener(v -> {
             try {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -655,7 +644,7 @@ public class WeatherFragment extends Fragment {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
             startActivity(browserIntent);
         });
-        spinner = dialog.findViewById(R.id.spinner);
+        Spinner spinner = dialog.findViewById(R.id.spinner);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(activity, R.layout.custome_spinner, getResources().getStringArray(R.array.list));
 
@@ -687,7 +676,7 @@ public class WeatherFragment extends Fragment {
 
             }
         });
-        spinner1 = dialog.findViewById(R.id.spinner2);
+        Spinner spinner1 = dialog.findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(activity, R.layout.custome_spinner_list, getResources().getStringArray(R.array.list));
         dataAdapter1.setDropDownViewResource(R.layout.custome_spinner_load);
         loadQuality.append(pref.getImageLoadQuality());
@@ -730,19 +719,19 @@ public class WeatherFragment extends Fragment {
                 pref.setTheme("Light");
                 relativeLayout.setBackgroundColor(Color.parseColor("#F2F6F9"));
                 toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                clearCache.setTextColor(Color.parseColor("#000000"));
+                binding1.deleteTextMain.setTextColor(Color.parseColor("#000000"));
                 setThemeText.setTextColor(Color.parseColor("#000000"));
                 weatherWallText.setTextColor(Color.parseColor("#000000"));
                 poweredby.setTextColor(Color.parseColor("#000000"));
                 otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                 setThemeText.setText("Light Mode");
-                toolBarText.setTextColor(Color.parseColor("#000000"));
+                binding1.toolBartext.setTextColor(Color.parseColor("#000000"));
                 privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
                 backtoMain.setBackground(drawable);
                 loadQuality.setTextColor(Color.parseColor("#000000"));
-                deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
+                binding1.deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
                 chooseImgQuality.setTextColor(Color.parseColor("#000000"));
                 settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                 cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -787,13 +776,13 @@ public class WeatherFragment extends Fragment {
                 toolbar.setBackgroundColor(Color.parseColor("#1A1A1A"));
                 loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
                 setThemeText.setTextColor(Color.parseColor("#FFFFFF"));
-                toolBarText.setTextColor(Color.parseColor("#FFFFFF"));
-                clearCache.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.toolBartext.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.deleteTextMain.setTextColor(Color.parseColor("#FFFFFF"));
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
                 backtoMain.setBackground(drawable);
                 ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
-                deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
+                binding1.deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
                 settingCardView.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
                 rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
                 share.setImageResource(R.drawable.ic_share_white_24dp);
@@ -826,14 +815,14 @@ public class WeatherFragment extends Fragment {
             chooseImgQuality.setTextColor(Color.parseColor("#000000"));
             shareApp.setTextColor(Color.parseColor("#000000"));
             toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            toolBarText.setTextColor(Color.parseColor("#000000"));
-            clearCache.setTextColor(Color.parseColor("#000000"));
+            binding1.toolBartext.setTextColor(Color.parseColor("#000000"));
+            binding1.deleteTextMain.setTextColor(Color.parseColor("#000000"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
             otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
+            binding1.deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
             reportUs.setImageResource(R.drawable.ic_report_problem);
             share.setImageResource(R.drawable.ic_share_black_24dp);
             rateUsImg.setImageResource(R.drawable.ic_rate_review);
@@ -869,14 +858,14 @@ public class WeatherFragment extends Fragment {
             reportText.setTextColor(Color.parseColor("#FFFFFF"));
             relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
             toolbar.setBackgroundColor(Color.parseColor("#1A1A1A"));
-            toolBarText.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.toolBartext.setTextColor(Color.parseColor("#FFFFFF"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
             shareApp.setTextColor(Color.parseColor("#FFFFFF"));
 
             reportUs.setImageResource(R.drawable.ic_report_problem_white);
-            deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
+            binding1.deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
             settingCardView.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             share.setImageResource(R.drawable.ic_share_white_24dp);
             rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
@@ -889,7 +878,7 @@ public class WeatherFragment extends Fragment {
             credit.setTextColor(Color.parseColor("#FFFFFF"));
             cardCredit.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             flatIcon.setImageResource(R.drawable.ic_flaticon_white);
-            clearCache.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.deleteTextMain.setTextColor(Color.parseColor("#FFFFFF"));
             Unsplash.setImageResource(R.drawable.ic_unsplash_white);
             pexels.setImageResource(R.drawable.pexels_white);
             privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
@@ -916,14 +905,14 @@ public class WeatherFragment extends Fragment {
             chooseImgQuality.setTextColor(Color.parseColor("#000000"));
             reportText.setTextColor(Color.parseColor("#000000"));
             toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            clearCache.setTextColor(Color.parseColor("#000000"));
+            binding1.deleteTextMain.setTextColor(Color.parseColor("#000000"));
             shareApp.setTextColor(Color.parseColor("#000000"));
-            toolBarText.setTextColor(Color.parseColor("#000000"));
+            binding1.toolBartext.setTextColor(Color.parseColor("#000000"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
             backtoMain.setBackground(drawable);
             rateUsImg.setImageResource(R.drawable.ic_rate_review);
-            deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
+            binding1.deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
             share.setImageResource(R.drawable.ic_share_black_24dp);
             ContactUsText.setTextColor(Color.parseColor("#000000"));
             cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -1045,9 +1034,7 @@ public class WeatherFragment extends Fragment {
     private void initDialogView() {
         relativeLayout = dialog.findViewById(R.id.themeColor);
         toolbar = dialog.findViewById(R.id.tool1barSetting);
-        toolBarText = dialog.findViewById(R.id.toolBartext);
         backtoMain = dialog.findViewById(R.id.backtoMain);
-        deleteImg = dialog.findViewById(R.id.deleteImg);
         settingCardView = dialog.findViewById(R.id.cardSetting);
         share = dialog.findViewById(R.id.shareApp);
         reportUs = dialog.findViewById(R.id.reportUs);
@@ -1067,7 +1054,6 @@ public class WeatherFragment extends Fragment {
         setThemeText = dialog.findViewById(R.id.setTheme);
         cardSetting = dialog.findViewById(R.id.settingCard);
 
-        clearCache = dialog.findViewById(R.id.deleteTextMain);
         shareApp = dialog.findViewById(R.id.shareAppText);
         reportText = dialog.findViewById(R.id.reportText);
         rateUsText = dialog.findViewById(R.id.rateUsText);

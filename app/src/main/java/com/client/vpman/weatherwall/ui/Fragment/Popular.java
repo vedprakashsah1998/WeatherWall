@@ -76,7 +76,6 @@ public class Popular extends Fragment {
 
     private List<String> apiList;
 
-    private SharedPref1 sharedPref1;
     private Animation  bounce;
     private FragmentPopularBinding binding;
 
@@ -89,7 +88,7 @@ public class Popular extends Fragment {
 
 
         if (getActivity() != null) {
-            sharedPref1 = new SharedPref1(getActivity());
+            SharedPref1 sharedPref1 = new SharedPref1(getActivity());
             if (sharedPref1.getTheme().equals("Light")) {
                 binding.relpop.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 binding.popPhoto1.setTextColor(Color.parseColor("#000000"));

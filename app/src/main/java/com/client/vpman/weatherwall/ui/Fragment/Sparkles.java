@@ -32,19 +32,7 @@ public class Sparkles extends Fragment {
         FragmentSparklesBinding binding = FragmentSparklesBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.Sparkles, binding.Sparks,getActivity());
+        VolleyGlobalLization.LoadImageDiff( Constant.Sparkles, binding.Sparks,getActivity());
 
         binding.Sparks.setTranslationZ(40);
 

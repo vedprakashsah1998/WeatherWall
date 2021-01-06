@@ -19,11 +19,14 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.ui.Activity.ExploreAcitivity;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -45,13 +48,24 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 
 public class VolleyGlobalLization {
-    private List<String> apiList;
+
 
     public VolleyGlobalLization() {
     }
 
-    public void LoadImageDiff(RequestOptions requestOptions, String query, RoundedImageView imageView, Context context) {
-
+    public static void LoadImageDiff( String query, RoundedImageView imageView, Context context) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
+                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
+        requestOptions.priority(Priority.IMMEDIATE);
+        requestOptions.skipMemoryCache(false);
+        requestOptions.onlyRetrieveFromCache(true);
+        requestOptions.priority(Priority.HIGH);
+        requestOptions.placeholder(Utils.getRandomDrawbleColor());
+        requestOptions.isMemoryCacheable();
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        requestOptions.centerCrop();
         String Url = Constant.BASE_URL + query + "&per_page=80&page=1";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
@@ -164,7 +178,7 @@ public class VolleyGlobalLization {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<>();
-                apiList = new ArrayList<>();
+                 List<String> apiList = new ArrayList<>();
                 apiList.add(context.getString(R.string.APIKEY1));
                 apiList.add(context.getString(R.string.APIKEY2));
                 apiList.add(context.getString(R.string.APIKEY3));

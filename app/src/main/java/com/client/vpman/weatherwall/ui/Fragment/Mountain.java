@@ -31,21 +31,7 @@ public class Mountain extends Fragment {
        FragmentMountainBinding binding = FragmentMountainBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.skipMemoryCache(true);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.mountain, binding.Mountain,getActivity());
-
-
-
+        VolleyGlobalLization.LoadImageDiff(Constant.mountain, binding.Mountain,getActivity());
 
         binding.Mountain.setTranslationZ(40);
         return view;

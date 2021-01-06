@@ -29,21 +29,8 @@ public class Technology extends Fragment {
                              Bundle savedInstanceState) {
         FragmentTechnologyBinding binding = FragmentTechnologyBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.isMemoryCacheable();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        requestOptions.centerCrop();
 
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.technology, binding.Technology,getActivity());
+        VolleyGlobalLization.LoadImageDiff( Constant.technology, binding.Technology,getActivity());
 
         return view;
     }

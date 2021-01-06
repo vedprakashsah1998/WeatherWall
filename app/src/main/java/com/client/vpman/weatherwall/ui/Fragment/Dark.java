@@ -24,31 +24,15 @@ public class Dark extends Fragment {
         // Required empty public constructor
     }
 
-    String query;
-
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentDarkBinding binding = FragmentDarkBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
 
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        query = "dark";
-
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.dark, binding.Dark,getActivity());
+        VolleyGlobalLization.LoadImageDiff(Constant.dark, binding.Dark,getActivity());
 
         binding.Dark.setTranslationZ(40);
-
 
         return view;
     }

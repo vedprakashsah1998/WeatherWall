@@ -32,20 +32,7 @@ public class Image1 extends Fragment {
         FragmentImage1Binding binding = FragmentImage1Binding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.Bokeh, binding.Bokeh,getActivity());
+        VolleyGlobalLization.LoadImageDiff(Constant.Bokeh, binding.Bokeh,getActivity());
 
         binding.Bokeh.setTranslationZ(40);
 

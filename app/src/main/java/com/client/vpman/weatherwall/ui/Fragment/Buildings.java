@@ -34,21 +34,7 @@ public class Buildings extends Fragment {
      FragmentBuildingsBinding binding = FragmentBuildingsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.Building, binding.Building,getActivity());
+        VolleyGlobalLization.LoadImageDiff(Constant.Building, binding.Building,getActivity());
 
         binding.Building.setTranslationZ(40);
         return view;

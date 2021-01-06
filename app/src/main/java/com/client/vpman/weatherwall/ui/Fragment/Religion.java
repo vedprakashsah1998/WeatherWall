@@ -31,22 +31,8 @@ public class Religion extends Fragment {
                              Bundle savedInstanceState) {
         FragmentReligionBinding binding = FragmentReligionBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.isMemoryCacheable();
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
-        VolleyGlobalLization volleyGlobalLization =new VolleyGlobalLization();
-        volleyGlobalLization.LoadImageDiff(requestOptions, Constant.religion, binding.Religion,getActivity());
-
-
+        VolleyGlobalLization.LoadImageDiff(Constant.religion, binding.Religion,getActivity());
 
         binding.Religion.setTranslationZ(40);
         return view;
