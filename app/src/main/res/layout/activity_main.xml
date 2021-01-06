@@ -29,9 +29,9 @@
 
 
     <com.client.vpman.weatherwall.CustomeDesignViewPager.VerticalViewPageAdapter
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/pager"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pager"/>
 
 
 

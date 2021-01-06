@@ -103,7 +103,7 @@ dependencies {
     implementation 'rongi.rotate-layout:rotate-layout:3.0.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 //Lottie Animation
-    implementation 'com.airbnb.android:lottie:3.5.0'
+    implementation 'com.airbnb.android:lottie:3.6.0'
 
     //Switch Library
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'

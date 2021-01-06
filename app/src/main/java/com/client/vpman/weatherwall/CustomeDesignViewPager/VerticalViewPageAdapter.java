@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MotionEventCompat;
@@ -36,13 +35,9 @@ public class VerticalViewPageAdapter extends ViewPager
     private static class VerticalPageTransformer implements ViewPager.PageTransformer
     {
 
-        private static final float MIN_SCALE = 0.75f;
-        private static final float MIN_ALPHA = 0.75f;
         @Override
         public void transformPage(@NonNull View view, float position) {
 
-            int pageWidth = view.getWidth();
-            int pageHeight = view.getHeight();
             if (position < -1) { // [-Infinity,-1)
                 // This page is way off-screen to the left.
                 view.setAlpha(0);
@@ -81,10 +76,8 @@ public class VerticalViewPageAdapter extends ViewPager
     public boolean onInterceptTouchEvent(MotionEvent event) {
 
         boolean intercepted = super.onInterceptTouchEvent(swapXY(event));
-        switch (event.getAction() & MotionEventCompat.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                x = event.getX();
-                break;
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
+            x = event.getX();
         }
         swapXY(event); // return touch coordinates to original reference frame for any child views
         return intercepted;
