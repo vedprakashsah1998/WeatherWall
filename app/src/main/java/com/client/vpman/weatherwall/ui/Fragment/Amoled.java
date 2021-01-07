@@ -30,16 +30,10 @@ public class Amoled extends Fragment {
                              Bundle savedInstanceState) {
         FragmentAmoledBinding binding = FragmentAmoledBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
         VolleyGlobalLization.LoadImageDiff(Constant.Luxury, binding.Amoled,getActivity());
-
         binding.Amoled.setTranslationZ(40);
-
         return view;
     }
-
-
-
 
     public static Amoled newInstance(String text) {
         Amoled f = new Amoled();

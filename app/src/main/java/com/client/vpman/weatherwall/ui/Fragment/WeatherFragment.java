@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -75,8 +74,6 @@ import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -88,14 +85,7 @@ import static android.content.Context.LOCATION_SERVICE;
 public class WeatherFragment extends Fragment {
 
     private List<String> apiList;
-    private MaterialTextView  shareApp, reportText, rateUsText, instagramText, faceBookText, LinkedIn, privacyPolicy, github;
-    private MaterialTextView chooseImgQuality, loadQuality, ContactUsText, weatherWallText, poweredby, credit, setThemeText;
-    private ImageView pexels, flatIcon, Unsplash, backtoMain, share, reportUs, rateUsImg, facebook, privacyImg, instagram, Github, linkedIn;
-    private CardView cardContact, settingCardView, cardSetting, cardCredit, otherCard;
-    private Toolbar toolbar;
     private String JsonUrl;
-    private Dialog dialog;
-    private RelativeLayout relativeLayout;
     private List<String> list;
     private String cityname;
     private static final int PERMISSION_REQUEST_CODE = 200;
@@ -149,9 +139,7 @@ public class WeatherFragment extends Fragment {
             }
         }
 
-
         bounce = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
-
         bounce.setRepeatCount(Animation.INFINITE);
         bounce.setRepeatMode(Animation.INFINITE);
         bounce.setAnimationListener(new Animation.AnimationListener() {
@@ -176,7 +164,6 @@ public class WeatherFragment extends Fragment {
         });
         binding.swipUp.startAnimation(bounce);
 
-        /*image = view.findViewById(R.id.settingImg);*/
         rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(5000);
         rotate.setInterpolator(new LinearInterpolator());
@@ -285,7 +272,6 @@ public class WeatherFragment extends Fragment {
 
                                             dataPasser.onDataPass(description);
 
-
                                             Calendar calendar = Calendar.getInstance();
 
                                             SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-YYYY");
@@ -309,13 +295,11 @@ public class WeatherFragment extends Fragment {
                                                 JSONObject obj = new JSONObject(res);
                                                 //use this json as you want
 
-                                            } catch (UnsupportedEncodingException e1) {
+                                            } catch (UnsupportedEncodingException | JSONException e1) {
                                                 // Couldn't properly decode data to string
                                                 e1.printStackTrace();
-                                            } catch (JSONException e2) {
-                                                // returned data is not JSONObject?
-                                                e2.printStackTrace();
-                                            }
+                                            } // returned data is not JSONObject?
+
                                         }
 
                                     });
@@ -520,18 +504,17 @@ public class WeatherFragment extends Fragment {
     }
 
     private void settingDialog(Activity activity) {
-        dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.show();
-        SettingDialogBinding binding1=SettingDialogBinding.inflate(LayoutInflater.from(getContext()));
+        SettingDialogBinding binding1 = SettingDialogBinding.inflate(LayoutInflater.from(getContext()));
         dialog.setContentView(binding1.getRoot());
 
-        initDialogView();
         binding1.deleteTextMain.setOnClickListener(v -> deleteCache(activity));
 
         binding1.deleteImg.setOnClickListener(v -> deleteCache(activity));
-        shareApp.setOnClickListener(v -> {
+        binding1.shareAppText.setOnClickListener(v -> {
             try {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
@@ -544,7 +527,7 @@ public class WeatherFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-        share.setOnClickListener(v -> {
+        binding1.shareApp.setOnClickListener(v -> {
             try {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
@@ -558,7 +541,7 @@ public class WeatherFragment extends Fragment {
             }
         });
 
-        reportText.setOnClickListener(v -> {
+        binding1.reportText.setOnClickListener(v -> {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                     "mailto", "vp.mannu.kr@gmail.com", null));
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
@@ -566,7 +549,7 @@ public class WeatherFragment extends Fragment {
             startActivity(Intent.createChooser(emailIntent, "Send email..."));
         });
 
-        reportUs.setOnClickListener(v -> {
+        binding1.reportUs.setOnClickListener(v -> {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                     "mailto", "vp.mannu.kr@gmail.com", null));
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
@@ -574,73 +557,73 @@ public class WeatherFragment extends Fragment {
             startActivity(Intent.createChooser(emailIntent, "Send email..."));
         });
 
-        rateUsText.setOnClickListener(v -> {
+        binding1.rateUsText.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
             startActivity(browserIntent);
 
         });
 
-        rateUsImg.setOnClickListener(v -> {
+        binding1.rateUsImg.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.client.vpman.weatherwall"));
             startActivity(browserIntent);
         });
 
-        instagramText.setOnClickListener(v -> {
+        binding1.instagramText.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/weather_wall/"));
             startActivity(browserIntent);
         });
 
-        instagram.setOnClickListener(v -> {
+        binding1.instagram.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/weather_wall/"));
             startActivity(browserIntent);
         });
 
-        faceBookText.setOnClickListener(v -> {
+        binding1.faceBookText.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
             startActivity(browserIntent);
         });
 
-        facebook.setOnClickListener(v -> {
+        binding1.facebook.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Weather-Wall-104577191240236/"));
             startActivity(browserIntent);
         });
 
-        LinkedIn.setOnClickListener(v -> {
+        binding1.LinkedIn.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
             startActivity(browserIntent);
         });
 
-        linkedIn.setOnClickListener(v -> {
+        binding1.linkedIn.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/vedprakash1998/"));
             startActivity(browserIntent);
         });
 
-        github.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
+        binding1.github.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/vedprakashsah1998/WeatherWall"));
             startActivity(browserIntent);
         });
 
-        Github.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Vedprakash12/WeatherWall"));
+        binding1.Github.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/vedprakashsah1998/WeatherWall"));
             startActivity(browserIntent);
         });
 
-        pexels.setOnClickListener(v -> {
+        binding1.pexels.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pexels.com/"));
             startActivity(browserIntent);
         });
 
-        flatIcon.setOnClickListener(v -> {
+        binding1.flatIcon.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/"));
             startActivity(browserIntent);
         });
 
-        Unsplash.setOnClickListener(v -> {
+        binding1.Unsplash.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://unsplash.com/"));
             startActivity(browserIntent);
         });
 
-        privacyPolicy.setOnClickListener(v -> {
+        binding1.privacyPolicy.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://weather-wall.flycricket.io/privacy.html"));
             startActivity(browserIntent);
         });
@@ -652,7 +635,7 @@ public class WeatherFragment extends Fragment {
         SharedPref1 pref = new SharedPref1(activity);
 
 
-        chooseImgQuality.append(pref.getImageQuality());
+        binding1.chooseImgQuality.append(pref.getImageQuality());
 
 
         // attaching data adapter to spinner
@@ -665,7 +648,7 @@ public class WeatherFragment extends Fragment {
 
                 if (position != 0) {
                     pref.setImageQuality(item);
-                    chooseImgQuality.setText("Current Quality :\n" + item);
+                    binding1.chooseImgQuality.setText("Current Quality :\n" + item);
                 }
 
 
@@ -679,7 +662,7 @@ public class WeatherFragment extends Fragment {
         Spinner spinner1 = dialog.findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(activity, R.layout.custome_spinner_list, getResources().getStringArray(R.array.list));
         dataAdapter1.setDropDownViewResource(R.layout.custome_spinner_load);
-        loadQuality.append(pref.getImageLoadQuality());
+        binding1.loadQuality.append(pref.getImageLoadQuality());
         spinner1.setAdapter(dataAdapter1);
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -689,7 +672,7 @@ public class WeatherFragment extends Fragment {
 
                 if (position != 0) {
                     pref.setImageLoadQuality(item);
-                    loadQuality.setText("Load image Quality :\n" + item);
+                    binding1.loadQuality.setText("Load image Quality :\n" + item);
                 }
 
 
@@ -717,234 +700,233 @@ public class WeatherFragment extends Fragment {
         switchButton.setOnCheckedChangeListener((view, isChecked) -> {
             if (!isChecked) {
                 pref.setTheme("Light");
-                relativeLayout.setBackgroundColor(Color.parseColor("#F2F6F9"));
-                toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding1.themeColor.setBackgroundColor(Color.parseColor("#F2F6F9"));
+                binding1.tool1barSetting.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 binding1.deleteTextMain.setTextColor(Color.parseColor("#000000"));
-                setThemeText.setTextColor(Color.parseColor("#000000"));
-                weatherWallText.setTextColor(Color.parseColor("#000000"));
-                poweredby.setTextColor(Color.parseColor("#000000"));
-                otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                setThemeText.setText("Light Mode");
+                binding1.setTheme.setTextColor(Color.parseColor("#000000"));
+                binding1.weatherWallText.setTextColor(Color.parseColor("#000000"));
+                binding1.poweredby.setTextColor(Color.parseColor("#000000"));
+                binding1.otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding1.setTheme.setText("Light Mode");
                 binding1.toolBartext.setTextColor(Color.parseColor("#000000"));
-                privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
+                binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
-                backtoMain.setBackground(drawable);
-                loadQuality.setTextColor(Color.parseColor("#000000"));
+                binding1.backtoMain.setBackground(drawable);
+                binding1.loadQuality.setTextColor(Color.parseColor("#000000"));
                 binding1.deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
-                chooseImgQuality.setTextColor(Color.parseColor("#000000"));
-                settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                share.setImageResource(R.drawable.ic_share_black_24dp);
-                reportUs.setImageResource(R.drawable.ic_report_problem);
-                rateUsImg.setImageResource(R.drawable.ic_rate_review);
-                ContactUsText.setTextColor(Color.parseColor("#000000"));
-                cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                instagram.setImageResource(R.drawable.ic_instagram);
-                facebook.setImageResource(R.drawable.ic_facebook);
-                instagramText.setTextColor(Color.parseColor("#000000"));
-                faceBookText.setTextColor(Color.parseColor("#000000"));
-                linkedIn.setImageResource(R.drawable.ic_linkedin);
-                rateUsText.setTextColor(Color.parseColor("#000000"));
-                Github.setImageResource(R.drawable.ic_logo);
-                credit.setTextColor(Color.parseColor("#000000"));
-                cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                flatIcon.setImageResource(R.drawable.ic_flaticon);
-                Unsplash.setImageResource(R.drawable.ic_unsplash);
-                pexels.setImageResource(R.drawable.pexels);
-                shareApp.setTextColor(Color.parseColor("#000000"));
-                privacyPolicy.setTextColor(Color.parseColor("#000000"));
-                reportText.setTextColor(Color.parseColor("#000000"));
-                github.setTextColor(Color.parseColor("#000000"));
-                LinkedIn.setTextColor(Color.parseColor("#000000"));
+                binding1.chooseImgQuality.setTextColor(Color.parseColor("#000000"));
+                binding1.cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding1.settingCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding1.shareApp.setImageResource(R.drawable.ic_share_black_24dp);
+                binding1.reportUs.setImageResource(R.drawable.ic_report_problem);
+                binding1.rateUsImg.setImageResource(R.drawable.ic_rate_review);
+                binding1.ContactUsText.setTextColor(Color.parseColor("#000000"));
+                binding1.cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding1.instagram.setImageResource(R.drawable.ic_instagram);
+                binding1.facebook.setImageResource(R.drawable.ic_facebook);
+                binding1.instagramText.setTextColor(Color.parseColor("#000000"));
+                binding1.faceBookText.setTextColor(Color.parseColor("#000000"));
+                binding1.linkedIn.setImageResource(R.drawable.ic_linkedin);
+                binding1.rateUsText.setTextColor(Color.parseColor("#000000"));
+                binding1.Github.setImageResource(R.drawable.ic_logo);
+                binding1.credit.setTextColor(Color.parseColor("#000000"));
+                binding1.cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                binding1.flatIcon.setImageResource(R.drawable.ic_flaticon);
+                binding1.Unsplash.setImageResource(R.drawable.ic_unsplash);
+                binding1.pexels.setImageResource(R.drawable.pexels);
+                binding1.shareAppText.setTextColor(Color.parseColor("#000000"));
+                binding1.privacyPolicy.setTextColor(Color.parseColor("#000000"));
+                binding1.reportText.setTextColor(Color.parseColor("#000000"));
+                binding1.github.setTextColor(Color.parseColor("#000000"));
+                binding1.LinkedIn.setTextColor(Color.parseColor("#000000"));
             } else {
                 pref.setTheme("Dark");
-                weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
-                poweredby.setTextColor(Color.parseColor("#FFFFFF"));
-                LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
-                github.setTextColor(Color.parseColor("#FFFFFF"));
-                cardSetting.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-                otherCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-                setThemeText.setText("Dark Mode");
-                faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
-                instagramText.setTextColor(Color.parseColor("#FFFFFF"));
-                rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
-                reportText.setTextColor(Color.parseColor("#FFFFFF"));
-                privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
-                relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
-                chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
-                toolbar.setBackgroundColor(Color.parseColor("#1A1A1A"));
-                loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
-                setThemeText.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.poweredby.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.github.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.settingCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+                binding1.otherCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+                binding1.setTheme.setText("Dark Mode");
+                binding1.faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.instagramText.setTextColor(Color.
+                        parseColor("#FFFFFF"));
+                binding1.rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.reportText.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
+                binding1.themeColor.setBackgroundColor(Color.parseColor("#000000"));
+                binding1.chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.tool1barSetting.setBackgroundColor(Color.parseColor("#1A1A1A"));
+                binding1.loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.setTheme.setTextColor(Color.parseColor("#FFFFFF"));
                 binding1.toolBartext.setTextColor(Color.parseColor("#FFFFFF"));
                 binding1.deleteTextMain.setTextColor(Color.parseColor("#FFFFFF"));
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
-                backtoMain.setBackground(drawable);
-                ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.backtoMain.setBackground(drawable);
+                binding1.ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
                 binding1.deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
-                settingCardView.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-                rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
-                share.setImageResource(R.drawable.ic_share_white_24dp);
-                reportUs.setImageResource(R.drawable.ic_report_problem_white);
-                cardContact.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-                instagram.setImageResource(R.drawable.ic_instagram_white);
-                facebook.setImageResource(R.drawable.ic_facebook_white);
-                linkedIn.setImageResource(R.drawable.ic_linkedin_white);
-                Github.setImageResource(R.drawable.ic_logo_white);
-                cardCredit.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-                credit.setTextColor(Color.parseColor("#FFFFFF"));
-                flatIcon.setImageResource(R.drawable.ic_flaticon_white);
-                Unsplash.setImageResource(R.drawable.ic_unsplash_white);
-                pexels.setImageResource(R.drawable.pexels_white);
-                privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
-                shareApp.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.cardSetting.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+                binding1.rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
+                binding1.shareApp.setImageResource(R.drawable.ic_share_white_24dp);
+                binding1.reportUs.setImageResource(R.drawable.ic_report_problem_white);
+                binding1.cardContact.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+                binding1.instagram.setImageResource(R.drawable.ic_instagram_white);
+                binding1.facebook.setImageResource(R.drawable.ic_facebook_white);
+                binding1.linkedIn.setImageResource(R.drawable.ic_linkedin_white);
+                binding1.Github.setImageResource(R.drawable.ic_logo_white);
+                binding1.cardCredit.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+                binding1.credit.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.flatIcon.setImageResource(R.drawable.ic_flaticon_white);
+                binding1.Unsplash.setImageResource(R.drawable.ic_unsplash_white);
+                binding1.pexels.setImageResource(R.drawable.pexels_white);
+                binding1.privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.shareAppText.setTextColor(Color.parseColor("#FFFFFF"));
             }
         });
 
         if (pref.getTheme().equals("Light")) {
-            setThemeText.setText("Light Mode");
-            LinkedIn.setTextColor(Color.parseColor("#000000"));
-            github.setTextColor(Color.parseColor("#000000"));
-            cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
-            rateUsText.setTextColor(Color.parseColor("#000000"));
-            relativeLayout.setBackgroundColor(Color.parseColor("#F2F6F9"));
-            setThemeText.setTextColor(Color.parseColor("#000000"));
-            loadQuality.setTextColor(Color.parseColor("#000000"));
-            chooseImgQuality.setTextColor(Color.parseColor("#000000"));
-            shareApp.setTextColor(Color.parseColor("#000000"));
-            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.setTheme.setText("Light Mode");
+            binding1.LinkedIn.setTextColor(Color.parseColor("#000000"));
+            binding1.github.setTextColor(Color.parseColor("#000000"));
+            binding1.settingCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
+            binding1.rateUsText.setTextColor(Color.parseColor("#000000"));
+            binding1.themeColor.setBackgroundColor(Color.parseColor("#F2F6F9"));
+            binding1.setTheme.setTextColor(Color.parseColor("#000000"));
+            binding1.loadQuality.setTextColor(Color.parseColor("#000000"));
+            binding1.chooseImgQuality.setTextColor(Color.parseColor("#000000"));
+            binding1.shareAppText.setTextColor(Color.parseColor("#000000"));
+            binding1.tool1barSetting.setBackgroundColor(Color.parseColor("#FFFFFF"));
             binding1.toolBartext.setTextColor(Color.parseColor("#000000"));
             binding1.deleteTextMain.setTextColor(Color.parseColor("#000000"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
-            backtoMain.setBackground(drawable);
-            otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.backtoMain.setBackground(drawable);
+            binding1.otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             binding1.deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
-            reportUs.setImageResource(R.drawable.ic_report_problem);
-            share.setImageResource(R.drawable.ic_share_black_24dp);
-            rateUsImg.setImageResource(R.drawable.ic_rate_review);
-            ContactUsText.setTextColor(Color.parseColor("#000000"));
-            cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            instagram.setImageResource(R.drawable.ic_instagram);
-            facebook.setImageResource(R.drawable.ic_facebook);
-            linkedIn.setImageResource(R.drawable.ic_linkedin);
-            Github.setImageResource(R.drawable.ic_logo);
-            credit.setTextColor(Color.parseColor("#000000"));
-            cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            flatIcon.setImageResource(R.drawable.ic_flaticon);
-            Unsplash.setImageResource(R.drawable.ic_unsplash);
-            pexels.setImageResource(R.drawable.pexels);
-            privacyPolicy.setTextColor(Color.parseColor("#000000"));
-            reportText.setTextColor(Color.parseColor("#000000"));
-            instagramText.setTextColor(Color.parseColor("#000000"));
-            faceBookText.setTextColor(Color.parseColor("#000000"));
-            weatherWallText.setTextColor(Color.parseColor("#000000"));
-            poweredby.setTextColor(Color.parseColor("#000000"));
+            binding1.reportUs.setImageResource(R.drawable.ic_report_problem);
+            binding1.shareApp.setImageResource(R.drawable.ic_share_black_24dp);
+            binding1.rateUsImg.setImageResource(R.drawable.ic_rate_review);
+            binding1.ContactUsText.setTextColor(Color.parseColor("#000000"));
+            binding1.cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.instagram.setImageResource(R.drawable.ic_instagram);
+            binding1.facebook.setImageResource(R.drawable.ic_facebook);
+            binding1.linkedIn.setImageResource(R.drawable.ic_linkedin);
+            binding1.Github.setImageResource(R.drawable.ic_logo);
+            binding1.credit.setTextColor(Color.parseColor("#000000"));
+            binding1.cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.flatIcon.setImageResource(R.drawable.ic_flaticon);
+            binding1.Unsplash.setImageResource(R.drawable.ic_unsplash);
+            binding1.pexels.setImageResource(R.drawable.pexels);
+            binding1.privacyPolicy.setTextColor(Color.parseColor("#000000"));
+            binding1.reportText.setTextColor(Color.parseColor("#000000"));
+            binding1.instagramText.setTextColor(Color.parseColor("#000000"));
+            binding1.faceBookText.setTextColor(Color.parseColor("#000000"));
+            binding1.weatherWallText.setTextColor(Color.parseColor("#000000"));
+            binding1.poweredby.setTextColor(Color.parseColor("#000000"));
 
         } else if (pref.getTheme().equals("Dark")) {
-            weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
-            poweredby.setTextColor(Color.parseColor("#FFFFFF"));
-            LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
-            faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
-            setThemeText.setText("Dark Mode");
-            cardSetting.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-            privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
-            otherCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-            instagramText.setTextColor(Color.parseColor("#FFFFFF"));
-            rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
-            reportText.setTextColor(Color.parseColor("#FFFFFF"));
-            relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
-            toolbar.setBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding1.weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.poweredby.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.setTheme.setText("Dark Mode");
+            binding1.settingCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
+            binding1.otherCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding1.instagramText.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.rateUsText.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.reportText.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.themeColor.setBackgroundColor(Color.parseColor("#000000"));
+            binding1.tool1barSetting.setBackgroundColor(Color.parseColor("#1A1A1A"));
             binding1.toolBartext.setTextColor(Color.parseColor("#FFFFFF"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back_black_24dp); //new Image that was added to the res folder
-            backtoMain.setBackground(drawable);
-            shareApp.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.backtoMain.setBackground(drawable);
+            binding1.shareAppText.setTextColor(Color.parseColor("#FFFFFF"));
 
-            reportUs.setImageResource(R.drawable.ic_report_problem_white);
+            binding1.reportUs.setImageResource(R.drawable.ic_report_problem_white);
             binding1.deleteImg.setImageResource(R.drawable.ic_delete_white_24dp);
-            settingCardView.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-            share.setImageResource(R.drawable.ic_share_white_24dp);
-            rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
-            ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
-            cardContact.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-            instagram.setImageResource(R.drawable.ic_instagram_white);
-            facebook.setImageResource(R.drawable.ic_facebook_white);
-            linkedIn.setImageResource(R.drawable.ic_linkedin_white);
-            Github.setImageResource(R.drawable.ic_logo_white);
-            credit.setTextColor(Color.parseColor("#FFFFFF"));
-            cardCredit.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
-            flatIcon.setImageResource(R.drawable.ic_flaticon_white);
+            binding1.cardSetting.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding1.shareApp.setImageResource(R.drawable.ic_share_white_24dp);
+            binding1.rateUsImg.setImageResource(R.drawable.ic_rate_review_white);
+            binding1.ContactUsText.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.cardContact.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding1.instagram.setImageResource(R.drawable.ic_instagram_white);
+            binding1.facebook.setImageResource(R.drawable.ic_facebook_white);
+            binding1.linkedIn.setImageResource(R.drawable.ic_linkedin_white);
+            binding1.Github.setImageResource(R.drawable.ic_logo_white);
+            binding1.credit.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.cardCredit.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding1.flatIcon.setImageResource(R.drawable.ic_flaticon_white);
             binding1.deleteTextMain.setTextColor(Color.parseColor("#FFFFFF"));
-            Unsplash.setImageResource(R.drawable.ic_unsplash_white);
-            pexels.setImageResource(R.drawable.pexels_white);
-            privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
-            chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
-            loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
-            setThemeText.setTextColor(Color.parseColor("#FFFFFF"));
-            github.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.Unsplash.setImageResource(R.drawable.ic_unsplash_white);
+            binding1.pexels.setImageResource(R.drawable.pexels_white);
+            binding1.privacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.setTheme.setTextColor(Color.parseColor("#FFFFFF"));
+            binding1.github.setTextColor(Color.parseColor("#FFFFFF"));
 
         } else {
-            setThemeText.setText("Light Mode");
-            weatherWallText.setTextColor(Color.parseColor("#000000"));
-            poweredby.setTextColor(Color.parseColor("#000000"));
-            LinkedIn.setTextColor(Color.parseColor("#000000"));
-            github.setTextColor(Color.parseColor("#000000"));
-            cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
-            otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            faceBookText.setTextColor(Color.parseColor("#000000"));
-            instagramText.setTextColor(Color.parseColor("#000000"));
-            setThemeText.setTextColor(Color.parseColor("#000000"));
-            rateUsText.setTextColor(Color.parseColor("#000000"));
-            relativeLayout.setBackgroundColor(Color.parseColor("#F2F6F9"));
-            loadQuality.setTextColor(Color.parseColor("#000000"));
-            chooseImgQuality.setTextColor(Color.parseColor("#000000"));
-            reportText.setTextColor(Color.parseColor("#000000"));
-            toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.setTheme.setText("Light Mode");
+            binding1.weatherWallText.setTextColor(Color.parseColor("#000000"));
+            binding1.poweredby.setTextColor(Color.parseColor("#000000"));
+            binding1.LinkedIn.setTextColor(Color.parseColor("#000000"));
+            binding1.github.setTextColor(Color.parseColor("#000000"));
+            binding1.settingCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
+            binding1.otherCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.faceBookText.setTextColor(Color.parseColor("#000000"));
+            binding1.instagramText.setTextColor(Color.parseColor("#000000"));
+            binding1.setTheme.setTextColor(Color.parseColor("#000000"));
+            binding1.rateUsText.setTextColor(Color.parseColor("#000000"));
+            binding1.themeColor.setBackgroundColor(Color.parseColor("#F2F6F9"));
+            binding1.loadQuality.setTextColor(Color.parseColor("#000000"));
+            binding1.chooseImgQuality.setTextColor(Color.parseColor("#000000"));
+            binding1.reportText.setTextColor(Color.parseColor("#000000"));
+            binding1.tool1barSetting.setBackgroundColor(Color.parseColor("#FFFFFF"));
             binding1.deleteTextMain.setTextColor(Color.parseColor("#000000"));
-            shareApp.setTextColor(Color.parseColor("#000000"));
+            binding1.shareAppText.setTextColor(Color.parseColor("#000000"));
             binding1.toolBartext.setTextColor(Color.parseColor("#000000"));
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
-            backtoMain.setBackground(drawable);
-            rateUsImg.setImageResource(R.drawable.ic_rate_review);
+            binding1.backtoMain.setBackground(drawable);
+            binding1.rateUsImg.setImageResource(R.drawable.ic_rate_review);
             binding1.deleteImg.setImageResource(R.drawable.ic_delete_black_24dp);
-            share.setImageResource(R.drawable.ic_share_black_24dp);
-            ContactUsText.setTextColor(Color.parseColor("#000000"));
-            cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            instagram.setImageResource(R.drawable.ic_instagram);
-            facebook.setImageResource(R.drawable.ic_facebook);
-            Github.setImageResource(R.drawable.ic_logo);
-            linkedIn.setImageResource(R.drawable.ic_linkedin);
-            credit.setTextColor(Color.parseColor("#000000"));
-            cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            settingCardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            flatIcon.setImageResource(R.drawable.ic_flaticon);
-            Unsplash.setImageResource(R.drawable.ic_unsplash);
-            pexels.setImageResource(R.drawable.pexels);
-            privacyPolicy.setTextColor(Color.parseColor("#000000"));
-
+            binding1.shareApp.setImageResource(R.drawable.ic_share_black_24dp);
+            binding1.ContactUsText.setTextColor(Color.parseColor("#000000"));
+            binding1.cardContact.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.instagram.setImageResource(R.drawable.ic_instagram);
+            binding1.facebook.setImageResource(R.drawable.ic_facebook);
+            binding1.Github.setImageResource(R.drawable.ic_logo);
+            binding1.linkedIn.setImageResource(R.drawable.ic_linkedin);
+            binding1.credit.setTextColor(Color.parseColor("#000000"));
+            binding1.cardCredit.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.cardSetting.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            binding1.flatIcon.setImageResource(R.drawable.ic_flaticon);
+            binding1.Unsplash.setImageResource(R.drawable.ic_unsplash);
+            binding1.pexels.setImageResource(R.drawable.pexels);
+            binding1.privacyPolicy.setTextColor(Color.parseColor("#000000"));
 
         }
 
-
-        backtoMain.setOnClickListener(v -> {
+        binding1.backtoMain.setOnClickListener(v -> {
             activity.overridePendingTransition(0, 0);
 
-            if (getFragmentManager() != null) {
-                getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
+            if (getParentFragmentManager() != null) {
+                getParentFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
             }
             activity.recreate();
             activity.overridePendingTransition(0, 0);
         });
         dialog.setOnCancelListener(dialog1 -> {
             activity.overridePendingTransition(0, 0);
-            if (getFragmentManager() != null) {
-                getFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
+            if (getParentFragmentManager() != null) {
+                getParentFragmentManager().beginTransaction().detach(WeatherFragment.this).attach(WeatherFragment.this).commit();
             }
             activity.recreate();
             activity.overridePendingTransition(0, 0);
@@ -1015,8 +997,8 @@ public class WeatherFragment extends Fragment {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
             if (children != null) {
-                for (int i = 0; i < children.length; i++) {
-                    boolean success = deleteDir(new File(dir, children[i]));
+                for (String child : children) {
+                    boolean success = deleteDir(new File(dir, child));
                     if (!success) {
                         return false;
                     }
@@ -1029,43 +1011,5 @@ public class WeatherFragment extends Fragment {
         } else {
             return false;
         }
-    }
-
-    private void initDialogView() {
-        relativeLayout = dialog.findViewById(R.id.themeColor);
-        toolbar = dialog.findViewById(R.id.tool1barSetting);
-        backtoMain = dialog.findViewById(R.id.backtoMain);
-        settingCardView = dialog.findViewById(R.id.cardSetting);
-        share = dialog.findViewById(R.id.shareApp);
-        reportUs = dialog.findViewById(R.id.reportUs);
-        rateUsImg = dialog.findViewById(R.id.rateUsImg);
-        ContactUsText = dialog.findViewById(R.id.ContactUsText);
-        cardContact = dialog.findViewById(R.id.cardContact);
-        instagram = dialog.findViewById(R.id.instagram);
-        weatherWallText = dialog.findViewById(R.id.weatherWallText);
-        poweredby = dialog.findViewById(R.id.poweredby);
-        facebook = dialog.findViewById(R.id.facebook);
-        privacyImg = dialog.findViewById(R.id.privacyImg);
-        linkedIn = dialog.findViewById(R.id.linkedIn);
-        Github = dialog.findViewById(R.id.Github);
-        otherCard = dialog.findViewById(R.id.otherCard);
-        credit = dialog.findViewById(R.id.credit);
-        cardCredit = dialog.findViewById(R.id.cardCredit);
-        setThemeText = dialog.findViewById(R.id.setTheme);
-        cardSetting = dialog.findViewById(R.id.settingCard);
-
-        shareApp = dialog.findViewById(R.id.shareAppText);
-        reportText = dialog.findViewById(R.id.reportText);
-        rateUsText = dialog.findViewById(R.id.rateUsText);
-        instagramText = dialog.findViewById(R.id.instagramText);
-        faceBookText = dialog.findViewById(R.id.faceBookText);
-        LinkedIn = dialog.findViewById(R.id.LinkedIn);
-        chooseImgQuality = dialog.findViewById(R.id.chooseImgQuality);
-        loadQuality = dialog.findViewById(R.id.loadQuality);
-        Unsplash = dialog.findViewById(R.id.Unsplash);
-        flatIcon = dialog.findViewById(R.id.flatIcon);
-        privacyPolicy = dialog.findViewById(R.id.privacyPolicy);
-        github = dialog.findViewById(R.id.github);
-        pexels = dialog.findViewById(R.id.pexels);
     }
 }

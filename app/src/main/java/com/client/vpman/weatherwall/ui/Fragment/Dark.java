@@ -29,11 +29,8 @@ public class Dark extends Fragment {
                              Bundle savedInstanceState) {
         FragmentDarkBinding binding = FragmentDarkBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
         VolleyGlobalLization.LoadImageDiff(Constant.dark, binding.Dark,getActivity());
-
         binding.Dark.setTranslationZ(40);
-
         return view;
     }
 
