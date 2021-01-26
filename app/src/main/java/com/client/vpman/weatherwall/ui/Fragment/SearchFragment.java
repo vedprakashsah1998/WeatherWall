@@ -1,6 +1,8 @@
 package com.client.vpman.weatherwall.ui.Fragment;
 
 
+import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -102,23 +104,45 @@ public class SearchFragment extends Fragment {
             binding.musicSearch.setTextColor(Color.parseColor("#FFFFFF"));
             binding.sportsSearch.setTextColor(Color.parseColor("#FFFFFF"));
         } else {
-            binding.searchData.setTextColor(Color.parseColor("#000000"));
-            binding.searchData.setBackground(getResources().getDrawable(R.drawable.search_ui));
-            binding.searchData.setHintTextColor(getResources().getColor(R.color.black));
+            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    binding.searchData.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.searchData.setBackground(getResources().getDrawable(R.drawable.search_ui_dark));
+                    binding.searchData.setHintTextColor(getResources().getColor(R.color.white));
 
-            binding.appBar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    binding.appBar.setBackgroundColor(Color.parseColor("#000000"));
 
-            binding.close.setImageResource(R.drawable.ic_baseline_arrow_back_24);
+                    binding.close.setImageResource(R.drawable.ic_baseline_arrow_back_24_white);
 
-            binding.natureSearch.setTextColor(Color.parseColor("#000000"));
-            binding.travelSearch.setTextColor(Color.parseColor("#000000"));
-            binding.architectureSearch.setTextColor(Color.parseColor("#000000"));
-            binding.artSearch.setTextColor(Color.parseColor("#000000"));
-            binding.beautySearch.setTextColor(Color.parseColor("#000000"));
-            binding.decorSearch.setTextColor(Color.parseColor("#000000"));
-            binding.foodSearch.setTextColor(Color.parseColor("#000000"));
-            binding.musicSearch.setTextColor(Color.parseColor("#000000"));
-            binding.sportsSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.natureSearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.travelSearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.architectureSearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.artSearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.beautySearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.decorSearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.foodSearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.musicSearch.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.sportsSearch.setTextColor(Color.parseColor("#FFFFFF"));
+
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    binding.searchData.setTextColor(Color.parseColor("#000000"));
+                    binding.searchData.setBackground(getResources().getDrawable(R.drawable.search_ui));
+                    binding.searchData.setHintTextColor(getResources().getColor(R.color.black));
+                    binding.appBar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    binding.close.setImageResource(R.drawable.ic_baseline_arrow_back_24);
+                    binding.natureSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.travelSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.architectureSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.artSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.beautySearch.setTextColor(Color.parseColor("#000000"));
+                    binding.decorSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.foodSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.musicSearch.setTextColor(Color.parseColor("#000000"));
+                    binding.sportsSearch.setTextColor(Color.parseColor("#000000"));
+                    break;
+            }
+
         }
 
         binding.natureSearch.setOnClickListener(v -> {

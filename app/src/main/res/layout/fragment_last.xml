@@ -11,10 +11,11 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/discoverText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/averia_sans_libre"
             android:text="@string/discover"
+            android:layout_toStartOf="@+id/searchIcon"
             android:layout_marginTop="-12dp"
             android:padding="12dp"
             android:layout_marginStart="12dp"
@@ -85,6 +86,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="fashion"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:transitionName="text"
                         android:id="@+id/fashionTextView"
                         android:textColor="#FFFFFF"
@@ -114,6 +117,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="bike ride"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:transitionName="text"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"/>
@@ -124,14 +129,12 @@
                     android:layout_width="140dp"
                     android:layout_height="90dp"
                     android:padding="4dp"
-
                     >
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="match_parent"
                         app:shapeAppearanceOverlay="@style/roundedImageView"
                         android:id="@+id/gameImageView"
                         android:transitionName="img1"
-
                         android:scaleType="centerCrop"
                         android:layout_height="match_parent"/>
                     <View
@@ -144,6 +147,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="game"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:transitionName="text"
                         android:id="@+id/gameTextView"
                         android:textColor="#FFFFFF"
@@ -176,6 +181,8 @@
                         android:layout_centerInParent="true"
                         android:id="@+id/coffeeShopTextView"
                         android:text="coffee shop"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:transitionName="text"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"/>
@@ -206,6 +213,8 @@
                         android:layout_centerInParent="true"
                         android:id="@+id/abstractTextView"
                         android:text="abstract"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:transitionName="text"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"/>
@@ -237,6 +246,8 @@
                         android:layout_centerInParent="true"
                         android:id="@+id/vacationTextView"
                         android:text="vacation"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:transitionName="text"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"/>
@@ -256,7 +267,7 @@
         android:id="@+id/category"
         android:text="@string/category"
         android:padding="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="12dp"
         android:textSize="24sp"
         android:fontFamily="@font/averia_sans_libre"
@@ -267,7 +278,7 @@
        android:id="@+id/tabLayoutLast"
        app:tabIndicator="@android:color/transparent"
        android:layout_below="@+id/category"
-       android:layout_marginTop="12dp"
+       android:layout_marginTop="16dp"
        android:layout_marginStart="12dp"
        app:tabSelectedTextColor="#000000"
        android:background="@android:color/transparent"
@@ -290,17 +301,18 @@
 
    </com.google.android.material.tabs.TabLayout>
        <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_height="300dp"
-       android:layout_marginTop="12dp"
-           android:layout_marginStart="12dp"
-       android:id="@+id/frameLayout"
-       android:layout_below="@+id/tabLayoutLast"
+         android:layout_width="match_parent"
+         android:layout_height="300dp"
+         android:layout_marginTop="22dp"
+         android:layout_marginStart="12dp"
+         android:id="@+id/frameLayout"
+         android:layout_below="@+id/tabLayoutLast"
        />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 

@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -115,15 +116,29 @@ public class FullImageQuotes extends AppCompatActivity {
 
 
         } else {
+            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    binding.tool1barMain.setBackgroundColor(Color.parseColor("#000000"));
+                    binding.tool1barMain.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+                    binding.browser.setImageResource(R.drawable.ic_global);
+                    binding.downloadImg.setImageResource(R.drawable.ic_file_download);
+                    Resources res = getResources(); //resource handle
+                    Drawable drawable = res.getDrawable(R.drawable.basic_design1);
+                    binding.tool1barMain.setBackground(drawable);
+
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    Resources res1 = getResources(); //resource handle
+                    Drawable drawable1 = res1.getDrawable(R.drawable.basic_design1_white);
+
+                    binding.tool1barMain.setBackground(drawable1);
+                    binding.tool1barMain.setNavigationIcon(R.drawable.ic_arrow_back);
+                    binding.browser.setImageResource(R.drawable.ic_global_black);
+                    binding.downloadImg.setImageResource(R.drawable.ic_file_download_black);
+                    break;
+            }
 
 
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-
-            binding.tool1barMain.setBackground(drawable);
-            binding.tool1barMain.setNavigationIcon(R.drawable.ic_arrow_back);
-            binding.browser.setImageResource(R.drawable.ic_global_black);
-            binding.downloadImg.setImageResource(R.drawable.ic_file_download_black);
         }
 
         Intent intent = getIntent();

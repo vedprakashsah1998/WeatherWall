@@ -1,5 +1,6 @@
 package com.client.vpman.weatherwall.ui.Fragment;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -75,10 +76,22 @@ public class SearchResult extends Fragment {
             binding.resBackground.setBackgroundColor(Color.parseColor("#000000"));
             binding.resultToolbar.setBackgroundColor(Color.parseColor("#000000"));
         } else {
-            binding.resBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            binding.resultToolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            binding.backres.setImageResource(R.drawable.ic_arrow_back);
-            binding.searchResult.setTextColor(Color.parseColor("#000000"));
+            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    binding.backres.setImageResource(R.drawable.ic_baseline_arrow_back_24_white);
+                    binding.searchResult.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.resBackground.setBackgroundColor(Color.parseColor("#000000"));
+                    binding.resultToolbar.setBackgroundColor(Color.parseColor("#000000"));
+
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    binding.resBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    binding.resultToolbar.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    binding.backres.setImageResource(R.drawable.ic_arrow_back);
+                    binding.searchResult.setTextColor(Color.parseColor("#000000"));
+                    break;
+            }
+
 
         }
         binding.backres.setOnClickListener(v -> getActivity().onBackPressed());

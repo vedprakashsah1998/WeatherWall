@@ -14,7 +14,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.Activity.SettingActivity"/>
+        <activity
+            android:name=".ui.Activity.SettingsActivityMain"
+            android:label="@string/title_activity_settings_main"></activity>
+        <activity android:name=".ui.Activity.TestSettingActivity" />
+        <activity android:name=".ui.Activity.SettingActivity" />
         <activity android:name=".ui.Activity.SearchActivity" />
         <activity android:name=".ui.Activity.TestFullActivity">
             <intent-filter android:autoVerify="true">
@@ -27,21 +31,17 @@
                     android:host="images.pexels.com"
                     android:pathPrefix="/photos/"
                     android:scheme="https" />
-
                 <data
                     android:host="images.pexels.com"
                     android:pathPrefix="/photos/"
                     android:scheme="http" />
-
             </intent-filter>
         </activity>
         <activity android:name=".ui.Activity.ExploreAcitivity" />
         <activity android:name=".ui.Activity.TestingMotionLayout" />
         <activity android:name=".ui.Activity.IntroActivity" />
-        <activity android:name=".ui.Activity.MainActivity">
-
-        </activity>
-        <activity android:name=".ui.Activity.FullImageQuotes"/>
+        <activity android:name=".ui.Activity.MainActivity" />
+        <activity android:name=".ui.Activity.FullImageQuotes" />
         <activity android:name=".ui.Activity.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,14 +63,13 @@
         android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

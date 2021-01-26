@@ -1,5 +1,6 @@
 package com.client.vpman.weatherwall.ui.Fragment;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -51,9 +52,20 @@ public class Explore extends Fragment {
                 binding.exploreId.setTextColor(Color.parseColor("#FFFFFF"));
                 binding.right.setImageResource(R.drawable.ic_right_white);
             } else {
-                binding.relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                binding.exploreId.setTextColor(Color.parseColor("#000000"));
-                binding.right.setImageResource(R.drawable.ic_right);
+                switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                    case Configuration.UI_MODE_NIGHT_YES:
+                        binding.relexp.setBackgroundColor(Color.parseColor("#000000"));
+                        binding.exploreId.setTextColor(Color.parseColor("#FFFFFF"));
+                        binding.right.setImageResource(R.drawable.ic_right_white);
+
+                        break;
+                    case Configuration.UI_MODE_NIGHT_NO:
+                        binding.relexp.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                        binding.exploreId.setTextColor(Color.parseColor("#000000"));
+                        binding.right.setImageResource(R.drawable.ic_right);
+                        break;
+                }
+
             }
         }
 

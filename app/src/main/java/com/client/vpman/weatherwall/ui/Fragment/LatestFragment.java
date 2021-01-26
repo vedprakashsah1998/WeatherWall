@@ -112,13 +112,11 @@ public class LatestFragment extends Fragment {
                                 HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                         // Now you can use any deserializer to make sense of data
                         JSONObject obj = new JSONObject(res);
-                    } catch (UnsupportedEncodingException e1) {
+                    } catch (UnsupportedEncodingException | JSONException e1) {
                         // Couldn't properly decode data to string
                         e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
-                    }
+                    } // returned data is not JSONObject?
+
                 }
             });
             stringRequest.setShouldCache(false);
@@ -168,13 +166,11 @@ public class LatestFragment extends Fragment {
                                 HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                         // Now you can use any deserializer to make sense of data
                         JSONObject obj = new JSONObject(res);
-                    } catch (UnsupportedEncodingException e1) {
+                    } catch (UnsupportedEncodingException | JSONException e1) {
                         // Couldn't properly decode data to string
                         e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
-                    }
+                    } // returned data is not JSONObject?
+
                 }
 
             });
@@ -224,13 +220,11 @@ public class LatestFragment extends Fragment {
                                 HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                         // Now you can use any deserializer to make sense of data
                         JSONObject obj = new JSONObject(res);
-                    } catch (UnsupportedEncodingException e1) {
+                    } catch (UnsupportedEncodingException | JSONException e1) {
                         // Couldn't properly decode data to string
                         e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
-                    }
+                    } // returned data is not JSONObject?
+
                 }
 
             });
@@ -280,13 +274,11 @@ public class LatestFragment extends Fragment {
                                 HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                         // Now you can use any deserializer to make sense of data
                         JSONObject obj = new JSONObject(res);
-                    } catch (UnsupportedEncodingException e1) {
+                    } catch (UnsupportedEncodingException | JSONException e1) {
                         // Couldn't properly decode data to string
                         e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
-                    }
+                    } // returned data is not JSONObject?
+
                 }
 
             });
@@ -338,13 +330,11 @@ public class LatestFragment extends Fragment {
                                 HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                         // Now you can use any deserializer to make sense of data
                         JSONObject obj = new JSONObject(res);
-                    } catch (UnsupportedEncodingException e1) {
+                    } catch (UnsupportedEncodingException | JSONException e1) {
                         // Couldn't properly decode data to string
                         e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
-                    }
+                    } // returned data is not JSONObject?
+
                 }
 
             });

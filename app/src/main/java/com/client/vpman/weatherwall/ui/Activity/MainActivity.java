@@ -9,7 +9,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -124,10 +126,22 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
             binding.tabLayout2.setVisibility(View.VISIBLE);
             binding.tabLayout.setVisibility(View.GONE);
         } else {
-            binding.rotateLayout.setVisibility(View.VISIBLE);
-            binding.rotateLayout2.setVisibility(View.GONE);
-            binding.tabLayout.setVisibility(View.VISIBLE);
-            binding.tabLayout2.setVisibility(View.GONE);
+            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    binding.rotateLayout.setVisibility(View.GONE);
+                    binding.rotateLayout2.setVisibility(View.VISIBLE);
+                    binding.tabLayout2.setVisibility(View.VISIBLE);
+                    binding.tabLayout.setVisibility(View.GONE);
+
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    binding.rotateLayout.setVisibility(View.VISIBLE);
+                    binding.rotateLayout2.setVisibility(View.GONE);
+                    binding.tabLayout.setVisibility(View.VISIBLE);
+                    binding.tabLayout2.setVisibility(View.GONE);
+                    break;
+            }
+
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

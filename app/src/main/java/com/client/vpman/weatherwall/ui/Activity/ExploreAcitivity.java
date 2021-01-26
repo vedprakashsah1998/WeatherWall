@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -56,7 +57,6 @@ import java.util.Random;
 
 public class ExploreAcitivity extends AppCompatActivity {
 
-    private long mRequestStartTime;
     String query;
     private List<ModelData> model5;
     ExploreAdapter exploreAdapter;
@@ -92,10 +92,22 @@ public class ExploreAcitivity extends AppCompatActivity {
             binding.backgroundDesignExp.setImageResource(R.drawable.basic_design_customized);
 
         } else {
-            binding.titleDataExp.setTextColor(Color.parseColor("#000000"));
-            binding.backMotionExp.setImageResource(R.drawable.ic_arrow_back);
-            binding.motionBackgroundExplore.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            binding.backgroundDesignExp.setImageResource(R.drawable.basic_design_customized_white);
+            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    binding.titleDataExp.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.backMotionExp.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+                    binding.motionBackgroundExplore.setBackgroundColor(Color.parseColor("#000000"));
+                    binding.backgroundDesignExp.setImageResource(R.drawable.basic_design_customized);
+
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    binding.titleDataExp.setTextColor(Color.parseColor("#000000"));
+                    binding.backMotionExp.setImageResource(R.drawable.ic_arrow_back);
+                    binding.motionBackgroundExplore.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    binding.backgroundDesignExp.setImageResource(R.drawable.basic_design_customized_white);
+                    break;
+            }
+
         }
 
         binding.backMotionExp.setOnClickListener(v -> onBackPressed());
@@ -187,7 +199,6 @@ public class ExploreAcitivity extends AppCompatActivity {
 
 
     public void LoadImage(int page) {
-        mRequestStartTime = System.currentTimeMillis();
         String Url = Constant.BASE_URL + query + "&per_page=100&page=" + page + "";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("response", response);

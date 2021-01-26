@@ -4,6 +4,7 @@ package com.client.vpman.weatherwall.ui.Fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -148,15 +150,29 @@ public class LastFragment extends Fragment {
                 binding.searchIcon.setImageResource(R.drawable.ic_loupe_white);
                 binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.white)));
             } else {
-                binding.searchIcon.setImageResource(R.drawable.ic_loupe);
-                binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
-                binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                binding.discoverText.setTextColor(Color.parseColor("#1A1A1A"));
-                binding.topic.setTextColor(getResources().getColor(R.color.black));
-                binding.category.setTextColor(getResources().getColor(R.color.black));
 
-                binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
+                switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                    case Configuration.UI_MODE_NIGHT_YES:
+                        binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#000000"));
+                        binding.discoverText.setTextColor(Color.parseColor("#FFFFFF"));
+                        binding.topic.setTextColor(getResources().getColor(R.color.white));
+                        binding.category.setTextColor(getResources().getColor(R.color.white));
+                        binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow);
+                        binding.searchIcon.setImageResource(R.drawable.ic_loupe_white);
+                        binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.white)));
 
+                        break;
+                    case Configuration.UI_MODE_NIGHT_NO:
+                        binding.searchIcon.setImageResource(R.drawable.ic_loupe);
+                        binding.tabLayoutLast.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+                        binding.rlLayoutDisc.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                        binding.discoverText.setTextColor(Color.parseColor("#1A1A1A"));
+                        binding.topic.setTextColor(getResources().getColor(R.color.black));
+                        binding.category.setTextColor(getResources().getColor(R.color.black));
+
+                        binding.SwipUpdisc.setImageResource(R.drawable.ic_up_arow_black);
+                        break;
+                }
 
             }
         }
@@ -176,7 +192,7 @@ public class LastFragment extends Fragment {
                         fragment = new LatestFragment();
                         break;
                 }
-                FragmentManager fm = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frameLayout, fragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -383,7 +399,7 @@ public class LastFragment extends Fragment {
                             Glide.with(getActivity())
                                     .load(object.getString("large"))
                                     .thumbnail(
-                                            Glide.with(Objects.requireNonNull(getActivity())).load(object.getString("large2x"))
+                                            Glide.with(getContext()).load(object.getString("large2x"))
                                     )
                                     .apply(requestOptions)
                                     .listener(new RequestListener<Drawable>() {

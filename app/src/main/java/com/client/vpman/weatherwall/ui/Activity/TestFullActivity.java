@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -362,16 +363,33 @@ public class TestFullActivity extends AppCompatActivity {
             binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
 
         } else {
-            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
-            binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
-            binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
-            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-            binding.toolBarFull.setBackground(drawable);
-            binding.backExpFull.setImageResource(R.drawable.ic_arrow_back);
-            binding.browserFull1.setImageResource(R.drawable.ic_global_black);
+            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
+                    binding.shareFull.setImageResource(R.drawable.ic_share);
+                    binding.downloadFull.setImageResource(R.drawable.ic_file_download);
+                    binding.backExpFull.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+                    binding.browserFull1.setImageResource(R.drawable.ic_global);
+                    Resources res = getResources(); //resource handle
+                    Drawable drawable = res.getDrawable(R.drawable.basic_design1);
+                    binding.toolBarFull.setBackground(drawable);
+                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
+
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
+                    binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
+                    binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
+                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                    Resources res1 = getResources(); //resource handle
+                    Drawable drawable1 = res1.getDrawable(R.drawable.basic_design1_white);
+                    binding.toolBarFull.setBackground(drawable1);
+                    binding.backExpFull.setImageResource(R.drawable.ic_arrow_back);
+                    binding.browserFull1.setImageResource(R.drawable.ic_global_black);
+                    break;
+            }
+
         }
     }
 

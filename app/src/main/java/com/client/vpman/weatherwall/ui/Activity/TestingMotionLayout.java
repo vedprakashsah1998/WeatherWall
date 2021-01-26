@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -98,10 +100,22 @@ public class TestingMotionLayout extends AppCompatActivity {
             binding.backgroundDesign.setImageResource(R.drawable.basic_design_customized);
 
         } else {
-            binding.titleData.setTextColor(Color.parseColor("#000000"));
-            binding.backMotion.setImageResource(R.drawable.ic_arrow_back);
-            binding.motionBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            binding.backgroundDesign.setImageResource(R.drawable.basic_design_customized_white);
+            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    binding.titleData.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding.backMotion.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+                    binding.motionBackground.setBackgroundColor(Color.parseColor("#000000"));
+                    binding.backgroundDesign.setImageResource(R.drawable.basic_design_customized);
+
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    binding.titleData.setTextColor(Color.parseColor("#000000"));
+                    binding.backMotion.setImageResource(R.drawable.ic_arrow_back);
+                    binding.motionBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    binding.backgroundDesign.setImageResource(R.drawable.basic_design_customized_white);
+                    break;
+            }
+
         }
 
 

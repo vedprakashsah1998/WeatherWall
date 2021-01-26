@@ -2,6 +2,8 @@ package com.client.vpman.weatherwall.ui.Fragment;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -100,10 +102,21 @@ public class Popular extends Fragment {
                 binding.SwipUp.setImageResource(R.drawable.ic_up_arow);
                 binding.relLandscanpe.setBackgroundColor(Color.parseColor("#000000"));
             } else {
-                binding.relpop.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                binding.popPhoto1.setTextColor(Color.parseColor("#000000"));
-                binding.SwipUp.setImageResource(R.drawable.ic_up_arow_black);
-                binding.relLandscanpe.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                    case Configuration.UI_MODE_NIGHT_YES:
+                        binding.relpop.setBackgroundColor(Color.parseColor("#000000"));
+                        binding.popPhoto1.setTextColor(Color.parseColor("#FFFFFF"));
+                        binding.SwipUp.setImageResource(R.drawable.ic_up_arow);
+                        binding.relLandscanpe.setBackgroundColor(Color.parseColor("#000000"));
+
+                        break;
+                    case Configuration.UI_MODE_NIGHT_NO:
+                        binding.relpop.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                        binding.popPhoto1.setTextColor(Color.parseColor("#000000"));
+                        binding.SwipUp.setImageResource(R.drawable.ic_up_arow_black);
+                        binding.relLandscanpe.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                        break;
+                }
             }
         }
 
@@ -235,7 +248,7 @@ public class Popular extends Fragment {
                             Glide.with(getActivity())
                                     .load(object.getString("large"))
                                     .thumbnail(
-                                            Glide.with(Objects.requireNonNull(getActivity())).load(object.getString("large2x"))
+                                            Glide.with(getContext()).load(object.getString("large2x"))
                                     )
                                     .apply(requestOptions)
                                     .listener(new RequestListener<Drawable>() {
@@ -370,7 +383,7 @@ public class Popular extends Fragment {
                             Glide.with(getActivity())
                                     .load(object.getString("large"))
                                     .thumbnail(
-                                            Glide.with(Objects.requireNonNull(getActivity())).load(object.getString("large2x"))
+                                            Glide.with(getContext()).load(object.getString("large2x"))
                                     )
                                     .apply(requestOptions)
                                     .listener(new RequestListener<Drawable>() {
