@@ -14,11 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity
-            android:name=".ui.Activity.SettingsActivityMain"
-            android:label="@string/title_activity_settings_main"></activity>
         <activity android:name=".ui.Activity.TestSettingActivity" />
-        <activity android:name=".ui.Activity.SettingActivity" />
         <activity android:name=".ui.Activity.SearchActivity" />
         <activity android:name=".ui.Activity.TestFullActivity">
             <intent-filter android:autoVerify="true">

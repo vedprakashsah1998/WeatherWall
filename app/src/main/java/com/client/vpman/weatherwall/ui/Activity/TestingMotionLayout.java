@@ -180,10 +180,14 @@ public class TestingMotionLayout extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == testingAdapter.getItemCount() - 1) {
-                    page++;
-                    Log.d("onScrolled", "Data2");
-                    LoadImage(page);
+
+
+                if (binding.recyclerviewTesting.canScrollVertically(1)){
+                    if (linearLayoutManager.findLastVisibleItemPosition() == testingAdapter.getItemCount() - 1) {
+                        page++;
+                        Log.d("onScrolled", "Data2");
+                        LoadImage(page);
+                    }
                 }
             }
         });
@@ -193,7 +197,6 @@ public class TestingMotionLayout extends AppCompatActivity {
 
     public void LoadImage(int page) {
         modelData4List = new ArrayList<>();
-        long mRequestStartTime = System.currentTimeMillis();
         String Url = Constant.BASE_URL + query + "&per_page=80&page=" + page + "";
         Log.d("urlData", Url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {

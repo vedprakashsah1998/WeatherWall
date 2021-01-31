@@ -18,8 +18,7 @@ public class SharedPref1 {
     }
 
     public boolean looadFirstState() {
-        Boolean state = mySharedPref.getBoolean("FIRST", true);
-        return state;
+        return mySharedPref.getBoolean("FIRST", true);
     }
 
     public void setImageQuality(String state) {

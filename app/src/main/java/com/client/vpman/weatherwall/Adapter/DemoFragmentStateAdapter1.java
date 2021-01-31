@@ -5,18 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.client.vpman.weatherwall.ui.Fragment.Amoled;
-import com.client.vpman.weatherwall.ui.Fragment.Buildings;
-import com.client.vpman.weatherwall.ui.Fragment.Car;
-import com.client.vpman.weatherwall.ui.Fragment.Dark;
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.ui.Fragment.Image;
-import com.client.vpman.weatherwall.ui.Fragment.Image1;
-import com.client.vpman.weatherwall.ui.Fragment.Minimal;
-import com.client.vpman.weatherwall.ui.Fragment.Mountain;
-import com.client.vpman.weatherwall.ui.Fragment.Religion;
-import com.client.vpman.weatherwall.ui.Fragment.Sparkles;
-import com.client.vpman.weatherwall.ui.Fragment.Star;
-import com.client.vpman.weatherwall.ui.Fragment.Technology;
 
 
 public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter {
@@ -29,35 +19,35 @@ public class DemoFragmentStateAdapter1 extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return Image.newInstance("Image, Instance 1");
+                return Image.newInstance("Image, Instance 1", Constant.Nature);
             case 1:
-                return Image1.newInstance("Image1, Instance1");
+                return Image.newInstance("Image1, Instance1", Constant.Building);
             case 2:
-                return Sparkles.newInstance("Sparkles, Instance1");
+                return Image.newInstance("Sparkles, Instance1", Constant.Car);
 
             case 3:
-                return Car.newInstance("Sparkles, Instance1");
+                return Image.newInstance("Sparkles, Instance1", Constant.dark);
 
             case 4:
-                return Buildings.newInstance("Buildings, Instance1");
+                return Image.newInstance("Buildings, Instance1", Constant.Bokeh);
             case 5:
-                return Amoled.newInstance("Amoled, Instance1");
+                return Image.newInstance("Amoled, Instance1", Constant.minimal);
             case 6:
-                return Minimal.newInstance("Minimal, Instance1");
+                return Image.newInstance("Minimal, Instance1", Constant.mountain);
             case 7:
-                return Religion.newInstance("Religion, Instance1");
+                return Image.newInstance("Religion, Instance1", Constant.religion);
 
             case 8:
-                return Technology.newInstance("Religion, Instance1");
+                return Image.newInstance("Religion, Instance1", Constant.Sparkles);
             case 9:
-                return Dark.newInstance("Dark, Instance1");
+                return Image.newInstance("Dark, Instance1", Constant.star);
             case 10:
-                return Mountain.newInstance("Mountain, Instance1");
+                return Image.newInstance("Mountain, Instance1", Constant.technology);
             case 11:
-                return Star.newInstance("Star, Instance1");
+                return Image.newInstance("Star, Instance1", Constant.Luxury);
 
             default:
-                return Image.newInstance("Image, Instance 1");
+                return Image.newInstance("Image, Instance 1", Constant.Nature);
         }
     }
 

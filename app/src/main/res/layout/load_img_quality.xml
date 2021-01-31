@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#FFFFFF"
+    android:padding="12dp"
+    android:layout_height="wrap_content">
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Choose Image Download Quality"
+        android:id="@+id/titleDialog1"
+        android:textSize="18sp"
+        android:padding="12dp"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleDialog1"
+        android:id="@+id/radioGroup1"
+        >
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/default2"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:text="Default"/>
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/highQ1"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_below="@+id/default2"
+            android:text="High Quality"/>
+    </RadioGroup>
+
+
+
+
+</RelativeLayout>

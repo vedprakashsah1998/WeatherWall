@@ -29,8 +29,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -47,8 +45,9 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentWeatherBinding;
+import com.client.vpman.weatherwall.databinding.LoadImgQualityBinding;
+import com.client.vpman.weatherwall.databinding.QualitDialogSpinnerBinding;
 import com.client.vpman.weatherwall.databinding.SettingDialogBinding;
-import com.client.vpman.weatherwall.ui.Activity.SettingsActivityMain;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -96,7 +95,7 @@ public class WeatherFragment extends Fragment {
     private Double lat, lon;
     private String countryCode = null;
     private List<Address> addresses;
-
+    SettingDialogBinding binding1;
     private RotateAnimation rotate;
 
     public WeatherFragment() {
@@ -521,7 +520,7 @@ public class WeatherFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.show();
-        SettingDialogBinding binding1 = SettingDialogBinding.inflate(LayoutInflater.from(getContext()));
+         binding1 = SettingDialogBinding.inflate(LayoutInflater.from(getContext()));
         dialog.setContentView(binding1.getRoot());
 
         binding1.deleteTextMain.setOnClickListener(v -> deleteCache(activity));
@@ -649,35 +648,35 @@ public class WeatherFragment extends Fragment {
 
 
         binding1.chooseImgQuality.append(pref.getImageQuality());
+        binding1.chooseImgQuality.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QualityDialog(activity);
+            }
+        });
 
-
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
+/*        spinner.setAdapter(dataAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
-
-
                 if (position != 0) {
                     pref.setImageQuality(item);
                     binding1.chooseImgQuality.setText("Current Quality :\n" + item);
                 }
-
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
-        Spinner spinner1 = dialog.findViewById(R.id.spinner2);
+        });*/
+
+//        Spinner spinner1 = dialog.findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(activity, R.layout.custome_spinner_list, getResources().getStringArray(R.array.list));
         dataAdapter1.setDropDownViewResource(R.layout.custome_spinner_load);
-        binding1.loadQuality.append(pref.getImageLoadQuality());
-        spinner1.setAdapter(dataAdapter1);
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+/*        binding1.spinner2.setAdapter(dataAdapter1);
+        binding1.spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -694,6 +693,14 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });*/
+        binding1.loadQuality.append(pref.getImageLoadQuality());
+
+        binding1.loadQuality.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QualityDialog(activity);
             }
         });
 
@@ -1084,4 +1091,63 @@ public class WeatherFragment extends Fragment {
             return false;
         }
     }
+
+    public void QualityDialog(Activity activity)
+    {
+        Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.show();
+        QualitDialogSpinnerBinding binding=QualitDialogSpinnerBinding.inflate(LayoutInflater.from(getContext()));
+        dialog.setContentView(binding.getRoot());
+        SharedPref1 pref = new SharedPref1(activity);
+
+        binding.radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+            switch(i){
+                case R.id.default1:
+                    // do operations specific to this selection
+                    pref.setImageQuality("Default");
+                    binding1.chooseImgQuality.setText("Current Quality :\n" + "Default");
+
+                    dialog.dismiss();
+                    break;
+                case R.id.highQ:
+                    // do operations specific to this selection
+                    pref.setImageQuality("High Quality");
+                    binding1.chooseImgQuality.setText("Current Quality :\n" + "High Quality");
+                    dialog.dismiss();
+                    break;
+            }
+        });
+    }
+
+    public void QualityDialog1(Activity activity)
+    {
+        Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.show();
+        LoadImgQualityBinding binding=LoadImgQualityBinding.inflate(LayoutInflater.from(getContext()));
+        dialog.setContentView(binding.getRoot());
+        SharedPref1 pref = new SharedPref1(activity);
+
+        binding.radioGroup1.setOnCheckedChangeListener((radioGroup, i) -> {
+            switch(i){
+                case R.id.default2:
+                    // do operations specific to this selection
+                    pref.setImageQuality("Default");
+                    binding1.loadQuality.setText("Current Quality :\n" + "Default");
+
+                    dialog.dismiss();
+                    break;
+                case R.id.highQ1:
+                    // do operations specific to this selection
+                    pref.setImageQuality("High Quality");
+                    binding1.loadQuality.setText("Current Quality :\n" + "High Quality");
+                    dialog.dismiss();
+                    break;
+            }
+        });
+    }
+
 }
