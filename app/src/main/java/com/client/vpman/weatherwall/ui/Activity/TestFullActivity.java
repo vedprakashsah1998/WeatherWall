@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ContentValues;
@@ -31,6 +32,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
@@ -55,10 +57,17 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.signature.ObjectKey;
+import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImage;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivityTestFullBinding;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -73,7 +82,7 @@ public class TestFullActivity extends AppCompatActivity {
     ActivityTestFullBinding binding;
     String mImg, sImg, large, PhotoUrl;
     SharedPref1 pref;
-    private int STORAGE_PERMISSION_CODE = 1;
+    private final int STORAGE_PERMISSION_CODE = 1;
     ProgressDialog mProgressDialog;
 
 
@@ -126,7 +135,7 @@ public class TestFullActivity extends AppCompatActivity {
             binding.imageFullTest.setImageBitmap(image);
         } else {
 
-            if (pref.getImageQuality().equals("Default")) {
+            if (pref.getImageLoadQuality().equals("Default")) {
                 Glide.with(TestFullActivity.this)
                         .load(mImg)
                         .thumbnail(
@@ -155,7 +164,7 @@ public class TestFullActivity extends AppCompatActivity {
 
                         .into(binding.imageFullTest);
 
-            } else if (pref.getImageQuality().equals("High Quality")) {
+            } else if (pref.getImageLoadQuality().equals("High Quality")) {
                 Glide.with(TestFullActivity.this)
                         .load(large)
                         .thumbnail(
@@ -285,7 +294,10 @@ public class TestFullActivity extends AppCompatActivity {
 
 
             });
-            binding.downloadFull.setOnClickListener(v -> SaveImage(TestFullActivity.this));
+//            binding.downloadFull.setOnClickListener(view ->
+//                    downloadWallpaper(view, getIntent().getData().toString()));
+
+            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));
 
             binding.setWallFull.setOnClickListener(view -> {
 
@@ -317,8 +329,15 @@ public class TestFullActivity extends AppCompatActivity {
         } else {
             setWall();
             binding.browserFull1.setVisibility(View.VISIBLE);
-            binding.downloadFull.setOnClickListener(v -> {
-                SaveImage(TestFullActivity.this);
+            binding.downloadFull.setOnClickListener(view -> {
+
+                if (pref.getImageQuality().equals("Default")) {
+                    DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
+                } else if (pref.getImageQuality().equals("High Quality")) {
+                    DownloadImage.downloadWallpaper(view,large,TestFullActivity.this);
+                } else {
+                    DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
+                }
 
             });
             share();
@@ -723,69 +742,7 @@ public class TestFullActivity extends AppCompatActivity {
         rs.destroy();
     }
 
-    private void SaveImage(final Context context) {
-        final ProgressDialog progress = new ProgressDialog(context);
-        boolean granted = checkWriteExternalPermission();
 
-        if (granted) {
-            class SaveThisImage extends AsyncTask<Void, Void, Void> {
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    progress.setTitle("Processing");
-                    progress.setMessage("Please Wait...");
-                    progress.setCancelable(false);
-                    progress.show();
-                }
-
-                @Override
-                protected Void doInBackground(Void... arg0) {
-                    File sdCard = Environment.getExternalStorageDirectory();
-                    @SuppressLint("DefaultLocale") String fileName = String.format("%d.jpg", System.currentTimeMillis());
-                    File dir = new File(sdCard.getAbsolutePath() + "/Weather Wall");
-                    dir.mkdirs();
-                    final File myImageFile = new File(dir, fileName); // Create image file
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    BitmapFactory.decodeFile(String.valueOf(myImageFile), options);
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(myImageFile);
-                        Bitmap bitmap = ((BitmapDrawable) binding.imageFullTest.getDrawable()).getBitmap();
-                        ;
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        intent.setData(Uri.fromFile(myImageFile));
-                        context.sendBroadcast(intent);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
-                    super.onPostExecute(result);
-                    if (progress.isShowing()) {
-                        progress.dismiss();
-                    }
-                    Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-                    Log.d("ewfogho", "done");
-                }
-            }
-            SaveThisImage shareimg = new SaveThisImage();
-            shareimg.execute();
-        } else {
-            Toast.makeText(context, "Permission is not given", Toast.LENGTH_SHORT).show();
-            requestStoragePermission();
-        }
-    }
 
 
 

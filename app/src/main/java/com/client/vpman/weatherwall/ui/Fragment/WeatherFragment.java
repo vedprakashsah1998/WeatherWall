@@ -700,7 +700,7 @@ public class WeatherFragment extends Fragment {
         binding1.loadQuality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QualityDialog(activity);
+                QualityDialog1(activity);
             }
         });
 
@@ -1106,14 +1106,14 @@ public class WeatherFragment extends Fragment {
             switch(i){
                 case R.id.default1:
                     // do operations specific to this selection
-                    pref.setImageQuality("Default");
+                    pref.setImageLoadQuality("Default");
                     binding1.chooseImgQuality.setText("Current Quality :\n" + "Default");
 
                     dialog.dismiss();
                     break;
                 case R.id.highQ:
                     // do operations specific to this selection
-                    pref.setImageQuality("High Quality");
+                    pref.setImageLoadQuality("High Quality");
                     binding1.chooseImgQuality.setText("Current Quality :\n" + "High Quality");
                     dialog.dismiss();
                     break;

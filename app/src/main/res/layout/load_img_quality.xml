@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF"
-    android:padding="12dp"
-    android:layout_height="wrap_content">
+    android:padding="12dp">
 
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleDialog1">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/default2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="Default"
+            android:textSize="16sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/highQ1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/default2"
+            android:padding="12dp"
+            android:text="High Quality"
+            android:textSize="16sp" />
+    </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/titleDialog1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:padding="12dp"
         android:text="Choose Image Download Quality"
-        android:id="@+id/titleDialog1"
-        android:textSize="18sp"
-        android:padding="12dp"/>
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleDialog1"
-        android:id="@+id/radioGroup1"
-        >
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/default2"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:text="Default"/>
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/highQ1"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:layout_below="@+id/default2"
-            android:text="High Quality"/>
-    </RadioGroup>
-
-
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

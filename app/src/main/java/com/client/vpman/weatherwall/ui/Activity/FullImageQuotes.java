@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ContentValues;
@@ -24,11 +25,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.MenuItem;
@@ -51,11 +54,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
+import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImage;
 import com.client.vpman.weatherwall.model.RandomQuotes1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivityFullImageQuotesBinding;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 
 import org.json.JSONArray;
@@ -490,7 +500,13 @@ public class FullImageQuotes extends AppCompatActivity {
         });
 
         binding.downloadImg.setOnClickListener(view -> {
-            SaveImage(FullImageQuotes.this);
+            if (pref.getImageQuality().equals("Default")) {
+                DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
+            } else if (pref.getImageQuality().equals("High Quality")) {
+                DownloadImage.downloadWallpaper(view,largeImg,FullImageQuotes.this);
+            } else {
+                DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
+            }
         });
         binding.browser.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(photoUrl));
@@ -608,67 +624,7 @@ public class FullImageQuotes extends AppCompatActivity {
         }
     }
 
-    private void SaveImage(final Context context) {
-        final ProgressDialog progress = new ProgressDialog(context);
-        boolean granted = checkWriteExternalPermission();
 
-        if (granted) {
-            class SaveThisImage extends AsyncTask<Void, Void, Void> {
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    progress.setTitle("Processing");
-                    progress.setMessage("Please Wait...");
-                    progress.setCancelable(false);
-                    progress.show();
-                }
 
-                @Override
-                protected Void doInBackground(Void... arg0) {
-                    File sdCard = Environment.getExternalStorageDirectory();
-                    @SuppressLint("DefaultLocale") String fileName = String.format("%d.jpg", System.currentTimeMillis());
-                    File dir = new File(sdCard.getAbsolutePath() + "/Weather Wall");
-                    dir.mkdirs();
-                    final File myImageFile = new File(dir, fileName); // Create image file
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    BitmapFactory.decodeFile(String.valueOf(myImageFile), options);
-                    FileOutputStream fos = null;
-                    try {
-                        fos = new FileOutputStream(myImageFile);
-                        Bitmap bitmap = ((BitmapDrawable) binding.imageFullLast.getDrawable()).getBitmap();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        intent.setData(Uri.fromFile(myImageFile));
-                        context.sendBroadcast(intent);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
-                    super.onPostExecute(result);
-                    if (progress.isShowing()) {
-                        progress.dismiss();
-                    }
-                    Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-                    Log.d("ewfogho", "done");
-                }
-            }
-            SaveThisImage shareimg = new SaveThisImage();
-            shareimg.execute();
-        } else {
-            Toast.makeText(context, "Permission is not given", Toast.LENGTH_SHORT).show();
-            requestStoragePermission();
-        }
-    }
 
 }
