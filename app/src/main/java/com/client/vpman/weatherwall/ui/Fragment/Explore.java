@@ -25,8 +25,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Explore extends Fragment {
 
-    private Animation bounce;
     private FragmentExploreBinding binding;
+    public static int pagerPosition;
 
     public Explore() {
         // Required empty public constructor
@@ -83,7 +83,6 @@ public class Explore extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-
                 if (position == 0) {
                     binding.pager1.setCurrentItem(0);
                     /*left.setVisibility(View.GONE);*/

@@ -2,6 +2,7 @@ package com.client.vpman.weatherwall.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -177,10 +178,21 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
             holder.binding.relativeExp.setBackground(drawable);
 
         } else {
-            holder.binding.quotesList.setTextColor(Color.parseColor("#000000"));
-            Resources res = context.getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.basic_design_customized_curved_white);
-            holder.binding.relativeExp.setBackground(drawable);
+            switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    holder.binding.quotesList.setTextColor(Color.parseColor("#FFFFFF"));
+                    Resources res = context.getResources(); //resource handle
+                    Drawable drawable = res.getDrawable(R.drawable.basic_design_customized_curved);
+                    holder.binding.relativeExp.setBackground(drawable);
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    holder.binding.quotesList.setTextColor(Color.parseColor("#000000"));
+                    Resources res1 = context.getResources(); //resource handle
+                    Drawable drawable1 = res1.getDrawable(R.drawable.basic_design_customized_curved_white);
+                    holder.binding.relativeExp.setBackground(drawable1);
+                    break;
+            }
+
 
         }
 

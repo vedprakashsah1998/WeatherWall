@@ -55,6 +55,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImage;
+import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImageKTX;
 import com.client.vpman.weatherwall.model.RandomQuotes1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
@@ -502,6 +503,7 @@ public class FullImageQuotes extends AppCompatActivity {
         binding.downloadImg.setOnClickListener(view -> {
             if (pref.getImageQuality().equals("Default")) {
                 DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
+
             } else if (pref.getImageQuality().equals("High Quality")) {
                 DownloadImage.downloadWallpaper(view,largeImg,FullImageQuotes.this);
             } else {
