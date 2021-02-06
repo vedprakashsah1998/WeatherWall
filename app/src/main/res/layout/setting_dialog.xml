@@ -129,7 +129,7 @@
                         android:id="@+id/line0"
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:layout_below="@+id/chooseImgQuality"
+                        android:layout_below="@+id/chooseimgquality"
                         android:background="#F6F5F5" />
 
                     <View
@@ -149,15 +149,30 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/chooseImgQuality"
-                        android:layout_width="wrap_content"
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/chooseimgquality"
                         android:layout_below="@+id/line"
-                        android:padding="12dp"
-                        android:text="Current Quality :\n "
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        >
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/chooseImgQuality"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Current Quality:"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/chooseImgData"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_below="@+id/chooseImgQuality"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
 
 
                     <com.google.android.material.textview.MaterialTextView

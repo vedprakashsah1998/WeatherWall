@@ -502,12 +502,16 @@ public class FullImageQuotes extends AppCompatActivity {
 
         binding.downloadImg.setOnClickListener(view -> {
             if (pref.getImageQuality().equals("Default")) {
-                DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
-
+               // DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
+                DownloadImageKTX.Companion.downloadWallpaper(view,mImg,FullImageQuotes.this);
             } else if (pref.getImageQuality().equals("High Quality")) {
-                DownloadImage.downloadWallpaper(view,largeImg,FullImageQuotes.this);
+               // DownloadImage.downloadWallpaper(view,largeImg,FullImageQuotes.this);
+                DownloadImageKTX.Companion.downloadWallpaper(view,largeImg,FullImageQuotes.this);
+
             } else {
-                DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
+               // DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
+                DownloadImageKTX.Companion.downloadWallpaper(view,mImg,FullImageQuotes.this);
+
             }
         });
         binding.browser.setOnClickListener(v -> {

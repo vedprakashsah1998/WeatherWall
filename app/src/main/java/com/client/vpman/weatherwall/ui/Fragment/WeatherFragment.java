@@ -647,13 +647,14 @@ public class WeatherFragment extends Fragment {
         SharedPref1 pref = new SharedPref1(activity);
 
 
-        binding1.chooseImgQuality.append(pref.getImageQuality());
-        binding1.chooseImgQuality.setOnClickListener(new View.OnClickListener() {
+        binding1.chooseimgquality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 QualityDialog(activity);
             }
         });
+        binding1.chooseImgData.setText(pref.getImageLoadQuality());
+
 
 /*        spinner.setAdapter(dataAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -695,7 +696,6 @@ public class WeatherFragment extends Fragment {
 
             }
         });*/
-        binding1.loadQuality.append(pref.getImageLoadQuality());
 
         binding1.loadQuality.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -703,6 +703,7 @@ public class WeatherFragment extends Fragment {
                 QualityDialog1(activity);
             }
         });
+        binding1.loadQuality.append(pref.getImageQuality());
 
         SwitchButton switchButton = dialog.findViewById(R.id.sticky_switch1);
 
@@ -739,6 +740,7 @@ public class WeatherFragment extends Fragment {
                 binding1.setTheme.setText("Light Mode");
                 binding1.toolBartext.setTextColor(Color.parseColor("#000000"));
                 binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
+                binding1.chooseImgData.setTextColor(Color.parseColor("#3E3E3E"));
                 Resources res = getResources(); //resource handle
                 Drawable drawable = res.getDrawable(R.drawable.ic_arrow_back); //new Image that was added to the res folder
                 binding1.backtoMain.setBackground(drawable);
@@ -773,6 +775,8 @@ public class WeatherFragment extends Fragment {
                 pref.setTheme("Dark");
                 binding1.weatherWallText.setTextColor(Color.parseColor("#FFFFFF"));
                 binding1.poweredby.setTextColor(Color.parseColor("#FFFFFF"));
+                binding1.chooseImgData.setTextColor(Color.parseColor("#F2F6F9"));
+
                 binding1.LinkedIn.setTextColor(Color.parseColor("#FFFFFF"));
                 binding1.github.setTextColor(Color.parseColor("#FFFFFF"));
                 binding1.settingCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
@@ -822,6 +826,7 @@ public class WeatherFragment extends Fragment {
             binding1.settingCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp);
             binding1.rateUsText.setTextColor(Color.parseColor("#000000"));
+            binding1.chooseImgData.setTextColor(Color.parseColor("#3E3E3E"));
             binding1.themeColor.setBackgroundColor(Color.parseColor("#F2F6F9"));
             binding1.setTheme.setTextColor(Color.parseColor("#000000"));
             binding1.loadQuality.setTextColor(Color.parseColor("#000000"));
@@ -864,6 +869,8 @@ public class WeatherFragment extends Fragment {
             binding1.faceBookText.setTextColor(Color.parseColor("#FFFFFF"));
             binding1.setTheme.setText("Dark Mode");
             binding1.settingCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
+            binding1.chooseImgData.setTextColor(Color.parseColor("#F2F6F9"));
+
             binding1.privacyImg.setImageResource(R.drawable.ic_security_black_24dp_white);
             binding1.otherCard.setCardBackgroundColor(Color.parseColor("#1A1A1A"));
             binding1.instagramText.setTextColor(Color.parseColor("#FFFFFF"));
@@ -944,12 +951,14 @@ public class WeatherFragment extends Fragment {
                     binding1.chooseImgQuality.setTextColor(Color.parseColor("#FFFFFF"));
                     binding1.loadQuality.setTextColor(Color.parseColor("#FFFFFF"));
                     binding1.setTheme.setTextColor(Color.parseColor("#FFFFFF"));
+                    binding1.chooseImgData.setTextColor(Color.parseColor("#F2F6F9"));
                     binding1.github.setTextColor(Color.parseColor("#FFFFFF"));
                     break;
                 case Configuration.UI_MODE_NIGHT_NO:
                     binding1.setTheme.setText("Light Mode");
                     binding1.weatherWallText.setTextColor(Color.parseColor("#000000"));
                     binding1.poweredby.setTextColor(Color.parseColor("#000000"));
+                    binding1.chooseImgData.setTextColor(Color.parseColor("#3E3E3E"));
                     binding1.LinkedIn.setTextColor(Color.parseColor("#000000"));
                     binding1.github.setTextColor(Color.parseColor("#000000"));
                     binding1.settingCard.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -1107,14 +1116,14 @@ public class WeatherFragment extends Fragment {
                 case R.id.default1:
                     // do operations specific to this selection
                     pref.setImageLoadQuality("Default");
-                    binding1.chooseImgQuality.setText("Current Quality :\n" + "Default");
+                    binding1.chooseImgData.setText("Default");
 
                     dialog.dismiss();
                     break;
                 case R.id.highQ:
                     // do operations specific to this selection
                     pref.setImageLoadQuality("High Quality");
-                    binding1.chooseImgQuality.setText("Current Quality :\n" + "High Quality");
+                    binding1.chooseImgData.setText("High Quality");
                     dialog.dismiss();
                     break;
             }
@@ -1137,7 +1146,6 @@ public class WeatherFragment extends Fragment {
                     // do operations specific to this selection
                     pref.setImageQuality("Default");
                     binding1.loadQuality.setText("Current Quality :\n" + "Default");
-
                     dialog.dismiss();
                     break;
                 case R.id.highQ1:

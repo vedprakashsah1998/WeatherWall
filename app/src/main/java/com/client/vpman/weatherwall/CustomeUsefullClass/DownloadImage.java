@@ -20,7 +20,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 public class DownloadImage {
-    public static void downloadWallpaper(View view, String Url,Context context) {
+    public static void downloadWallpaper(View view, String Url, Context context) {
         Dexter.withContext(context)
                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new PermissionListener() {
@@ -35,7 +35,6 @@ public class DownloadImage {
                         downloadManager.enqueue(request);
                         Toast.makeText(context, "Downloading Start", Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -43,9 +42,7 @@ public class DownloadImage {
                         } else {
                             Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show();
                         }
-
                     }
-
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
                         permissionToken.continuePermissionRequest();

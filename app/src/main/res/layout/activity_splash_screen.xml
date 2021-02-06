@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.Activity.SplashScreen">
 
-
-
     <ImageView
         android:layout_width="250dp"
         android:layout_height="350dp"

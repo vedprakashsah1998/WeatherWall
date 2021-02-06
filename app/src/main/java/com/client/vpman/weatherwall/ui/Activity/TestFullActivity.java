@@ -58,6 +58,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.signature.ObjectKey;
 import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImage;
+import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImageKTX;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
@@ -297,8 +298,9 @@ public class TestFullActivity extends AppCompatActivity {
 //            binding.downloadFull.setOnClickListener(view ->
 //                    downloadWallpaper(view, getIntent().getData().toString()));
 
-            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));
+/*            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));*/
 
+                binding.downloadFull.setOnClickListener(view -> DownloadImageKTX.Companion.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));
             binding.setWallFull.setOnClickListener(view -> {
 
                 Log.d("wefe", "ewf");
@@ -332,11 +334,17 @@ public class TestFullActivity extends AppCompatActivity {
             binding.downloadFull.setOnClickListener(view -> {
 
                 if (pref.getImageQuality().equals("Default")) {
-                    DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
+                  //  DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
+                    DownloadImageKTX.Companion.downloadWallpaper(view,mImg,TestFullActivity.this);
+
                 } else if (pref.getImageQuality().equals("High Quality")) {
-                    DownloadImage.downloadWallpaper(view,large,TestFullActivity.this);
+//                    DownloadImage.downloadWallpaper(view,large,TestFullActivity.this);
+                    DownloadImageKTX.Companion.downloadWallpaper(view,large,TestFullActivity.this);
+
                 } else {
-                    DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
+//                    DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
+                    DownloadImageKTX.Companion.downloadWallpaper(view,mImg,TestFullActivity.this);
+
                 }
 
             });

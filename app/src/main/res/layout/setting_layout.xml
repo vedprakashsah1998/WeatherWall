@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#151517">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/settingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backres"
+                android:layout_width="44dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_baseline_arrow_back_24_white" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/searchResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="@string/setting"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_sun"
+                        android:id="@+id/sampleThemeImg"
+                        app:tint="#F4FF81" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-22dp"
+                        android:layout_toEndOf="@+id/sampleThemeImg"
+                        >
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/setTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:padding="4dp"
+                            android:textColor="#FFFFFF"
+                            android:text="Set Theme"
+                            android:layout_centerVertical="true"
+                            />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#868687"
+                            android:textSize="14sp"
+                            android:padding="4dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Dark"
+                            android:layout_below="@+id/setTheme"/>
+                    </RelativeLayout>
+
+
+                    <com.suke.widget.SwitchButton
+                        android:id="@+id/sticky_switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        app:sb_background="@android:color/transparent"
+                        app:sb_button_color="#F6F4F5"
+                        android:layout_marginEnd="12dp"
+                        android:layout_centerVertical="true"
+                        app:sb_checked="false"
+                        app:sb_checked_color="#4197FE"
+                        app:sb_enable_effect="true"
+                        app:sb_shadow_color="#656262"
+                        app:sb_checkline_color="@android:color/transparent"
+                        app:sb_uncheckcircle_color="@android:color/transparent" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/deleteDialog"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_outline_delete_24"
+                        android:id="@+id/clearImg"
+                        app:tint="#FFFFFF" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-22dp"
+                        android:layout_toEndOf="@+id/clearImg"
+                        >
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/clearCache"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:padding="4dp"
+                            android:textColor="#FFFFFF"
+                            android:text="Clear Cache"
+                            android:layout_centerVertical="true"
+                            />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#868687"
+                            android:textSize="14sp"
+                            android:padding="4dp"
+                            android:layout_marginTop="8dp"
+                            android:text="50 MB"
+                            android:layout_below="@+id/clearCache"/>
+                    </RelativeLayout>
+
+
+                    <ImageView
+                        android:id="@+id/goClear"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imgQualityCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_outline_image_24"
+                        android:id="@+id/setQualityCard"
+                        app:tint="#FF9E80" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-22dp"
+                        android:layout_toEndOf="@+id/setQualityCard"
+                        >
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/setQualtiText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:padding="4dp"
+                            android:textColor="#FFFFFF"
+                            android:text="Set Image Loading Quality"
+                            android:layout_centerVertical="true"
+                            />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#868687"
+                            android:textSize="14sp"
+                            android:padding="4dp"
+                            android:layout_marginTop="8dp"
+                            android:text="High Quality"
+                            android:layout_below="@+id/setQualtiText"/>
+                    </RelativeLayout>
+
+
+                    <ImageView
+                        android:id="@+id/goQuality"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/downloadImgQuality"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_outline_download_24"
+                        android:id="@+id/downloadQuality"
+                        app:tint="#4197FE" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-22dp"
+                        android:layout_toEndOf="@+id/downloadQuality"
+                        >
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/downloadText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:padding="4dp"
+                            android:textColor="#FFFFFF"
+                            android:text="Set Image Download Quality"
+                            android:layout_centerVertical="true"
+                            />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#868687"
+                            android:textSize="14sp"
+                            android:padding="4dp"
+                            android:layout_marginTop="8dp"
+                            android:text="High Quality"
+                            android:layout_below="@+id/downloadText"/>
+                    </RelativeLayout>
+
+
+                    <ImageView
+                        android:id="@+id/goDownloadQlty"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rate Us, Report Us, Our Privacy Policies..."
+                android:textColor="#A4A3A6"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:layout_marginStart="8dp"
+                />
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/reportCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_outline_report_24"
+                        android:id="@+id/reportImg"
+                        app:tint="#FF5252" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/reportText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/reportImg"
+                        android:textColor="#FFFFFF"
+                        android:text="Report Us"
+                        android:layout_centerVertical="true"
+                        />
+
+
+
+
+                    <ImageView
+                        android:id="@+id/goReportAct"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ratusCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_outline_rate_review_24"
+                        android:id="@+id/rateUsImg"
+                        app:tint="#69F0AE" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ratUsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/rateUsImg"
+                        android:textColor="#FFFFFF"
+                        android:text="Rate Us"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/goRateUs"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/privacyCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_security_black_24dp_white"
+                        android:id="@+id/privacyImg"
+                        app:tint="#26C6DA" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/privacyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/privacyImg"
+                        android:textColor="#FFFFFF"
+                        android:text="Privacy Policy"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/goPrivacy"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+</LinearLayout>

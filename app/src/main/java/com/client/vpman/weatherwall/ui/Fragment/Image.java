@@ -34,8 +34,6 @@ public class Image extends Fragment {
         VolleyGlobalLization.LoadImageDiff(type, binding.NatureUn,getActivity());
         Log.d("Page", String.valueOf(Explore.pagerPosition));
 
-        int position=Explore.pagerPosition;
-
         if (type.equals(Constant.Nature)){
             binding.natureText.setText("N A T U R E");
             binding.desc.setText("Click here to explore nature photos");
