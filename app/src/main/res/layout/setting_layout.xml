@@ -514,6 +514,126 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connect with us though social media..."
+                android:textColor="#A4A3A6"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:layout_marginStart="8dp"
+                />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/facebookCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:text="f"
+                        android:textSize="26sp"
+                        android:layout_centerVertical="true"
+                        android:textAlignment="center"
+                        android:padding="4dp"
+                        android:textStyle="bold"
+                        android:textColor="#5C6BC0"
+                        android:background="@drawable/round_button"
+                        android:id="@+id/fbText"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fbTextFull"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/fbText"
+                        android:textColor="#FFFFFF"
+                        android:text="Facebook"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/goFb"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/instagramCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#2F2F31"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/round_button"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_instagram"
+                        android:id="@+id/instaImg"
+                        app:tint="#EA80FC" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/instatext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/instaImg"
+                        android:textColor="#FFFFFF"
+                        android:text="Instagram"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/goInsta"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
