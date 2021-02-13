@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -21,7 +19,6 @@ import android.util.LruCache;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -45,13 +42,10 @@ import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
-
 import com.client.vpman.weatherwall.databinding.ActivityTestingMotionLayoutBinding;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -182,7 +176,7 @@ public class TestingMotionLayout extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
 
 
-                if (binding.recyclerviewTesting.canScrollVertically(1)){
+                if (binding.recyclerviewTesting.canScrollVertically(1)) {
                     if (linearLayoutManager.findLastVisibleItemPosition() == testingAdapter.getItemCount() - 1) {
                         page++;
                         Log.d("onScrolled", "Data2");
@@ -269,86 +263,6 @@ public class TestingMotionLayout extends AppCompatActivity {
 
     }
 
-  /*  public void LoadUnsplashImage() {
-
-        String Url = "https://api.unsplash.com/search/photos?per_page=20&page="+page+"&query=" + query + "&client_id=p8S-xjITsctkke0ZmKIdklrug3IMpYcMdObQuGx5xOY";
-
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, response -> {
-
-            Log.d("UnsplashRes",response);
-            try {
-                JSONObject jsonObject=new JSONObject(response);
-                JSONArray jsonArray=jsonObject.getJSONArray("results");
-                for (int i=0;i<jsonArray.length();i++)
-                {
-                    JSONObject jsonObject1=jsonArray.getJSONObject(i);
-                    String blur_hash=jsonObject1.getString("blur_hash");
-                    JSONObject urls=jsonObject1.getJSONObject("urls");
-                    Log.d("ULLL", String.valueOf(urls));
-                    String raw=urls.getString("raw");
-                    String full=urls.getString("full");
-                    String regular=urls.getString("regular");
-                    String small=urls.getString("small");
-                    String thumb=urls.getString("thumb");
-                    JSONObject links=jsonObject1.getJSONObject("links");
-                    String image_html=links.getString("html");
-                    String sponsorship=jsonObject1.getString("sponsorship");
-                    JSONObject user=jsonObject1.getJSONObject("user");
-                    String username=user.getString("username");
-                    String name=user.getString("name");
-                    String twitter_username=user.getString("twitter_username");
-                    String portfolio_url=user.getString("portfolio_url");
-                    String bio=user.getString("bio");
-                    String location=user.getString("location");
-                    JSONObject user_links=user.getJSONObject("links");
-                    String unsplash_portfolio=user_links.getString("html");
-
-                    JSONObject profile_image=user.getJSONObject("profile_image");
-                    String user_profile_small=profile_image.getString("small");
-                    String user_profile_medium=profile_image.getString("medium");
-                    String user_profile_large=profile_image.getString("large");
-                    String instagram_username=user.getString("instagram_username");
-
-                    UnsplashModel unsplashModel=new UnsplashModel(raw,full,regular,small,thumb,blur_hash,username,name,twitter_username,portfolio_url,bio,
-                            location,image_html,sponsorship,unsplash_portfolio,user_profile_small,user_profile_medium,user_profile_large,instagram_username);
-
-                    unsplashModelList.add(unsplashModel);
-                    //Log.d("rawinghu",raw);
-                }
-                Collections.shuffle(unsplashModelList);
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }, error -> {
-
-            NetworkResponse response = error.networkResponse;
-            if (error instanceof ServerError && response != null) {
-                try {
-                    String res = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                    // Now you can use any deserializer to make sense of data
-                    JSONObject obj = new JSONObject(res);
-                } catch (UnsupportedEncodingException e1) {
-                    // Couldn't properly decode data to string
-                    e1.printStackTrace();
-                } catch (JSONException e2) {
-                    // returned data is not JSONObject?
-                    e2.printStackTrace();
-                }
-            }
-
-        });
-        stringRequest.setShouldCache(false);
-
-        RequestQueue requestQueue = Volley.newRequestQueue(TestingMotionLayout.this);
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
-    }*/
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -362,8 +276,6 @@ public class TestingMotionLayout extends AppCompatActivity {
         if (mListState != null) {
 
             linearLayoutManager.onRestoreInstanceState(mListState);
-        } else {
-            Toast.makeText(this, "List is Empty", Toast.LENGTH_SHORT).show();
         }
         super.onResume();
     }

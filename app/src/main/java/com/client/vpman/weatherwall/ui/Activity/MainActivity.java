@@ -57,6 +57,7 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.Transition;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.material.tabs.TabLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,12 +75,9 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements OnDataPass, TabLayout.OnTabSelectedListener {
 
 
-    private DemoFragmentStateAdapter adapter;
     List<String> slides = new ArrayList<>();
-    private String JsonUrl;
     List<ModelData1> listModelData;
     private String Url;
-    private long mRequestStartTime;
     Timer timer = new Timer();
     String query;
 
@@ -110,8 +108,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
         binding.tabLayout2.addTab(binding.tabLayout2.newTab().setText("EXPLORE"));
 
         binding.tabLayout2.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
 
 
         sharedPref1 = new SharedPref1(MainActivity.this);
@@ -189,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
         });
         binding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
         binding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout2));
-        adapter = new DemoFragmentStateAdapter(getSupportFragmentManager());
+        DemoFragmentStateAdapter adapter = new DemoFragmentStateAdapter(getSupportFragmentManager());
         binding.pager.setAdapter(adapter);
         binding.tabLayout.addOnTabSelectedListener(MainActivity.this);
         binding.tabLayout2.addOnTabSelectedListener(MainActivity.this);
@@ -199,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
 
     public void loadImage() {
         slides = new ArrayList<>();
-        mRequestStartTime = System.currentTimeMillis();
         Log.d("iueho", Url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("response", response);
@@ -330,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
 
     public void loadImage1() {
         slides = new ArrayList<>();
-        mRequestStartTime = System.currentTimeMillis();
         Log.d("iueho", Url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("response", response);
@@ -465,7 +459,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
 
     public void loadImage2() {
         slides = new ArrayList<>();
-        mRequestStartTime = System.currentTimeMillis();
         Log.d("iueho", Url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, response -> {
             Log.d("response", response);
@@ -641,14 +634,12 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
     public void loadPixabayImg() {
 
         slides = new ArrayList<>();
-        mRequestStartTime = System.currentTimeMillis();
 
-        JsonUrl = "https://pixabay.com/api/?key=13416003-ed8cefc0190df36d75e38fa93q=" + query + "&image_type=photo&safesearch=true";
+        String jsonUrl = "https://pixabay.com/api/?key=13416003-ed8cefc0190df36d75e38fa93q=" + query + "&image_type=photo&safesearch=true";
         Log.d("ihug", query);
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, JsonUrl, response -> {
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, jsonUrl, response -> {
 
             Log.d("erg", response);
-            mRequestStartTime = System.currentTimeMillis();
 
             try {
                 JSONObject obj = new JSONObject(response);
@@ -740,9 +731,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPass, TabLa
         requestQueue.add(stringRequest1);
 
     }
-
-
-
 
 
     @Override

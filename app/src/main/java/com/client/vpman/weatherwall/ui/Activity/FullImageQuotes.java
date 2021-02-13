@@ -502,16 +502,11 @@ public class FullImageQuotes extends AppCompatActivity {
 
         binding.downloadImg.setOnClickListener(view -> {
             if (pref.getImageQuality().equals("Default")) {
-               // DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
-                DownloadImageKTX.Companion.downloadWallpaper(view,mImg,FullImageQuotes.this);
+                DownloadImageKTX.Companion.downloadWallpaper(mImg, FullImageQuotes.this);
             } else if (pref.getImageQuality().equals("High Quality")) {
-               // DownloadImage.downloadWallpaper(view,largeImg,FullImageQuotes.this);
-                DownloadImageKTX.Companion.downloadWallpaper(view,largeImg,FullImageQuotes.this);
-
+                DownloadImageKTX.Companion.downloadWallpaper(largeImg, FullImageQuotes.this);
             } else {
-               // DownloadImage.downloadWallpaper(view,mImg,FullImageQuotes.this);
-                DownloadImageKTX.Companion.downloadWallpaper(view,mImg,FullImageQuotes.this);
-
+                DownloadImageKTX.Companion.downloadWallpaper(mImg, FullImageQuotes.this);
             }
         });
         binding.browser.setOnClickListener(v -> {
@@ -528,33 +523,24 @@ public class FullImageQuotes extends AppCompatActivity {
         String QuotesUrl = "https://type.fit/api/quotes";
         Log.d("sdfljh", "khwqgdi");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, QuotesUrl, response -> {
-
             Log.d("qoefg", response);
-
             try {
-
                 JSONArray jsonArray = new JSONArray(response);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     Log.d("eouf", String.valueOf(jsonObject));
                     JSONObject jsonObject1 = new JSONObject(String.valueOf(jsonObject));
-                    /*Log.d("TextQuotes", jsonObject1.getString("author"));*/
-
                     RandomQuotes1 randomQuotes1 = new RandomQuotes1(jsonObject1.getString("text"), jsonObject1.getString("author"));
                     randomQuotes.add(randomQuotes1);
                 }
-
                 Collections.shuffle(randomQuotes);
                 Random random = new Random();
                 int n = random.nextInt(randomQuotes.size());
 
                 binding.quotesTextMain.setText(randomQuotes.get(n).getQuotes());
-                /*Log.d("asljf",quote);*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }, error -> {
 
         });
@@ -629,8 +615,6 @@ public class FullImageQuotes extends AppCompatActivity {
             }
         }
     }
-
-
 
 
 }

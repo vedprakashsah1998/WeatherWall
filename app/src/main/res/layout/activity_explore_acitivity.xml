@@ -52,7 +52,7 @@
         android:id="@+id/titleDataExp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:transitionName="text"
         android:textSize="32sp"
         android:textStyle="bold"

@@ -298,9 +298,9 @@ public class TestFullActivity extends AppCompatActivity {
 //            binding.downloadFull.setOnClickListener(view ->
 //                    downloadWallpaper(view, getIntent().getData().toString()));
 
-/*            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));*/
+            /*            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));*/
 
-                binding.downloadFull.setOnClickListener(view -> DownloadImageKTX.Companion.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));
+            binding.downloadFull.setOnClickListener(view -> DownloadImageKTX.Companion.downloadWallpaper(getIntent().getData().toString(), TestFullActivity.this));
             binding.setWallFull.setOnClickListener(view -> {
 
                 Log.d("wefe", "ewf");
@@ -334,16 +334,13 @@ public class TestFullActivity extends AppCompatActivity {
             binding.downloadFull.setOnClickListener(view -> {
 
                 if (pref.getImageQuality().equals("Default")) {
-                  //  DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
-                    DownloadImageKTX.Companion.downloadWallpaper(view,mImg,TestFullActivity.this);
+                    DownloadImageKTX.Companion.downloadWallpaper(mImg, TestFullActivity.this);
 
                 } else if (pref.getImageQuality().equals("High Quality")) {
-//                    DownloadImage.downloadWallpaper(view,large,TestFullActivity.this);
-                    DownloadImageKTX.Companion.downloadWallpaper(view,large,TestFullActivity.this);
+                    DownloadImageKTX.Companion.downloadWallpaper(large, TestFullActivity.this);
 
                 } else {
-//                    DownloadImage.downloadWallpaper(view,mImg,TestFullActivity.this);
-                    DownloadImageKTX.Companion.downloadWallpaper(view,mImg,TestFullActivity.this);
+                    DownloadImageKTX.Companion.downloadWallpaper(mImg, TestFullActivity.this);
 
                 }
 
@@ -749,9 +746,6 @@ public class TestFullActivity extends AppCompatActivity {
 
         rs.destroy();
     }
-
-
-
 
 
 }

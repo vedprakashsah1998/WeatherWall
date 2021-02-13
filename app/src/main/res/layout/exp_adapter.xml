@@ -24,6 +24,7 @@
         android:scaleType="fitXY"
         app:shapeAppearanceOverlay="@style/roundedImageView"
         android:id="@+id/expadapterImg"
+        android:stateListAnimator="@animator/lift_on_touch"
         />
 
     <RelativeLayout
@@ -48,7 +49,7 @@
             android:id="@+id/quotesAuthorList"
             android:layout_below="@id/quotesList"
             android:layout_alignParentEnd="true"
-            android:textColor="#1C1FBC"/>
+            android:textColor="#4197FE"/>
 
     </RelativeLayout>
 

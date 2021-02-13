@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#151517">
+    android:id="@+id/mainSettingLayout">
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/settingToolbar"
         android:layout_width="match_parent"
@@ -19,18 +19,16 @@
                 android:id="@+id/backres"
                 android:layout_width="44dp"
                 android:layout_height="28dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_baseline_arrow_back_24_white" />
+                android:layout_gravity="center_vertical" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/searchResult"
+                android:id="@+id/settingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:text="@string/setting"
-                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
         </LinearLayout>
 
@@ -50,7 +48,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -62,13 +59,11 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
-                        android:src="@drawable/ic_sun"
                         android:id="@+id/sampleThemeImg"
-                        app:tint="#F4FF81" />
+                    />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -84,7 +79,6 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:textColor="#FFFFFF"
                             android:text="Set Theme"
                             android:layout_centerVertical="true"
                             />
@@ -95,6 +89,7 @@
                             android:textColor="#868687"
                             android:textSize="14sp"
                             android:padding="4dp"
+                            android:id="@+id/carrierTheme"
                             android:layout_marginTop="8dp"
                             android:text="Dark"
                             android:layout_below="@+id/setTheme"/>
@@ -126,7 +121,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -138,13 +132,12 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
-                        android:layout_marginStart="6dp"
                         android:src="@drawable/ic_outline_delete_24"
+                        android:layout_marginStart="6dp"
                         android:id="@+id/clearImg"
-                        app:tint="#FFFFFF" />
+                     />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -160,7 +153,6 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:textColor="#FFFFFF"
                             android:text="Clear Cache"
                             android:layout_centerVertical="true"
                             />
@@ -171,8 +163,8 @@
                             android:textColor="#868687"
                             android:textSize="14sp"
                             android:padding="4dp"
+                            android:id="@+id/celarData"
                             android:layout_marginTop="8dp"
-                            android:text="50 MB"
                             android:layout_below="@+id/clearCache"/>
                     </RelativeLayout>
 
@@ -198,7 +190,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -210,7 +201,6 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
@@ -232,7 +222,6 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:textColor="#FFFFFF"
                             android:text="Set Image Loading Quality"
                             android:layout_centerVertical="true"
                             />
@@ -244,7 +233,7 @@
                             android:textSize="14sp"
                             android:padding="4dp"
                             android:layout_marginTop="8dp"
-                            android:text="High Quality"
+                            android:id="@+id/setImgQlty"
                             android:layout_below="@+id/setQualtiText"/>
                     </RelativeLayout>
 
@@ -270,7 +259,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -282,7 +270,6 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
@@ -304,7 +291,6 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:textColor="#FFFFFF"
                             android:text="Set Image Download Quality"
                             android:layout_centerVertical="true"
                             />
@@ -315,14 +301,67 @@
                             android:textColor="#868687"
                             android:textSize="14sp"
                             android:padding="4dp"
+                            android:id="@+id/downloadQlty"
                             android:layout_marginTop="8dp"
-                            android:text="High Quality"
                             android:layout_below="@+id/downloadText"/>
                     </RelativeLayout>
 
 
                     <ImageView
                         android:id="@+id/goDownloadQlty"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/shareCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:id="@+id/shareImg"
+                     />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/shareText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/shareImg"
+                        android:text="Share Our App"
+                        android:layout_centerVertical="true"
+                        />
+
+
+
+
+                    <ImageView
+                        android:id="@+id/goShareAct"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
@@ -356,7 +395,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -368,7 +406,6 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
@@ -384,7 +421,6 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/reportImg"
-                        android:textColor="#FFFFFF"
                         android:text="Report Us"
                         android:layout_centerVertical="true"
                         />
@@ -413,7 +449,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -425,7 +460,6 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
@@ -441,7 +475,6 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/rateUsImg"
-                        android:textColor="#FFFFFF"
                         android:text="Rate Us"
                         android:layout_centerVertical="true"
                         />
@@ -467,7 +500,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -479,7 +511,6 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
@@ -495,7 +526,6 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/privacyImg"
-                        android:textColor="#FFFFFF"
                         android:text="Privacy Policy"
                         android:layout_centerVertical="true"
                         />
@@ -531,7 +561,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -547,10 +576,10 @@
                         android:textSize="26sp"
                         android:layout_centerVertical="true"
                         android:textAlignment="center"
+                        android:layout_marginStart="6dp"
                         android:padding="4dp"
                         android:textStyle="bold"
                         android:textColor="#5C6BC0"
-                        android:background="@drawable/round_button"
                         android:id="@+id/fbText"/>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -561,7 +590,6 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/fbText"
-                        android:textColor="#FFFFFF"
                         android:text="Facebook"
                         android:layout_centerVertical="true"
                         />
@@ -587,7 +615,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="#2F2F31"
                 app:cardElevation="6dp">
 
                 <RelativeLayout
@@ -599,7 +626,6 @@
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/round_button"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
@@ -615,7 +641,6 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/instaImg"
-                        android:textColor="#FFFFFF"
                         android:text="Instagram"
                         android:layout_centerVertical="true"
                         />
@@ -633,6 +658,169 @@
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/linkedinCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="in"
+                        android:textSize="26sp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_centerVertical="true"
+                        android:textAlignment="center"
+                        android:padding="4dp"
+                        android:layout_marginStart="6dp"
+                        android:textStyle="bold"
+                        android:textColor="#651FFF"
+                        android:id="@+id/linkedinText"
+                     />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/linkedinTextData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/linkedinText"
+                        android:text="Linkedin"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/goLinky"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/gitHubCard"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
+                        android:id="@+id/gitHubImg"
+                    />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/githubText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/gitHubImg"
+                        android:text="See our code"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/goGit"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:rotation="270"
+                        app:tint="#BDBDBD"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_iconfinder_down_right_172565" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thank you for your beautifull content for us to make awesome app."
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:id="@+id/smallDesc"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:layout_height="wrap_content">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="32dp"
+                    android:id="@+id/pexelsCard"
+                    >
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/pexelsImg"
+                       />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    app:cardCornerRadius="32dp"
+                    android:id="@+id/flaticonCard"
+                    >
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/flaticonText"
+                        android:textStyle="bold"
+                        android:text="FLATICON"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
