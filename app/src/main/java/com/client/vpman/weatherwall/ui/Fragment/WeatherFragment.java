@@ -290,7 +290,7 @@ public class WeatherFragment extends Fragment {
 
                                             Calendar calendar = Calendar.getInstance();
 
-                                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-YYYY");
+                                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE-MM-yyyy");
                                             String formated_date = sdf.format(calendar.getTime());
 
                                             binding.date.setText(formated_date);
