@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:blurkit="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.Activity.TestFullActivity">
 
     <ImageView
@@ -54,45 +54,55 @@
         android:layout_marginBottom="18dp"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <io.alterac.blurkit.BlurLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/relLayout"
-            android:padding="8dp"
-            >
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:elevation="5dp"
-                android:translationZ="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@+id/downloadFull" />
+            android:id="@+id/blurLayout"
+            app:blk_fps="60"
+            blurkit:blk_blurRadius="12"
+            blurkit:blk_downscaleFactor="0.12"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout"
+                android:padding="8dp"
+                >
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:elevation="5dp"
+                    android:translationZ="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/downloadFull" />
 
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/setWallFull"
-                android:elevation="5dp"
-                android:translationZ="5dp"
-                android:layout_centerInParent="true"
-                android:clickable="true"
-                android:focusable="true" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/setWallFull"
+                    android:elevation="5dp"
+                    android:translationZ="5dp"
+                    android:layout_centerInParent="true"
+                    android:clickable="true"
+                    android:focusable="true" />
 
 
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:elevation="5dp"
-                android:focusable="true"
-                android:clickable="true"
-                android:translationZ="5dp"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/shareFull" />
-        </RelativeLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:elevation="5dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:translationZ="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/shareFull" />
+            </RelativeLayout>
+        </io.alterac.blurkit.BlurLayout>
+
+
 
 
     </androidx.cardview.widget.CardView>

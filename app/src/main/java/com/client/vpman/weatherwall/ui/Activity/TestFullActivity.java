@@ -123,6 +123,7 @@ public class TestFullActivity extends AppCompatActivity {
         requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         requestOptions.centerCrop();
 
+
         LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
             @Override
             protected int sizeOf(String key, Bitmap image) {
@@ -135,7 +136,6 @@ public class TestFullActivity extends AppCompatActivity {
             //Bitmap exists in cache.
             binding.imageFullTest.setImageBitmap(image);
         } else {
-
             if (pref.getImageLoadQuality().equals("Default")) {
                 Glide.with(TestFullActivity.this)
                         .load(mImg)
@@ -221,6 +221,7 @@ public class TestFullActivity extends AppCompatActivity {
                         .into(binding.imageFullTest);
             }
         }
+//        applyBlur();
 
         if (getIntent().getData() != null) {
             Log.d("wegfwe", String.valueOf(getIntent().getData()));
@@ -300,7 +301,8 @@ public class TestFullActivity extends AppCompatActivity {
 
             /*            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));*/
 
-            binding.downloadFull.setOnClickListener(view -> DownloadImageKTX.Companion.downloadWallpaper(getIntent().getData().toString(), TestFullActivity.this));
+            binding.downloadFull.setOnClickListener(view ->
+                    DownloadImageKTX.Companion.downloadWallpaper(getIntent().getData().toString(), TestFullActivity.this));
             binding.setWallFull.setOnClickListener(view -> {
 
                 Log.d("wefe", "ewf");
@@ -350,7 +352,6 @@ public class TestFullActivity extends AppCompatActivity {
         }
 
 
-        applyBlur();
 
 
         binding.browserFull1.setOnClickListener(v -> {
@@ -369,7 +370,7 @@ public class TestFullActivity extends AppCompatActivity {
             binding.backExpFull.setImageResource(R.drawable.ic_arrow_back);
             binding.toolBarFull.setBackground(drawable);
             binding.browserFull1.setImageResource(R.drawable.ic_global_black);
-            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+//            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
             binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
             binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
@@ -384,7 +385,7 @@ public class TestFullActivity extends AppCompatActivity {
             Resources res = getResources(); //resource handle
             Drawable drawable = res.getDrawable(R.drawable.basic_design1);
             binding.toolBarFull.setBackground(drawable);
-            binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
+//            binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
 
         } else {
             switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
@@ -397,15 +398,15 @@ public class TestFullActivity extends AppCompatActivity {
                     Resources res = getResources(); //resource handle
                     Drawable drawable = res.getDrawable(R.drawable.basic_design1);
                     binding.toolBarFull.setBackground(drawable);
-                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
+//                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
 
                     break;
                 case Configuration.UI_MODE_NIGHT_NO:
-                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+//                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                     binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
                     binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
                     binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
-                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+//                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                     Resources res1 = getResources(); //resource handle
                     Drawable drawable1 = res1.getDrawable(R.drawable.basic_design1_white);
                     binding.toolBarFull.setBackground(drawable1);
@@ -694,10 +695,11 @@ public class TestFullActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        binding.blurLayout.startBlur();
         requestStoragePermission();
     }
 
-    private void applyBlur() {
+/*    private void applyBlur() {
         binding.imageFullTest.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -715,14 +717,14 @@ public class TestFullActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void blur(Bitmap bkg, View view) {
-        float radius = 20;
+        float radius = 25;
 
         Bitmap overlay = Bitmap.createBitmap(view.getMeasuredWidth(),
                 view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(overlay);
 
-        canvas.translate(-view.getLeft(), -view.getTop());
+        canvas.translate(-view.getLeft(), -view.getBottom());
         canvas.drawBitmap(bkg, 0, 0, null);
 
         RenderScript rs = RenderScript.create(TestFullActivity.this);
@@ -745,7 +747,9 @@ public class TestFullActivity extends AppCompatActivity {
                 getResources(), overlay));
 
         rs.destroy();
-    }
+    }*/
+
+
 
 
 }

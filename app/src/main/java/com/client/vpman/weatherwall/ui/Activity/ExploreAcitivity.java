@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -17,7 +16,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.WindowManager;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -42,11 +40,9 @@ import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivityExploreAcitivityBinding;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -246,7 +242,7 @@ public class ExploreAcitivity extends AppCompatActivity {
         }) {
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 apiList = new ArrayList<>();
                 apiList.add(getString(R.string.APIKEY1));
                 apiList.add(getString(R.string.APIKEY2));

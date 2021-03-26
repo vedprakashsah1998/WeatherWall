@@ -11,10 +11,10 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/color_logo"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.Activity.TestSettingActivity" />
         <activity android:name=".ui.Activity.SearchActivity" />
         <activity android:name=".ui.Activity.TestFullActivity">
             <intent-filter android:autoVerify="true">

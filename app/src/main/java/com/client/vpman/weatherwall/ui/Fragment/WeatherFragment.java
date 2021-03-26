@@ -27,9 +27,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -40,6 +37,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.client.vpman.weatherwall.CustomeUsefullClass.CalculateCacheMemory;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Connectivity;
 import com.client.vpman.weatherwall.CustomeUsefullClass.OnDataPass;
@@ -48,13 +46,12 @@ import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.FragmentWeatherBinding;
 import com.client.vpman.weatherwall.databinding.LoadImgQualityBinding;
 import com.client.vpman.weatherwall.databinding.QualitDialogSpinnerBinding;
-import com.client.vpman.weatherwall.databinding.SettingDialogBinding;
 import com.client.vpman.weatherwall.databinding.SettingLayoutBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.button.MaterialButton;
-import com.suke.widget.SwitchButton;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -97,10 +94,12 @@ public class WeatherFragment extends Fragment {
     private Double lat, lon;
     private String countryCode = null;
     private List<Address> addresses;
-    SettingDialogBinding binding1;
     SettingLayoutBinding binding2;
     private RotateAnimation rotate;
 
+    /**
+     * My Map Api key= AIzaSyAskbLzNk57OECP2rRWBpGZ4nj_LHpKVCk
+     */
     public WeatherFragment() {
         // Required empty public constructor
     }
@@ -114,6 +113,7 @@ public class WeatherFragment extends Fragment {
         binding = FragmentWeatherBinding.inflate(inflater, container, false);
         View view1 = binding.getRoot();
         list = new ArrayList<>();
+
 
         Log.d("hgfkj", "request");
         if (getActivity() != null) {
@@ -281,8 +281,18 @@ public class WeatherFragment extends Fragment {
                                             String temp = String.valueOf(main_Object.getDouble("temp")).substring(0, 2);
                                             String description = object.getString("description");
                                             String city = response.getString("name");
+                                            String icon=object.getString("icon");
+                                            String iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
 
+//                                            binding.sunImg.setImageURI(Uri.fromFile(new File("http://openweathermap.org/img/wn/" + icon + "@2x.png")));
+                                            Picasso.get()
+                                                    .load(iconUrl)
+                                                    .resize(24,24).into(binding.sunImg);
+                                            Log.d("iconImg","http://openweathermap.org/img/wn/" + icon + "@2x.png");
+
+//                                            Glide.with(getActivity()).load("http://openweathermap.org/img/wn/"+icon+"@2x.png").into(binding.sunImg);
                                             binding.temp.setText(temp + "°C");
+
                                             binding.city.setText(city);
                                             binding.desc.setText(description);
 
@@ -434,9 +444,7 @@ public class WeatherFragment extends Fragment {
                         .setPositiveButton("Open Location Setting", (paramDialogInterface, paramInt) -> {
                             if (getActivity() != null) {
                                 getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-
                             }
-
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
@@ -593,23 +601,19 @@ public class WeatherFragment extends Fragment {
         binding2.downloadImgQuality.setOnClickListener(view -> QualityDialog1(activity));
         binding2.downloadQlty.setText(pref.getImageQuality());
 
-        if (pref.getImageLoadQuality().equals("")){
+        if (pref.getImageLoadQuality().equals("")) {
 
             pref.setImageLoadQuality("Default");
             binding2.setImgQlty.setText(pref.getImageLoadQuality());
         }
 
-        Log.d("imgQlty",pref.getImageLoadQuality());
+        Log.d("imgQlty", pref.getImageLoadQuality());
 
-        if (pref.getImageQuality().equals("")){
+        if (pref.getImageQuality().equals("")) {
 
             pref.setImageQuality("Default");
             binding2.downloadQlty.setText(pref.getImageQuality());
         }
-
-
-
-
 
 
         binding2.stickySwitch1.setOnCheckedChangeListener((view, isChecked) -> {
@@ -1046,8 +1050,6 @@ public class WeatherFragment extends Fragment {
     }
 
 
-
-
     public void Quotes() {
         String QuotesUrl = "https://www.forbes.com/forbesapi/thought/uri.json?enrich=true&query=1&relatedlimit=100";
 
@@ -1258,6 +1260,8 @@ public class WeatherFragment extends Fragment {
         Log.d("STORAGE_TAG", dir.getAbsolutePath() + " uses " + dirSize + " bytes");
         return dirSize;
     }
+
+
 
 
 }

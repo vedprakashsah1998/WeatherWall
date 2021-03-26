@@ -55,15 +55,13 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     >
-
                     <ImageView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
                         android:layout_centerVertical="true"
                         android:padding="8dp"
                         android:layout_marginStart="6dp"
-                        android:id="@+id/sampleThemeImg"
-                    />
+                        android:id="@+id/sampleThemeImg" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -79,7 +77,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:text="Set Theme"
+                            android:text="@string/set_Theme"
                             android:layout_centerVertical="true"
                             />
 
@@ -91,7 +89,6 @@
                             android:padding="4dp"
                             android:id="@+id/carrierTheme"
                             android:layout_marginTop="8dp"
-                            android:text="Dark"
                             android:layout_below="@+id/setTheme"/>
                     </RelativeLayout>
 
@@ -153,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:text="Clear Cache"
+                            android:text="@string/Clear_Cache"
                             android:layout_centerVertical="true"
                             />
 
@@ -222,7 +219,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:text="Set Image Loading Quality"
+                            android:text="@string/imgQlty"
                             android:layout_centerVertical="true"
                             />
 
@@ -291,7 +288,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:padding="4dp"
-                            android:text="Set Image Download Quality"
+                            android:text="@string/imgDownloadQlty"
                             android:layout_centerVertical="true"
                             />
 
@@ -353,7 +350,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/shareImg"
-                        android:text="Share Our App"
+                        android:text="@string/shareApp"
                         android:layout_centerVertical="true"
                         />
 
@@ -377,7 +374,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rate Us, Report Us, Our Privacy Policies..."
+                android:text="@string/rateText"
                 android:textColor="#A4A3A6"
                 android:padding="12dp"
                 android:textSize="14sp"
@@ -421,7 +418,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/reportImg"
-                        android:text="Report Us"
+                        android:text="@string/reportTxt"
                         android:layout_centerVertical="true"
                         />
 
@@ -475,7 +472,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/rateUsImg"
-                        android:text="Rate Us"
+                        android:text="@string/my_own_title"
                         android:layout_centerVertical="true"
                         />
 
@@ -526,7 +523,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/privacyImg"
-                        android:text="Privacy Policy"
+                        android:text="@string/privacyPolicy"
                         android:layout_centerVertical="true"
                         />
 
@@ -547,7 +544,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Connect with us though social media..."
+                android:text="@string/connect"
                 android:textColor="#A4A3A6"
                 android:padding="12dp"
                 android:textSize="14sp"
@@ -572,7 +569,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:text="f"
+                        android:text="@string/f"
                         android:textSize="26sp"
                         android:layout_centerVertical="true"
                         android:textAlignment="center"
@@ -590,7 +587,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/fbText"
-                        android:text="Facebook"
+                        android:text="@string/Facebook"
                         android:layout_centerVertical="true"
                         />
 
@@ -641,7 +638,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/instaImg"
-                        android:text="Instagram"
+                        android:text="@string/Instagram"
                         android:layout_centerVertical="true"
                         />
 
@@ -676,7 +673,7 @@
                     >
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:text="in"
+                        android:text="@string/in"
                         android:textSize="26sp"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
@@ -697,7 +694,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/linkedinText"
-                        android:text="Linkedin"
+                        android:text="@string/Linkedin"
                         android:layout_centerVertical="true"
                         />
 
@@ -747,7 +744,7 @@
                         android:padding="4dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/gitHubImg"
-                        android:text="See our code"
+                        android:text="@string/seeOurCode"
                         android:layout_centerVertical="true"
                         />
 
@@ -767,7 +764,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thank you for your beautifull content for us to make awesome app."
+                android:text="@string/thanks"
                 android:textSize="16sp"
                 android:padding="12dp"
                 android:id="@+id/smallDesc"
@@ -814,13 +811,11 @@
                         android:layout_gravity="center"
                         android:id="@+id/flaticonText"
                         android:textStyle="bold"
-                        android:text="FLATICON"/>
+                        android:text="@string/FLATICON"/>
 
                 </androidx.cardview.widget.CardView>
 
             </LinearLayout>
-
-
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

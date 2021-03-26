@@ -26,52 +26,23 @@
     <string name="my_own_rate">Rate now</string>
     <string name="my_own_thanks">No, thanks</string>
     <string name="my_own_cancel">Later</string>
-    <string name="settings">Settings</string>
 
-    <!-- Settings -->
-    <string name="key_enable_namedays">enable_disable_namedays</string>
-    <string name="key_version_name">version_name</string>
-    <string name="key_contact_dev">contact_dev</string>
-    <string name="key_daily_reminder">daily_reminder</string>
-    <string name="general">General</string>
-    <string name="clear_cache">Clear Cache</string>
-    <string name="cache_size">Cache size: %d MB</string>
-    <string name="theme">Theme</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="layout">Layout</string>
-    <string name="layout_default">Default</string>
-    <string name="layout_minimal">Minimal</string>
-    <string name="layout_grid">Grid</string>
-    <string name="downloader">Downloader</string>
-    <string name="downloader_default">Resplash downloader</string>
-    <string name="downloader_system">System downloader</string>
-    <string name="quality">Quality</string>
-    <string name="quality_raw">Default</string>
-    <string name="quality_full">High Quality</string>
-    <string name="load_quality">Load Quality</string>
-    <string name="download_quality">Download Quality</string>
-    <string name="wallpaper_quality">Wallpaper Quality</string>
-    <string name="title_activity_settings_main">SettingsActivityMain</string>
-    <string name="messages_header">Messages</string>
-
-    <!-- Preference Titles -->
-    <string name="sync_header">Sync</string>
-    <string name="signature_title">Your signature</string>
-
-    <!-- Messages Preferences -->
-    <string name="reply_title">Default reply action</string>
-    <string name="sync_title">Sync email periodically</string>
-
-    <!-- Sync Preferences -->
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string-array name="list">
-        <item>choose Quality</item>
-        <item>Default</item>
-        <item>High Quality</item>
-    </string-array>
+    <string name="set_Theme">Set Theme</string>
+    <string name="Clear_Cache">Clear Cache</string>
+    <string name="imgQlty">Set Image Loading Quality</string>
+    <string name="imgDownloadQlty">Set Image Download Quality</string>
+    <string name="shareApp">Share Our App</string>
+    <string name="rateText">Rate Us, Report Us, Our Privacy Policies…</string>
+    <string name="reportTxt">Report Us</string>
+    <string name="privacyPolicy">Privacy Policy</string>
+    <string name="connect">Connect with us though social media…</string>
+    <string name="f">f</string>
+    <string name="Facebook">Facebook</string>
+    <string name="Instagram">Instagram</string>
+    <string name="in">in</string>
+    <string name="Linkedin">Linkedin</string>
+    <string name="seeOurCode">See our code</string>
+    <string name="thanks">Thank you for your beautifull content for us to make awesome app.</string>
+    <string name="FLATICON">FLATICON</string>
 
 </resources>

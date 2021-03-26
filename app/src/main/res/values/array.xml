@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="theme_options">
-        <item>@string/theme_light</item>
-        <item>@string/theme_dark</item>
-    </string-array>
     <string-array name="theme_values">
         <item>light</item>
         <item>dark</item>
         <item>battery</item>
-    </string-array>
-    <string-array name="layout_options">
-        <item>@string/layout_default</item>
-        <item>@string/layout_minimal</item>
-        <item>@string/layout_grid</item>
     </string-array>
     <string-array name="layout_values">
         <item>default</item>
@@ -21,20 +12,11 @@
         <item>grid</item>
     </string-array>
 
-    <string-array name="downloader_options">
-        <item>@string/downloader_default</item>
-        <item>@string/downloader_system</item>
-    </string-array>
     <string-array name="downloader_values">
         <item>default</item>
         <item>system</item>
     </string-array>
 
-    <string-array name="quality_options">
-        <item>@string/quality_raw</item>
-        <item>@string/quality_full</item>
-
-    </string-array>
     <string-array name="quality_values">
         <item>raw</item>
         <item>full</item>
