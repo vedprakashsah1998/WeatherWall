@@ -371,15 +371,15 @@ public class TestFullActivity extends AppCompatActivity {
             binding.toolBarFull.setBackground(drawable);
             binding.browserFull1.setImageResource(R.drawable.ic_global_black);
 //            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
+ /*           binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
             binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
-            binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
+            binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);*/
 
         } else if (pref.getTheme().equals("Dark")) {
 
-            binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
+/*            binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
             binding.shareFull.setImageResource(R.drawable.ic_share);
-            binding.downloadFull.setImageResource(R.drawable.ic_file_download);
+            binding.downloadFull.setImageResource(R.drawable.ic_file_download);*/
             binding.backExpFull.setImageResource(R.drawable.ic_arrow_back_black_24dp);
             binding.browserFull1.setImageResource(R.drawable.ic_global);
             Resources res = getResources(); //resource handle
@@ -390,9 +390,9 @@ public class TestFullActivity extends AppCompatActivity {
         } else {
             switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
                 case Configuration.UI_MODE_NIGHT_YES:
-                    binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
+/*                    binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
                     binding.shareFull.setImageResource(R.drawable.ic_share);
-                    binding.downloadFull.setImageResource(R.drawable.ic_file_download);
+                    binding.downloadFull.setImageResource(R.drawable.ic_file_download);*/
                     binding.backExpFull.setImageResource(R.drawable.ic_arrow_back_black_24dp);
                     binding.browserFull1.setImageResource(R.drawable.ic_global);
                     Resources res = getResources(); //resource handle
@@ -695,7 +695,11 @@ public class TestFullActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        binding.blurLayout.startBlur();
+//        binding.blurLayout.startBlur();
+        binding.blurLayoutData.startBlur();
+        binding.blurLayoutData1.startBlur();
+        binding.blurLayoutData2.startBlur();
+
         requestStoragePermission();
     }
 
