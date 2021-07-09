@@ -3,16 +3,6 @@ package com.client.vpman.weatherwall.ui.Fragment;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +20,6 @@ import com.client.vpman.weatherwall.Adapter.SearchAdapter;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.R;
-import com.client.vpman.weatherwall.databinding.FragmentSearchBinding;
 import com.client.vpman.weatherwall.databinding.FragmentSearchResultBinding;
 import com.client.vpman.weatherwall.model.ModelData;
 import com.client.vpman.weatherwall.model.PagerAgentViewModel;
@@ -48,6 +37,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class SearchResult extends Fragment {
 
@@ -154,7 +150,8 @@ public class SearchResult extends Fragment {
                     Log.d("PhotoURL", wallobj.getString("url"));
                     JSONObject jsonObject = wallobj.getJSONObject("src");
                     JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                    ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
+                    ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"),
+                            object.getString("large"), object.getString("original"), wallobj.getString("url"),wallobj.getString("photographer_url"));
                     list.add(modelData1);
                 }
                 Collections.shuffle(list);

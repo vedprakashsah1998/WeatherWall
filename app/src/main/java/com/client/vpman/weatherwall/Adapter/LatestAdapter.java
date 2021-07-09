@@ -113,7 +113,6 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.PicsumHold
                 Intent intent = new Intent(context, TestFullActivity.class);
                 intent.putExtra("large", modelData1.getDisplayUrl());
                 intent.putExtra("img", modelData1.getThumbnail_src());
-
                 intent.putExtra("PhotoUrl", modelData1.getPhotoUrl());
 
                 Pair[] pairs = new Pair[1];

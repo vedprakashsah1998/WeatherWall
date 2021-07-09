@@ -8,11 +8,11 @@
     tools:context=".ui.Activity.TestFullActivity">
 
     <ImageView
+        android:id="@+id/imageFullTest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:transitionName="imageData"
-        android:id="@+id/imageFullTest"/>
+        android:transitionName="imageData" />
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -45,7 +45,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="70dp"
-        android:layout_height="90dp"
+        android:layout_height="70dp"
+        android:id="@+id/dwld"
         app:cardCornerRadius="8dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="22dp"
@@ -65,8 +66,8 @@
                 android:padding="8dp"
                 >
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:layout_centerInParent="true"
                     android:elevation="5dp"
                     android:translationZ="5dp"
@@ -77,13 +78,22 @@
             </RelativeLayout>
 
         </io.alterac.blurkit.BlurLayout>
-
+   <!--     <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dwld"
+            android:textSize="14sp"
+            android:layout_marginBottom="44dp"
+            android:layout_marginStart="22dp"
+            android:text="Download"/>-->
     </androidx.cardview.widget.CardView>
+
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="70dp"
         app:cardCornerRadius="8dp"
-        android:layout_height="90dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="22dp"
         android:layout_centerHorizontal="true"
@@ -103,8 +113,8 @@
                 android:padding="8dp"
                 >
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:id="@+id/setWallFull"
                     android:elevation="5dp"
                     android:src="@drawable/ic_wallpaper_black"
@@ -121,7 +131,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="70dp"
-        android:layout_height="90dp"
+        android:layout_height="70dp"
         app:cardCornerRadius="8dp"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="22dp"
@@ -142,8 +152,8 @@
                 android:padding="8dp"
                 >
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:elevation="5dp"
                     android:focusable="true"
                     android:src="@drawable/ic_share_black_24dp"

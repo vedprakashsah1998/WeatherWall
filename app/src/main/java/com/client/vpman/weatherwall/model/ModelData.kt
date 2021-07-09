@@ -5,5 +5,6 @@ class ModelData (
         var photographer: String,
         var large: String,
         var original: String,
-        var photoUrl: String
+        var photoUrl: String,
+        var photographer_url: String
 )

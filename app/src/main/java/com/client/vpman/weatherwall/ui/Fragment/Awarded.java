@@ -73,7 +73,8 @@ public class Awarded extends Fragment {
                         Log.d("PhotoURL", wallobj.getString("url"));
                         JSONObject jsonObject = wallobj.getJSONObject("src");
                         JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                        ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"), object.getString("large"), object.getString("original"), wallobj.getString("url"));
+                        ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"),
+                                object.getString("large"), object.getString("original"), wallobj.getString("url"),wallobj.getString("photographer_url"));
                         list.add(modelData1);
                     }
                     Collections.shuffle(list);

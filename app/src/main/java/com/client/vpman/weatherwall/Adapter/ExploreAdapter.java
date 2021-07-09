@@ -240,6 +240,8 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.MyExpHol
             intent.putExtra("imgDataAdapter", modelData1.getLarge2x());
             intent.putExtra("imgDataAdapterSmall", modelData1.getLarge());
             intent.putExtra("photoUrl", modelData1.getPhotoUrl());
+            intent.putExtra("Photographer_url", modelData1.getPhotographer_url());
+
             context.startActivity(intent);
         });
     }

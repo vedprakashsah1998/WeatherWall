@@ -111,6 +111,7 @@ public class AwardedAdapter extends RecyclerView.Adapter<AwardedAdapter.AwardedH
                 intent.putExtra("img", modelData1.getLarge2x());
                 intent.putExtra("imgSmall", modelData1.getLarge());
                 intent.putExtra("PhotoUrl", modelData1.getPhotoUrl());
+                intent.putExtra("Photographer_url", modelData1.getPhotographer_url());
 
                 Pair[] pairs = new Pair[1];
                 pairs[0] = new Pair<View, String>(holder.imageView, "imageData");
