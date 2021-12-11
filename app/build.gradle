@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 31
-    buildToolsVersion "29.0.3"
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.client.vpman.weatherwall"
         minSdkVersion 21
@@ -19,7 +19,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 
     buildTypes {
@@ -125,7 +125,7 @@ dependencies {
     implementation 'com.github.fornewid:neumorphism:0.3.0'
 
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'com.karumi:dexter:6.2.2'
+    implementation 'com.karumi:dexter:6.2.3'
 
     //RxJava
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'

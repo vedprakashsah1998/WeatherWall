@@ -1,48 +1,26 @@
 package com.client.vpman.weatherwall.ui.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.transition.Explode;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -52,31 +30,26 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImage;
 import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImageKTX;
 import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
 import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
 import com.client.vpman.weatherwall.R;
 import com.client.vpman.weatherwall.databinding.ActivityTestFullBinding;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public class TestFullActivity extends AppCompatActivity {
 
@@ -590,6 +563,7 @@ public class TestFullActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("MissingPermission")
     private void setWall() {
         binding.setWallFull.setOnClickListener(view -> {
 
