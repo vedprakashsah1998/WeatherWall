@@ -9,15 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
-import com.android.volley.ServerError
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.client.vpman.weatherwall.Adapter.SearchAdapter
@@ -27,9 +24,7 @@ import com.client.vpman.weatherwall.R
 import com.client.vpman.weatherwall.databinding.FragmentSearchResultBinding
 import com.client.vpman.weatherwall.model.ModelData
 import com.client.vpman.weatherwall.model.PagerAgentViewModel
-import org.json.JSONException
 import org.json.JSONObject
-import java.io.UnsupportedEncodingException
 import java.util.*
 import kotlin.collections.ArrayList
 
