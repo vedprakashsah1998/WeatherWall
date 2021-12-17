@@ -1,683 +1,662 @@
-package com.client.vpman.weatherwall.ui.Activity;
+package com.client.vpman.weatherwall.ui.Activity
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.app.WallpaperManager;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.StrictMode;
-import android.provider.MediaStore;
-import android.transition.Explode;
-import android.util.Log;
-import android.util.LruCache;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Toast;
+import android.Manifest
+import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImageKTX.Companion.downloadWallpaper
+import androidx.appcompat.app.AppCompatActivity
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1
+import android.os.Bundle
+import android.view.WindowManager
+import android.content.Intent
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import android.graphics.Bitmap
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestListener
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.engine.GlideException
+import com.squareup.picasso.Picasso
+import com.bumptech.glide.request.target.SimpleTarget
+import android.content.ContentValues
+import android.provider.MediaStore
+import android.widget.Toast
+import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImageKTX
+import android.os.StrictMode
+import android.app.WallpaperManager
+import com.client.vpman.weatherwall.R
+import android.annotation.SuppressLint
+import android.app.ProgressDialog
+import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.net.Uri
+import android.transition.Explode
+import android.util.Log
+import android.util.LruCache
+import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
+import com.client.vpman.weatherwall.CustomeUsefullClass.Utils
+import com.client.vpman.weatherwall.databinding.ActivityTestFullBinding
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.lang.Exception
+import java.net.URL
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.signature.ObjectKey;
-import com.client.vpman.weatherwall.CustomeUsefullClass.DownloadImageKTX;
-import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
-import com.client.vpman.weatherwall.CustomeUsefullClass.Utils;
-import com.client.vpman.weatherwall.R;
-import com.client.vpman.weatherwall.databinding.ActivityTestFullBinding;
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-public class TestFullActivity extends AppCompatActivity {
-
-    ActivityTestFullBinding binding;
-    String mImg, sImg, large, PhotoUrl;
-    SharedPref1 pref;
-    private final int STORAGE_PERMISSION_CODE = 1;
-    ProgressDialog mProgressDialog;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityTestFullBinding.inflate(getLayoutInflater());
-        View view1 = binding.getRoot();
-        setContentView(view1);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setEnterTransition(new Explode());
-        getWindow().setExitTransition(new Explode());
-
-        Intent intent = getIntent();
-        mImg = intent.getStringExtra("img");
-        sImg = intent.getStringExtra("imgSmall");
-        large = intent.getStringExtra("large");
-        PhotoUrl = intent.getStringExtra("PhotoUrl");
-
-
-        pref = new SharedPref1(TestFullActivity.this);
-        Log.d("FullImage8085", pref.getImageQuality());
-
-        setThemeBased();
-        binding.backExpFull.setOnClickListener(v -> onBackPressed());
-
-        RequestOptions requestOptions = new RequestOptions();
+class TestFullActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityTestFullBinding
+    var mImg: String? = null
+    var sImg: String? = null
+    var large: String? = null
+    var PhotoUrl: String? = null
+    var pref: SharedPref1? = null
+    private val STORAGE_PERMISSION_CODE = 1
+    var mProgressDialog: ProgressDialog? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityTestFullBinding.inflate(
+            layoutInflater
+        )
+        val view1: View = binding.root
+        setContentView(view1)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+        window.enterTransition = Explode()
+        window.exitTransition = Explode()
+        val intent = intent
+        mImg = intent.getStringExtra("img")
+        sImg = intent.getStringExtra("imgSmall")
+        large = intent.getStringExtra("large")
+        PhotoUrl = intent.getStringExtra("PhotoUrl")
+        pref = SharedPref1(this@TestFullActivity)
+        Log.d("FullImage8085", pref!!.imageQuality)
+        setThemeBased()
+        binding.backExpFull.setOnClickListener { v: View? -> onBackPressed() }
+        val requestOptions = RequestOptions()
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(System.currentTimeMillis())).encodeQuality(70);
-        requestOptions.priority(Priority.IMMEDIATE);
-        requestOptions.skipMemoryCache(false);
-        requestOptions.onlyRetrieveFromCache(true);
-        requestOptions.priority(Priority.HIGH);
-        requestOptions.placeholder(Utils.getRandomDrawbleColor());
-        requestOptions.isMemoryCacheable();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        requestOptions.centerCrop();
-
-
-        LruCache<String, Bitmap> memCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / (1024 * 4))) {
-            @Override
-            protected int sizeOf(String key, Bitmap image) {
-                return image.getByteCount() / 1024;
+            .signature(ObjectKey(System.currentTimeMillis())).encodeQuality(70)
+        requestOptions.priority(Priority.IMMEDIATE)
+        requestOptions.skipMemoryCache(false)
+        requestOptions.onlyRetrieveFromCache(true)
+        requestOptions.priority(Priority.HIGH)
+        requestOptions.placeholder(Utils.randomDrawbleColor)
+        requestOptions.isMemoryCacheable
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA)
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        requestOptions.centerCrop()
+        val memCache: LruCache<String?, Bitmap> = object : LruCache<String?, Bitmap>(
+            (Runtime.getRuntime().maxMemory() / (1024 * 4)).toInt()
+        ) {
+            override fun sizeOf(key: String?, image: Bitmap): Int {
+                return image.byteCount / 1024
             }
-        };
-
-        Bitmap image = memCache.get("imagefile");
+        }
+        val image = memCache["imagefile"]
         if (image != null) {
             //Bitmap exists in cache.
-            binding.imageFullTest.setImageBitmap(image);
+            binding.imageFullTest.setImageBitmap(image)
         } else {
-            if (pref.getImageLoadQuality().equals("Default")) {
-                Glide.with(TestFullActivity.this)
+            when (pref!!.imageLoadQuality) {
+                "Default" -> {
+                    Glide.with(this@TestFullActivity)
                         .load(mImg)
                         .thumbnail(
-                                Glide.with(TestFullActivity.this).load(mImg)
+                            Glide.with(this@TestFullActivity).load(mImg)
                         )
                         .apply(requestOptions)
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        .listener(object : RequestListener<Drawable?> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                isFirstResource: Boolean
+                            ): Boolean {
                                 //  spinKitView.setVisibility(View.GONE);
                                 //  supportStartPostponedEnterTransition();
-
-
-                                return false;
+                                return false
                             }
 
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                dataSource: DataSource,
+                                isFirstResource: Boolean
+                            ): Boolean {
 
                                 // spinKitView.setVisibility(View.GONE);
                                 // supportStartPostponedEnterTransition();
-
-                                return false;
+                                return false
                             }
                         })
-
-                        .into(binding.imageFullTest);
-
-            } else if (pref.getImageLoadQuality().equals("High Quality")) {
-                Glide.with(TestFullActivity.this)
+                        .into(binding.imageFullTest)
+                }
+                "High Quality" -> {
+                    Glide.with(this@TestFullActivity)
                         .load(large)
                         .thumbnail(
-                                Glide.with(TestFullActivity.this).load(mImg)
+                            Glide.with(this@TestFullActivity).load(mImg)
                         )
                         .apply(requestOptions)
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        .listener(object : RequestListener<Drawable?> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                isFirstResource: Boolean
+                            ): Boolean {
                                 //  spinKitView.setVisibility(View.GONE);
-
-
-                                return false;
+                                return false
                             }
 
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                dataSource: DataSource,
+                                isFirstResource: Boolean
+                            ): Boolean {
 
                                 // spinKitView.setVisibility(View.GONE);
                                 // scheduleStartPostponedTransition(binding.imageFull);
-                                return false;
+                                return false
                             }
                         })
-
-                        .into(binding.imageFullTest);
-            } else {
-                Glide.with(TestFullActivity.this)
+                        .into(binding.imageFullTest)
+                }
+                else -> {
+                    Glide.with(this@TestFullActivity)
                         .load(mImg)
                         .thumbnail(
-                                Glide.with(TestFullActivity.this).load(mImg)
+                            Glide.with(this@TestFullActivity).load(mImg)
                         )
                         .apply(requestOptions)
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        .listener(object : RequestListener<Drawable?> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                isFirstResource: Boolean
+                            ): Boolean {
                                 //  spinKitView.setVisibility(View.GONE);
-
-
-                                return false;
+                                return false
                             }
 
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any,
+                                target: Target<Drawable?>,
+                                dataSource: DataSource,
+                                isFirstResource: Boolean
+                            ): Boolean {
 
                                 // spinKitView.setVisibility(View.GONE);
                                 //scheduleStartPostponedTransition(binding.imageFull);
-
-
-                                return false;
+                                return false
                             }
                         })
-
-                        .into(binding.imageFullTest);
+                        .into(binding.imageFullTest)
+                }
             }
         }
-//        applyBlur();
-
-        if (getIntent().getData() != null) {
-            Log.d("wegfwe", String.valueOf(getIntent().getData()));
-
-            binding.browserFull1.setVisibility(View.GONE);
-
+        //        applyBlur();
+        if (getIntent().data != null) {
+            Log.d("wegfwe", getIntent().data.toString())
+            binding.browserFull1.visibility = View.GONE
             Picasso.get()
-                    .load(getIntent().getData())
-                    .placeholder(Utils.getRandomDrawbleColor())
-                    .into(binding.imageFullTest);
-
-            binding.shareFull.setOnClickListener(view -> {
-                boolean granted = checkWriteExternalPermission();
+                .load(getIntent().data)
+                .placeholder(Utils.randomDrawbleColor)
+                .into(binding.imageFullTest)
+            binding.shareFull.setOnClickListener {
+                val granted = checkWriteExternalPermission()
                 if (granted) {
-              /*  ProgressBar progressBar=view.findViewById(R.id.progress6);
+                    /*  ProgressBar progressBar=view.findViewById(R.id.progress6);
                 progressBar.setVisibility(View.VISIBLE);*/
+                    mProgressDialog = ProgressDialog(this@TestFullActivity)
+                    mProgressDialog!!.setMessage("Setting...")
+                    mProgressDialog!!.setCancelable(false)
+                    mProgressDialog!!.isIndeterminate = true
+                    mProgressDialog!!.setProgressNumberFormat(null)
+                    mProgressDialog!!.setProgressPercentFormat(null)
+                    mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                    mProgressDialog!!.onStart()
+                    mProgressDialog!!.show()
+                    Glide.with(this@TestFullActivity).asBitmap()
+                        .load(getIntent().data)
+                        .into(object : SimpleTarget<Bitmap?>() {
 
-
-                    mProgressDialog = new ProgressDialog(TestFullActivity.this);
-                    mProgressDialog.setMessage("Setting...");
-                    mProgressDialog.setCancelable(false);
-                    mProgressDialog.setIndeterminate(true);
-                    mProgressDialog.setProgressNumberFormat(null);
-                    mProgressDialog.setProgressPercentFormat(null);
-                    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    mProgressDialog.onStart();
-                    mProgressDialog.show();
-
-
-                    Glide.with(TestFullActivity.this).asBitmap()
-                            .load(getIntent().getData())
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                                    // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
-
-                                    Intent share = new Intent(Intent.ACTION_SEND);
-                                    share.setType("image/jpeg");
-
-                                    ContentValues values = new ContentValues();
-                                    values.put(MediaStore.Images.Media.TITLE, "title");
-                                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                    Uri uri = TestFullActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                            values);
-                                    OutputStream outstream;
-                                    try {
-                                        outstream = TestFullActivity.this.getContentResolver().openOutputStream(uri);
-                                        resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                        outstream.close();
-                                    } catch (Exception e) {
-                                        System.err.println(e.toString());
-                                    }
-
-                                    share.putExtra(Intent.EXTRA_STREAM, uri);
-                                    share.setType("text/plain");
-                                    share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                                    String shareMessage = "\nDownload this application from PlayStore\n\n";
-                                    shareMessage = shareMessage + getIntent().getData();
-                                    share.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
-                                    startActivity(Intent.createChooser(share, "Share Image"));
-                                    // ProgressBar progressBar=view.findViewById(R.id.progress6);
-                                    /* progressBar.setVisibility(View.GONE);*/
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap?>?
+                            ) {
+                                // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+                                val share = Intent(Intent.ACTION_SEND)
+                                share.type = "image/jpeg"
+                                val values = ContentValues()
+                                values.put(MediaStore.Images.Media.TITLE, "title")
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                                val uri = this@TestFullActivity.contentResolver.insert(
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                    values
+                                )
+                                val outstream: OutputStream?
+                                try {
+                                    outstream =
+                                        this@TestFullActivity.contentResolver.openOutputStream(
+                                            uri!!
+                                        )
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream)
+                                    outstream!!.close()
+                                } catch (e: Exception) {
+                                    System.err.println(e.toString())
                                 }
-                            });
-                    mProgressDialog.hide();
-
-
+                                share.putExtra(Intent.EXTRA_STREAM, uri)
+                                share.type = "text/plain"
+                                share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall")
+                                var shareMessage = "\nDownload this application from PlayStore\n\n"
+                                shareMessage += getIntent().data
+                                share.putExtra(Intent.EXTRA_TEXT, "Weather Wall$shareMessage")
+                                startActivity(Intent.createChooser(share, "Share Image"))
+                                // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                /* progressBar.setVisibility(View.GONE);*/
+                            }
+                        })
+                    mProgressDialog!!.hide()
                 } else {
-                    Toast.makeText(TestFullActivity.this, "Error", Toast.LENGTH_LONG).show();
-                    requestStoragePermission();
+                    Toast.makeText(this@TestFullActivity, "Error", Toast.LENGTH_LONG).show()
+                    requestStoragePermission()
                 }
-
-
-            });
-//            binding.downloadFull.setOnClickListener(view ->
+            }
+            //            binding.downloadFull.setOnClickListener(view ->
 //                    downloadWallpaper(view, getIntent().getData().toString()));
 
-            /*            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));*/
-
-            binding.downloadFull.setOnClickListener(view ->
-                    DownloadImageKTX.Companion.downloadWallpaper(getIntent().getData().toString(), TestFullActivity.this));
-            binding.setWallFull.setOnClickListener(view -> {
-
-                Log.d("wefe", "ewf");
-                boolean granted = checkWriteExternalPermission();
+            /*            binding.downloadFull.setOnClickListener(view -> DownloadImage.downloadWallpaper(view,getIntent().getData().toString(),TestFullActivity.this));*/binding.downloadFull.setOnClickListener { view: View? ->
+                downloadWallpaper(
+                    getIntent().data.toString(),
+                    this@TestFullActivity
+                )
+            }
+            binding.setWallFull.setOnClickListener {
+                Log.d("wefe", "ewf")
+                val granted = checkWriteExternalPermission()
                 if (granted) {
-
-
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-
-                    WallpaperManager wpm = WallpaperManager.getInstance(TestFullActivity.this);
-                    InputStream ins;
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    val wpm = WallpaperManager.getInstance(this@TestFullActivity)
+                    val ins: InputStream
                     try {
-                        ins = new URL(getIntent().getData().toString()).openStream();
-                        wpm.setStream(ins);
-                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        ins = URL(getIntent().data.toString()).openStream()
+                        wpm.setStream(ins)
+                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
                     }
-
-
                 } else {
-                    Toast.makeText(TestFullActivity.this, "Permission is not given", Toast.LENGTH_SHORT).show();
-                    requestStoragePermission();
+                    Toast.makeText(
+                        this@TestFullActivity,
+                        "Permission is not given",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    requestStoragePermission()
                 }
-
-            });
-        } else {
-            setWall();
-            binding.browserFull1.setVisibility(View.VISIBLE);
-            binding.downloadFull.setOnClickListener(view -> {
-
-                if (pref.getImageQuality().equals("Default")) {
-                    DownloadImageKTX.Companion.downloadWallpaper(mImg, TestFullActivity.this);
-
-                } else if (pref.getImageQuality().equals("High Quality")) {
-                    DownloadImageKTX.Companion.downloadWallpaper(large, TestFullActivity.this);
-
-                } else {
-                    DownloadImageKTX.Companion.downloadWallpaper(mImg, TestFullActivity.this);
-
-                }
-
-            });
-            share();
-
-        }
-
-
-
-
-        binding.browserFull1.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PhotoUrl));
-            startActivity(browserIntent);
-        });
-
-
-    }
-
-    private void setThemeBased() {
-        if (pref.getTheme().equals("Light")) {
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.basic_design1_white);
-            binding.toolBarFull.setBackground(drawable);
-            binding.backExpFull.setImageResource(R.drawable.ic_arrow_back);
-            binding.toolBarFull.setBackground(drawable);
-            binding.browserFull1.setImageResource(R.drawable.ic_global_black);
-//            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
- /*           binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
-            binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
-            binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);*/
-
-        } else if (pref.getTheme().equals("Dark")) {
-
-/*            binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
-            binding.shareFull.setImageResource(R.drawable.ic_share);
-            binding.downloadFull.setImageResource(R.drawable.ic_file_download);*/
-            binding.backExpFull.setImageResource(R.drawable.ic_arrow_back_black_24dp);
-            binding.browserFull1.setImageResource(R.drawable.ic_global);
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.basic_design1);
-            binding.toolBarFull.setBackground(drawable);
-//            binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
-
-        } else {
-            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                case Configuration.UI_MODE_NIGHT_YES:
-/*                    binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
-                    binding.shareFull.setImageResource(R.drawable.ic_share);
-                    binding.downloadFull.setImageResource(R.drawable.ic_file_download);*/
-                    binding.backExpFull.setImageResource(R.drawable.ic_arrow_back_black_24dp);
-                    binding.browserFull1.setImageResource(R.drawable.ic_global);
-                    Resources res = getResources(); //resource handle
-                    Drawable drawable = res.getDrawable(R.drawable.basic_design1);
-                    binding.toolBarFull.setBackground(drawable);
-//                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
-
-                    break;
-                case Configuration.UI_MODE_NIGHT_NO:
-//                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                    binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
-                    binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
-                    binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);
-//                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                    Resources res1 = getResources(); //resource handle
-                    Drawable drawable1 = res1.getDrawable(R.drawable.basic_design1_white);
-                    binding.toolBarFull.setBackground(drawable1);
-                    binding.backExpFull.setImageResource(R.drawable.ic_arrow_back);
-                    binding.browserFull1.setImageResource(R.drawable.ic_global_black);
-                    break;
             }
-
+        } else {
+            setWall()
+            binding.browserFull1.visibility = View.VISIBLE
+            binding.downloadFull.setOnClickListener { view: View? ->
+                when (pref!!.imageQuality) {
+                    "Default" -> {
+                        downloadWallpaper(mImg, this@TestFullActivity)
+                    }
+                    "High Quality" -> {
+                        downloadWallpaper(large, this@TestFullActivity)
+                    }
+                    else -> {
+                        downloadWallpaper(mImg, this@TestFullActivity)
+                    }
+                }
+            }
+            share()
+        }
+        binding.browserFull1.setOnClickListener { v: View? ->
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(PhotoUrl))
+            startActivity(browserIntent)
         }
     }
 
-    private void share() {
-        binding.shareFull.setOnClickListener(view -> {
-            boolean granted = checkWriteExternalPermission();
+    private fun setThemeBased() {
+        when (pref!!.theme) {
+            "Light" -> {
+                val res = resources //resource handle
+                val drawable = res.getDrawable(R.drawable.basic_design1_white)
+                binding.toolBarFull.background = drawable
+                binding.backExpFull.setImageResource(R.drawable.ic_arrow_back)
+                binding.toolBarFull.background = drawable
+                binding.browserFull1.setImageResource(R.drawable.ic_global_black)
+                //            binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                /*           binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black);
+                binding.downloadFull.setImageResource(R.drawable.ic_file_download_black);
+                binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp);*/
+            }
+            "Dark" -> {
+    
+    /*            binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
+                binding.shareFull.setImageResource(R.drawable.ic_share);
+                binding.downloadFull.setImageResource(R.drawable.ic_file_download);*/
+                binding.backExpFull.setImageResource(R.drawable.ic_arrow_back_black_24dp)
+                binding.browserFull1.setImageResource(R.drawable.ic_global)
+                val res = resources //resource handle
+                val drawable = res.getDrawable(R.drawable.basic_design1)
+                binding.toolBarFull.background = drawable
+                //            binding.mainBar.setCardBackgroundColor(Color.parseColor("#000000"));
+            }
+            else -> {
+                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        /*                    binding.setWallFull.setImageResource(R.drawable.ic_wallpaper);
+                        binding.shareFull.setImageResource(R.drawable.ic_share);
+                        binding.downloadFull.setImageResource(R.drawable.ic_file_download);*/binding.backExpFull.setImageResource(
+                            R.drawable.ic_arrow_back_black_24dp
+                        )
+                        binding.browserFull1.setImageResource(R.drawable.ic_global)
+                        val res = resources //resource handle
+                        val drawable = res.getDrawable(R.drawable.basic_design1)
+                        binding.toolBarFull.background = drawable
+                    }
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        //                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                        binding.setWallFull.setImageResource(R.drawable.ic_wallpaper_black)
+                        binding.downloadFull.setImageResource(R.drawable.ic_file_download_black)
+                        binding.shareFull.setImageResource(R.drawable.ic_share_black_24dp)
+                        //                    binding.mainBar.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                        val res1 = resources //resource handle
+                        val drawable1 = res1.getDrawable(R.drawable.basic_design1_white)
+                        binding.toolBarFull.background = drawable1
+                        binding.backExpFull.setImageResource(R.drawable.ic_arrow_back)
+                        binding.browserFull1.setImageResource(R.drawable.ic_global_black)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun share() {
+        binding.shareFull.setOnClickListener { view: View? ->
+            val granted = checkWriteExternalPermission()
             if (granted == true) {
-              /*  ProgressBar progressBar=view.findViewById(R.id.progress6);
+                /*  ProgressBar progressBar=view.findViewById(R.id.progress6);
                 progressBar.setVisibility(View.VISIBLE);*/
+                if (pref!!.imageQuality == "Default") {
+                    mProgressDialog = ProgressDialog(this@TestFullActivity)
+                    mProgressDialog!!.setMessage("Setting...")
+                    mProgressDialog!!.setCancelable(false)
+                    mProgressDialog!!.isIndeterminate = true
+                    mProgressDialog!!.setProgressNumberFormat(null)
+                    mProgressDialog!!.setProgressPercentFormat(null)
+                    mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                    mProgressDialog!!.onStart()
+                    mProgressDialog!!.show()
+                    Glide.with(this@TestFullActivity).asBitmap()
+                        .load(mImg)
+                        .into(object : SimpleTarget<Bitmap?>() {
 
-                if (pref.getImageQuality().equals("Default")) {
-
-                    mProgressDialog = new ProgressDialog(TestFullActivity.this);
-                    mProgressDialog.setMessage("Setting...");
-                    mProgressDialog.setCancelable(false);
-                    mProgressDialog.setIndeterminate(true);
-                    mProgressDialog.setProgressNumberFormat(null);
-                    mProgressDialog.setProgressPercentFormat(null);
-                    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    mProgressDialog.onStart();
-                    mProgressDialog.show();
-
-
-                    Glide.with(TestFullActivity.this).asBitmap()
-                            .load(mImg)
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                                    // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
-
-                                    Intent share = new Intent(Intent.ACTION_SEND);
-                                    share.setType("image/jpeg");
-
-                                    ContentValues values = new ContentValues();
-                                    values.put(MediaStore.Images.Media.TITLE, "title");
-                                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                    Uri uri = TestFullActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                            values);
-                                    OutputStream outstream;
-                                    try {
-                                        outstream = TestFullActivity.this.getContentResolver().openOutputStream(uri);
-                                        resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                        outstream.close();
-                                    } catch (Exception e) {
-                                        System.err.println(e.toString());
-                                    }
-
-                                    share.putExtra(Intent.EXTRA_STREAM, uri);
-                                    share.setType("text/plain");
-                                    share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                                    String shareMessage = "\nDownload this application from PlayStore\n\n";
-                                    shareMessage = shareMessage + mImg;
-                                    share.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
-                                    startActivity(Intent.createChooser(share, "Share Image"));
-                                    // ProgressBar progressBar=view.findViewById(R.id.progress6);
-                                    /* progressBar.setVisibility(View.GONE);*/
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap?>?
+                            ) {
+                                // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+                                val share = Intent(Intent.ACTION_SEND)
+                                share.type = "image/jpeg"
+                                val values = ContentValues()
+                                values.put(MediaStore.Images.Media.TITLE, "title")
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                                val uri = this@TestFullActivity.contentResolver.insert(
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                    values
+                                )
+                                val outstream: OutputStream?
+                                try {
+                                    outstream =
+                                        this@TestFullActivity.contentResolver.openOutputStream(
+                                            uri!!
+                                        )
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream)
+                                    outstream!!.close()
+                                } catch (e: Exception) {
+                                    System.err.println(e.toString())
                                 }
-                            });
-                    mProgressDialog.hide();
+                                share.putExtra(Intent.EXTRA_STREAM, uri)
+                                share.type = "text/plain"
+                                share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall")
+                                var shareMessage = "\nDownload this application from PlayStore\n\n"
+                                shareMessage += mImg
+                                share.putExtra(Intent.EXTRA_TEXT, "Weather Wall$shareMessage")
+                                startActivity(Intent.createChooser(share, "Share Image"))
+                                // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                /* progressBar.setVisibility(View.GONE);*/
+                            }
+                        })
+                    mProgressDialog!!.hide()
+                } else if (pref!!.imageQuality == "High quality") {
+                    mProgressDialog = ProgressDialog(this@TestFullActivity)
+                    mProgressDialog!!.setMessage("Setting...")
+                    mProgressDialog!!.setCancelable(false)
+                    mProgressDialog!!.isIndeterminate = true
+                    mProgressDialog!!.setProgressNumberFormat(null)
+                    mProgressDialog!!.setProgressPercentFormat(null)
+                    mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                    mProgressDialog!!.onStart()
+                    mProgressDialog!!.show()
+                    Glide.with(this@TestFullActivity).asBitmap()
+                        .load(large)
+                        .into(object : SimpleTarget<Bitmap?>() {
 
-                } else if (pref.getImageQuality().equals("High quality")) {
-                    mProgressDialog = new ProgressDialog(TestFullActivity.this);
-                    mProgressDialog.setMessage("Setting...");
-                    mProgressDialog.setCancelable(false);
-                    mProgressDialog.setIndeterminate(true);
-                    mProgressDialog.setProgressNumberFormat(null);
-                    mProgressDialog.setProgressPercentFormat(null);
-
-                    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-
-
-                    mProgressDialog.onStart();
-
-                    mProgressDialog.show();
-
-                    Glide.with(TestFullActivity.this).asBitmap()
-                            .load(large)
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                                    // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
-
-                                    Intent share = new Intent(Intent.ACTION_SEND);
-                                    share.setType("image/jpeg");
-
-                                    ContentValues values = new ContentValues();
-                                    values.put(MediaStore.Images.Media.TITLE, "title");
-                                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                    Uri uri = TestFullActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                            values);
-                                    OutputStream outstream;
-                                    try {
-                                        outstream = TestFullActivity.this.getContentResolver().openOutputStream(uri);
-                                        resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                        outstream.close();
-                                    } catch (Exception e) {
-                                        System.err.println(e.toString());
-                                    }
-
-                                    share.putExtra(Intent.EXTRA_STREAM, uri);
-                                    share.setType("text/plain");
-                                    share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                                    String shareMessage = "\nDownload this application from PlayStore\n\n";
-                                    shareMessage = shareMessage + large;
-                                    share.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
-                                    startActivity(Intent.createChooser(share, "Share Image"));
-                                    // ProgressBar progressBar=view.findViewById(R.id.progress6);
-                                    /* progressBar.setVisibility(View.GONE);*/
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap?>?
+                            ) {
+                                // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+                                val share = Intent(Intent.ACTION_SEND)
+                                share.type = "image/jpeg"
+                                val values = ContentValues()
+                                values.put(MediaStore.Images.Media.TITLE, "title")
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                                val uri = this@TestFullActivity.contentResolver.insert(
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                    values
+                                )
+                                val outstream: OutputStream?
+                                try {
+                                    outstream =
+                                        this@TestFullActivity.contentResolver.openOutputStream(
+                                            uri!!
+                                        )
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream)
+                                    outstream!!.close()
+                                } catch (e: Exception) {
+                                    System.err.println(e.toString())
                                 }
-                            });
-                    mProgressDialog.hide();
+                                share.putExtra(Intent.EXTRA_STREAM, uri)
+                                share.type = "text/plain"
+                                share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall")
+                                var shareMessage = "\nDownload this application from PlayStore\n\n"
+                                shareMessage += large
+                                share.putExtra(Intent.EXTRA_TEXT, "Weather Wall$shareMessage")
+                                startActivity(Intent.createChooser(share, "Share Image"))
+                                // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                /* progressBar.setVisibility(View.GONE);*/                            }
+                        })
+                    mProgressDialog!!.hide()
                 } else {
-                    mProgressDialog = new ProgressDialog(TestFullActivity.this);
-                    mProgressDialog.setMessage("Setting...");
-                    mProgressDialog.setCancelable(false);
-                    mProgressDialog.setIndeterminate(true);
-                    mProgressDialog.setProgressNumberFormat(null);
-                    mProgressDialog.setProgressPercentFormat(null);
+                    mProgressDialog = ProgressDialog(this@TestFullActivity)
+                    mProgressDialog!!.setMessage("Setting...")
+                    mProgressDialog!!.setCancelable(false)
+                    mProgressDialog!!.isIndeterminate = true
+                    mProgressDialog!!.setProgressNumberFormat(null)
+                    mProgressDialog!!.setProgressPercentFormat(null)
+                    mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                    mProgressDialog!!.onStart()
+                    mProgressDialog!!.show()
+                    Glide.with(this@TestFullActivity).asBitmap()
+                        .load(mImg)
+                        .into(object : SimpleTarget<Bitmap?>() {
 
-                    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
-
-                    mProgressDialog.onStart();
-
-                    mProgressDialog.show();
-
-                    Glide.with(TestFullActivity.this).asBitmap()
-                            .load(mImg)
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                                    // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
-
-                                    Intent share = new Intent(Intent.ACTION_SEND);
-                                    share.setType("image/jpeg");
-
-                                    ContentValues values = new ContentValues();
-                                    values.put(MediaStore.Images.Media.TITLE, "title");
-                                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                    Uri uri = TestFullActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                            values);
-                                    OutputStream outstream;
-                                    try {
-                                        outstream = TestFullActivity.this.getContentResolver().openOutputStream(uri);
-                                        resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                                        outstream.close();
-                                    } catch (Exception e) {
-                                        System.err.println(e.toString());
-                                    }
-
-                                    share.putExtra(Intent.EXTRA_STREAM, uri);
-                                    share.setType("text/plain");
-                                    share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall");
-                                    String shareMessage = "\nDownload this application from PlayStore\n\n";
-                                    shareMessage = shareMessage + mImg;
-                                    share.putExtra(Intent.EXTRA_TEXT, "Weather Wall" + shareMessage);
-                                    startActivity(Intent.createChooser(share, "Share Image"));
-                                    // ProgressBar progressBar=view.findViewById(R.id.progress6);
-                                    /* progressBar.setVisibility(View.GONE);*/
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap?>?
+                            ) {
+                                // Toast.makeText(getActivity(),"1",Toast.LENGTH_LONG).show();
+                                val share = Intent(Intent.ACTION_SEND)
+                                share.type = "image/jpeg"
+                                val values = ContentValues()
+                                values.put(MediaStore.Images.Media.TITLE, "title")
+                                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                                val uri = this@TestFullActivity.contentResolver.insert(
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                    values
+                                )
+                                val outstream: OutputStream?
+                                try {
+                                    outstream =
+                                        this@TestFullActivity.contentResolver.openOutputStream(
+                                            uri!!
+                                        )
+                                    resource.compress(Bitmap.CompressFormat.JPEG, 100, outstream)
+                                    outstream!!.close()
+                                } catch (e: Exception) {
+                                    System.err.println(e.toString())
                                 }
-                            });
-                    mProgressDialog.hide();
+                                share.putExtra(Intent.EXTRA_STREAM, uri)
+                                share.type = "text/plain"
+                                share.putExtra(Intent.EXTRA_SUBJECT, "Weather Wall")
+                                var shareMessage = "\nDownload this application from PlayStore\n\n"
+                                shareMessage = shareMessage + mImg
+                                share.putExtra(Intent.EXTRA_TEXT, "Weather Wall$shareMessage")
+                                startActivity(Intent.createChooser(share, "Share Image"))
+                                // ProgressBar progressBar=view.findViewById(R.id.progress6);
+                                /* progressBar.setVisibility(View.GONE);*/                            }
+                        })
+                    mProgressDialog!!.hide()
                 }
-
-
             } else {
-                Toast.makeText(TestFullActivity.this, "2", Toast.LENGTH_LONG).show();
-                requestStoragePermission();
+                Toast.makeText(this@TestFullActivity, "2", Toast.LENGTH_LONG).show()
+                requestStoragePermission()
             }
-
-
-        });
+        }
     }
-
 
     @SuppressLint("MissingPermission")
-    private void setWall() {
-        binding.setWallFull.setOnClickListener(view -> {
-
-            Log.d("wefe", "ewf");
-            boolean granted = checkWriteExternalPermission();
+    private fun setWall() {
+        binding.setWallFull.setOnClickListener { view: View? ->
+            Log.d("wefe", "ewf")
+            val granted = checkWriteExternalPermission()
             if (granted) {
-                if (pref.getImageQuality().equals("Default")) {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-
-                    WallpaperManager wpm = WallpaperManager.getInstance(TestFullActivity.this);
-                    InputStream ins;
+                if (pref!!.imageQuality == "Default") {
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    val wpm = WallpaperManager.getInstance(this@TestFullActivity)
+                    val ins: InputStream
                     try {
-                        ins = new URL(mImg).openStream();
-                        wpm.setStream(ins);
-                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        ins = URL(mImg).openStream()
+                        wpm.setStream(ins)
+                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
                     }
-
-                } else if (pref.getImageQuality().equals("High Quality")) {
-
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-
-                    WallpaperManager wpm = WallpaperManager.getInstance(TestFullActivity.this);
-                    InputStream ins;
+                } else if (pref!!.imageQuality == "High Quality") {
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    val wpm = WallpaperManager.getInstance(this@TestFullActivity)
+                    val ins: InputStream
                     try {
-                        ins = new URL(large).openStream();
-                        wpm.setStream(ins);
-                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        ins = URL(large).openStream()
+                        wpm.setStream(ins)
+                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
                     }
                 } else {
-
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-
-                    WallpaperManager wpm = WallpaperManager.getInstance(TestFullActivity.this);
-                    InputStream ins;
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    val wpm = WallpaperManager.getInstance(this@TestFullActivity)
+                    val ins: InputStream
                     try {
-                        ins = new URL(mImg).openStream();
-                        wpm.setStream(ins);
-                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        ins = URL(mImg).openStream()
+                        wpm.setStream(ins)
+                        Toast.makeText(this, "Wallpaper is Set", Toast.LENGTH_SHORT).show()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
                     }
                 }
-
-
             } else {
-                Toast.makeText(TestFullActivity.this, "Permission is not given", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this@TestFullActivity, "Permission is not given", Toast.LENGTH_SHORT)
+                    .show()
             }
-
-        });
-    }
-
-    private boolean checkWriteExternalPermission() {
-        String permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        int res = getApplicationContext().checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
-    }
-
-    private void requestStoragePermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is needed because of this and that")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(TestFullActivity.this,
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-                        }
-
-                    }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).create().show();
-
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    private fun checkWriteExternalPermission(): Boolean {
+        val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+        val res = applicationContext.checkCallingOrSelfPermission(permission)
+        return res == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        ) {
+            AlertDialog.Builder(this)
+                .setTitle("Permission needed")
+                .setMessage("This permission is needed because of this and that")
+                .setPositiveButton("ok") { dialog, which ->
+                    ActivityCompat.requestPermissions(
+                        this@TestFullActivity, arrayOf(
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ), STORAGE_PERMISSION_CODE
+                    )
+                }
+                .setNegativeButton("cancel") { dialog, which -> dialog.dismiss() }.create().show()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                STORAGE_PERMISSION_CODE
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 /*Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();*/
             } else {
-                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        binding.blurLayout.startBlur();
-        binding.blurLayoutData.startBlur();
-        binding.blurLayoutData1.startBlur();
-        binding.blurLayoutData2.startBlur();
-
-        requestStoragePermission();
-    }
-
-/*    private void applyBlur() {
+    override fun onStart() {
+        super.onStart()
+        //        binding.blurLayout.startBlur();
+        binding.blurLayoutData.startBlur()
+        binding.blurLayoutData1.startBlur()
+        binding.blurLayoutData2.startBlur()
+        requestStoragePermission()
+    } /*    private void applyBlur() {
         binding.imageFullTest.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -726,8 +705,4 @@ public class TestFullActivity extends AppCompatActivity {
 
         rs.destroy();
     }*/
-
-
-
-
 }

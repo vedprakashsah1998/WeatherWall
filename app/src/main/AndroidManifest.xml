@@ -6,20 +6,24 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/color_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/color_logo"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.Activity.SearchActivity"
-            android:exported="false"/>
-        <activity android:name=".ui.Activity.TestFullActivity"
-            android:exported="true"
-            >
+        <activity
+            android:name=".ui.Activity.NewFullImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Activity.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Activity.TestFullActivity"
+            android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -41,9 +45,10 @@
         <activity android:name=".ui.Activity.IntroActivity" />
         <activity android:name=".ui.Activity.MainActivity" />
         <activity android:name=".ui.Activity.FullImageQuotes" />
-        <activity android:name=".ui.Activity.SplashScreen"
-            android:launchMode="singleTask"
-            android:exported="true">
+        <activity
+            android:name=".ui.Activity.SplashScreen"
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,10 +70,9 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
-
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

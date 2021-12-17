@@ -19,7 +19,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 
     buildTypes {
@@ -81,7 +81,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.android.volley:volley:1.2.1'
@@ -89,16 +89,16 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.mikhaellopez:circularimageview:4.2.0'
 
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.3'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.3'
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //Round Image
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10'
 
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3'
 
     //Location Library
     implementation 'com.google.android.gms:play-services-location:19.0.0'
@@ -112,7 +112,7 @@ dependencies {
     implementation 'rongi.rotate-layout:rotate-layout:3.0.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 //Lottie Animation
-    implementation 'com.airbnb.android:lottie:3.6.1'
+    implementation 'com.airbnb.android:lottie:4.2.0'
 
     //Switch Library
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
@@ -135,7 +135,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-
+    kaptTest "androidx.databinding:databinding-compiler:7.0.4"
 
     implementation 'org.jsoup:jsoup:1.13.1'
 }

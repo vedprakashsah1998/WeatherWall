@@ -9,6 +9,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/vpman/AndroidStudioProjects/WeatherWallNew/app/src/main/res/drawable/round_button_white.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/vpman/AndroidStudioProjects/WeatherWallNew/app/src/main/res/layout/activity_explore_acitivity.xml" value="0.1" />
+        <entry key="..\:/Users/vpman/AndroidStudioProjects/WeatherWallNew/app/src/main/res/layout/activity_testing_motion_layout.xml" value="0.1" />
         <entry key="..\:/Users/vpman/AndroidStudioProjects/WeatherWallNew/app/src/main/res/layout/fragment_last.xml" value="0.14673913043478262" />
         <entry key="..\:/Users/vpman/AndroidStudioProjects/WeatherWallNew/app/src/main/res/layout/fragment_search.xml" value="0.14673913043478262" />
         <entry key="..\:/Users/vpman/AndroidStudioProjects/WeatherWallNew/app/src/main/res/layout/setting_layout.xml" value="0.11594202898550725" />

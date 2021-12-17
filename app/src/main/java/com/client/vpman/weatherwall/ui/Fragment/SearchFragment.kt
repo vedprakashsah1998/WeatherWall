@@ -1,337 +1,332 @@
-package com.client.vpman.weatherwall.ui.Fragment;
+package com.client.vpman.weatherwall.ui.Fragment
 
+import android.content.res.Configuration
+import android.graphics.Color
+import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.client.vpman.weatherwall.Adapter.SearchAdapter
+import com.client.vpman.weatherwall.CustomeUsefullClass.Constant
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1
+import com.client.vpman.weatherwall.R
+import com.client.vpman.weatherwall.databinding.FragmentSearchBinding
+import com.client.vpman.weatherwall.model.ModelData
+import com.client.vpman.weatherwall.model.PagerAgentViewModel
+import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
-import android.content.res.Configuration;
-import android.graphics.Color;
-import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.ServerError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.client.vpman.weatherwall.Adapter.SearchAdapter;
-import com.client.vpman.weatherwall.CustomeUsefullClass.Constant;
-import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
-import com.client.vpman.weatherwall.R;
-import com.client.vpman.weatherwall.databinding.FragmentSearchBinding;
-import com.client.vpman.weatherwall.model.ModelData;
-import com.client.vpman.weatherwall.model.PagerAgentViewModel;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-public class SearchFragment extends Fragment {
-
-    private List<String> apiList;
-    SearchAdapter adapter;
-    List<ModelData> list;
-    LinearLayoutManager linearLayoutManager;
-    FragmentSearchBinding binding;
-    SharedPref1 sharedPref1;
-    PagerAgentViewModel viewModel;
-
-    @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+class SearchFragment : Fragment() {
+    private var apiList: ArrayList<String> = ArrayList()
+    var adapter: SearchAdapter? = null
+    var list: ArrayList<ModelData> = ArrayList()
+    var linearLayoutManager: LinearLayoutManager? = null
+    var binding: FragmentSearchBinding? = null
+    var sharedPref1: SharedPref1? = null
+    var viewModel: PagerAgentViewModel? = null
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentSearchBinding.inflate(inflater, container, false);
-        sharedPref1 = new SharedPref1(getContext());
-        viewModel = ViewModelProviders.of(getActivity()).get(PagerAgentViewModel.class);
-        if (sharedPref1.getTheme().equals("Light")) {
-            binding.appBar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-
-            binding.searchData.setBackground(getResources().getDrawable(R.drawable.search_ui));
-            binding.searchData.setHintTextColor(getResources().getColor(R.color.black));
-            binding.searchData.setTextColor(Color.parseColor("#000000"));
-
-
-            binding.close.setImageResource(R.drawable.ic_baseline_arrow_back_24);
-
-            binding.natureSearch.setTextColor(Color.parseColor("#000000"));
-            binding.travelSearch.setTextColor(Color.parseColor("#000000"));
-            binding.architectureSearch.setTextColor(Color.parseColor("#000000"));
-            binding.artSearch.setTextColor(Color.parseColor("#000000"));
-            binding.beautySearch.setTextColor(Color.parseColor("#000000"));
-            binding.decorSearch.setTextColor(Color.parseColor("#000000"));
-            binding.foodSearch.setTextColor(Color.parseColor("#000000"));
-            binding.musicSearch.setTextColor(Color.parseColor("#000000"));
-            binding.sportsSearch.setTextColor(Color.parseColor("#000000"));
-
-        } else if (sharedPref1.getTheme().equals("Dark")) {
-            binding.searchData.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.searchData.setBackground(getResources().getDrawable(R.drawable.search_ui_dark));
-            binding.searchData.setHintTextColor(getResources().getColor(R.color.white));
-
-            binding.appBar.setBackgroundColor(Color.parseColor("#000000"));
-
-            binding.close.setImageResource(R.drawable.ic_baseline_arrow_back_24_white);
-
-            binding.natureSearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.travelSearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.architectureSearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.artSearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.beautySearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.decorSearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.foodSearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.musicSearch.setTextColor(Color.parseColor("#FFFFFF"));
-            binding.sportsSearch.setTextColor(Color.parseColor("#FFFFFF"));
-        } else {
-            switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                case Configuration.UI_MODE_NIGHT_YES:
-                    binding.searchData.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.searchData.setBackground(getResources().getDrawable(R.drawable.search_ui_dark));
-                    binding.searchData.setHintTextColor(getResources().getColor(R.color.white));
-
-                    binding.appBar.setBackgroundColor(Color.parseColor("#000000"));
-
-                    binding.close.setImageResource(R.drawable.ic_baseline_arrow_back_24_white);
-
-                    binding.natureSearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.travelSearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.architectureSearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.artSearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.beautySearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.decorSearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.foodSearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.musicSearch.setTextColor(Color.parseColor("#FFFFFF"));
-                    binding.sportsSearch.setTextColor(Color.parseColor("#FFFFFF"));
-
-                    break;
-                case Configuration.UI_MODE_NIGHT_NO:
-                    binding.searchData.setTextColor(Color.parseColor("#000000"));
-                    binding.searchData.setBackground(getResources().getDrawable(R.drawable.search_ui));
-                    binding.searchData.setHintTextColor(getResources().getColor(R.color.black));
-                    binding.appBar.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    binding.close.setImageResource(R.drawable.ic_baseline_arrow_back_24);
-                    binding.natureSearch.setTextColor(Color.parseColor("#000000"));
-                    binding.travelSearch.setTextColor(Color.parseColor("#000000"));
-                    binding.architectureSearch.setTextColor(Color.parseColor("#000000"));
-                    binding.artSearch.setTextColor(Color.parseColor("#000000"));
-                    binding.beautySearch.setTextColor(Color.parseColor("#000000"));
-                    binding.decorSearch.setTextColor(Color.parseColor("#000000"));
-                    binding.foodSearch.setTextColor(Color.parseColor("#000000"));
-                    binding.musicSearch.setTextColor(Color.parseColor("#000000"));
-                    binding.sportsSearch.setTextColor(Color.parseColor("#000000"));
-                    break;
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        sharedPref1 = SharedPref1(context)
+        viewModel = ViewModelProvider(requireActivity()).get(
+            PagerAgentViewModel::class.java
+        )
+        when (sharedPref1!!.theme) {
+            "Light" -> {
+                binding!!.appBar.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                binding!!.searchData.background = resources.getDrawable(R.drawable.search_ui)
+                binding!!.searchData.setHintTextColor(resources.getColor(R.color.black))
+                binding!!.searchData.setTextColor(Color.parseColor("#000000"))
+                binding!!.close.setImageResource(R.drawable.ic_baseline_arrow_back_24)
+                binding!!.natureSearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.travelSearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.architectureSearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.artSearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.beautySearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.decorSearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.foodSearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.musicSearch.setTextColor(Color.parseColor("#000000"))
+                binding!!.sportsSearch.setTextColor(Color.parseColor("#000000"))
             }
-
+            "Dark" -> {
+                binding!!.searchData.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.searchData.background = resources.getDrawable(R.drawable.search_ui_dark)
+                binding!!.searchData.setHintTextColor(resources.getColor(R.color.white))
+                binding!!.appBar.setBackgroundColor(Color.parseColor("#000000"))
+                binding!!.close.setImageResource(R.drawable.ic_baseline_arrow_back_24_white)
+                binding!!.natureSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.travelSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.architectureSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.artSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.beautySearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.decorSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.foodSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.musicSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                binding!!.sportsSearch.setTextColor(Color.parseColor("#FFFFFF"))
+            }
+            else -> {
+                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        binding!!.searchData.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.searchData.background =
+                            resources.getDrawable(R.drawable.search_ui_dark)
+                        binding!!.searchData.setHintTextColor(resources.getColor(R.color.white))
+                        binding!!.appBar.setBackgroundColor(Color.parseColor("#000000"))
+                        binding!!.close.setImageResource(R.drawable.ic_baseline_arrow_back_24_white)
+                        binding!!.natureSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.travelSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.architectureSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.artSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.beautySearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.decorSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.foodSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.musicSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                        binding!!.sportsSearch.setTextColor(Color.parseColor("#FFFFFF"))
+                    }
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        binding!!.searchData.setTextColor(Color.parseColor("#000000"))
+                        binding!!.searchData.background =
+                            resources.getDrawable(R.drawable.search_ui)
+                        binding!!.searchData.setHintTextColor(resources.getColor(R.color.black))
+                        binding!!.appBar.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                        binding!!.close.setImageResource(R.drawable.ic_baseline_arrow_back_24)
+                        binding!!.natureSearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.travelSearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.architectureSearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.artSearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.beautySearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.decorSearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.foodSearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.musicSearch.setTextColor(Color.parseColor("#000000"))
+                        binding!!.sportsSearch.setTextColor(Color.parseColor("#000000"))
+                    }
+                }
+            }
         }
-
-        binding.natureSearch.setOnClickListener(v -> {
-            SentData("Nature");
-        });
-        binding.travelSearch.setOnClickListener(v -> SentData("Travel"));
-        binding.architectureSearch.setOnClickListener(v -> SentData("Architecture"));
-        binding.artSearch.setOnClickListener(v -> SentData("Art"));
-        binding.beautySearch.setOnClickListener(v -> SentData("Beauty"));
-        binding.decorSearch.setOnClickListener(v -> SentData("Decor"));
-        binding.foodSearch.setOnClickListener(v -> SentData("food"));
-        binding.musicSearch.setOnClickListener(v -> SentData("Music"));
-        binding.sportsSearch.setOnClickListener(v -> SentData("Sports"));
-        binding.searchData.setOnEditorActionListener((v, actionId, event) -> {
+        binding!!.natureSearch.setOnClickListener { v: View? -> SentData("Nature") }
+        binding!!.travelSearch.setOnClickListener { v: View? -> SentData("Travel") }
+        binding!!.architectureSearch.setOnClickListener { v: View? -> SentData("Architecture") }
+        binding!!.artSearch.setOnClickListener { v: View? -> SentData("Art") }
+        binding!!.beautySearch.setOnClickListener { v: View? -> SentData("Beauty") }
+        binding!!.decorSearch.setOnClickListener { v: View? -> SentData("Decor") }
+        binding!!.foodSearch.setOnClickListener { v: View? -> SentData("food") }
+        binding!!.musicSearch.setOnClickListener { v: View? -> SentData("Music") }
+        binding!!.sportsSearch.setOnClickListener { v: View? -> SentData("Sports") }
+        binding!!.searchData.setOnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
-                SentData(String.valueOf(binding.searchData.getText()));
-
-                return true;
+                SentData(binding!!.searchData.text.toString())
+                return@setOnEditorActionListener true
             }
-            return false;
-        });
-
-
-        binding.searchData.setOnFocusChangeListener((v, hasFocus) -> binding.searchData.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0));
-
-        binding.close.setOnClickListener(v -> getActivity().onBackPressed());
-
-        CuratedImages();
-        PopularImage();
-        return binding.getRoot();
-    }
-
-    private void CuratedImages() {
-        list = new ArrayList<>();
-        if (getActivity() != null) {
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.CURATED_URL, response -> {
-                Log.d("curatedResponse", response);
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    Log.d("mil gaya", String.valueOf(obj));
-                    JSONArray wallArray = obj.getJSONArray("photos");
-                    for (int i = 0; i < wallArray.length(); i++) {
-                        JSONObject wallobj = wallArray.getJSONObject(i);
-                        JSONObject photographer = new JSONObject(String.valueOf(wallobj));
-                        Log.d("PhotoURL", wallobj.getString("url"));
-                        JSONObject jsonObject = wallobj.getJSONObject("src");
-                        JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                        ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"),
-                                object.getString("large"), object.getString("original"), wallobj.getString("url"),wallobj.getString("photographer_url"));
-                        list.add(modelData1);
-                    }
-                    Collections.shuffle(list);
-                    adapter = new SearchAdapter(getActivity(), list);
-                    /* LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);*/
-                    linearLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-                    binding.recylerViewSearch.setLayoutManager(linearLayoutManager);
-                    binding.recylerViewSearch.setHasFixedSize(true);
-                    binding.recylerViewSearch.setItemAnimator(new DefaultItemAnimator());
-                    binding.recylerViewSearch.setNestedScrollingEnabled(true);
-                    int itemViewType = 0;
-                    binding.recylerViewSearch.getRecycledViewPool().setMaxRecycledViews(itemViewType, 0);
-                    binding.recylerViewSearch.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }, error -> {
-
-                NetworkResponse response = error.networkResponse;
-                if (error instanceof ServerError && response != null) {
-                    try {
-                        String res = new String(response.data,
-                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                        // Now you can use any deserializer to make sense of data
-                        JSONObject obj = new JSONObject(res);
-                    } catch (UnsupportedEncodingException e1) {
-                        // Couldn't properly decode data to string
-                        e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
-                    }
-                }
-
-            }) {
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> params = new HashMap<>();
-                    apiList = new ArrayList<>();
-                    apiList.add(getString(R.string.APIKEY1));
-                    apiList.add(getString(R.string.APIKEY2));
-                    apiList.add(getString(R.string.APIKEY3));
-                    apiList.add(getString(R.string.APIKEY4));
-                    apiList.add(getString(R.string.APIKEY5));
-                    Random random = new Random();
-                    int n = random.nextInt(apiList.size());
-                    params.put("Authorization", apiList.get(n));
-
-                    return params;
-                }
-            };
-
-            stringRequest.setShouldCache(false);
-
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            requestQueue.add(stringRequest);
+            false
         }
-
-
+        binding!!.searchData.onFocusChangeListener =
+            View.OnFocusChangeListener { _: View?, _: Boolean ->
+                binding!!.searchData.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            }
+        binding!!.close.setOnClickListener { v: View? -> requireActivity().onBackPressed() }
+        CuratedImages()
+        PopularImage()
+        return binding!!.root
     }
 
-    private void PopularImage() {
-        list = new ArrayList<>();
-        long mRequestStartTime = System.currentTimeMillis();
-        if (getActivity() != null) {
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.POPULAR_URL, response -> {
-                Log.d("curatedResponse", response);
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    Log.d("mil gaya", String.valueOf(obj));
-                    JSONArray wallArray = obj.getJSONArray("photos");
-                    for (int i = 0; i < wallArray.length(); i++) {
-                        JSONObject wallobj = wallArray.getJSONObject(i);
-                        JSONObject photographer = new JSONObject(String.valueOf(wallobj));
-                        Log.d("PhotoURL", wallobj.getString("url"));
-                        JSONObject jsonObject = wallobj.getJSONObject("src");
-                        JSONObject object = new JSONObject(String.valueOf(jsonObject));
-                        ModelData modelData1 = new ModelData(object.getString("large2x"), photographer.getString("photographer"),
-                                object.getString("large"), object.getString("original"), wallobj.getString("url"),wallobj.getString("photographer_url"));
-                        list.add(modelData1);
-                    }
-                    Collections.shuffle(list);
-                    adapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }, error -> {
-
-                NetworkResponse response = error.networkResponse;
-                if (error instanceof ServerError && response != null) {
+    private fun CuratedImages() {
+        list = ArrayList()
+        if (activity != null) {
+            val stringRequest: StringRequest = object : StringRequest(
+                Method.GET,
+                Constant.CURATED_URL,
+                Response.Listener { response: String? ->
+                    Log.d("curatedResponse", response!!)
                     try {
-                        String res = new String(response.data,
-                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                        // Now you can use any deserializer to make sense of data
-                        JSONObject obj = new JSONObject(res);
-                    } catch (UnsupportedEncodingException e1) {
-                        // Couldn't properly decode data to string
-                        e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
+                        val obj = JSONObject(response)
+                        Log.d("mil gaya", obj.toString())
+                        val wallArray = obj.getJSONArray("photos")
+                        for (i in 0 until wallArray.length()) {
+                            val wallobj = wallArray.getJSONObject(i)
+                            val photographer = JSONObject(wallobj.toString())
+                            Log.d("PhotoURL", wallobj.getString("url"))
+                            val jsonObject = wallobj.getJSONObject("src")
+                            val `object` = JSONObject(jsonObject.toString())
+                            val modelData1 = ModelData(
+                                `object`.getString("large2x"),
+                                photographer.getString("photographer"),
+                                `object`.getString("large"),
+                                `object`.getString("original"),
+                                wallobj.getString("url"),
+                                wallobj.getString("photographer_url")
+                            )
+                            list.add(modelData1)
+                        }
+                        list.shuffle()
+                        adapter = SearchAdapter(requireActivity(), list)
+                        /* LinearLayoutManager linearLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);*/linearLayoutManager =
+                            GridLayoutManager(
+                                context, 2, GridLayoutManager.VERTICAL, false
+                            )
+                        binding!!.recylerViewSearch.layoutManager = linearLayoutManager
+                        binding!!.recylerViewSearch.setHasFixedSize(true)
+                        binding!!.recylerViewSearch.itemAnimator = DefaultItemAnimator()
+                        binding!!.recylerViewSearch.isNestedScrollingEnabled = true
+                        val itemViewType = 0
+                        binding!!.recylerViewSearch.recycledViewPool.setMaxRecycledViews(
+                            itemViewType,
+                            0
+                        )
+                        binding!!.recylerViewSearch.adapter = adapter
+                        adapter!!.notifyDataSetChanged()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    /*val response = error.networkResponse
+                    if (error is ServerError && response != null) {
+                        try {
+                            val res = String(
+                                response.data,
+                                HttpHeaderParser.parseCharset(response.headers, "utf-8")
+                            )
+                            // Now you can use any deserializer to make sense of data
+                            val obj = JSONObject(res)
+                        } catch (e1: UnsupportedEncodingException) {
+                            // Couldn't properly decode data to string
+                            e1.printStackTrace()
+                        } catch (e2: JSONException) {
+                            // returned data is not JSONObject?
+                            e2.printStackTrace()
+                        }
+                    }*/
+                }) {
+                override fun getHeaders(): Map<String, String> {
+                    val params: MutableMap<String, String> = HashMap()
+                    apiList = ArrayList()
+                    apiList.add(getString(R.string.APIKEY1))
+                    apiList.add(getString(R.string.APIKEY2))
+                    apiList.add(getString(R.string.APIKEY3))
+                    apiList.add(getString(R.string.APIKEY4))
+                    apiList.add(getString(R.string.APIKEY5))
+                    val random = Random()
+                    val n = random.nextInt(apiList.size)
+                    params["Authorization"] = apiList.get(n)
+                    return params
                 }
-
-            }) {
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> params = new HashMap<>();
-                    apiList = new ArrayList<>();
-                    apiList.add(getString(R.string.APIKEY1));
-                    apiList.add(getString(R.string.APIKEY2));
-                    apiList.add(getString(R.string.APIKEY3));
-                    apiList.add(getString(R.string.APIKEY4));
-                    apiList.add(getString(R.string.APIKEY5));
-                    Random random = new Random();
-                    int n = random.nextInt(apiList.size());
-                    params.put("Authorization", apiList.get(n));
-
-                    return params;
-                }
-            };
-
-            stringRequest.setShouldCache(false);
-
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(3000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            requestQueue.add(stringRequest);
+            }
+            stringRequest.setShouldCache(false)
+            val requestQueue = Volley.newRequestQueue(activity)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                3000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            requestQueue.add(stringRequest)
         }
-
-
     }
 
-    public void SentData(String query) {
-        viewModel.setText(query);
-        SearchResult fragment = new SearchResult();
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.main_fragment, fragment);
-        fragmentTransaction.commit();
+    private fun PopularImage() {
+        list = ArrayList()
+        val mRequestStartTime = System.currentTimeMillis()
+        if (activity != null) {
+            val stringRequest: StringRequest = object : StringRequest(
+                Method.GET,
+                Constant.POPULAR_URL,
+                Response.Listener { response: String? ->
+                    Log.d("curatedResponse", response!!)
+                    try {
+                        val obj = JSONObject(response)
+                        Log.d("mil gaya", obj.toString())
+                        val wallArray = obj.getJSONArray("photos")
+                        for (i in 0 until wallArray.length()) {
+                            val wallobj = wallArray.getJSONObject(i)
+                            val photographer = JSONObject(wallobj.toString())
+                            Log.d("PhotoURL", wallobj.getString("url"))
+                            val jsonObject = wallobj.getJSONObject("src")
+                            val `object` = JSONObject(jsonObject.toString())
+                            val modelData1 = ModelData(
+                                `object`.getString("large2x"),
+                                photographer.getString("photographer"),
+                                `object`.getString("large"),
+                                `object`.getString("original"),
+                                wallobj.getString("url"),
+                                wallobj.getString("photographer_url")
+                            )
+                            list.add(modelData1)
+                        }
+                        list.shuffle()
+                        adapter!!.notifyDataSetChanged()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    /*val response = error.networkResponse
+                    if (error is ServerError && response != null) {
+                        try {
+                            val res = String(
+                                response.data,
+                                HttpHeaderParser.parseCharset(response.headers, "utf-8")
+                            )
+                            // Now you can use any deserializer to make sense of data
+                            val obj = JSONObject(res)
+                        } catch (e1: UnsupportedEncodingException) {
+                            // Couldn't properly decode data to string
+                            e1.printStackTrace()
+                        } catch (e2: JSONException) {
+                            // returned data is not JSONObject?
+                            e2.printStackTrace()
+                        }
+                    }*/
+                }) {
+                override fun getHeaders(): Map<String, String> {
+                    val params: MutableMap<String, String> = HashMap()
+                    apiList = ArrayList()
+                    apiList.add(getString(R.string.APIKEY1))
+                    apiList.add(getString(R.string.APIKEY2))
+                    apiList.add(getString(R.string.APIKEY3))
+                    apiList.add(getString(R.string.APIKEY4))
+                    apiList.add(getString(R.string.APIKEY5))
+                    val random = Random()
+                    val n = random.nextInt(apiList.size)
+                    params["Authorization"] = apiList.get(n)
+                    return params
+                }
+            }
+            stringRequest.setShouldCache(false)
+            val requestQueue = Volley.newRequestQueue(activity)
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                3000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            requestQueue.add(stringRequest)
+        }
     }
 
+    fun SentData(query: String?) {
+        viewModel!!.setText(query!!)
+        val fragment = SearchResult()
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.replace(R.id.main_fragment, fragment)
+        fragmentTransaction.commit()
+    }
 }

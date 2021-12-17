@@ -1,116 +1,111 @@
-package com.client.vpman.weatherwall.ui.Activity;
+package com.client.vpman.weatherwall.ui.Activity
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewPropertyAnimatorCompat;
+import android.content.Intent
+import android.content.res.Configuration
+import android.os.Bundle
+import android.os.Handler
+import android.view.WindowManager
+import android.view.animation.DecelerateInterpolator
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewPropertyAnimatorCompat
+import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1
+import com.client.vpman.weatherwall.R
+import com.client.vpman.weatherwall.databinding.ActivitySplashScreenBinding
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-
-import com.client.vpman.weatherwall.CustomeUsefullClass.SharedPref1;
-import com.client.vpman.weatherwall.R;
-import com.client.vpman.weatherwall.databinding.ActivitySplashScreenBinding;
-
-public class SplashScreen extends AppCompatActivity {
-
-    public static final int STARTUP_DELAY = 500;
-    public static final int ANIM_ITEM_DURATION = 1000;
-    public static final int ITEM_DELAY = 500;
-    SharedPref1 pref1;
-    ActivitySplashScreenBinding binding;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        pref1 = new SharedPref1(SplashScreen.this);
-        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.splashlarge); //new Image that was added to the res folder
-
-            binding.container.setBackground(drawable);
-        } else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.splash); //new Image that was added to the res folder
-
-            binding.container.setBackground(drawable);
-        } else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.splashsmall); //new Image that was added to the res folder
-
-            binding.container.setBackground(drawable);
-        } else {
-            Resources res = getResources(); //resource handle
-            Drawable drawable = res.getDrawable(R.drawable.splash); //new Image that was added to the res folder
-
-            binding.container.setBackground(drawable);
-        }
-        new Handler().postDelayed(() -> {
-            if (pref1.looadFirstState()) {
-                Intent intent = new Intent(SplashScreen.this, IntroActivity.class);
-                startActivity(intent);
-                finish();
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            } else {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+class SplashScreen : AppCompatActivity() {
+    var pref1: SharedPref1? = null
+    var binding: ActivitySplashScreenBinding? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySplashScreenBinding.inflate(
+            layoutInflater
+        )
+        setContentView(binding!!.root)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        pref1 = SharedPref1(this@SplashScreen)
+        when {
+            resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_LARGE -> {
+                val res = resources //resource handle
+                val drawable =
+                    res.getDrawable(R.drawable.splashlarge) //new Image that was added to the res folder
+                binding!!.container.background = drawable
             }
-
-        }, 3000);
-
-
+            resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_NORMAL -> {
+                val res = resources //resource handle
+                val drawable =
+                    res.getDrawable(R.drawable.splash) //new Image that was added to the res folder
+                binding!!.container.background = drawable
+            }
+            resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_SMALL -> {
+                val res = resources //resource handle
+                val drawable =
+                    res.getDrawable(R.drawable.splashsmall) //new Image that was added to the res folder
+                binding!!.container.background = drawable
+            }
+            else -> {
+                val res = resources //resource handle
+                val drawable =
+                    res.getDrawable(R.drawable.splash) //new Image that was added to the res folder
+                binding!!.container.background = drawable
+            }
+        }
+        Handler().postDelayed({
+            if (pref1!!.looadFirstState()) {
+                val intent = Intent(this@SplashScreen, IntroActivity::class.java)
+                startActivity(intent)
+                finish()
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            } else {
+                val intent = Intent(this@SplashScreen, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            }
+        }, 3000)
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-
-        boolean animationStarted = false;
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        val animationStarted = false
         if (!hasFocus || animationStarted) {
-            return;
+            return
         }
-        animate();
-        super.onWindowFocusChanged(hasFocus);
+        animate()
+        super.onWindowFocusChanged(hasFocus)
     }
 
-    private void animate() {
-        ViewCompat.animate(binding.logoImg)
-                .translationY(-250)
-                .setStartDelay(STARTUP_DELAY)
-                .setDuration(ANIM_ITEM_DURATION).setInterpolator(
-                new DecelerateInterpolator(1.2f)).start();
-
-        for (int i = 0; i < binding.container.getChildCount(); i++) {
-            View v = binding.container.getChildAt(i);
-            ViewPropertyAnimatorCompat viewAnimator;
-
-            if (!(v instanceof Button)) {
-                viewAnimator = ViewCompat.animate(v)
-                        .translationY(50).alpha(1)
-                        .setStartDelay((ITEM_DELAY * i) + 500)
-                        .setDuration(1000);
+    private fun animate() {
+        ViewCompat.animate(binding!!.logoImg)
+            .translationY(-250f)
+            .setStartDelay(STARTUP_DELAY.toLong())
+            .setDuration(ANIM_ITEM_DURATION.toLong()).setInterpolator(
+                DecelerateInterpolator(1.2f)
+            ).start()
+        for (i in 0 until binding!!.container.childCount) {
+            val v = binding!!.container.getChildAt(i)
+            val viewAnimator: ViewPropertyAnimatorCompat = if (v !is Button) {
+                ViewCompat.animate(v)
+                    .translationY(50f).alpha(1f)
+                    .setStartDelay((ITEM_DELAY * i + 500).toLong())
+                    .setDuration(1000)
             } else {
-                viewAnimator = ViewCompat.animate(v)
-                        .scaleY(1).scaleX(1)
-                        .setStartDelay((ITEM_DELAY * i) + 500)
-                        .setDuration(500);
+                ViewCompat.animate(v)
+                    .scaleY(1f).scaleX(1f)
+                    .setStartDelay((ITEM_DELAY * i + 500).toLong())
+                    .setDuration(500)
             }
-            viewAnimator.setInterpolator(new DecelerateInterpolator()).start();
+            viewAnimator.setInterpolator(DecelerateInterpolator()).start()
         }
+    }
+
+    companion object {
+        const val STARTUP_DELAY = 500
+        const val ANIM_ITEM_DURATION = 1000
+        const val ITEM_DELAY = 500
     }
 }
-
-
